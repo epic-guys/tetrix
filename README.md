@@ -1,6 +1,3 @@
-# tetrix
-progetto per un esame assegnatoci, piú info nel readme.md.
-
 ## Consegna: X-Tetris
 X-Tetris è una versione avanzata del gioco originale del Tetris. Per le regole del tetris puoi visitare la pagine
 [Wikipedia](https://it.wikipedia.org/wiki/Tetris).
