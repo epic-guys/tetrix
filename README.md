@@ -1,7 +1,7 @@
-## Consegna: X-Tetris
+# Consegna: X-Tetris
 X-Tetris è una versione avanzata del gioco originale del Tetris. Per le regole del tetris puoi visitare la pagine
 [Wikipedia](https://it.wikipedia.org/wiki/Tetris).
-### Single Player
+## Single Player
 A differenza del Tetris originale, in X-Tetris il giocatore ha inizialmente a disposizione 20 (o più, a voi la
 scelta) pezzi per ciascun tipo, detti _tetramino_, e una mossa consiste nello scegliere quale pezzo giocare, dove
 farlo cadere e con quale rotazione.
@@ -12,7 +12,7 @@ punti, quattro righe 12 punti.
 Il gioco termina quando finiscono i pezzi o il giocatore non riesce a posizionare un tetramino nel campo di
 gioco rispettando il limite di altezza.
 
-### Multi-player
+## Multi-player
 Il programma supporta una seconda modalità di gioco, selezionabile dal menu iniziale, in cui due giocatori
 giocano a turni alterni ciascuno nel proprio campo di gioco ma pescando dallo stesso insieme di tetramini.
 In questa modalità si avranno il doppio di pezzi a disposizione. Nel caso in cui un giocatore cancelli una
@@ -24,7 +24,7 @@ finiscono vince il giocatore con il punteggio più alto.
 La modalità multi-player deve prevedere sia la possibilità di giocare player vs. player, sia player vs. cpu, dove
 la cpu può essere implementata con una strategia a vostra scelta.
 
-### Schema di implementazione
+## Schema di implementazione
 Il programma che implementerete dovrà chiedere al giocatore quale mossa giocare, e dovrà visualizzare il
 campo di gioco aggiornato (usando la funzione `printf`). Dovrà verificare che la mossa scelta non inserisca
 un tetramino fuori dal campo di gioco, dovrà aggiornare il punteggio e l lista di pezzi disponibili. Questi
