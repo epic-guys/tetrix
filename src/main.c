@@ -4,6 +4,7 @@
 #include <sys/ioctl.h>
 
 /*BEGIN OF CONSTANT DATA*/ 
+const int menuHeight = 5; 
 const unsigned char ASCII_logo[] = {
   0x20, 0x20, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x20,
   0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
@@ -78,13 +79,14 @@ int getSplashLogoWidth(){
      *  il logo per essere stampato
      *  utilizzato per cambiare 
      *  facilmente il logo senza hardcodare
-     *  la larghezza del file nel codice [NON HO ANCORA FATTO]
+     *  la larghezza del file nel codice
      */
     int i,c=1;
     for(i=0;i<sizeof ASCII_logo;++i){
         if(ASCII_logo[i] ==  '\n'){
-            c++;
+            return c;
         }
+        c++;
     }
     return c;
 }
@@ -111,20 +113,29 @@ int getWinHeight(){
 
 void printSplashLogo(){
     /* Stampa il logo centrandolo */
-    int i;
+    int i, j, w;
     printf("\n");
+    w = (getWinWidth() - getSplashLogoWidth())/2 -10;
+    for(j=0;j<w;++j){
+        printf(" ");
+    }
     for(i=0;i< sizeof ASCII_logo;i++){
         printf("%c",ASCII_logo[i]);
+        if(ASCII_logo[i]=='\n'){
+            for(j=0;j<w;++j){
+                printf(" ");
+            }
+        }
     }
 }
 /*END OF GENERAL PURPOSE FUNCTIONS*/
 
 
 void welcomeScreen(int w,int h){
-    /* per il momento riempe il resto dello schermo con *NULLA* */
+    /* per il momento riempe il resto dello schermo con *NULLA* lasciando spazio per il menu */
     int row;
     printSplashLogo();
-    for(row=0;row<h-getSplashLogoHeight()-1;row++){
+    for(row=0;row<h-getSplashLogoHeight()-1 - menuHeight;row++){
         printf("\n");    
     }
     return;
@@ -153,7 +164,7 @@ int main (void){
     int v;
     welcomeScreen(getWinWidth(),getWinHeight());
     while(1){
-        v = 1; /*printMenu();*/
+        v = printMenu();
         switch (v)
         {
         case 1:
