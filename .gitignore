@@ -1,1 +1,9 @@
-bin/**
+# file compilati
+bin/
+# file di cmake
+build/
+
+# cache degli IDE
+.vs/
+.vscode/
+.idea/
