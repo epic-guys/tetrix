@@ -164,20 +164,16 @@ void welcomeScreen(){
 void newGame(){
     /*  Per il momento non funzia, dovrebbe stampare la mappa di gioco    */
     int i,j;
-    for(i=0;i<FIELD_H;++i){
-        if(i == 0){
-            printf("_");
-        }
-        else{
-            printf(" ");
-        }
-        for(j=0;j<FIELD_W+2;++j){
-            if(j == 0|| j == FIELD_W+1){
-                printf("|");
-            }
-            else{
-                printf(" ");
-            }
+    for(i=0;i<FIELD_H + 2;++i){
+        for(j=0;j<FIELD_W + 2;++j){
+          if(i == 0 || i == FIELD_H + 1){
+              printf("_");
+          }else{
+              printf(" ");
+          }
+          if((i != 0 && j == 0) || (i != 0 && j == FIELD_W + 1)){
+              printf("|");
+          }
         }
         printf("\n");
     }

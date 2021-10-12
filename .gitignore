@@ -2,7 +2,7 @@
 bin/
 # file di cmake
 build/
-
+cmake-build-debug/
 # cache degli IDE
 .vs/
 .vscode/
