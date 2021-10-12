@@ -5,6 +5,8 @@
 
 /*BEGIN OF CONSTANT DATA*/ 
 const int menuHeight = 5; 
+const int FIELD_H = 15;
+const int FIELD_W = 10;
 const unsigned char ASCII_logo[] = {
   0x20, 0x20, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x20,
   0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
@@ -112,17 +114,31 @@ int getWinHeight(){
 }
 
 void printSplashLogo(){
-    /* Stampa il logo centrandolo */
-    int i, j, w;
+    /* Stampa il logo centrandolo e controllando che il terminale non sia troppo piccolo */
+    int i, j, space, input;
+    int w = getWinWidth();
+    int h = getWinHeight();
     printf("\n");
-    w = (getWinWidth() - getSplashLogoWidth())/2 -10;
-    for(j=0;j<w;++j){
+    while(w < getSplashLogoWidth() || h < getSplashLogoHeight()){
+        printf( "L'altezza o la larghezza del tuo terminale non é sufficiente, \n" 
+                "per favore, correggi allargando il terminale \n"
+                "premi 0 per continuare");
+        scanf("%d",&input);
+        if(input != 0){
+            printf("Selezione errata, riprova\n");
+            empty_stdin();
+        }
+        w = getWinWidth();
+        h = getWinHeight();
+    }
+    space = (w - getSplashLogoWidth())/2 -10;
+    for(j=0;j<space;++j){
         printf(" ");
     }
     for(i=0;i< sizeof ASCII_logo;i++){
         printf("%c",ASCII_logo[i]);
         if(ASCII_logo[i]=='\n'){
-            for(j=0;j<w;++j){
+            for(j=0;j<space;++j){
                 printf(" ");
             }
         }
@@ -131,14 +147,40 @@ void printSplashLogo(){
 /*END OF GENERAL PURPOSE FUNCTIONS*/
 
 
-void welcomeScreen(int w,int h){
+void welcomeScreen(){
     /* per il momento riempe il resto dello schermo con *NULLA* lasciando spazio per il menu */
     int row;
+    int sys_w;
+    int sys_h;
     printSplashLogo();
-    for(row=0;row<h-getSplashLogoHeight()-1 - menuHeight;row++){
+    sys_h = getWinHeight();
+    sys_w = getWinWidth();
+    for(row=0;row<sys_h-getSplashLogoHeight()-1 - menuHeight;row++){
         printf("\n");    
     }
     return;
+}
+
+void newGame(){
+    /*  Per il momento non funzia, dovrebbe stampare la mappa di gioco    */
+    int i,j;
+    for(i=0;i<FIELD_H;++i){
+        if(i == 0){
+            printf("_");
+        }
+        else{
+            printf(" ");
+        }
+        for(j=0;j<FIELD_W+2;++j){
+            if(j == 0|| j == FIELD_W+1){
+                printf("|");
+            }
+            else{
+                printf(" ");
+            }
+        }
+        printf("\n");
+    }
 }
 
 int printMenu(void){
@@ -162,18 +204,17 @@ int printMenu(void){
 
 int main (void){
     int v;
-    welcomeScreen(getWinWidth(),getWinHeight());
+    welcomeScreen();
     while(1){
         v = printMenu();
         switch (v)
         {
         case 1:
-            /* code */
-            while (1)
+            while(1)
             {
-                
-            }
-            
+                newGame();
+                return 0;
+            }            
             break;
         case 2:
             printf("the developer is on strike so I guess there is no multiplayer game :) \n");
