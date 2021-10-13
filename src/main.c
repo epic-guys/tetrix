@@ -166,13 +166,15 @@ void newGame(){
     int i,j;
     for(i=0;i<FIELD_H + 2;++i){
         for(j=0;j<FIELD_W + 2;++j){
-          if(i == 0 || i == FIELD_H + 1){
+          if((i == 0 && j != 0) || (i == FIELD_H + 1 && j != 0)){
               printf("_");
           }else{
               printf(" ");
           }
           if((i != 0 && j == 0) || (i != 0 && j == FIELD_W + 1)){
               printf("|");
+          }else{
+              printf(" ");
           }
         }
         printf("\n");
