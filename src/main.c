@@ -16,6 +16,8 @@
 #define RESETCOLORS "\e[0m"
 
 const int menuHeight = 5;
+/* Il numero di pezzi iniziali per ciascun tipo */
+const int STARTPIECES = 20;
 const int FIELD_H = 15;
 const int FIELD_W = 10;
 const unsigned char ASCII_logo[] = {
@@ -206,34 +208,52 @@ void welcomeScreen()
 }
 
 /**
- * Ora funzia, ma il codice è sporco
- * */
-void newGame()
+ * Stampa la scena di gioco,
+ * va chiamata ogni volta che si
+ * verifica un cambiamento
+ */
+void printScene()
 {
     int i, j;
-    for (i = 0; i < FIELD_H + 2; ++i)
+    for (i = 0; i < FIELD_H; ++i)
     {
         for (j = 0; j < FIELD_W + 2; ++j)
         {
-            if ((i == 0 && j != 0) || (i == FIELD_H + 1 && j != 0))
-            {
-                printf("_");
-            }
+            if (j == 0 || j == FIELD_W + 1)
+                printf("║");
             else
-            {
-                printf(" ");
-            }
-            if ((i != 0 && j == 0) || (i != 0 && j == FIELD_W + 1))
-            {
-                printf("|");
-            }
-            else
-            {
-                printf(" ");
-            }
+                printf("  ");
         }
         printf("\n");
     }
+    printf("╚");
+    for (i = 0; i < FIELD_W; i++)
+    {
+        printf("══");
+    }
+    printf("╝\n");
+
+    /*
+    TODO per ora si limita a stampare
+    il campo di gioco, più avanti dovrà
+    centrare il campo, mostrare tutte
+    le celle occupate, pezzi selezionati
+    e pezzi disponibili
+    */
+}
+
+/**
+ * Inizia la partita
+ */
+void newGame()
+{
+    printScene();
+    
+    /*
+    TODO inizializzare valori di gioco,
+    impostando tutti i pezzi disponibili
+    a STARTPIECES
+    */
 }
 
 int printMenu(void)
