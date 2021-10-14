@@ -8,4 +8,6 @@ add_executable(tetrix src/main.c)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+add_compile_options(-ansi -pedantic)
+
 include(CPack)
