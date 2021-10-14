@@ -15,11 +15,12 @@
 #define WHT "\e[0;37m"
 #define RESETCOLORS "\e[0m"
 
+#define FIELD_H 15
+#define FIELD_W 10
+
 const int menuHeight = 5;
 /* Il numero di pezzi iniziali per ciascun tipo */
 const int STARTPIECES = 20;
-const int FIELD_H = 15;
-const int FIELD_W = 10;
 const unsigned char ASCII_logo[] = {
     0x20, 0x20, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x20,
     0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
@@ -186,6 +187,20 @@ void printSplashLogo()
 
 #pragma endregion
 
+int field[FIELD_W][FIELD_H];
+
+#pragma region GAME FUNCTIONS
+
+void initializeField()
+{
+    int i, j;
+    for (i = 0; i < FIELD_W; i++)
+        for (j = 0; j < FIELD_H; j++)
+            field[i][j] = 0;
+}
+
+#pragma endregion
+
 /**
  * Per il momento riempe
  * il resto dello schermo
@@ -217,14 +232,15 @@ void printScene()
     int i, j;
     for (i = 0; i < FIELD_H; ++i)
     {
-        for (j = 0; j < FIELD_W + 2; ++j)
+        printf("║");
+        for (j = 0; j < FIELD_W; ++j)
         {
-            if (j == 0 || j == FIELD_W + 1)
-                printf("║");
+            if (field[i][j])
+                printf("██");
             else
                 printf("  ");
         }
-        printf("\n");
+        printf("║\n");
     }
     printf("╚");
     for (i = 0; i < FIELD_W; i++)
@@ -247,8 +263,14 @@ void printScene()
  */
 void newGame()
 {
+    initializeField();
+
+    /* TEST */
+    field[FIELD_H - 1][0] = 1;
+    field[FIELD_H - 1][1] = 1;
+    field[FIELD_H - 1][2] = 1;
+    field[FIELD_H - 2][1] = 1;
     printScene();
-    
     /*
     TODO inizializzare valori di gioco,
     impostando tutti i pezzi disponibili
