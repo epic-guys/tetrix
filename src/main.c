@@ -165,6 +165,8 @@ void printSplashLogo()
         w = getWinWidth();
         h = getWinHeight();
     }
+
+
     space = (w - getSplashLogoWidth()) / 2 - 10;
     for (j = 0; j < space; ++j)
     {
@@ -183,6 +185,18 @@ void printSplashLogo()
         }
     }
     printf(RESETCOLORS);
+}
+
+
+/**
+ * Riempie le righe mancanti andando a capo simulando il refresh del terminale 
+ */
+void printEmpty(remove, sys_h){
+    int row;
+    for (row = 0; row < sys_h - getSplashLogoHeight() - 1 - remove; row++)
+    {
+        printf("\n");
+    }
 }
 
 #pragma endregion
@@ -215,10 +229,9 @@ void welcomeScreen()
     printSplashLogo();
     sys_h = getWinHeight();
     sys_w = getWinWidth();
-    for (row = 0; row < sys_h - getSplashLogoHeight() - 1 - menuHeight; row++)
-    {
-        printf("\n");
-    }
+        
+    printEmpty(getSplashLogoHeight(), getWinHeight());
+    
     return;
 }
 
@@ -229,6 +242,8 @@ void welcomeScreen()
  */
 void printScene()
 {
+    printEmpty(FIELD_H, getWinHeight()+5);
+
     int i, j;
     for (i = 0; i < FIELD_H; ++i)
     {
