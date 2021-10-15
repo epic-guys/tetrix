@@ -271,6 +271,28 @@ void newGame()
     field[FIELD_H - 1][2] = 1;
     field[FIELD_H - 2][1] = 1;
     printScene();
+
+    while (1)
+    {
+        int c;
+        printf("Inserisci la colonna che vuoi riempire: ");
+        scanf("%d", &c);
+        empty_stdin();
+        printf("\n");
+        int i;
+        for (i = 0; i < FIELD_H; i++)
+        {
+            if (
+                field[i][c] == 0 && (i == FIELD_H - 1 || field[i + 1][c] == 1)
+            )
+            {
+                field[i][c] = 1;
+                break;
+            }
+        }
+        printScene();
+    }
+    printScene();
     /*
     TODO inizializzare valori di gioco,
     impostando tutti i pezzi disponibili
