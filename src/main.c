@@ -15,8 +15,8 @@
 #define WHT "\e[0;37m"
 #define RESETCOLORS "\e[0m"
 
-#define FIELD_H 15
-#define FIELD_W 10
+#define FIELD_ROWS 15
+#define FIELD_COLS 10
 
 const int menuHeight = 5;
 /* Il numero di pezzi iniziali per ciascun tipo */
@@ -166,7 +166,6 @@ void printSplashLogo()
         h = getWinHeight();
     }
 
-
     space = (w - getSplashLogoWidth()) / 2 - 10;
     for (j = 0; j < space; ++j)
     {
@@ -187,11 +186,11 @@ void printSplashLogo()
     printf(RESETCOLORS);
 }
 
-
 /**
  * Riempie le righe mancanti andando a capo simulando il refresh del terminale 
  */
-void printEmpty(remove, sys_h){
+void printEmpty(int remove, int sys_h)
+{
     int row;
     for (row = 0; row < sys_h - getSplashLogoHeight() - 1 - remove; row++)
     {
@@ -201,15 +200,38 @@ void printEmpty(remove, sys_h){
 
 #pragma endregion
 
-int field[FIELD_W][FIELD_H];
+/**
+ * Meglio scriverli tutti come costanti
+ * o importarli da un file di testo?
+*/
+const int T_S_RIGHT[2][4] = {
+    {0, 1, 1, 0},
+    {1, 1, 0, 0}};
+
+/**
+ * Per gestire la rotazione si potrebbe
+ * usare un int, ma con l'enum si limitano
+ * le rotazioni possibili a questi 4 angoli
+ * precisi
+ * La D iniziale sta per "degrees"
+*/
+enum Rotation
+{
+    D_0,
+    D_90,
+    D_180,
+    D_270
+};
+
+int field[FIELD_ROWS][FIELD_COLS];
 
 #pragma region GAME FUNCTIONS
 
 void initializeField()
 {
     int i, j;
-    for (i = 0; i < FIELD_W; i++)
-        for (j = 0; j < FIELD_H; j++)
+    for (i = 0; i < FIELD_COLS; i++)
+        for (j = 0; j < FIELD_ROWS; j++)
             field[i][j] = 0;
 }
 
@@ -229,9 +251,9 @@ void welcomeScreen()
     printSplashLogo();
     sys_h = getWinHeight();
     sys_w = getWinWidth();
-        
+
     printEmpty(getSplashLogoHeight(), getWinHeight());
-    
+
     return;
 }
 
@@ -242,13 +264,13 @@ void welcomeScreen()
  */
 void printScene()
 {
-    printEmpty(FIELD_H, getWinHeight()+5);
+    printEmpty(FIELD_ROWS, getWinHeight() + 5);
 
     int i, j;
-    for (i = 0; i < FIELD_H; ++i)
+    for (i = 0; i < FIELD_ROWS; ++i)
     {
         printf("║");
-        for (j = 0; j < FIELD_W; ++j)
+        for (j = 0; j < FIELD_COLS; ++j)
         {
             if (field[i][j])
                 printf("██");
@@ -258,7 +280,7 @@ void printScene()
         printf("║\n");
     }
     printf("╚");
-    for (i = 0; i < FIELD_W; i++)
+    for (i = 0; i < FIELD_COLS; i++)
     {
         printf("══");
     }
@@ -281,10 +303,10 @@ void newGame()
     initializeField();
 
     /* TEST */
-    field[FIELD_H - 1][0] = 1;
-    field[FIELD_H - 1][1] = 1;
-    field[FIELD_H - 1][2] = 1;
-    field[FIELD_H - 2][1] = 1;
+    field[FIELD_ROWS - 1][0] = 1;
+    field[FIELD_ROWS - 1][1] = 1;
+    field[FIELD_ROWS - 1][2] = 1;
+    field[FIELD_ROWS - 2][1] = 1;
     printScene();
 
     while (1)
@@ -295,11 +317,10 @@ void newGame()
         empty_stdin();
         printf("\n");
         int i;
-        for (i = 0; i < FIELD_H; i++)
+        for (i = 0; i < FIELD_ROWS; i++)
         {
             if (
-                field[i][c] == 0 && (i == FIELD_H - 1 || field[i + 1][c] == 1)
-            )
+                field[i][c] == 0 && (i == FIELD_ROWS - 1 || field[i + 1][c] == 1))
             {
                 field[i][c] = 1;
                 break;
