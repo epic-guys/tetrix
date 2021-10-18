@@ -208,6 +208,25 @@ const int T_S_RIGHT[2][4] = {
     {0, 1, 1, 0},
     {1, 1, 0, 0}};
 
+
+/**
+ * Non è un typo, in inglese
+ * si scrive così
+ * 
+ * L'idea è di salvare in maniera
+ * generica ogni tetramino in una matrice
+ * 4x4 e salvarci affianco la larghezza
+ * e l'altezza, in questo modo diventa
+ * più facile gestire la caduta dall'alto,
+ * i bordi del campo e la rotazione
+ */
+struct Tetrimino
+{
+    int values[4][4];
+    int width;
+    int height;
+};
+
 /**
  * Per gestire la rotazione si potrebbe
  * usare un int, ma con l'enum si limitano
