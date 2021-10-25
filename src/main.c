@@ -17,6 +17,7 @@
 
 #define FIELD_ROWS 15
 #define FIELD_COLS 10
+#define TETRIMINOS_FOR_TYPE 20
 
 const int menuHeight = 5;
 /* Il numero di pezzi iniziali per ciascun tipo */
@@ -200,31 +201,61 @@ void printEmpty(int remove, int sys_h)
 
 #pragma endregion
 
+#pragma region STRUCTURES AND ENUMS
 /**
- * Meglio scriverli tutti come costanti
- * o importarli da un file di testo?
-*/
-const int T_S_RIGHT[2][4] = {
-    {0, 1, 1, 0},
-    {1, 1, 0, 0}};
-
+ * @brief Codifica di ogni tetramino.
+ * 
+ * T_I:
+ * ████████
+ * T_J:
+ *   ██
+ *   ██
+ * ████
+ * T_L:
+ * ██
+ * ██
+ * ████
+ * T_S:
+ *   ████
+ * ████
+ * T_O:
+ * ████
+ * ████
+ * T_Z:
+ * ████
+ *   ████
+ * T_T:
+ * ██████
+ *   ██
+ */
+enum TetriminoType
+{
+    T_I,
+    T_J,
+    T_L,
+    T_S,
+    T_O,
+    T_Z,
+    T_T
+} const allTypes[7] = { T_I, T_J, T_L, T_O, T_S, T_T, T_Z };
 
 /**
- * Non è un typo, in inglese
- * si scrive così
+ * @brief Non è un typo, in inglese
+ * si scrive così.
  * 
  * L'idea è di salvare in maniera
  * generica ogni tetramino in una matrice
  * 4x4 e salvarci affianco la larghezza
  * e l'altezza, in questo modo diventa
  * più facile gestire la caduta dall'alto,
- * i bordi del campo e la rotazione
+ * i bordi del campo e la rotazione.
  */
 struct Tetrimino
 {
-    int values[4][4];
+    int* values;
     int width;
     int height;
+    enum TetriminoType type;
 };
 
 /**
@@ -242,7 +273,24 @@ enum Rotation
     D_270
 };
 
+/**
+ * Struttura che associa ad ogni tetramino
+ * la sua quantità rimanente
+ */
+struct TetriminoSet
+{
+    struct Tetrimino tetrimino;
+    size_t remaining;
+};
+
+#pragma endregion
+
+#pragma region GAME VARIABLES
+
 int field[FIELD_ROWS][FIELD_COLS];
+struct TetriminoSet* sets;
+
+#pragma endregion
 
 #pragma region GAME FUNCTIONS
 
@@ -255,64 +303,105 @@ void initializeField()
 }
 
 /**
- * Struttura che associa ad ogni tetramino
- * la sua quantità rimanente
+ * @brief Genera lo struct del tetramino associato
+ * alla sua codifica
+ * 
+ * @param[in] type La codifica del tetramino
+ * @return Lo struct del Tetramino 
  */
-struct TetriminoPool
-{
-    struct Tetrimino tetrimino;
-    size_t remaining;
-};
-
-/**
- * @brief codifica di ogni tetramino
- */
-enum TetriminoType
-{
-    T_I,
-    T_J,
-    T_L,
-    T_S,
-    T_O,
-    T_Z,
-    T_T
-};
-
 struct Tetrimino getTetrimino(enum TetriminoType type)
 {
     struct Tetrimino t;
+    t.type = type;
     switch (type)
     {
         case T_I:
-            int values[4][4] = {
-                    1, 0, 0, 0,
-                    1, 0, 0, 0,
-                    1, 0, 0, 0,
-                    1, 0, 0, 0
+            int values[1][4] = {
+                    1, 1, 1, 1
             };
             
             t.values = values;
-            t.width = 1;
-            t.height = 4;
+            t.width = 4;
+            t.height = 1;
             break;
+        case T_J:
+            int values[2][3] = {
+                    1, 0, 0,
+                    1, 1, 1,
+            };
+            
+            t.values = values;
+            t.width = 3;
+            t.height = 2;
+            break;
+        case T_L:
+            int values[2][3] = {
+                    0, 0, 1,
+                    1, 1, 1,
+            };
+            
+            t.values = values;
+            t.width = 3;
+            t.height = 2;
+            break;
+        case T_S:
+            int values[2][3] = {
+                    0, 1, 1,
+                    1, 1, 0,
+            };
+            
+            t.values = values;
+            t.width = 3;
+            t.height = 2;
+            break;
+        case T_Z:
+            int values[2][3] = {
+                    1, 1, 0,
+                    0, 1, 1,
+            };
+            
+            t.values = values;
+            t.width = 3;
+            t.height = 2;
+            break;
+        case T_O:
+            int values[2][2] = {
+                    1, 1,
+                    1, 1,
+            };
+            
+            t.values = values;
+            t.width = 2;
+            t.height = 2;
+            break;
+        case T_T:
+            int values[2][3] = {
+                    0, 1, 0,
+                    1, 1, 1,
+            };
+            
+            t.values = values;
+            t.width = 3;
+            t.height = 2;
+            break;
+        default:
+            printf("Non so come hai fatto ma hai passato un valore non presente nell'enum");
     }
+    return t;
 }
 
 /**
- * @brief Inizializza la struttura dell'insieme dei tetramini
+ * @brief Inizializza tutti gli insiemi dei tetramini
  * @return puntatore alla struttura
  */
-struct TetriminoPool* initializeTetraminoPool(){
-    struct TetriminoPool* tP = (struct TetriminoPool*)malloc(sizeof(struct TetriminoPool));
-    struct Tetrimino t;
-    /** Barra */
-    t.values[4][4] = {1,1,1,1,
-                      0,0,0,0,
-                      0,0,0,0,
-                      0,0,0,0};
-    t.height = 1;
-    t.width = 4;
-
+void initializeSets()
+{
+    int i;
+    for (i = 0; i < 7; ++i)
+    {
+        struct TetriminoSet s = { allTypes[i], TETRIMINOS_FOR_TYPE };
+        sets[i] = s;
+    }
 }
 
 #pragma endregion
