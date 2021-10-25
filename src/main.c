@@ -248,10 +248,71 @@ int field[FIELD_ROWS][FIELD_COLS];
 
 void initializeField()
 {
-    int i, j;
+    size_t i, j;
     for (i = 0; i < FIELD_COLS; i++)
         for (j = 0; j < FIELD_ROWS; j++)
             field[i][j] = 0;
+}
+
+/**
+ * Struttura che associa ad ogni tetramino
+ * la sua quantità rimanente
+ */
+struct TetriminoPool
+{
+    struct Tetrimino tetrimino;
+    size_t remaining;
+};
+
+/**
+ * @brief codifica di ogni tetramino
+ */
+enum TetriminoType
+{
+    T_I,
+    T_J,
+    T_L,
+    T_S,
+    T_O,
+    T_Z,
+    T_T
+};
+
+struct Tetrimino getTetrimino(enum TetriminoType type)
+{
+    struct Tetrimino t;
+    switch (type)
+    {
+        case T_I:
+            int values[4][4] = {
+                    1, 0, 0, 0,
+                    1, 0, 0, 0,
+                    1, 0, 0, 0,
+                    1, 0, 0, 0
+            };
+            
+            t.values = values;
+            t.width = 1;
+            t.height = 4;
+            break;
+    }
+}
+
+/**
+ * @brief Inizializza la struttura dell'insieme dei tetramini
+ * @return puntatore alla struttura
+ */
+struct TetriminoPool* initializeTetraminoPool(){
+    struct TetriminoPool* tP = (struct TetriminoPool*)malloc(sizeof(struct TetriminoPool));
+    struct Tetrimino t;
+    /** Barra */
+    t.values[4][4] = {1,1,1,1,
+                      0,0,0,0,
+                      0,0,0,0,
+                      0,0,0,0};
+    t.height = 1;
+    t.width = 4;
+
 }
 
 #pragma endregion
@@ -272,8 +333,6 @@ void welcomeScreen()
     sys_w = getWinWidth();
 
     printEmpty(getSplashLogoHeight(), getWinHeight());
-
-    return;
 }
 
 /**
