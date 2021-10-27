@@ -253,8 +253,8 @@ enum TetriminoType
 struct Tetrimino
 {
     int* values;
-    int width;
-    int height;
+    int cols;
+    int rows;
     enum TetriminoType type;
 };
 
@@ -279,7 +279,7 @@ enum Rotation
  */
 struct TetriminoSet
 {
-    struct Tetrimino tetrimino;
+    enum TetriminoType tetrimino;
     size_t remaining;
 };
 
@@ -312,78 +312,83 @@ void initializeField()
 struct Tetrimino getTetrimino(enum TetriminoType type)
 {
     struct Tetrimino t;
-    t.type = type;
     switch (type)
     {
-        case T_I:
+        case T_I: {
             int values[1][4] = {
                     1, 1, 1, 1
             };
-            
-            t.values = values;
-            t.width = 4;
-            t.height = 1;
+            t.values = &values[0][0];
+            t.cols = 4;
+            t.rows = 1;
             break;
-        case T_J:
+        }
+        case T_J: {
             int values[2][3] = {
                     1, 0, 0,
                     1, 1, 1,
             };
-            
-            t.values = values;
-            t.width = 3;
-            t.height = 2;
+
+            t.values = &values[0][0];
+            t.cols = 3;
+            t.rows = 2;
             break;
-        case T_L:
+        }
+        case T_L: {
             int values[2][3] = {
                     0, 0, 1,
                     1, 1, 1,
             };
-            
-            t.values = values;
-            t.width = 3;
-            t.height = 2;
+
+            t.values = &values[0][0];
+            t.cols = 3;
+            t.rows = 2;
             break;
-        case T_S:
+        }
+        case T_S: {
             int values[2][3] = {
                     0, 1, 1,
                     1, 1, 0,
             };
-            
-            t.values = values;
-            t.width = 3;
-            t.height = 2;
+
+            t.values = &values[0][0];
+            t.cols = 3;
+            t.rows = 2;
             break;
-        case T_Z:
+        }
+        case T_Z: {
             int values[2][3] = {
                     1, 1, 0,
                     0, 1, 1,
             };
-            
-            t.values = values;
-            t.width = 3;
-            t.height = 2;
+
+            t.values = &values[0][0];
+            t.cols = 3;
+            t.rows = 2;
             break;
-        case T_O:
+        }
+        case T_O: {
             int values[2][2] = {
                     1, 1,
                     1, 1,
             };
-            
-            t.values = values;
-            t.width = 2;
-            t.height = 2;
+
+            t.values = &values[0][0];
+            t.cols = 2;
+            t.rows = 2;
             break;
-        case T_T:
+        }
+        case T_T: {
             int values[2][3] = {
                     0, 1, 0,
                     1, 1, 1,
             };
-            
-            t.values = values;
-            t.width = 3;
-            t.height = 2;
+
+            t.values = &values[0][0];
+            t.cols = 3;
+            t.rows = 2;
             break;
+        }
         default:
             printf("Non so come hai fatto ma hai passato un valore non presente nell'enum");
     }
@@ -406,6 +411,8 @@ void initializeSets()
 
 #pragma endregion
 
+#pragma region PRINTERS
+
 /**
  * Per il momento riempe
  * il resto dello schermo
@@ -424,15 +431,8 @@ void welcomeScreen()
     printEmpty(getSplashLogoHeight(), getWinHeight());
 }
 
-/**
- * Stampa la scena di gioco,
- * va chiamata ogni volta che si
- * verifica un cambiamento
- */
-void printScene()
+void printField()
 {
-    printEmpty(FIELD_ROWS, getWinHeight() + 5);
-
     int i, j;
     for (i = 0; i < FIELD_ROWS; ++i)
     {
@@ -452,6 +452,36 @@ void printScene()
         printf("══");
     }
     printf("╝\n");
+}
+
+void printRemainingPieces()
+{
+    int i, j, k;
+    for (i = 0; i < 7; ++i)
+    {
+        struct Tetrimino t = getTetrimino(allTypes[i]);
+        for (j = 0; j < t.rows; ++k)
+        {
+            for (k = 0; k < t.cols; ++k)
+            {
+                // TODO
+            }
+        }
+    }
+}
+
+/**
+ * Stampa la scena di gioco,
+ * va chiamata ogni volta che si
+ * verifica un cambiamento
+ */
+void printScene()
+{
+    printEmpty(FIELD_ROWS, getWinHeight() + 5);
+    printField();
+    printf("\n");
+    printRemainingPieces();
+
 
     /*
     TODO per ora si limita a stampare
@@ -462,12 +492,15 @@ void printScene()
     */
 }
 
+#pragma endregion
+
 /**
  * Inizia la partita
  */
 void newGame()
 {
     initializeField();
+    initializeSets();
 
     /* TEST */
     field[FIELD_ROWS - 1][0] = 1;
