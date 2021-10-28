@@ -335,9 +335,10 @@ struct Tetrimino getTetrimino(enum TetriminoType type)
             break;
         }
         case T_L: {
+            size_t i,j;
             int values[2][3] = {
                     0, 0, 1,
-                    1, 1, 1,
+                    1, 1, 1
             };
 
             t.values = &values[0][0];
@@ -402,6 +403,7 @@ struct Tetrimino getTetrimino(enum TetriminoType type)
 void initializeSets()
 {
     int i;
+    sets = (struct TetriminoSet*)malloc(sizeof(struct TetriminoSet) * 7);
     for (i = 0; i < 7; ++i)
     {
         struct TetriminoSet s = { allTypes[i], TETRIMINOS_FOR_TYPE };
@@ -503,10 +505,10 @@ void newGame()
     initializeSets();
 
     /* TEST */
-    field[FIELD_ROWS - 1][0] = 1;
+    /*field[FIELD_ROWS - 1][0] = 1;
     field[FIELD_ROWS - 1][1] = 1;
     field[FIELD_ROWS - 1][2] = 1;
-    field[FIELD_ROWS - 2][1] = 1;
+    field[FIELD_ROWS - 2][1] = 1;*/
     printScene();
 
     while (1)
