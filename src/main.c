@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/ioctl.h>
+#include <ncurses.h>
+
 
 #pragma region CONSTANT DATA
 
@@ -456,26 +458,12 @@ void printField()
     printf("╝\n");
 }
 
-void printRemainingPieces()
-{
-    int i, j, k;
-    for (i = 0; i < 7; ++i)
-    {
-        struct Tetrimino t = getTetrimino(allTypes[i]);
-        for (j = 0; j < t.rows; ++k)
-        {
-            for (k = 0; k < t.cols; ++k)
-            {
-                // TODO
-            }
-        }
-    }
-}
 
 /**
- * Stampa la scena di gioco,
+ * @brief Stampa la scena di gioco,
  * va chiamata ogni volta che si
  * verifica un cambiamento
+ * @deprecated Stiamo passando a ncurses
  */
 void printScene()
 {
@@ -562,6 +550,17 @@ int printMenu(void)
 
 int main(void)
 {
+    /* Attiva la modalità curses */
+    initscr();
+    /* Disattiva buffer per l'input
+       (non aspetta EOF o l'invio prima di
+       restituire l'input) */
+    cbreak();
+    /* Attiva tasti speciali,
+       ad esempio le freccette, F1, F2... */
+    keypad(stdscr, TRUE);
+    /* Non stampa su schermo l'input */
+	noecho();
     int v;
     welcomeScreen();
     while (1)

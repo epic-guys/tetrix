@@ -31,3 +31,26 @@ un tetramino fuori dal campo di gioco, dovrà aggiornare il punteggio e l lista 
 passi si ripetono fino alla fine della partita.
 Nel caso multiplayer, il programma dovrà visualizzare entrambi i campi di gioco e chiedere ai due giocatori
 a turno le loro mosse.
+
+# Compilare
+Per compilare ed eseguire il progetto è necessario avere installato gcc, Cmake e gdb (opzionale).
+
+# Installare ncurses
+Ncurses è una libreria per Linux che permette di gestire il terminale con più libertà. Dato che è disponibile solo in codice sorgente, va scaricata e compilata con Cmake.
+## Installazione per Windows
+Passa a Linux.
+## Installazione per Linux
+### Download
+[Sito ufficiale](https://invisible-island.net/ncurses/)
+### Compilazione
+1. Estrarre l'archivio scaricato
+2. Entrare nella cartella da terminale
+3. Inserire i seguenti comandi:
+```bash
+./config
+make
+sudo cmake install
+```
+
+## Installazione per Windows parte 2
+Se proprio Linux non ti piace puoi usare WSL per integrare il kernel di Linux su Windows.
