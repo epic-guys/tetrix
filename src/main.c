@@ -7,19 +7,12 @@
 
 #pragma region CONSTANT DATA
 
-#define BLK "\e[0;30m"
-#define RED "\e[0;31m"
-#define GRN "\e[0;32m"
-#define YEL "\e[0;33m"
-#define BLU "\e[0;34m"
-#define MAG "\e[0;35m"
-#define CYN "\e[0;36m"
-#define WHT "\e[0;37m"
-#define RESETCOLORS "\e[0m"
-
 #define FIELD_ROWS 15
 #define FIELD_COLS 10
 #define TETRIMINOS_FOR_TYPE 20
+
+#define FIELD_W_ROWS FIELD_ROWS + 5
+#define FIELD_W_COLS FIELD_COLS * 2 + 2
 
 const int menuHeight = 5;
 /* Il numero di pezzi iniziali per ciascun tipo */
@@ -174,19 +167,17 @@ void printSplashLogo()
     {
         printf(" ");
     }
-    printf(CYN);
     for (i = 0; i < sizeof ASCII_logo; i++)
     {
-        printf("%c", ASCII_logo[i]);
+        printw("%c", ASCII_logo[i]);
         if (ASCII_logo[i] == '\n')
         {
             for (j = 0; j < space; ++j)
             {
-                printf(" ");
+                printw(" ");
             }
         }
     }
-    printf(RESETCOLORS);
 }
 
 /**
@@ -285,23 +276,96 @@ struct TetriminoSet
     size_t remaining;
 };
 
+typedef struct Player
+{
+    int field[FIELD_ROWS][FIELD_COLS];
+    WINDOW *win;
+    int cursor_pos;
+} player_t;
+
 #pragma endregion
 
 #pragma region GAME VARIABLES
 
 int field[FIELD_ROWS][FIELD_COLS];
 struct TetriminoSet* sets;
+player_t *p1, p2;
 
 #pragma endregion
 
 #pragma region GAME FUNCTIONS
 
-void initializeField()
+/**
+ * @brief Istanzia uno struct
+ * giocatore e inizializza il campo
+ * con valori 0 e crea una finestra nella
+ * posizione indicata.
+ * 
+ * @param[in] y_pos La posizione Y iniziale in cui posizionare la finestra.
+ * @param[in] x_pos La posizione X iniziale in cui posizionare la finestra.
+ * @return Lo struct giocatore istanziato. 
+ */
+player_t *initializePlayer(int y_pos, int x_pos)
 {
+    player_t *player = (player_t*) malloc(sizeof(player_t));
+    WINDOW *w;
     size_t i, j;
-    for (i = 0; i < FIELD_COLS; i++)
-        for (j = 0; j < FIELD_ROWS; j++)
-            field[i][j] = 0;
+    for (i = 0; i < FIELD_ROWS; i++)
+        for (j = 0; j < FIELD_COLS; j++)
+            player->field[i][j] = 0;
+    w = newwin(FIELD_W_ROWS, FIELD_W_COLS, y_pos, x_pos);
+    attron(A_BOLD);
+    wborder(w, '|', '|', ' ', '=', ' ', ' ', '\\', '/');
+    attroff(A_BOLD);
+    wrefresh(w);
+    player->win = w;
+    player->cursor_pos = 4;
+    return player;
+}
+
+/**
+ * @brief Da chiamare per visualizzare
+ * le modifiche al campo del giocatore.
+ * 
+ * @param[in, out] p Il giocatore di cui bisogna aggiornare lo schermo.
+ */
+void refreshPlayer(player_t *p)
+{
+    int i, j;
+    for (i = 0; i < FIELD_ROWS; ++i)
+    {
+        for (j = 0; j < FIELD_COLS; ++j)
+        {
+            wmove(p->win, FIELD_W_ROWS - FIELD_ROWS + i - 1, j * 2 + 1);
+            if (p->field[i][j])
+                wprintw(p->win, "[]");
+            else
+                wprintw(p->win, "  ");
+        }
+    }
+    wrefresh(p->win);
+}
+
+/**
+ * @brief Funzione WIP che aggiorna la posizione del
+ * tetramino sulla zona di posizionamento.
+ * Più avanti dovrà ricevere come parametro un tetramino
+ * e dovrà rispettare la sua dimensione nel campo da gioco. 
+ * 
+ * @param[in, out] p Il giocatore in cui aggiornare la posizione.
+ * TODO param tetrimino
+ */
+void refreshSelector(player_t *p)
+{
+    int i;
+    for (i = 0; i < 4; ++i)
+    {
+        wmove(p->win, i, 0);
+        wclrtoeol(p->win);
+    }
+    wmove(p->win, 3, p->cursor_pos * 2 + 1);
+    wprintw(p->win, "[]");
+    wrefresh(p1->win);
 }
 
 /**
@@ -470,7 +534,6 @@ void printScene()
     printEmpty(FIELD_ROWS, getWinHeight() + 5);
     printField();
     printf("\n");
-    /*printRemainingPieces();
 
 
     /*
@@ -487,38 +550,55 @@ void printScene()
 /**
  * Inizia la partita
  */
-void newGame()
+void newGameSingle()
 {
-    initializeField();
+    refresh();
+    /* p1 = initializePlayer((LINES - FIELD_ROWS) / 2, (COLS - FIELD_COLS) / 2); */
+    p1 = initializePlayer(0, 0);
     initializeSets();
 
     /* TEST */
-    /*field[FIELD_ROWS - 1][0] = 1;
-    field[FIELD_ROWS - 1][1] = 1;
-    field[FIELD_ROWS - 1][2] = 1;
-    field[FIELD_ROWS - 2][1] = 1;*/
-    printScene();
+    p1->field[FIELD_ROWS - 1][0] = 1;
+    p1->field[FIELD_ROWS - 1][1] = 1;
+    p1->field[FIELD_ROWS - 1][2] = 1;
+    p1->field[FIELD_ROWS - 2][1] = 1;
+    refreshPlayer(p1);
 
     while (1)
     {
-        int c;
-        printf("Inserisci la colonna che vuoi riempire: ");
-        scanf("%d", &c);
-        empty_stdin();
-        printf("\n");
-        int i;
+        int i, selecting = 1;
+        refreshSelector(p1);
+        while (selecting)
+        {
+            int ch = getch();
+            switch (ch)
+            {
+                case KEY_RIGHT:
+                    if (p1->cursor_pos < 9)
+                        ++p1->cursor_pos;
+                    break;
+                case KEY_LEFT:
+                    if (p1->cursor_pos > 0)
+                        --p1->cursor_pos;
+                    break;
+                case '\n':
+                    selecting = 0;
+                    break;
+            }
+            refreshSelector(p1);
+        }
+        
         for (i = 0; i < FIELD_ROWS; i++)
         {
             if (
-                field[i][c] == 0 && (i == FIELD_ROWS - 1 || field[i + 1][c] == 1))
+                p1->field[i][p1->cursor_pos] == 0 && (i == FIELD_ROWS - 1 || p1->field[i + 1][p1->cursor_pos] == 1))
             {
-                field[i][c] = 1;
+                p1->field[i][p1->cursor_pos] = 1;
                 break;
             }
         }
-        printScene();
+        refreshPlayer(p1);
     }
-    printScene();
     /*
     TODO inizializzare valori di gioco,
     impostando tutti i pezzi disponibili
@@ -529,7 +609,6 @@ void newGame()
 int printMenu(void)
 {
     int s = 10;
-
     printf("\n");
     while (s > 3 || s < 1)
     {
@@ -561,6 +640,8 @@ int main(void)
     keypad(stdscr, TRUE);
     /* Non stampa su schermo l'input */
 	noecho();
+    newGameSingle();
+    /*
     int v;
     welcomeScreen();
     while (1)
@@ -588,5 +669,6 @@ int main(void)
             break;
         }
     }
+    */
     return 0;
 }
