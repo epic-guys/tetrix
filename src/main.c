@@ -470,7 +470,7 @@ void printScene()
     printEmpty(FIELD_ROWS, getWinHeight() + 5);
     printField();
     printf("\n");
-    printRemainingPieces();
+    /*printRemainingPieces();
 
 
     /*

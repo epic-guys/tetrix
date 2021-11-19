@@ -47,9 +47,9 @@ Passa a Linux.
 2. Entrare nella cartella da terminale
 3. Inserire i seguenti comandi:
 ```bash
-./config
+./configure
 make
-sudo cmake install
+sudo make install
 ```
 
 ## Installazione per Windows parte 2
