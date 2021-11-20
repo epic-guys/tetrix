@@ -38,7 +38,15 @@ Per compilare ed eseguire il progetto è necessario avere installato gcc, Cmake 
 # Installare ncurses
 Ncurses è una libreria per Linux che permette di gestire il terminale con più libertà. Dato che è disponibile solo in codice sorgente, va scaricata e compilata con Cmake.
 ## Installazione per Windows
-Passa a Linux.
+1. Decidi quale distribuzione di Linux preferisci (Ubuntu, Fedora, Linux Mint, Arch Linux, Gentoo, ecc.) e scarica la sua ISO
+2. Scarica [Rufus](https://rufus.ie/) e prendi una chiavetta USB vuota
+3. _Flasha_ il sistema operativo nella chiavetta
+4. Fai il backup di tutti i dati del PC
+5. Riavvia il computer e avvia il bootloader dalla chiavetta
+6. Segui l'installazione guidata (se c'è)
+
+Congratulazioni, sei passato a Linux! Ora puoi procedere all'installazione di ncurses.
+
 ## Installazione per Linux
 ### Download
 [Sito ufficiale](https://invisible-island.net/ncurses/)
