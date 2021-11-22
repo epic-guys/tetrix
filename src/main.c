@@ -11,8 +11,8 @@
 #define FIELD_COLS 10
 #define TETRIMINOS_FOR_TYPE 20
 
-#define FIELD_W_ROWS FIELD_ROWS + 5
-#define FIELD_W_COLS FIELD_COLS * 2 + 2
+#define FIELD_W_ROWS FIELD_ROWS + 1 + 4 /*Finestra del campo->Righe(verticale) = Numero righe + 1 riga(sotto) + 4 blocco di selezione*/
+#define FIELD_W_COLS FIELD_COLS * 2 + 2 /*Finestra del campo->Colonne(orizzontale = NUmero colonne * 2(blocco) + 2 bordi(destra-sinistra)*/
 
 const int menuHeight = 5;
 /* Il numero di pezzi iniziali per ciascun tipo */
@@ -236,12 +236,16 @@ enum TetriminoType
  * @brief Non è un typo, in inglese
  * si scrive così.
  * 
- * L'idea è di salvare in maniera
- * generica ogni tetramino in una matrice
- * 4x4 e salvarci affianco la larghezza
- * e l'altezza, in questo modo diventa
+ * L'idea è di salvare
+ * ogni tetramino in una matrice
+ * e salvarci affianco la larghezza,
+ * l'altezza e il tipo,
+ *  in questo modo diventa
  * più facile gestire la caduta dall'alto,
  * i bordi del campo e la rotazione.
+ * 
+ * Inoltre il valore assegnato ad ogni campo 
+ * della matrice si riferisce al colore.
  */
 struct Tetrimino
 {
@@ -289,7 +293,7 @@ typedef struct Player
 
 int field[FIELD_ROWS][FIELD_COLS];
 struct TetriminoSet* sets;
-player_t *p1, p2;
+player_t *p1, *p2;
 
 #pragma endregion
 
@@ -314,9 +318,7 @@ player_t *initializePlayer(int y_pos, int x_pos)
         for (j = 0; j < FIELD_COLS; j++)
             player->field[i][j] = 0;
     w = newwin(FIELD_W_ROWS, FIELD_W_COLS, y_pos, x_pos);
-    attron(A_BOLD);
     wborder(w, '|', '|', ' ', '=', ' ', ' ', '\\', '/');
-    attroff(A_BOLD);
     wrefresh(w);
     player->win = w;
     player->cursor_pos = 4;
@@ -337,9 +339,11 @@ void refreshPlayer(player_t *p)
         for (j = 0; j < FIELD_COLS; ++j)
         {
             wmove(p->win, FIELD_W_ROWS - FIELD_ROWS + i - 1, j * 2 + 1);
-            if (p->field[i][j])
+            if (p->field[i][j]){
+                attron(COLOR_PAIR(p->field[i][j]));
                 wprintw(p->win, "[]");
-            else
+                attroff(COLOR_PAIR(p->field[i][j]));
+            }else
                 wprintw(p->win, "  ");
         }
     }
@@ -347,7 +351,7 @@ void refreshPlayer(player_t *p)
 }
 
 /**
- * @brief Funzione WIP che aggiorna la posizione del
+ * @brief Funzione WIP(Work In Progress) che aggiorna la posizione del
  * tetramino sulla zona di posizionamento.
  * Più avanti dovrà ricevere come parametro un tetramino
  * e dovrà rispettare la sua dimensione nel campo da gioco. 
@@ -391,8 +395,8 @@ struct Tetrimino getTetrimino(enum TetriminoType type)
         }
         case T_J: {
             int values[2][3] = {
-                    1, 0, 0,
-                    1, 1, 1,
+                    2, 0, 0,
+                    2, 2, 2,
             };
 
             t.values = &values[0][0];
@@ -403,8 +407,8 @@ struct Tetrimino getTetrimino(enum TetriminoType type)
         case T_L: {
             size_t i,j;
             int values[2][3] = {
-                    0, 0, 1,
-                    1, 1, 1
+                    0, 0, 3,
+                    3, 3, 3
             };
 
             t.values = &values[0][0];
@@ -414,8 +418,8 @@ struct Tetrimino getTetrimino(enum TetriminoType type)
         }
         case T_S: {
             int values[2][3] = {
-                    0, 1, 1,
-                    1, 1, 0,
+                    0, 5, 5,
+                    5, 5, 0,
             };
 
             t.values = &values[0][0];
@@ -425,8 +429,8 @@ struct Tetrimino getTetrimino(enum TetriminoType type)
         }
         case T_Z: {
             int values[2][3] = {
-                    1, 1, 0,
-                    0, 1, 1,
+                    7, 7, 0,
+                    0, 7, 7,
             };
 
             t.values = &values[0][0];
@@ -436,8 +440,8 @@ struct Tetrimino getTetrimino(enum TetriminoType type)
         }
         case T_O: {
             int values[2][2] = {
-                    1, 1,
-                    1, 1,
+                    4, 4,
+                    4, 4,
             };
 
             t.values = &values[0][0];
@@ -447,8 +451,8 @@ struct Tetrimino getTetrimino(enum TetriminoType type)
         }
         case T_T: {
             int values[2][3] = {
-                    0, 1, 0,
-                    1, 1, 1,
+                    0, 6, 0,
+                    6, 6, 6,
             };
 
             t.values = &values[0][0];
@@ -499,6 +503,10 @@ void welcomeScreen()
     printEmpty(getSplashLogoHeight(), getWinHeight());
 }
 
+/**
+ * @brief Stampa a schermo il campo di gioco e vari blocchi 
+ * @deprecated Funzione sostituita grazie alla libreria ncurses (MENOMALE)
+ */
 void printField()
 {
     int i, j;
@@ -591,9 +599,9 @@ void newGameSingle()
         for (i = 0; i < FIELD_ROWS; i++)
         {
             if (
-                p1->field[i][p1->cursor_pos] == 0 && (i == FIELD_ROWS - 1 || p1->field[i + 1][p1->cursor_pos] == 1))
+                !p1->field[i][p1->cursor_pos] && (i == FIELD_ROWS - 1 || p1->field[i + 1][p1->cursor_pos]))
             {
-                p1->field[i][p1->cursor_pos] = 1;
+                p1->field[i][p1->cursor_pos] = 2;
                 break;
             }
         }
@@ -640,6 +648,34 @@ int main(void)
     keypad(stdscr, TRUE);
     /* Non stampa su schermo l'input */
 	noecho();
+
+    /* Inizializzazione dei colori */
+    start_color();
+
+    /* CIANO su sfondo NERO */
+    init_pair(1,COLOR_CYAN,COLOR_BLACK);
+   
+   /* BLU su sfondo NERO */
+    init_pair(2,COLOR_BLUE,COLOR_BLACK);
+   
+   /* ARANCIONE su sfondo NERO */
+    init_color(8,255,240,0);
+    init_pair(3,8,COLOR_BLACK);
+   
+   /* GIALLO su sfondo NERO */
+    init_pair(4,COLOR_YELLOW,COLOR_BLACK);
+   
+
+   /*VERDE su sfondo NERO*/
+    init_pair(5,COLOR_GREEN,COLOR_BLACK);
+   
+   /*VIOLA su sfondo NERO*/
+    init_color(9,218,112,214);
+    init_pair(6,9,COLOR_BLACK);
+   
+   /*ROSSO su sfondo NERO*/
+    init_pair(7,COLOR_RED,COLOR_BLACK);
+
     newGameSingle();
     /*
     int v;
