@@ -247,13 +247,13 @@ enum TetriminoType
  * Inoltre il valore assegnato ad ogni campo 
  * della matrice si riferisce al colore.
  */
-struct Tetrimino
+typedef struct Tetrimino
 {
     int* values;
     int cols;
     int rows;
     enum TetriminoType type;
-};
+} Tetrimino;
 
 /**
  * Per gestire la rotazione si potrebbe
@@ -274,26 +274,30 @@ enum Rotation
  * Struttura che associa ad ogni tetramino
  * la sua quantità rimanente
  */
-struct TetriminoSet
+typedef struct TetriminoSet
 {
     enum TetriminoType tetrimino;
     size_t remaining;
-};
+} TetriminoSet;
 
 typedef struct Player
 {
     int field[FIELD_ROWS][FIELD_COLS];
     WINDOW *win;
     int cursor_pos;
-} player_t;
+} Player;
 
 #pragma endregion
 
 #pragma region GAME VARIABLES
 
+/**
+ * @deprecated Usare invece la variabile
+ * field nello struct Player
+ */
 int field[FIELD_ROWS][FIELD_COLS];
 struct TetriminoSet* sets;
-player_t *p1, *p2;
+Player *p1, *p2;
 
 #pragma endregion
 
@@ -309,9 +313,9 @@ player_t *p1, *p2;
  * @param[in] x_pos La posizione X iniziale in cui posizionare la finestra.
  * @return Lo struct giocatore istanziato. 
  */
-player_t *initializePlayer(int y_pos, int x_pos)
+Player *initializePlayer(int y_pos, int x_pos)
 {
-    player_t *player = (player_t*) malloc(sizeof(player_t));
+    Player *player = (Player*) malloc(sizeof(Player));
     WINDOW *w;
     size_t i, j;
     for (i = 0; i < FIELD_ROWS; i++)
@@ -331,7 +335,7 @@ player_t *initializePlayer(int y_pos, int x_pos)
  * 
  * @param[in, out] p Il giocatore di cui bisogna aggiornare lo schermo.
  */
-void refreshPlayer(player_t *p)
+void refreshPlayer(Player *p)
 {
     int i, j;
     for (i = 0; i < FIELD_ROWS; ++i)
@@ -340,9 +344,9 @@ void refreshPlayer(player_t *p)
         {
             wmove(p->win, FIELD_W_ROWS - FIELD_ROWS + i - 1, j * 2 + 1);
             if (p->field[i][j]){
-                attron(COLOR_PAIR(p->field[i][j]));
+                wattron(p->win, COLOR_PAIR(p->field[i][j]));
                 wprintw(p->win, "[]");
-                attroff(COLOR_PAIR(p->field[i][j]));
+                wattroff(p->win, COLOR_PAIR(p->field[i][j]));
             }else
                 wprintw(p->win, "  ");
         }
@@ -359,16 +363,28 @@ void refreshPlayer(player_t *p)
  * @param[in, out] p Il giocatore in cui aggiornare la posizione.
  * TODO param tetrimino
  */
-void refreshSelector(player_t *p)
+void refreshSelector(Player *p, Tetrimino t)
 {
-    int i;
+    int i, j;
     for (i = 0; i < 4; ++i)
     {
         wmove(p->win, i, 0);
         wclrtoeol(p->win);
     }
-    wmove(p->win, 3, p->cursor_pos * 2 + 1);
-    wprintw(p->win, "[]");
+
+    for (i = 0; i < t.rows; ++i)
+    {
+        for (j = 0; j < t.cols; ++j)
+        {
+            if (t.values[t.cols * i + j])
+            {
+                wattron(p->win, COLOR_PAIR(p->field[i][j]));
+                mvwprintw(p->win, 4 - t.rows + i, (p->cursor_pos + j) * 2, "[]");
+                wattroff(p->win, COLOR_PAIR(p->field[i][j]));
+            }
+        }
+    }
+
     wrefresh(p1->win);
 }
 
@@ -382,6 +398,7 @@ void refreshSelector(player_t *p)
 struct Tetrimino getTetrimino(enum TetriminoType type)
 {
     struct Tetrimino t;
+    t.type = type;
     switch (type)
     {
         case T_I: {
@@ -470,15 +487,16 @@ struct Tetrimino getTetrimino(enum TetriminoType type)
  * @brief Inizializza tutti gli insiemi dei tetramini
  * @return puntatore alla struttura
  */
-void initializeSets()
+TetriminoSet *initializeSets()
 {
     int i;
-    sets = (struct TetriminoSet*)malloc(sizeof(struct TetriminoSet) * 7);
+    TetriminoSet *sets = (TetriminoSet*) malloc(sizeof(TetriminoSet) * 7);
     for (i = 0; i < 7; ++i)
     {
-        struct TetriminoSet s = { allTypes[i], TETRIMINOS_FOR_TYPE };
+        TetriminoSet s = { allTypes[i], TETRIMINOS_FOR_TYPE };
         sets[i] = s;
     }
+    return sets;
 }
 
 #pragma endregion
@@ -563,26 +581,28 @@ void newGameSingle()
     refresh();
     /* p1 = initializePlayer((LINES - FIELD_ROWS) / 2, (COLS - FIELD_COLS) / 2); */
     p1 = initializePlayer(0, 0);
-    initializeSets();
+    sets = initializeSets();
 
     /* TEST */
-    p1->field[FIELD_ROWS - 1][0] = 1;
-    p1->field[FIELD_ROWS - 1][1] = 1;
-    p1->field[FIELD_ROWS - 1][2] = 1;
-    p1->field[FIELD_ROWS - 2][1] = 1;
+    p1->field[FIELD_ROWS - 1][0] = 2;
+    p1->field[FIELD_ROWS - 1][1] = 2;
+    p1->field[FIELD_ROWS - 1][2] = 2;
+    p1->field[FIELD_ROWS - 2][1] = 2;
     refreshPlayer(p1);
 
     while (1)
     {
-        int i, selecting = 1;
-        refreshSelector(p1);
+        int i,j, selecting = 1;
+        Tetrimino selected_t = getTetrimino(T_J);
+        refreshSelector(p1, selected_t);
+        
         while (selecting)
         {
             int ch = getch();
             switch (ch)
             {
                 case KEY_RIGHT:
-                    if (p1->cursor_pos < 9)
+                    if (selected_t.cols + p1->cursor_pos < 9)
                         ++p1->cursor_pos;
                     break;
                 case KEY_LEFT:
@@ -593,7 +613,7 @@ void newGameSingle()
                     selecting = 0;
                     break;
             }
-            refreshSelector(p1);
+            refreshSelector(p1, selected_t);
         }
         
         for (i = 0; i < FIELD_ROWS; i++)
@@ -601,7 +621,7 @@ void newGameSingle()
             if (
                 !p1->field[i][p1->cursor_pos] && (i == FIELD_ROWS - 1 || p1->field[i + 1][p1->cursor_pos]))
             {
-                p1->field[i][p1->cursor_pos] = 2;
+                p1->field[i][p1->cursor_pos] = 5;
                 break;
             }
         }
