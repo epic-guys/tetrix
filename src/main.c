@@ -114,7 +114,7 @@ void mainMenu(){
         /* PvCPU */
         break;
     case 3:
-        /* QUIT GAME */
+        endwin();
         break;
     
     default:
