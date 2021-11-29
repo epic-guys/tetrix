@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <ncurses.h>
+
 #define FIELD_ROWS 15
 #define FIELD_COLS 10
 #define FIELD_W_ROWS FIELD_ROWS + 1 + 4 /*Finestra del campo->Righe(verticale) = Numero righe + 1 riga(sotto) + 4 blocco di selezione*/
@@ -14,7 +17,7 @@ typedef struct GameField
  * @param[in] y_pos La posizione Y iniziale in cui posizionare la finestra.
  * @param[in] x_pos La posizione X iniziale in cui posizionare la finestra.
  */
-GameField *initializeGamefield(int y, int x){
+GameField *initializeGameField(int y, int x){
 
     GameField *gameField = (GameField*) malloc(sizeof(GameField));
     WINDOW *w;

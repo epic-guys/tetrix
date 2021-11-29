@@ -1,5 +1,6 @@
 #include <ncurses.h>
-#include "player.c"
+#include <player.h>
+#include <gamefileld.h>
 
 Player *player;
 GameField *gameField;
@@ -11,6 +12,6 @@ GameField *gameField;
 void newGameSingle(){
      
     player = initializePlayer("nick");
-    gameField = initializeGameField();
+    gameField = initializeGameField(0, 0);
     while (1){}
 }
