@@ -26,11 +26,11 @@ la cpu può essere implementata con una strategia a vostra scelta.
 
 ## Schema di implementazione
 Il programma che implementerete dovrà chiedere al giocatore quale mossa giocare, e dovrà visualizzare il
-campo di gioco aggiornato (usando la funzione `printf`). Dovrà verificare che la mossa scelta non inserisca
+campo di gioco aggiornato ~~(usando la funzione `printf`)~~. Dovrà verificare che la mossa scelta non inserisca
 un tetramino fuori dal campo di gioco, dovrà aggiornare il punteggio e l lista di pezzi disponibili. Questi
 passi si ripetono fino alla fine della partita.
 Nel caso multiplayer, il programma dovrà visualizzare entrambi i campi di gioco e chiedere ai due giocatori
-a turno le loro mosse.
+a turno le loro mosse.~
 
 # Compilare
 Per compilare ed eseguire il progetto è necessario avere installato gcc, Cmake e gdb (opzionale).
