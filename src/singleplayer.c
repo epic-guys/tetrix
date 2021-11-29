@@ -12,6 +12,6 @@ GameField *gameField;
 void newGameSingle(){
      
     player = initializePlayer("nick");
-    gameField = initializeGameField(0, 0);
+    gameField = initializeGameField(10, 0);
     while (1){}
 }
