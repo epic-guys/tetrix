@@ -4,7 +4,7 @@
 #include <sys/ioctl.h>
 #include <ncurses.h>
 
-#include "./singleplayer.c"
+#include "singleplayer.c"
 
 const unsigned char ASCII_logo[] = {
     0x20, 0x20, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x20,
@@ -163,7 +163,7 @@ void printCredits(){
     credits = newwin( 3, COLS-2, LINES-3 , 1 );
     box(credits, 0, 0 );
     wmove(credits,getcurx(credits)+1,getcury(credits)+2);
-    wprintw(credits,"COPIRIGHT 2022 - DAVIDE ANTONIO AMODIO - LUCA BOFFO - ALVISE MA NON HA FATTO NULLA QUINDI CIAO");
+    wprintw(credits,"PROGETTO DI GRUPPO - 2022 - DAVIDE ANTONIO AMODIO - LUCA BOFFO - ALVISE FAVERO");
     wrefresh(credits);
 }
 
@@ -227,6 +227,7 @@ void mainMenu(){
     {
     case 0:
         /* Single */
+        newGameSingle();
         break;
     case 1:
         /* PvP */

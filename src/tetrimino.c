@@ -35,7 +35,9 @@ enum TetriminoType
     T_O,
     T_Z,
     T_T
-} const allTypes[7] = { T_I, T_J, T_L, T_O, T_S, T_T, T_Z }; /*PERCHÉ NON FUNZIONIII*/
+}
+
+const allTypes[7] = {T_I,T_J,T_L,T_O,T_S,T_T,T_Z};
 
 /**
  * @brief Non è un typo, in inglese
