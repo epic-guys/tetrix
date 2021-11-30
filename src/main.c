@@ -227,6 +227,9 @@ void mainMenu(){
     {
     case 0:
         /* Single */
+        wclear(w);
+        wrefresh(w);
+        delwin(w);
         newGameSingle();
         break;
     case 1:
