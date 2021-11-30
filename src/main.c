@@ -58,6 +58,7 @@ void initMainScreen(){
     keypad(stdscr, TRUE);
     noecho();
     initColors();
+    refresh();
 }
 /**
  * @brief inizializziamo tutti i colori (é una funzione stub)
