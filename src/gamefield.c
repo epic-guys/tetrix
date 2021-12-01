@@ -33,6 +33,11 @@ GameField *initializeGameField(int y, int x){
     return gameField;
 }
 
+/**
+ * @brief Pulizia della parte superiore dello schermo
+ * 
+ * @param g Il campo di gioco
+ */
 void clearTop(GameField *g){
     int i, j;
     for (i = 0; i < 3; ++i)
