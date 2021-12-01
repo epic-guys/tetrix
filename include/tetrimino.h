@@ -13,5 +13,8 @@ typedef struct TetriminiPool TetriminiPool;
 
 TetriminiPool *initializePool(int x, int y);
 
+WINDOW *getPoolWin(TetriminiPool *t);
+
+int selectTetrimino(WINDOW *W);
 
 #endif

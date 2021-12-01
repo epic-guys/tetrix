@@ -203,3 +203,11 @@ TetriminiPool *initializePool(int x, int y){
     tetriminiPool->pool = w;
     return tetriminiPool;
 }
+
+WINDOW *getPoolWin(TetriminiPool *t){
+    return t->pool;
+}
+
+int selectTetrimino(WINDOW *w){
+    /*TODO: scrivi tutto*/
+}

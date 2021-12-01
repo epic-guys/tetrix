@@ -39,8 +39,8 @@ PointBoard *initializePointBoard(int y, int x, Player *player_1, Player *player_
 
     w = newwin(player_2 ? 7 : 5, 25, y, x);
     box(w, 0, 0);
-    mvwprintw(w, 2, 1, )
+    //mvwprintw(w, 2, 1, )
     wrefresh(w);
-    tetriminiPool->pool = w;
-    return tetriminiPool;
+    //tetriminiPool->pool = w;
+    return pointBoard;
 }
