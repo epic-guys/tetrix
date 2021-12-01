@@ -23,3 +23,24 @@ Player *initializePlayer(char* nick)
     player->nickname = nick;
     return player;
 }
+
+typedef struct PointBoard
+{
+    WINDOW *pool;
+    Player *player_1;
+    Player *player_2;
+
+}PointBoard;
+
+PointBoard *initializePointBoard(int y, int x, Player *player_1, Player *player_2)
+{
+    PointBoard *pointBoard = (PointBoard *)malloc(sizeof(PointBoard));
+    WINDOW *w;
+
+    w = newwin(player_2 ? 7 : 5, 25, y, x);
+    box(w, 0, 0);
+    mvwprintw(w, 2, 1, )
+    wrefresh(w);
+    tetriminiPool->pool = w;
+    return tetriminiPool;
+}
