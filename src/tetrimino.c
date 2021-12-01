@@ -1,4 +1,5 @@
 #include <ncurses.h>
+#include <malloc.h>
 
 /**
  * @brief Codifica di ogni tetramino.
@@ -58,9 +59,9 @@ const TetriminoType ALL_T_TYPES[7] = { T_I, T_J, T_L, T_O, T_S, T_T, T_Z };
 typedef struct Tetrimino
 {
     const int* values;
-    const int cols;
-    const int rows;
-    const TetriminoType type;
+    int cols;
+    int rows;
+    TetriminoType type;
 } Tetrimino;
 
 /* WORK IN PROGRESS */
@@ -153,7 +154,7 @@ struct Tetrimino getTetrimino(TetriminoType type)
 }
 
 /**
- * Struttura che associa ad ogni tetramino
+ * @brief Struttura che associa ad ogni tetramino
  * la sua quantità rimanente
  */
 typedef struct TetriminoSet
@@ -161,3 +162,22 @@ typedef struct TetriminoSet
     enum TetriminoType tetrimino;
     size_t remaining;
 } TetriminoSet;
+
+/**
+ * @brief La struct della finestra con tutti i pezzi dei tetramini rimanenti
+ */
+typedef struct TetriminiPool
+{
+    WINDOW *pool;
+} TetriminiPool;
+
+TetriminiPool *initializePool(int x, int y){
+    TetriminiPool *tetriminiPool = (TetriminiPool*) malloc(sizeof(TetriminiPool));
+    WINDOW *w;
+
+    w = newwin(20, 20, y, x);
+    box(w,0,0);
+    wrefresh(w);
+    tetriminiPool->pool = w;
+    return tetriminiPool;
+}
