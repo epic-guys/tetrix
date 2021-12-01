@@ -15,6 +15,6 @@ void newGameSingle(){
      
     player = initializePlayer("nick");
     gameField = initializeGameField(10, 4);
-    pool = initializePool(55, 10);
+    pool = initializePool(10, 55);
     while (1){}
 }
