@@ -257,7 +257,13 @@ int main(){
     /*Inizia il programma*/
     /*Attivo NCURSES con i nostri parametri*/
     initMainScreen();
+    if(LINES < 30 || COLS < 60){
+        printf("Comprati un monitor piu' grande, poveraccio!");
+        endwin();
+        return 69;
+    }
     printCredits();
     printLogo();
     mainMenu();
+    return 0;
 }
