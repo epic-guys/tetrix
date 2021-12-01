@@ -1,5 +1,9 @@
 #include <ncurses.h>
+<<<<<<< HEAD
 #include <malloc.h>
+=======
+#include <stdlib.h>
+>>>>>>> refs/remotes/origin/main
 
 /**
  * @brief Codifica di ogni tetramino.
@@ -58,91 +62,111 @@ const TetriminoType ALL_T_TYPES[7] = { T_I, T_J, T_L, T_O, T_S, T_T, T_Z };
  */
 typedef struct Tetrimino
 {
+<<<<<<< HEAD
     const int* values;
+=======
+    int* values;
+>>>>>>> refs/remotes/origin/main
     int cols;
     int rows;
     TetriminoType type;
 } Tetrimino;
 
-/* WORK IN PROGRESS */
-struct Tetrimino getTetrimino(TetriminoType type)
+/**
+ * @brief Genera il tetramino dato il suo enum. 
+ * 
+ * @param[in] type la sua codifica enum.
+ * @return Il tetramino.
+ */
+Tetrimino getTetrimino(TetriminoType type)
 {
     Tetrimino t;
-    t.type = type;
+    int *values;
     switch (type)
     {
-        case T_I: {
-            int values[1][4] = {
-                    1, 1, 1, 1
-            };
-            t.values = &values[0][0];
+        case T_I:
+            t.values = malloc(sizeof(int) * 1 * 4);
+            t.values[0] = 1;
+            t.values[1] = 1;
+            t.values[2] = 1;
+            t.values[3] = 1;
+
             t.cols = 4;
             t.rows = 1;
             break;
-        }
-        case T_J: {
-            int values[2][3] = {
-                    2, 0, 0,
-                    2, 2, 2,
-            };
 
-            t.values = &values[0][0];
+        case T_J:
+            t.values = malloc(sizeof(int) * 2 * 3);
+            t.values[0] = 2;
+            t.values[1] = 0;
+            t.values[2] = 0;
+            t.values[3] = 2;
+            t.values[4] = 2;
+            t.values[5] = 2;
+
             t.cols = 3;
             t.rows = 2;
             break;
-        }
-        case T_L: {
-            size_t i,j;
-            int values[2][3] = {
-                    0, 0, 3,
-                    3, 3, 3
-            };
 
-            t.values = &values[0][0];
+        case T_L:
+            t.values = malloc(sizeof(int) * 2 * 3);
+            t.values[0] = 0;
+            t.values[1] = 0;
+            t.values[2] = 3;
+            t.values[3] = 3;
+            t.values[4] = 3;
+            t.values[5] = 3;
+
             t.cols = 3;
             t.rows = 2;
             break;
-        }
-        case T_S: {
-            int values[2][3] = {
-                    0, 5, 5,
-                    5, 5, 0,
-            };
 
-            t.values = &values[0][0];
+        case T_S:
+            t.values = malloc(sizeof(int) * 2 * 3);
+            t.values[0] = 0;
+            t.values[1] = 5;
+            t.values[2] = 5;
+            t.values[3] = 5;
+            t.values[4] = 5;
+            t.values[5] = 0;
+
             t.cols = 3;
             t.rows = 2;
             break;
-        }
-        case T_Z: {
-            int values[2][3] = {
-                    7, 7, 0,
-                    0, 7, 7,
-            };
 
-            t.values = &values[0][0];
+        case T_Z:
+            t.values = malloc(sizeof(int) * 2 * 3);
+            t.values[0] = 7;
+            t.values[1] = 7;
+            t.values[2] = 0;
+            t.values[3] = 0;
+            t.values[4] = 7;
+            t.values[5] = 7;
+
             t.cols = 3;
             t.rows = 2;
             break;
-        }
-        case T_O: {
-            int values[2][2] = {
-                    4, 4,
-                    4, 4,
-            };
 
-            t.values = &values[0][0];
+        case T_O:
+            t.values = malloc(sizeof(int) * 2 * 2);
+            t.values[0] = 4;
+            t.values[1] = 4;
+            t.values[2] = 4;
+            t.values[3] = 4;
+
             t.cols = 2;
             t.rows = 2;
             break;
-        }
-        case T_T: {
-            int values[2][3] = {
-                    0, 6, 0,
-                    6, 6, 6,
-            };
 
-            t.values = &values[0][0];
+        case T_T: {
+            t.values = malloc(sizeof(int) * 2 * 3);
+            t.values[0] = 0;
+            t.values[1] = 6;
+            t.values[2] = 0;
+            t.values[3] = 6;
+            t.values[4] = 6;
+            t.values[5] = 6;
+
             t.cols = 3;
             t.rows = 2;
             break;
@@ -159,9 +183,10 @@ struct Tetrimino getTetrimino(TetriminoType type)
  */
 typedef struct TetriminoSet
 {
-    enum TetriminoType tetrimino;
+    TetriminoType tetrimino;
     size_t remaining;
 } TetriminoSet;
+<<<<<<< HEAD
 
 /**
  * @brief La struct della finestra con tutti i pezzi dei tetramini rimanenti
@@ -181,3 +206,5 @@ TetriminiPool *initializePool(int x, int y){
     tetriminiPool->pool = w;
     return tetriminiPool;
 }
+=======
+>>>>>>> refs/remotes/origin/main

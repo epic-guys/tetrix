@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <ncurses.h>
+#include <tetrimino.h>
 
 #define FIELD_ROWS 15
 #define FIELD_COLS 10
@@ -33,8 +34,37 @@ GameField *initializeGameField(int y, int x){
 }
 
 void clearTop(GameField *g){
-
+    int i, j;
+    for (i = 0; i < 3; ++i)
+    {
+        wmove(g->win, i, 0);
+        wclrtoeol(g->win);
+    }
 }
+
+/*
+WORK IN PROGRESS
+void refreshSelector(GameField *g, Tetrimino t)
+{
+    int i, j;
+    clearTop(g);
+
+    for (i = 0; i < t.rows; ++i)
+    {
+        for (j = 0; j < t.cols; ++j)
+        {
+            if (t.values[t.cols * i + j])
+            {
+                wattron(g->win, COLOR_PAIR(g->field[i][j]));
+                mvwprintw(g->win, 4 - t.rows + i, (g->cursor_pos + j) * 2, "[]");
+                wattroff(g->win, COLOR_PAIR(g->field[i][j]));
+            }
+        }
+    }
+
+    wrefresh(g->win);
+}
+*/
 
 /**
  * @brief Da chiamare per visualizzare
