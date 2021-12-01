@@ -9,4 +9,9 @@ Tetrimino getTetrimino(TetriminoType type);
 
 typedef struct TetriminoSet TetriminoSet;
 
+typedef struct TetriminiPool TetriminiPool;
+
+TetriminiPool *initializePool(int x, int y);
+
+
 #endif

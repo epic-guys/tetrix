@@ -1,9 +1,5 @@
 #include <ncurses.h>
-<<<<<<< HEAD
 #include <malloc.h>
-=======
-#include <stdlib.h>
->>>>>>> refs/remotes/origin/main
 
 /**
  * @brief Codifica di ogni tetramino.
@@ -62,11 +58,7 @@ const TetriminoType ALL_T_TYPES[7] = { T_I, T_J, T_L, T_O, T_S, T_T, T_Z };
  */
 typedef struct Tetrimino
 {
-<<<<<<< HEAD
-    const int* values;
-=======
     int* values;
->>>>>>> refs/remotes/origin/main
     int cols;
     int rows;
     TetriminoType type;
@@ -186,7 +178,6 @@ typedef struct TetriminoSet
     TetriminoType tetrimino;
     size_t remaining;
 } TetriminoSet;
-<<<<<<< HEAD
 
 /**
  * @brief La struct della finestra con tutti i pezzi dei tetramini rimanenti
@@ -200,11 +191,11 @@ TetriminiPool *initializePool(int x, int y){
     TetriminiPool *tetriminiPool = (TetriminiPool*) malloc(sizeof(TetriminiPool));
     WINDOW *w;
 
-    w = newwin(20, 20, y, x);
+    w = newwin(20, 50, y, x);
     box(w,0,0);
+    wmove(w,getcurx(w)+1,getcury(w)+2);
+    wprintw(w,"TETRAMINI DISPONIBILI: ");
     wrefresh(w);
     tetriminiPool->pool = w;
     return tetriminiPool;
 }
-=======
->>>>>>> refs/remotes/origin/main
