@@ -26,21 +26,35 @@ Player *initializePlayer(char* nick)
 
 typedef struct PointBoard
 {
-    WINDOW *pool;
+    WINDOW *win;
     Player *player_1;
     Player *player_2;
 
 }PointBoard;
 
+void refreshPointBoard(PointBoard *board)
+{
+    mvwprintw(board->win, 2, 1, "%-20s%5d", board->player_1->nickname, board->player_1->points);
+    if (board->player_2)
+    {
+        mvwprintw(board->win, 4, 1, "%-20s%5d", board->player_2->nickname, board->player_2->points);
+    }
+    wrefresh(board->win);
+}
+
+
 PointBoard *initializePointBoard(int y, int x, Player *player_1, Player *player_2)
 {
     PointBoard *pointBoard = (PointBoard *)malloc(sizeof(PointBoard));
-    WINDOW *w;
 
-    w = newwin(player_2 ? 7 : 5, 25, y, x);
+    WINDOW *w;
+    w = newwin(player_2 ? 7 : 5, 27, y, x);
     box(w, 0, 0);
-    //mvwprintw(w, 2, 1, )
-    wrefresh(w);
-    //tetriminiPool->pool = w;
+    
+    pointBoard->win = w;
+    pointBoard->player_1 = player_1;
+    pointBoard->player_2 = player_2;
+    refreshPointBoard(pointBoard);
+
     return pointBoard;
 }
