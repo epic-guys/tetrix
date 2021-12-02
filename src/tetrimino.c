@@ -169,6 +169,25 @@ Tetrimino getTetrimino(TetriminoType type)
     return t;
 }
 
+
+/**
+ * @brief funzione che printa i tetramini, ATTENZIONE: SI PARTE A PRINTARE DA X0 Y0 DEL TETRAMINO
+ * @param[in] w  la finestra dove printarlo
+ * @param[in] t  Il tetramino da printare
+ * @param[in] y  la y relativa della finestra
+ * @param[in] x  la x relativa della finestra
+ */
+void printTetrimino(WINDOW *w,Tetrimino t,int y,int x){
+    int i,j,c=0;
+    for(i=0;i<t.rows;++i){
+        for(j=0;j<t.cols;++j){
+            mvwprintw(w,y+i,x+j,,t.values[c]);
+            c++;
+        }
+    }
+}
+
+
 /**
  * @brief Struttura che associa ad ogni tetramino
  * la sua quantità rimanente
@@ -209,36 +228,9 @@ WINDOW *getPoolWin(TetriminiPool *t){
 }
 
 int selectTetrimino(WINDOW *w){
-    int N_items = 8;
-    char *list[] = { "Single Player", "PvP", "PvCPU", "Quit","ciao","mondo","foo","bar"};
-    char item[15];
-    int firstrow, ch, i = 0, width = 7;
-    
-    wmove(w,getcury(w)+1,getcurx(w));
-    firstrow=getcury(w);
-
-    for(i=0;i<N_items;++i) {
-
-        if(i%3){
-            wmove(w, firstrow, getcurx(w)+20);
-        }
-
-        if(i == 0)
-            /*"sottolinea" il primo elemento*/
-            wattron( w, A_STANDOUT );
-        else
-            wattroff( w, A_STANDOUT );
-        sprintf(item, "%-7s",  list[i]);
-        mvwprintw( w, i+1, 2, "%s", item );
-    } 
-
-    /*carica lo schermo*/
+    Tetrimino t = getTetrimino(ALL_T_TYPES[3]);
+    printTetrimino(w,t,5,5);
     wrefresh(w);
-    i = 0;
-    /*sposta il focus della tastiera sulla finestra*/
-    keypad(w,TRUE);
-    /* Nasconde il cursore di sistema*/
-    curs_set(0);
 
     return 0;
 }
