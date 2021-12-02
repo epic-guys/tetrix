@@ -209,5 +209,36 @@ WINDOW *getPoolWin(TetriminiPool *t){
 }
 
 int selectTetrimino(WINDOW *w){
-    /*TODO: scrivi tutto*/
+    int N_items = 8;
+    char *list[] = { "Single Player", "PvP", "PvCPU", "Quit","ciao","mondo","foo","bar"};
+    char item[15];
+    int firstrow, ch, i = 0, width = 7;
+    
+    wmove(w,getcury(w)+1,getcurx(w));
+    firstrow=getcury(w);
+
+    for(i=0;i<N_items;++i) {
+
+        if(i%3){
+            wmove(w, firstrow, getcurx(w)+20);
+        }
+
+        if(i == 0)
+            /*"sottolinea" il primo elemento*/
+            wattron( w, A_STANDOUT );
+        else
+            wattroff( w, A_STANDOUT );
+        sprintf(item, "%-7s",  list[i]);
+        mvwprintw( w, i+1, 2, "%s", item );
+    } 
+
+    /*carica lo schermo*/
+    wrefresh(w);
+    i = 0;
+    /*sposta il focus della tastiera sulla finestra*/
+    keypad(w,TRUE);
+    /* Nasconde il cursore di sistema*/
+    curs_set(0);
+
+    return 0;
 }

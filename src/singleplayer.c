@@ -4,6 +4,7 @@
 #include <tetrimino.h>
 
 Player *player;
+Player *player2;
 GameField *gameField;
 TetriminiPool *pool;
 PointBoard *points;
@@ -15,8 +16,8 @@ PointBoard *points;
 void newGameSingle(){
     player = initializePlayer("nick");
     gameField = initializeGameField(10, 4);
-    pool = initializePool(10, 55);
-    points = initializePointBoard(10, 10, player, NULL);
+    pool = initializePool(10, 50);
+    points = initializePointBoard(10, 104, player, NULL);
     selectTetrimino(getPoolWin(pool));
     
     while (1){}
