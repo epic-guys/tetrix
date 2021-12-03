@@ -3,6 +3,7 @@
 #include <time.h>
 #include <sys/ioctl.h>
 #include <ncurses.h>
+#include <colors.h>
 
 #include "singleplayer.h"
 
@@ -66,28 +67,28 @@ void initMainScreen(){
 void initColors(){
     start_color();
     /* CIANO su sfondo NERO */
-    init_pair(1,COLOR_CYAN,COLOR_BLACK);
+    init_pair(PAIR_CYAN,COLOR_CYAN,COLOR_BLACK);
    
    /* BLU su sfondo NERO */
-    init_pair(2,COLOR_BLUE,COLOR_BLACK);
+    init_pair(PAIR_BLUE,COLOR_BLUE,COLOR_BLACK);
    
    /* ARANCIONE su sfondo NERO */
     init_color(8,255,240,0);
-    init_pair(3,8,COLOR_BLACK);
+    init_pair(PAIR_ORANGE,8,COLOR_BLACK);
    
    /* GIALLO su sfondo NERO */
-    init_pair(4,COLOR_YELLOW,COLOR_BLACK);
+    init_pair(PAIR_YELLOW,COLOR_YELLOW,COLOR_BLACK);
    
 
    /*VERDE su sfondo NERO*/
-    init_pair(5,COLOR_GREEN,COLOR_BLACK);
+    init_pair(PAIR_GREEN,COLOR_GREEN,COLOR_BLACK);
    
    /*VIOLA su sfondo NERO*/
     init_color(9,218,112,214);
-    init_pair(6,9,COLOR_BLACK);
+    init_pair(PAIR_PURPLE,9,COLOR_BLACK);
    
    /*ROSSO su sfondo NERO*/
-    init_pair(7,COLOR_RED,COLOR_BLACK);
+    init_pair(PAIR_RED,COLOR_RED,COLOR_BLACK);
 }
 
 /**

@@ -189,6 +189,7 @@ void printTetrimino(WINDOW *w,Tetrimino t,int y,int x){
 }
 
 
+
 /**
  * @brief Struttura che associa ad ogni tetramino
  * la sua quantità rimanente

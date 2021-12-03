@@ -27,7 +27,8 @@ GameField *initializeGameField(int y, int x){
         for (j = 0; j < FIELD_COLS; j++)
             gameField->field[i][j] = 0;
     w = newwin(FIELD_W_ROWS, FIELD_W_COLS, y, x);
-    wborder(w, '|', '|', ' ', '=', ' ', ' ', '\\', '/');
+    /* ncurses con il valore 0 mette il bordo di default */
+    wborder(w, 0, 0, ' ', 0, ' ', ' ', 0, 0);
     wrefresh(w);
     gameField->win = w;
     return gameField;
