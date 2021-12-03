@@ -181,10 +181,11 @@ void printTetrimino(WINDOW *w,Tetrimino t,int y,int x){
     int i,j,c=0;
     for(i=0;i<t.rows;++i){
         for(j=0;j<t.cols;++j){
-            mvwprintw(w,y+i,x+j,,t.values[c]);
+            //mvwprintw(w,y+i,x+j,"%s",sizeof t.values);
             c++;
         }
     }
+    wprintw(w,"%d",sizeof t.values);
 }
 
 
@@ -228,7 +229,7 @@ WINDOW *getPoolWin(TetriminiPool *t){
 }
 
 int selectTetrimino(WINDOW *w){
-    Tetrimino t = getTetrimino(ALL_T_TYPES[3]);
+    Tetrimino t = getTetrimino(T_O);
     printTetrimino(w,t,5,5);
     wrefresh(w);
 
