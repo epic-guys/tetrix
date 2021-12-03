@@ -4,6 +4,7 @@
 #include <sys/ioctl.h>
 #include <ncurses.h>
 #include <colors.h>
+#include <locale.h>
 
 #include "singleplayer.h"
 
@@ -55,6 +56,7 @@ void printCredits();
  */
 void initMainScreen(){
     initscr();
+    /*setlocale(LC_ALL, "");*/
     cbreak();
     keypad(stdscr, TRUE);
     noecho();

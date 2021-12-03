@@ -77,7 +77,7 @@ Tetrimino getTetrimino(TetriminoType type)
     switch (type)
     {
         case T_I:
-            t.values = malloc(sizeof(int) * 1 * 4);
+            t.values = malloc(sizeof(int)*1*4);
             t.values[0] = 1;
             t.values[1] = 1;
             t.values[2] = 1;
@@ -88,7 +88,7 @@ Tetrimino getTetrimino(TetriminoType type)
             break;
 
         case T_J:
-            t.values = malloc(sizeof(int) * 2 * 3);
+            t.values = malloc(sizeof(int)*2*3);
             t.values[0] = 2;
             t.values[1] = 0;
             t.values[2] = 0;
@@ -101,7 +101,7 @@ Tetrimino getTetrimino(TetriminoType type)
             break;
 
         case T_L:
-            t.values = malloc(sizeof(int) * 2 * 3);
+            t.values = malloc(sizeof(int)*2*3);
             t.values[0] = 0;
             t.values[1] = 0;
             t.values[2] = 3;
@@ -114,7 +114,7 @@ Tetrimino getTetrimino(TetriminoType type)
             break;
 
         case T_S:
-            t.values = malloc(sizeof(int) * 2 * 3);
+            t.values = malloc(sizeof(int)*2*3);
             t.values[0] = 0;
             t.values[1] = 5;
             t.values[2] = 5;
@@ -127,7 +127,7 @@ Tetrimino getTetrimino(TetriminoType type)
             break;
 
         case T_Z:
-            t.values = malloc(sizeof(int) * 2 * 3);
+            t.values = malloc(sizeof(int)*2*3);
             t.values[0] = 7;
             t.values[1] = 7;
             t.values[2] = 0;
@@ -140,7 +140,7 @@ Tetrimino getTetrimino(TetriminoType type)
             break;
 
         case T_O:
-            t.values = malloc(sizeof(int) * 2 * 2);
+            t.values = malloc(sizeof(int)*2*2);
             t.values[0] = 4;
             t.values[1] = 4;
             t.values[2] = 4;
@@ -151,7 +151,7 @@ Tetrimino getTetrimino(TetriminoType type)
             break;
 
         case T_T: {
-            t.values = malloc(sizeof(int) * 2 * 3);
+            t.values = malloc(sizeof(int)*2*3);
             t.values[0] = 0;
             t.values[1] = 6;
             t.values[2] = 0;
@@ -181,13 +181,12 @@ void printTetrimino(WINDOW *w,Tetrimino t,int y,int x){
     int i,j,c=0;
     for(i=0;i<t.rows;++i){
         for(j=0;j<t.cols;++j){
-            //mvwprintw(w,y+i,x+j,"%s",sizeof t.values);
+            if(t.values[c])
+                mvwprintw(w,y+i,x+j,"█"); /*problemi di encoding*/
             c++;
         }
     }
-    wprintw(w,"%d",sizeof t.values);
 }
-
 
 
 /**
@@ -230,8 +229,7 @@ WINDOW *getPoolWin(TetriminiPool *t){
 }
 
 int selectTetrimino(WINDOW *w){
-    Tetrimino t = getTetrimino(T_O);
-    printTetrimino(w,t,5,5);
+    printTetrimino(w,getTetrimino(T_O),2,2);
     wrefresh(w);
 
     return 0;
