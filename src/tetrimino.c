@@ -181,11 +181,14 @@ void printTetrimino(WINDOW *w,Tetrimino t,int y,int x){
     int i,j,c=0;
     for(i=0;i<t.rows;++i){
         for(j=0;j<t.cols;++j){
-            mvwprintw(w,y+i,x+j,,t.values[c]);
+            /* FIXME
+            mvwprintw(w,y+i,x+j, "%d",t.values[c]);
+            */
             c++;
         }
     }
 }
+
 
 
 /**
