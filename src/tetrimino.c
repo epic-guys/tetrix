@@ -1,6 +1,8 @@
 #include <ncurses.h>
 #include <malloc.h>
 
+#define N_tetrimini 7
+
 /**
  * @brief Codifica di ogni tetramino.
  * 
@@ -39,7 +41,7 @@ typedef enum TetriminoType
 } TetriminoType;
 
 /* In caso serva fare un loop di tutti i tipi */
-const TetriminoType ALL_T_TYPES[7] = { T_I, T_J, T_L, T_O, T_S, T_T, T_Z };
+const TetriminoType ALL_T_TYPES[N_tetrimini] = { T_I, T_J, T_L, T_O, T_S, T_T, T_Z };
 
 /**
  * @brief Non è un typo, in inglese
@@ -182,7 +184,8 @@ void printTetrimino(WINDOW *w,Tetrimino t,int y,int x){
     for(i=0;i<t.rows;++i){
         for(j=0;j<t.cols;++j){
             if(t.values[c])
-                mvwprintw(w,y+i,x+j,"█"); /*problemi di encoding*/
+                /*mvwprintw(w,y+i,x+j,"█"); problemi di encoding*/
+                mvwprintw(w,y+i,x+j,"%d",t.values[c]); /*Fix Temporaneo*/
             c++;
         }
     }
@@ -229,7 +232,15 @@ WINDOW *getPoolWin(TetriminiPool *t){
 }
 
 int selectTetrimino(WINDOW *w){
-    printTetrimino(w,getTetrimino(T_O),2,2);
+
+    
+
+    /*for(i=0;i<N_tetrimini;++i){
+        printTetrimino(w,getTetrimino(ALL_T_TYPES[i]),2*(i+1),2+j);
+        if(i!=0 && i%3==0){
+            j+=10;
+        } 
+    }*/
     wrefresh(w);
 
     return 0;

@@ -17,4 +17,6 @@ WINDOW *getPoolWin(TetriminiPool *t);
 
 int selectTetrimino(WINDOW *W);
 
+void printTetrimino(WINDOW *w,Tetrimino t,int y,int x);
+
 #endif
