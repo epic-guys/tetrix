@@ -34,10 +34,10 @@ typedef struct PointBoard
 
 void refreshPointBoard(PointBoard *board)
 {
-    mvwprintw(board->win, 2, 1, "%-20s%5d", board->player_1->nickname, board->player_1->points);
+    mvwprintw(board->win, 2, 2, "%-20s%3d", board->player_1->nickname, board->player_1->points);
     if (board->player_2)
     {
-        mvwprintw(board->win, 4, 1, "%-20s%5d", board->player_2->nickname, board->player_2->points);
+        mvwprintw(board->win, 4, 2, "%-20s%3d", board->player_2->nickname, board->player_2->points);
     }
     wrefresh(board->win);
 }

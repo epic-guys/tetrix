@@ -1,6 +1,6 @@
 #include <ncurses.h>
 #include <player.h>
-#include <gamefileld.h>
+#include <gamefield.h>
 #include <tetrimino.h>
 
 Player *player;
@@ -14,10 +14,13 @@ PointBoard *points;
  * @brief inizia una partita in single player
  */
 void newGameSingle(){
+
+    /*TODO: Accetta l'input del nickname*/
+
     player = initializePlayer("nick");
-    gameField = initializeGameField(10, 4);
-    pool = initializePool(10, 50);
-    points = initializePointBoard(10, 104, player, NULL);
+    gameField = initializeGameField(12, 4);
+    pool = initializePool(10, (COLS/2)-(POOL_COLS/2));
+    points = initializePointBoard(10, COLS - 30, player, NULL);
     selectTetrimino(getPoolWin(pool));
     
     while (1){}

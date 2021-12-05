@@ -204,10 +204,10 @@ void mainMenu(){
     
     do{
         ch = wgetch(w); 
-        // right pad with spaces to make the items appear with even width.
+        
         sprintf(item, "%-7s",  list[i]); 
         mvwprintw( w, i+1, 2, "%s", item ); 
-        // use a variable to increment or decrement the value based on the input.
+        
         switch(ch) {
             case KEY_UP:
                 i--;

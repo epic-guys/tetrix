@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <malloc.h>
+#include <tetrimino.h>
 
 #define N_tetrimini 7
 
@@ -185,7 +186,7 @@ void printTetrimino(WINDOW *w,Tetrimino t,int y,int x){
         for(j=0;j<t.cols;++j){
             if(t.values[c])
                 /*mvwprintw(w,y+i,x+j,"█"); problemi di encoding*/
-                mvwprintw(w,y+i,x+j,"%d",t.values[c]); /*Fix Temporaneo*/
+                mvwprintw(w,y+i,x+j,"X"); /*Fix Temporaneo*/
             c++;
         }
     }
@@ -218,7 +219,7 @@ TetriminiPool *initializePool(int x, int y){
     TetriminiPool *tetriminiPool = (TetriminiPool*) malloc(sizeof(TetriminiPool));
     WINDOW *w;
 
-    w = newwin(20, 50, x, y);
+    w = newwin(POOL_ROWS, POOL_COLS, x, y);
     box(w,0,0);
     wmove(w,getcurx(w)+1,getcury(w)+2);
     wprintw(w,"TETRAMINI DISPONIBILI: ");
@@ -227,21 +228,76 @@ TetriminiPool *initializePool(int x, int y){
     return tetriminiPool;
 }
 
+
+/**
+ * @brief restituisce la finestra della pool di tetramini
+ * @param[in] t la pool di tetramini
+ */
 WINDOW *getPoolWin(TetriminiPool *t){
     return t->pool;
 }
 
+
+/**
+ * @brief Funzione STUB che stampa i tetramini in modalitá "menu"
+ * @param[in] i l'indice del menu
+ * @param[in] w la finestra nella quale stampare
+ */
+void printMenuStyle(int i, WINDOW *w){
+        printTetrimino(w,getTetrimino(ALL_T_TYPES[i]),2+(i*3),3);
+        wprintw(w,"        rimanenti: 69"); /*TODO: Allineare a destra i pezzi rimanenti e prendere il valore "reale" */
+}
+
+/**
+ * @brief permette di accedere al metodo di selezione dei tetramini
+ * @params[in] w Finestra della pool da cui selezionare il pezzo
+ */
 int selectTetrimino(WINDOW *w){
 
-    
+    int i, ch;
+    Tetrimino t;
 
-    /*for(i=0;i<N_tetrimini;++i){
-        printTetrimino(w,getTetrimino(ALL_T_TYPES[i]),2*(i+1),2+j);
-        if(i!=0 && i%3==0){
-            j+=10;
-        } 
-    }*/
+    /* Stampa il menu iniziale*/
+    for(i=0;i<N_tetrimini;++i) {
+        t = getTetrimino(ALL_T_TYPES[i]);
+        if(i == 0)
+            /*"sottolinea" il primo elemento*/
+            wattron( w, A_STANDOUT );
+        else
+            wattroff( w, A_STANDOUT );
+        printMenuStyle(i,w);
+    }
+
+    /*carica lo schermo*/
     wrefresh(w);
+    i = 0;
+    /*sposta il focus della tastiera sulla finestra*/
+    keypad(w,TRUE);
+    /* Nasconde il cursore di sistema*/
+    curs_set(0);
+    
+    do{
+        ch = wgetch(w); 
+        printMenuStyle(i,w);
+        switch(ch) {
+            case KEY_UP:
+                i--;
+                i = (i<0) ? N_tetrimini-1 : i;
+                t = getTetrimino(ALL_T_TYPES[i-1]);
+            break;
+            case KEY_DOWN:
+                i++;
+                i = (i>N_tetrimini-1) ? 0 : i;
+                t = getTetrimino(ALL_T_TYPES[i]);
+            break;
+        }
+        
+        /*Sottolinea la scelta*/
+        wattron( w, A_STANDOUT );
+        printMenuStyle(i,w);
+        wattroff( w, A_STANDOUT );
+    
+    }while(ch != 10/* significa enter (non so nemmeno io perché ma funzia) */);
 
-    return 0;
+    return i;
 }
