@@ -75,8 +75,8 @@ void initColors(){
     init_pair(PAIR_BLUE,COLOR_BLUE,COLOR_BLACK);
    
    /* ARANCIONE su sfondo NERO */
-    init_color(8,255,240,0);
-    init_pair(PAIR_ORANGE,8,COLOR_BLACK);
+    init_color(8,1000,647, 0);
+    init_pair(PAIR_ORANGE,COLOR_ORANGE ,COLOR_BLACK);
    
    /* GIALLO su sfondo NERO */
     init_pair(PAIR_YELLOW,COLOR_YELLOW,COLOR_BLACK);
@@ -87,7 +87,7 @@ void initColors(){
    
    /*VIOLA su sfondo NERO*/
     init_color(9,218,112,214);
-    init_pair(PAIR_PURPLE,9,COLOR_BLACK);
+    init_pair(PAIR_MAGENTA,COLOR_MAGENTA,COLOR_BLACK);
    
    /*ROSSO su sfondo NERO*/
     init_pair(PAIR_RED,COLOR_RED,COLOR_BLACK);

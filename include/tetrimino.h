@@ -8,7 +8,7 @@ typedef enum TetriminoType TetriminoType;
 
 typedef struct Tetrimino tetrimino_t;
 
-tetrimino_t *getTetrimino(TetriminoType type);
+tetrimino_t *getTetrimino(int type);
 
 typedef struct TetriminoSet tetriminoset_t;
 
@@ -21,5 +21,11 @@ WINDOW *getPoolWin(tetriminipool_t *t);
 int selectTetrimino(WINDOW *W);
 
 void printTetrimino(WINDOW *w,tetrimino_t *t,int y,int x);
+
+int get_tet_rows(tetrimino_t *t);
+
+int get_tet_cols(tetrimino_t *t);
+
+int *get_tet_values(tetrimino_t *t);
 
 #endif

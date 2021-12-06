@@ -1,6 +1,8 @@
 #include <ncurses.h>
 #include <malloc.h>
 
+#define PLAYER_NICK_LEN 20
+
 typedef struct player
 {
     int cursor_pos;
@@ -58,3 +60,12 @@ pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *p
 
     return pointBoard;
 }
+
+#pragma region GETTERS
+
+int get_player_cursor_pos(player_t *p)
+{
+    return p->cursor_pos;
+}
+
+#pragma endregion
