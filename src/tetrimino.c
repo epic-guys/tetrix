@@ -58,6 +58,7 @@ const TetriminoType ALL_T_TYPES[N_tetrimini] = { T_I, T_J, T_L, T_O, T_S, T_T, T
  * 
  * Inoltre il valore assegnato ad ogni campo 
  * della matrice si riferisce al colore.
+ * ATTENZIONE: ricordarsi ogni volta di deallocare il tetramino
  */
 typedef struct Tetrimino
 {
@@ -73,97 +74,97 @@ typedef struct Tetrimino
  * @param[in] type la sua codifica enum.
  * @return Il tetramino.
  */
-tetrimino_t getTetrimino(TetriminoType type)
+tetrimino_t *getTetrimino(TetriminoType type)
 {
-    tetrimino_t t;
+    tetrimino_t *t = malloc(sizeof(tetrimino_t));
     int *values;
     switch (type)
     {
         case T_I:
-            t.values = malloc(sizeof(int)*1*4);
-            t.values[0] = 1;
-            t.values[1] = 1;
-            t.values[2] = 1;
-            t.values[3] = 1;
+            t->values = malloc(sizeof(int)*1*4);
+            t->values[0] = 1;
+            t->values[1] = 1;
+            t->values[2] = 1;
+            t->values[3] = 1;
 
-            t.cols = 4;
-            t.rows = 1;
+            t->cols = 4;
+            t->rows = 1;
             break;
 
         case T_J:
-            t.values = malloc(sizeof(int)*2*3);
-            t.values[0] = 2;
-            t.values[1] = 0;
-            t.values[2] = 0;
-            t.values[3] = 2;
-            t.values[4] = 2;
-            t.values[5] = 2;
+            t->values = malloc(sizeof(int)*2*3);
+            t->values[0] = 2;
+            t->values[1] = 0;
+            t->values[2] = 0;
+            t->values[3] = 2;
+            t->values[4] = 2;
+            t->values[5] = 2;
 
-            t.cols = 3;
-            t.rows = 2;
+            t->cols = 3;
+            t->rows = 2;
             break;
 
         case T_L:
-            t.values = malloc(sizeof(int)*2*3);
-            t.values[0] = 0;
-            t.values[1] = 0;
-            t.values[2] = 3;
-            t.values[3] = 3;
-            t.values[4] = 3;
-            t.values[5] = 3;
+            t->values = malloc(sizeof(int)*2*3);
+            t->values[0] = 0;
+            t->values[1] = 0;
+            t->values[2] = 3;
+            t->values[3] = 3;
+            t->values[4] = 3;
+            t->values[5] = 3;
 
-            t.cols = 3;
-            t.rows = 2;
+            t->cols = 3;
+            t->rows = 2;
             break;
 
         case T_S:
-            t.values = malloc(sizeof(int)*2*3);
-            t.values[0] = 0;
-            t.values[1] = 5;
-            t.values[2] = 5;
-            t.values[3] = 5;
-            t.values[4] = 5;
-            t.values[5] = 0;
+            t->values = malloc(sizeof(int)*2*3);
+            t->values[0] = 0;
+            t->values[1] = 5;
+            t->values[2] = 5;
+            t->values[3] = 5;
+            t->values[4] = 5;
+            t->values[5] = 0;
 
-            t.cols = 3;
-            t.rows = 2;
+            t->cols = 3;
+            t->rows = 2;
             break;
 
         case T_Z:
-            t.values = malloc(sizeof(int)*2*3);
-            t.values[0] = 7;
-            t.values[1] = 7;
-            t.values[2] = 0;
-            t.values[3] = 0;
-            t.values[4] = 7;
-            t.values[5] = 7;
+            t->values = malloc(sizeof(int)*2*3);
+            t->values[0] = 7;
+            t->values[1] = 7;
+            t->values[2] = 0;
+            t->values[3] = 0;
+            t->values[4] = 7;
+            t->values[5] = 7;
 
-            t.cols = 3;
-            t.rows = 2;
+            t->cols = 3;
+            t->rows = 2;
             break;
 
         case T_O:
-            t.values = malloc(sizeof(int)*2*2);
-            t.values[0] = 4;
-            t.values[1] = 4;
-            t.values[2] = 4;
-            t.values[3] = 4;
+            t->values = malloc(sizeof(int)*2*2);
+            t->values[0] = 4;
+            t->values[1] = 4;
+            t->values[2] = 4;
+            t->values[3] = 4;
 
-            t.cols = 2;
-            t.rows = 2;
+            t->cols = 2;
+            t->rows = 2;
             break;
 
         case T_T: {
-            t.values = malloc(sizeof(int)*2*3);
-            t.values[0] = 0;
-            t.values[1] = 6;
-            t.values[2] = 0;
-            t.values[3] = 6;
-            t.values[4] = 6;
-            t.values[5] = 6;
+            t->values = malloc(sizeof(int)*2*3);
+            t->values[0] = 0;
+            t->values[1] = 6;
+            t->values[2] = 0;
+            t->values[3] = 6;
+            t->values[4] = 6;
+            t->values[5] = 6;
 
-            t.cols = 3;
-            t.rows = 2;
+            t->cols = 3;
+            t->rows = 2;
             break;
         }
         default:
@@ -172,6 +173,16 @@ tetrimino_t getTetrimino(TetriminoType type)
     return t;
 }
 
+/**
+ * @brief Libera la memoria allocata dal tetrimino.
+ * 
+ * @param[in, out] t Il tetrimino da deallocare.
+ */
+void free_tetrimino(tetrimino_t *t)
+{
+    free(t->values);
+    free(t);
+}
 
 /**
  * @brief funzione che printa i tetramini, ATTENZIONE: SI PARTE A PRINTARE DA X0 Y0 DEL TETRAMINO
@@ -180,13 +191,16 @@ tetrimino_t getTetrimino(TetriminoType type)
  * @param[in] y  la y relativa della finestra
  * @param[in] x  la x relativa della finestra
  */
-void printTetrimino(WINDOW *w,tetrimino_t t,int y,int x){
+void printTetrimino(WINDOW *w,tetrimino_t *t,int y,int x){
     int i,j,c=0;
-    for(i=0;i<t.rows;++i){
-        for(j=0;j<t.cols;++j){
-            if(t.values[c])
-                /*mvwprintw(w,y+i,x+j,"█"); problemi di encoding*/
-                mvwprintw(w,y+i,x+j,"X"); /*Fix Temporaneo*/
+    for(i=0;i<t->rows;++i){
+        for(j=0;j<t->cols;++j){
+            if(t->values[c])
+            {
+                wattron(w, COLOR_PAIR(t->values[c]));
+                mvwprintw(w,y+i,(x+j) * 2,"[]");
+                wattroff(w, COLOR_PAIR(t->values[c]));
+            }
             c++;
         }
     }
@@ -244,7 +258,9 @@ WINDOW *getPoolWin(tetriminipool_t *t){
  * @param[in] w la finestra nella quale stampare
  */
 void printMenuStyle(int i, WINDOW *w){
-        printTetrimino(w,getTetrimino(ALL_T_TYPES[i]),2+(i*3),3);
+        tetrimino_t *t = getTetrimino(ALL_T_TYPES[i]);
+        printTetrimino(w, t, 2+(i*3),3);
+        free_tetrimino(t);
         wprintw(w,"        rimanenti: 69"); /*TODO: Allineare a destra i pezzi rimanenti e prendere il valore "reale" */
 }
 
@@ -255,7 +271,7 @@ void printMenuStyle(int i, WINDOW *w){
 int selectTetrimino(WINDOW *w){
 
     int i, ch;
-    tetrimino_t t;
+    tetrimino_t *t;
 
     /* Stampa il menu iniziale*/
     for(i=0;i<N_tetrimini;++i) {
