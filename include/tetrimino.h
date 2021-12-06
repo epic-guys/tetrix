@@ -12,7 +12,7 @@ tetrimino_t getTetrimino(TetriminoType type);
 
 typedef struct TetriminoSet tetriminoset_t;
 
-typedef struct TetriminoPool tetriminipool_t;
+typedef struct TetriminiPool tetriminipool_t;
 
 tetriminipool_t *initializePool(int x, int y);
 
