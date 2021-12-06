@@ -6,13 +6,13 @@
 
 typedef enum TetriminoType TetriminoType;
 
-typedef struct tetrimino_t tetrimino_t;
+typedef struct Tetrimino tetrimino_t;
 
 tetrimino_t getTetrimino(TetriminoType type);
 
-typedef struct tetriminoset_t tetriminoset_t;
+typedef struct TetriminoSet tetriminoset_t;
 
-typedef struct tetriminipool_t tetriminipool_t;
+typedef struct TetriminoPool tetriminipool_t;
 
 tetriminipool_t *initializePool(int x, int y);
 
