@@ -8,9 +8,8 @@
 #include <functions.h>
 
 player_t *player;
-player_t *player2;
 gamefield_t *gameField;
-tetriminipool_t *pool;
+tetrimini_pool_t *pool;
 pointboard_t *points;
 
 /**
@@ -28,7 +27,44 @@ void newGameSingle(){
     gameField = initializeGameField(12, (COLS/2)-(POOL_COLS/2)+(POOL_COLS/4));
     pool = initializePool(10, 4);
     points = initializePointBoard(10, COLS - 30, player, NULL);
-    selectTetrimino(getPoolWin(pool));
+    continue_game();
+}
+
+void continue_game()
+{
+    int selected_i, can_play = 1;
+    tetrimino_t *selected_t;
     
-    while (1){}
+    while (can_play)
+    {
+        int dropping = 1, cursor;
+        selected_i = selectTetrimino(pool);
+        selected_t = getTetrimino(selected_i);
+        cursor = (FIELD_COLS - get_tet_cols(selected_t)) / 2;
+        refreshSelector(gameField, selected_t, cursor);
+        while (dropping)
+        {
+            int ch = getch();
+            switch (ch)
+            {
+                case KEY_RIGHT:
+                    if (get_tet_cols(selected_t) + cursor < 10)
+                        ++cursor;
+                    break;
+                case KEY_LEFT:
+                    if (cursor > 0)
+                        --cursor;
+                    break;
+                case '\n':
+                    dropping = 0;
+                    break;
+            }
+            refreshSelector(gameField, selected_t, cursor);
+        }
+    }
+}
+
+void end_game()
+{
+    /* TODO */
 }

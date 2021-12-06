@@ -6,7 +6,6 @@
 
 typedef struct Player
 {
-    int cursor_pos;
     int points;
     char *nickname;
 } player_t;
@@ -21,7 +20,6 @@ typedef struct Player
 player_t *initializePlayer(char* nick)
 {
     player_t *player = (player_t*) malloc(sizeof(player_t));
-    player->cursor_pos = 0;
     player->points = 0;
     player->nickname = nick;
     return player;

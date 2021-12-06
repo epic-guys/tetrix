@@ -25,8 +25,9 @@ gamefield_t *initializeGameField(int y, int x){
     w = newwin(FIELD_W_ROWS, FIELD_W_COLS, y, x);
     /* ncurses con il valore 0 mette il bordo di default */
     wborder(w, 0, 0, ' ', 0, ' ', ' ', 0, 0);
-    wrefresh(w);
     gameField->win = w;
+    clearTop(gameField);
+    wrefresh(w);
     return gameField;
 }
 
@@ -36,28 +37,27 @@ gamefield_t *initializeGameField(int y, int x){
  */
 void clearTop(gamefield_t *g){
     int i, j;
-    for (i = 0; i < 3; ++i)
+    for (i = 0; i < 4; ++i)
     {
         wmove(g->win, i, 0);
         wclrtoeol(g->win);
     }
 }
 
-/*
-WORK IN PROGRESS
-void refreshSelector(GameField *g, Tetrimino t)
+void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos)
 {
     int i, j;
     clearTop(g);
+    int *values = get_tet_values(t);
 
-    for (i = 0; i < t.rows; ++i)
+    for (i = 0; i < get_tet_rows(t); ++i)
     {
-        for (j = 0; j < t.cols; ++j)
+        for (j = 0; j < get_tet_cols(t); ++j)
         {
-            if (t.values[t.cols * i + j])
+            if (values[get_tet_cols(t) * i + j])
             {
-                wattron(g->win, COLOR_PAIR(g->field[i][j]));
-                mvwprintw(g->win, 4 - t.rows + i, (g->cursor_pos + j) * 2, "[]");
+                wattron(g->win, COLOR_PAIR(get_tet_values(t)[get_tet_rows(t) * i + j]));
+                mvwprintw(g->win, 4 - get_tet_rows(t) + i, (cur_pos + j) * 2 + 1, "[]");
                 wattroff(g->win, COLOR_PAIR(g->field[i][j]));
             }
         }
@@ -65,7 +65,7 @@ void refreshSelector(GameField *g, Tetrimino t)
 
     wrefresh(g->win);
 }
-*/
+
 
 /**
  * @brief Da chiamare per visualizzare
