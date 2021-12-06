@@ -215,11 +215,11 @@ typedef struct TetriminiPool
 /**
  * @brief funzione per inizializzare la pool dove sono presenti tutti i tetramini rimasti
  */
-tetriminipool_t *initializePool(int x, int y){
+tetriminipool_t *initializePool(int y, int x){
     tetriminipool_t *tetriminiPool = (tetriminipool_t*) malloc(sizeof(tetriminipool_t));
     WINDOW *w;
 
-    w = newwin(POOL_ROWS, POOL_COLS, x, y);
+    w = newwin(POOL_ROWS, POOL_COLS, y, x);
     box(w,0,0);
     wmove(w,getcurx(w)+1,getcury(w)+2);
     wprintw(w,"TETRAMINI DISPONIBILI: ");

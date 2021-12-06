@@ -18,8 +18,8 @@ void newGameSingle(){
     /*TODO: Accetta l'input del nickname*/
 
     player = initializePlayer("nick");
-    gameField = initializeGameField(12, 4);
-    pool = initializePool(10, (COLS/2)-(POOL_COLS/2));
+    gameField = initializeGameField(12, (COLS/2)-(POOL_COLS/2)+(POOL_COLS/4));
+    pool = initializePool(10, 4);
     points = initializePointBoard(10, COLS - 30, player, NULL);
     selectTetrimino(getPoolWin(pool));
     
