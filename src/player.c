@@ -5,7 +5,6 @@
 
 typedef struct player
 {
-    int cursor_pos;
     int points;
     char *nickname;
 } player_t;
@@ -20,7 +19,6 @@ typedef struct player
 player_t *initializePlayer(char* nick)
 {
     player_t *player = (player_t*) malloc(sizeof(player_t));
-    player->cursor_pos = 0;
     player->points = 0;
     player->nickname = nick;
     return player;
@@ -60,12 +58,3 @@ pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *p
 
     return pointBoard;
 }
-
-#pragma region GETTERS
-
-int get_player_cursor_pos(player_t *p)
-{
-    return p->cursor_pos;
-}
-
-#pragma endregion

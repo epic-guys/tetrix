@@ -37,7 +37,7 @@ gamefield_t *initializeGameField(int y, int x){
  */
 void clearTop(gamefield_t *g){
     int i, j;
-    for (i = 0; i < 3; ++i)
+    for (i = 0; i < 4; ++i)
     {
         wmove(g->win, i, 0);
         wclrtoeol(g->win);
@@ -56,8 +56,8 @@ void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos)
         {
             if (values[get_tet_cols(t) * i + j])
             {
-                wattron(g->win, COLOR_PAIR(g->field[i][j]));
-                mvwprintw(g->win, 4 - get_tet_rows(t) + i, (cur_pos + j) * 2, "[]");
+                wattron(g->win, COLOR_PAIR(get_tet_values(t)[get_tet_rows(t) * i + j]));
+                mvwprintw(g->win, 4 - get_tet_rows(t) + i, (cur_pos + j) * 2 + 1, "[]");
                 wattroff(g->win, COLOR_PAIR(g->field[i][j]));
             }
         }

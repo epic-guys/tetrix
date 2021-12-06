@@ -4,7 +4,7 @@
 #define POOL_ROWS 23
 #define POOL_COLS 50
 
-typedef enum TetriminoType TetriminoType;
+typedef enum tetrimino_type tetrimino_code_t;
 
 typedef struct Tetrimino tetrimino_t;
 
@@ -12,13 +12,13 @@ tetrimino_t *getTetrimino(int type);
 
 typedef struct TetriminoSet tetriminoset_t;
 
-typedef struct TetriminiPool tetriminipool_t;
+typedef struct TetriminiPool tetrimini_pool_t;
 
-tetriminipool_t *initializePool(int x, int y);
+tetrimini_pool_t *initializePool(int x, int y);
 
-WINDOW *getPoolWin(tetriminipool_t *t);
+WINDOW *getPoolWin(tetrimini_pool_t *t);
 
-int selectTetrimino(WINDOW *W);
+int selectTetrimino(tetrimini_pool_t *pool);
 
 void printTetrimino(WINDOW *w,tetrimino_t *t,int y,int x);
 

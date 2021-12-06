@@ -3,6 +3,7 @@
 #include <tetrimino.h>
 
 #define N_tetrimini 7
+#define TETRIMINOS_PER_TYPE 20
 
 /**
  * @brief Codifica di ogni tetramino.
@@ -30,7 +31,7 @@
  * ██████
  *   ██
  */
-typedef enum TetriminoType
+typedef enum tetrimino_type
 {
     T_I = 0,
     T_J = 1,
@@ -39,13 +40,13 @@ typedef enum TetriminoType
     T_O = 4,
     T_Z = 5,
     T_T = 6
-} TetriminoType;
+} tetrimino_type_t;
 
 /**
  * @brief In caso serva fare un loop di tutti i tipi
  * @deprecated Basta fare un loop da 0 a 6, gli enum si comportano come interi
  */
-const TetriminoType ALL_T_TYPES[N_tetrimini] = { T_I, T_J, T_L, T_O, T_S, T_T, T_Z };
+const tetrimino_type_t ALL_T_TYPES[N_tetrimini] = { T_I, T_J, T_L, T_O, T_S, T_T, T_Z };
 
 /**
  * @brief Non è un typo, in inglese
@@ -68,7 +69,7 @@ typedef struct Tetrimino
     int* values;
     int cols;
     int rows;
-    TetriminoType type;
+    tetrimino_type_t type;
 } tetrimino_t;
 
 /**
@@ -211,50 +212,47 @@ void printTetrimino(WINDOW *w,tetrimino_t *t,int y,int x){
 
 
 /**
- * @brief Struttura che associa ad ogni tetramino
- * la sua quantità rimanente
- */
-typedef struct TetriminoSet
-{
-    TetriminoType tetrimino;
-    size_t remaining;
-} tetriminoset_t;
-
-/**
  * @brief La struct della finestra con tutti i pezzi dei tetramini rimanenti
  */
 typedef struct TetriminiPool
 {
-    WINDOW *pool;
-} tetriminipool_t;
+    WINDOW *win;
+    int *rem_tetriminos;    
+} tetrimini_pool_t;
 
 
 /**
  * @brief funzione per inizializzare la pool dove sono presenti tutti i tetramini rimasti
  */
-tetriminipool_t *initializePool(int y, int x){
-    tetriminipool_t *tetriminiPool = (tetriminipool_t*) malloc(sizeof(tetriminipool_t));
+tetrimini_pool_t *initializePool(int y, int x){
+    int i;
     WINDOW *w;
+    tetrimini_pool_t *tetriminiPool = (tetrimini_pool_t*) malloc(sizeof(tetrimini_pool_t));
+    tetriminiPool->rem_tetriminos = malloc(sizeof(int) * N_tetrimini);
+    for(i = 0; i < N_tetrimini; ++i)
+    {
+        tetriminiPool->rem_tetriminos[i] = TETRIMINOS_PER_TYPE;
+    }
 
     w = newwin(POOL_ROWS, POOL_COLS, y, x);
     box(w,0,0);
     wmove(w,getcurx(w)+1,getcury(w)+2);
     wprintw(w,"TETRAMINI DISPONIBILI: ");
     wrefresh(w);
-    tetriminiPool->pool = w;
+    tetriminiPool->win = w;
     return tetriminiPool;
 }
 
 /**
  * @brief Funzione STUB che stampa i tetramini in modalitá "menu"
  * @param[in] i l'indice del menu
- * @param[in] w la finestra nella quale stampare
+ * @param[in] pool la pool nella quale stampare
  */
-void printMenuStyle(int i, WINDOW *w){
+void printMenuStyle(int i, tetrimini_pool_t *pool){
         tetrimino_t *t = getTetrimino(i);
-        printTetrimino(w, t, 2+(i*3),3);
+        printTetrimino(pool->win, t, 2+(i*3),3);
         free_tetrimino(t);
-        wprintw(w,"        rimanenti: 69"); /*TODO: Allineare a destra i pezzi rimanenti e prendere il valore "reale" */
+        mvwprintw(pool->win, getcury(pool->win), POOL_COLS / 2 ,"Rimanenti:%10d", pool->rem_tetriminos[i]);
 }
 
 /**
@@ -262,50 +260,47 @@ void printMenuStyle(int i, WINDOW *w){
  * @param [in] w Finestra della pool da cui selezionare il pezzo
  * @return il numero della codifica del tetramino
  */
-int selectTetrimino(WINDOW *w){
+int selectTetrimino(tetrimini_pool_t *pool){
 
     int i, ch;
-    tetrimino_t *t;
 
     /* Stampa il menu iniziale*/
     for(i=0;i<N_tetrimini;++i) {
-        t = getTetrimino(i);
         if(i == 0)
             /*"sottolinea" il primo elemento*/
-            wattron( w, A_STANDOUT );
+            wattron( pool->win, A_STANDOUT );
         else
-            wattroff( w, A_STANDOUT );
-        printMenuStyle(i,w);
+            wattroff( pool->win, A_STANDOUT );
+        printMenuStyle(i,pool);
     }
 
     /*carica lo schermo*/
-    wrefresh(w);
+    wrefresh(pool->win);
     i = 0;
     /*sposta il focus della tastiera sulla finestra*/
-    keypad(w,TRUE);
+    keypad(pool->win,TRUE);
     /* Nasconde il cursore di sistema*/
     curs_set(0);
     
     do{
-        ch = wgetch(w); 
-        printMenuStyle(i,w);
+        ch = wgetch(pool->win); 
+        printMenuStyle(i,pool);
         switch(ch) {
             case KEY_UP:
                 i--;
                 i = (i<0) ? N_tetrimini-1 : i;
-                t = getTetrimino(i-1);
             break;
             case KEY_DOWN:
                 i++;
                 i = (i>N_tetrimini-1) ? 0 : i;
-                t = getTetrimino(i);
             break;
         }
         
         /*Sottolinea la scelta*/
-        wattron( w, A_STANDOUT );
-        printMenuStyle(i,w);
-        wattroff( w, A_STANDOUT );
+        wattron( pool->win, A_STANDOUT );
+        printMenuStyle(i,pool);
+        wattroff( pool->win, A_STANDOUT );
+        wrefresh( pool->win );
     
     }while(ch != '\n');
 
@@ -318,8 +313,9 @@ int selectTetrimino(WINDOW *w){
  * @brief restituisce la finestra della pool di tetramini
  * @param[in] t la pool di tetramini
  */
-WINDOW *getPoolWin(tetriminipool_t *t){
-    return t->pool;
+
+WINDOW *getPoolWin(tetrimini_pool_t *t){
+    return t->win;
 }
 
 int get_tet_rows(tetrimino_t *t)
