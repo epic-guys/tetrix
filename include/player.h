@@ -1,10 +1,10 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-typedef struct Player Player;
-typedef struct PointBoard PointBoard;
+typedef struct player_t player_t;
+typedef struct pointboard_t pointboard_t;
 
-Player *initializePlayer(char *nick);
-PointBoard *initializePointBoard(int y, int x, Player *player_1, Player *player_2);
+player_t *initializePlayer(char *nick);
+pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *player_2);
 
 #endif

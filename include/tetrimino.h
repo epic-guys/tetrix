@@ -6,20 +6,20 @@
 
 typedef enum TetriminoType TetriminoType;
 
-typedef struct Tetrimino Tetrimino;
+typedef struct tetrimino_t tetrimino_t;
 
-Tetrimino getTetrimino(TetriminoType type);
+tetrimino_t getTetrimino(TetriminoType type);
 
-typedef struct TetriminoSet TetriminoSet;
+typedef struct tetriminoset_t tetriminoset_t;
 
-typedef struct TetriminiPool TetriminiPool;
+typedef struct tetriminipool_t tetriminipool_t;
 
-TetriminiPool *initializePool(int x, int y);
+tetriminipool_t *initializePool(int x, int y);
 
-WINDOW *getPoolWin(TetriminiPool *t);
+WINDOW *getPoolWin(tetriminipool_t *t);
 
 int selectTetrimino(WINDOW *W);
 
-void printTetrimino(WINDOW *w,Tetrimino t,int y,int x);
+void printTetrimino(WINDOW *w,tetrimino_t t,int y,int x);
 
 #endif

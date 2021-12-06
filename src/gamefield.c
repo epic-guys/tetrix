@@ -7,16 +7,16 @@ typedef struct GameField
 {
     int field[FIELD_ROWS][FIELD_COLS];
     WINDOW *win;
-} GameField;
+} gamefield_t;
 
 /**
  * @brief crea il campo da gioco
  * @param[in] y_pos La posizione Y iniziale in cui posizionare la finestra.
  * @param[in] x_pos La posizione X iniziale in cui posizionare la finestra.
  */
-GameField *initializeGameField(int y, int x){
+gamefield_t *initializeGameField(int y, int x){
 
-    GameField *gameField = (GameField*) malloc(sizeof(GameField));
+    gamefield_t *gameField = (gamefield_t*) malloc(sizeof(gamefield_t));
     WINDOW *w;
     size_t i, j;
     for (i = 0; i < FIELD_ROWS; i++)
@@ -34,7 +34,7 @@ GameField *initializeGameField(int y, int x){
  * @brief Pulizia della parte superiore dello schermo
  * @param g Il campo di gioco
  */
-void clearTop(GameField *g){
+void clearTop(gamefield_t *g){
     int i, j;
     for (i = 0; i < 3; ++i)
     {
@@ -73,7 +73,7 @@ void refreshSelector(GameField *g, Tetrimino t)
  * 
  * @param[in, out] g Il campo da gioco di cui bisogna aggiornare lo schermo.
  */
-void refreshGamefield(GameField *g)
+void refreshGamefield(gamefield_t *g)
 {
     int i, j;
     for (i = 0; i < FIELD_ROWS; ++i)

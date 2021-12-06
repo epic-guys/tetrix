@@ -3,11 +3,11 @@
 #include <gamefield.h>
 #include <tetrimino.h>
 
-Player *player;
-Player *player2;
-GameField *gameField;
-TetriminiPool *pool;
-PointBoard *points;
+player_t *player;
+player_t *player2;
+gamefield_t *gameField;
+tetriminipool_t *pool;
+pointboard_t *points;
 
 
 /**

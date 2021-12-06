@@ -65,7 +65,7 @@ typedef struct Tetrimino
     int cols;
     int rows;
     TetriminoType type;
-} Tetrimino;
+} tetrimino_t;
 
 /**
  * @brief Genera il tetramino dato il suo enum. 
@@ -73,9 +73,9 @@ typedef struct Tetrimino
  * @param[in] type la sua codifica enum.
  * @return Il tetramino.
  */
-Tetrimino getTetrimino(TetriminoType type)
+tetrimino_t getTetrimino(TetriminoType type)
 {
-    Tetrimino t;
+    tetrimino_t t;
     int *values;
     switch (type)
     {
@@ -180,7 +180,7 @@ Tetrimino getTetrimino(TetriminoType type)
  * @param[in] y  la y relativa della finestra
  * @param[in] x  la x relativa della finestra
  */
-void printTetrimino(WINDOW *w,Tetrimino t,int y,int x){
+void printTetrimino(WINDOW *w,tetrimino_t t,int y,int x){
     int i,j,c=0;
     for(i=0;i<t.rows;++i){
         for(j=0;j<t.cols;++j){
@@ -201,7 +201,7 @@ typedef struct TetriminoSet
 {
     TetriminoType tetrimino;
     size_t remaining;
-} TetriminoSet;
+} tetriminoset_t;
 
 /**
  * @brief La struct della finestra con tutti i pezzi dei tetramini rimanenti
@@ -209,14 +209,14 @@ typedef struct TetriminoSet
 typedef struct TetriminiPool
 {
     WINDOW *pool;
-} TetriminiPool;
+} tetriminipool_t;
 
 
 /**
  * @brief funzione per inizializzare la pool dove sono presenti tutti i tetramini rimasti
  */
-TetriminiPool *initializePool(int x, int y){
-    TetriminiPool *tetriminiPool = (TetriminiPool*) malloc(sizeof(TetriminiPool));
+tetriminipool_t *initializePool(int x, int y){
+    tetriminipool_t *tetriminiPool = (tetriminipool_t*) malloc(sizeof(tetriminipool_t));
     WINDOW *w;
 
     w = newwin(POOL_ROWS, POOL_COLS, x, y);
@@ -233,7 +233,7 @@ TetriminiPool *initializePool(int x, int y){
  * @brief restituisce la finestra della pool di tetramini
  * @param[in] t la pool di tetramini
  */
-WINDOW *getPoolWin(TetriminiPool *t){
+WINDOW *getPoolWin(tetriminipool_t *t){
     return t->pool;
 }
 
@@ -255,7 +255,7 @@ void printMenuStyle(int i, WINDOW *w){
 int selectTetrimino(WINDOW *w){
 
     int i, ch;
-    Tetrimino t;
+    tetrimino_t t;
 
     /* Stampa il menu iniziale*/
     for(i=0;i<N_tetrimini;++i) {

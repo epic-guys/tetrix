@@ -1,12 +1,12 @@
 #include <ncurses.h>
 #include <malloc.h>
 
-typedef struct Player
+typedef struct player
 {
     int cursor_pos;
     int points;
     char *nickname;
-} Player;
+} player_t;
 
 /**
  * @brief Istanzia uno struct
@@ -15,9 +15,9 @@ typedef struct Player
  * @param[in] nick Il nome del giocatore.
  * @return Lo struct giocatore istanziato. 
  */
-Player *initializePlayer(char* nick)
+player_t *initializePlayer(char* nick)
 {
-    Player *player = (Player*) malloc(sizeof(Player));
+    player_t *player = (player_t*) malloc(sizeof(player_t));
     player->cursor_pos = 0;
     player->points = 0;
     player->nickname = nick;
@@ -27,12 +27,12 @@ Player *initializePlayer(char* nick)
 typedef struct PointBoard
 {
     WINDOW *win;
-    Player *player_1;
-    Player *player_2;
+    player_t *player_1;
+    player_t *player_2;
 
-}PointBoard;
+}pointboard_t;
 
-void refreshPointBoard(PointBoard *board)
+void refreshPointBoard(pointboard_t *board)
 {
     mvwprintw(board->win, 2, 2, "%-20s%3d", board->player_1->nickname, board->player_1->points);
     if (board->player_2)
@@ -43,9 +43,9 @@ void refreshPointBoard(PointBoard *board)
 }
 
 
-PointBoard *initializePointBoard(int y, int x, Player *player_1, Player *player_2)
+pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *player_2)
 {
-    PointBoard *pointBoard = (PointBoard *)malloc(sizeof(PointBoard));
+    pointboard_t *pointBoard = (pointboard_t *)malloc(sizeof(pointboard_t));
 
     WINDOW *w;
     w = newwin(player_2 ? 7 : 5, 27, y, x);
