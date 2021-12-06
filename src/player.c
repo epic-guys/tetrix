@@ -1,7 +1,10 @@
 #include <ncurses.h>
 #include <malloc.h>
+#include <string.h>
 
-typedef struct player
+#include <player.h>
+
+typedef struct Player
 {
     int cursor_pos;
     int points;
@@ -34,10 +37,12 @@ typedef struct PointBoard
 
 void refreshPointBoard(pointboard_t *board)
 {
-    mvwprintw(board->win, 2, 2, "%-20s%3d", board->player_1->nickname, board->player_1->points);
+    mvwprintw(board->win, 2, 2, "%s", board->player_1->nickname);
+    mvwprintw(board->win, 2, POINTBOARD_COLS-6, "%d", board->player_1->points);
     if (board->player_2)
     {
-        mvwprintw(board->win, 4, 2, "%-20s%3d", board->player_2->nickname, board->player_2->points);
+        mvwprintw(board->win, 4, 2, "%s", board->player_2->nickname);
+        mvwprintw(board->win, 2, POINTBOARD_COLS-5, "%d", board->player_2->points);
     }
     wrefresh(board->win);
 }
@@ -48,7 +53,7 @@ pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *p
     pointboard_t *pointBoard = (pointboard_t *)malloc(sizeof(pointboard_t));
 
     WINDOW *w;
-    w = newwin(player_2 ? 7 : 5, 27, y, x);
+    w = newwin(player_2 ? 7 : 5, POINTBOARD_COLS, y, x);
     box(w, 0, 0);
     
     pointBoard->win = w;

@@ -12,6 +12,8 @@ add_library(libtetrix
     src/player.c
     src/singleplayer.c
     src/tetrimino.c
+    src/functions.c
+
 )
 
 # Collega il modulo libetetrix a tetrix

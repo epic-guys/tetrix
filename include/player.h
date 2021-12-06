@@ -1,7 +1,9 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-typedef struct PLayer player_t;
+#define POINTBOARD_COLS 27
+
+typedef struct Player player_t;
 typedef struct PointBoard pointboard_t;
 
 player_t *initializePlayer(char *nick);
