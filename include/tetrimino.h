@@ -28,4 +28,7 @@ int get_tet_cols(tetrimino_t *t);
 
 int *get_tet_values(tetrimino_t *t);
 
+tetrimino_t* rotateTetrimino(tetrimino_t *t);
+
+int get_tet_type(tetrimino_t *t);
 #endif

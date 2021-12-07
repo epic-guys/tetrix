@@ -1,7 +1,8 @@
 #include <ncurses.h>
-#include <functions.h>
 #include <string.h>
 
+#include <functions.h>
+#include <tetrimino.h>
 
 /**
  * @brief Funzione generale per creare un form al centro dello schermo

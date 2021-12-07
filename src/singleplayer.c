@@ -30,8 +30,10 @@ void newGameSingle(){
     continue_game();
 }
 
-void continue_game()
-{
+/**
+ * @brief corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso
+ */
+void continue_game(){
     int selected_i, can_play = 1;
     tetrimino_t *selected_t;
     
@@ -48,13 +50,21 @@ void continue_game()
             switch (ch)
             {
                 case KEY_RIGHT:
-                    if (get_tet_cols(selected_t) + cursor < 10)
+                    if (get_tet_cols(selected_t) + cursor < FIELD_COLS)
                         ++cursor;
                     break;
                 case KEY_LEFT:
                     if (cursor > 0)
                         --cursor;
                     break;
+                case 'r':
+                    /*ruota matrice di 90 gradi*/
+
+                    mvprintw(2,3,"%d",get_tet_type(selected_t));
+                    selected_t = rotateTetrimino(selected_t);
+                    mvprintw(6,3,"%d",get_tet_type(selected_t));
+                    refreshSelector(gameField, selected_t, cursor);
+                break;
                 case '\n':
                     dropping = 0;
                     break;
@@ -64,7 +74,8 @@ void continue_game()
     }
 }
 
-void end_game()
+void end_game()/*thanos++*/
 {
     /* TODO */
+    /*free(nickname); PER RICORDARSI, ALTRIMENTI FACCIAMO UN MEMORY LEAK*/
 }
