@@ -30,5 +30,7 @@ int *get_tet_values(tetrimino_t *t);
 
 tetrimino_t* rotateTetrimino(tetrimino_t *t);
 
+tetrimino_t* safeRotateTetrimino(tetrimino_t *t, int cur_pos);
+
 int get_tet_type(tetrimino_t *t);
 #endif

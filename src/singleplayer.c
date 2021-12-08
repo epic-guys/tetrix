@@ -60,10 +60,9 @@ void continue_game(){
                 case 'r':
                     /*ruota matrice di 90 gradi*/
 
-                    mvprintw(2,3,"%d",get_tet_type(selected_t));
-                    selected_t = rotateTetrimino(selected_t);
-                    mvprintw(6,3,"%d",get_tet_type(selected_t));
-                    refreshSelector(gameField, selected_t, cursor);
+                    /*mvprintw(2,3,"%d",get_tet_type(selected_t)); LA LASCIO PER COMODITÁ*/
+                    selected_t = safeRotateTetrimino(selected_t, cursor);
+                    /*mvprintw(6,3,"%d",get_tet_type(selected_t)); LA LASCIO PER COMODITÁ*/
                 break;
                 case '\n':
                     dropping = 0;

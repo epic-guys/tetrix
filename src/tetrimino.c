@@ -1,7 +1,8 @@
 #include <ncurses.h>
 #include <malloc.h>
-#include <tetrimino.h>
 
+#include <tetrimino.h>
+#include <gamefield.h>
 #define N_tetrimini 7
 #define TETRIMINOS_PER_TYPE 20
 
@@ -277,10 +278,13 @@ tetrimino_t *getTetrimino(int type)
             break;
         case T_O_90:
             t = getTetrimino(T_O);
+            break;
         case T_O_180:
             t = getTetrimino(T_O);
+            break;
         case T_O_270:
             t = getTetrimino(T_O);
+            break;
 
         case T_Z:
             t->values = malloc(sizeof(int)*2*3);
@@ -308,8 +312,10 @@ tetrimino_t *getTetrimino(int type)
             break;
         case T_Z_180:
             t = getTetrimino(T_Z);
+            break;
         case T_Z_270:
             t = getTetrimino(T_Z_90);
+            break;
 
         case T_T:
             t->values = malloc(sizeof(int)*2*3);
@@ -494,12 +500,29 @@ int selectTetrimino(tetrimini_pool_t *pool){
 
     return i;
 }
-
+/**
+ * @brief Restituisce la versione ruotata di 90 gradi di un tetramino
+ * @deprecated Nella mappa si consiglia l'utilizzo della stub safeRotateTetrimino
+ * @param[in] t Tetramino da ruotare
+ * @return Tetramino ruotato 
+ */
 tetrimino_t* rotateTetrimino(tetrimino_t *t){
-    if(get_tet_type(t)<((N_tetrimini*4)-1)){
-        return t = getTetrimino(get_tet_type(t)+N_tetrimini);   
+    if(get_tet_type(t)+N_tetrimini<N_tetrimini*4){
+        return getTetrimino(get_tet_type(t)+N_tetrimini);
     }
-    return t = getTetrimino(get_tet_type(t)%4);
+    return getTetrimino(get_tet_type(t)-(N_tetrimini*3));
+}
+/**
+ * @brief Stub di rotateTetrimino che verifica la fattibilitá della rotazione altrimenti non ruota
+ * ATTENZIONE: Necessita FIELD_COLS (la define globale del campo da gioco)
+ * @param[in] t Tetramino da ruotare
+ * @param[in] cur_pos posizione del cursore
+ */
+tetrimino_t* safeRotateTetrimino(tetrimino_t *t, int cur_pos){
+    if(cur_pos + rotateTetrimino(t)->cols <= FIELD_COLS){
+        return rotateTetrimino(t);
+    }
+    return t;
 }
 
 #pragma region GETTERS
