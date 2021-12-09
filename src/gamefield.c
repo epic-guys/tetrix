@@ -100,3 +100,52 @@ void refreshGamefield(gamefield_t *g)
     }
     wrefresh(g->win);
 }
+/**
+ * @brief aggiunge un tetramino al campo da gioco
+ * SPOILER: NON FUNZIONA, LOOOOOOOL
+ * @param[in] g campo di gioco
+ * @param[in] t tetramino da piazzare
+ * @param[in] cur_pos posizione del cursore
+ */
+void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
+    int i,j,k,l,cols,rows,val;
+    int *values;
+    cols=get_tet_cols(t);
+    rows=get_tet_rows(t);
+    values=get_tet_values(t);
+
+    /*Scannerizzo il campo da gioco per i righe e j colonne*/
+    for(i=0;i<FIELD_ROWS;++i){
+        for(j=cur_pos;j<(cur_pos + cols);++j){
+
+            /*Trovo un elemento nella riga diverso da 0 (un blocco quindi) OR sono arrivato sul fondo del campo*/
+            if(g->field[i][j]!=0 || (i=i+1) == FIELD_ROWS){
+
+                /*torno alla riga prima che nel range in cui devo stampare so che é libera*/
+                i--;
+
+                /*partendo dalla riga in basso, colonna piú a sinistra metto il tetramino nella matrice*/
+                for(k=rows-1;k>=0;--k){
+                    for(l=0;l<cols;++l){
+
+                        val = values[(get_tet_cols(t)*k)+l];
+
+                        g->field[i+k][j+l] = val;
+                    }
+                }
+            /*
+                for(i=0;i<FIELD_ROWS;++i){
+                    for(j=0;j<FIELD_COLS;++j){
+                        if(values[(get_tet_cols(t)*i+j)])
+                            mvprintw(i,j,"%d",values[(get_tet_cols(t)*i+j)]);
+                    }
+                }
+                refresh();
+
+                interrompo (ormai ho caricato la matrice)*/
+                return;
+            }
+        }
+    }
+
+}

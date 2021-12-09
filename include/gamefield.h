@@ -14,5 +14,6 @@ gamefield_t *initializeGameField(int y, int x);
 void clearTop(gamefield_t *g);
 void refreshGamefield(gamefield_t *g);
 void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos);
+void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos);
 
 #endif

@@ -21,7 +21,6 @@ void newGameSingle(){
     char *nickname = (char*) calloc(sizeof(char),16);
     form(&nickname, 16, " Nome: ");
     refresh();
-    //while (1){}
 
     player = initializePlayer(&nickname);
     gameField = initializeGameField(12, (COLS/2)-(POOL_COLS/2)+(POOL_COLS/4));
@@ -69,6 +68,9 @@ void continue_game(){
                 case '\n':
                     dropping = 0;
                     clearTop(gameField);
+                    addTetriminoToGameField(gameField,selected_t,cursor);
+                    refreshGamefield(gameField);
+                    mvprintw(6,9, "sono qua");
                     refresh();
                     break;
             }
