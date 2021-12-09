@@ -33,7 +33,7 @@ gamefield_t *initializeGameField(int y, int x){
 
 /**
  * @brief Pulizia della parte superiore dello schermo
- * @param g Il campo di gioco
+ * @param[in] g Il campo di gioco
  */
 void clearTop(gamefield_t *g){
     int i, j;
@@ -42,11 +42,19 @@ void clearTop(gamefield_t *g){
         wmove(g->win, i, 0);
         wclrtoeol(g->win);
     }
+    wrefresh(g->win);
 }
 
+
+/**
+ * @brief stampa il tetramino selezionato nella parte superiore di un campo da gioco partendo dalla posizione del cursore
+ * @param[in] g il campo da gioco dove stampare
+ * @param[in] t tetramino da stampare
+ * @param[in] cur_pos posizione del cursore
+ */
 void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos)
 {
-    int i, j;
+    int i, j, val;
     clearTop(g);
     int *values = get_tet_values(t);
 
@@ -54,11 +62,12 @@ void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos)
     {
         for (j = 0; j < get_tet_cols(t); ++j)
         {
-            if (values[get_tet_cols(t) * i + j])
+            val = values[(get_tet_cols(t)*i)+j];
+            if (val)
             {
-                wattron(g->win, COLOR_PAIR(get_tet_values(t)[get_tet_rows(t) * i + j]));
+                wattron(g->win, COLOR_PAIR(val));
                 mvwprintw(g->win, 4 - get_tet_rows(t) + i, (cur_pos + j) * 2 + 1, "[]");
-                wattroff(g->win, COLOR_PAIR(g->field[i][j]));
+                /* wattroff(g->win, COLOR_PAIR(g->field[i][j])); ALVI PO MI SPIEGHI CHE STAVI PENSANDO DI FARE CON QUESTA RIGA LOL, BUGGAVA TUTTO*/
             }
         }
     }

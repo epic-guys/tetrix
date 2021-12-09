@@ -15,13 +15,16 @@ void form(char *memory, int m_size, char title[]){
     int i, ch, j, flag=0;
     WINDOW *w;
 
+    memory[m_size] = '\n';
+
+    m_size--;
     
     w = newwin(3, (strlen(title)>m_size ? strlen(title) : m_size) +6 ,(LINES/2)-1,(COLS/2)-(((strlen(title)>m_size ? strlen(title) : m_size)/2)+3));
     box(w,0,0);
     
     mvwprintw(w,0,1,"%s",title);
     
-    /*stampa gli underscore, mette il cursore e pulisce la memoria*/
+    /*stampa gli underscore, mette il cursore, pulisce la memoria, aggiunge il null terminator*/
     for(i=0;i<m_size;++i){
         if(i==0){
             wattron( w, A_STANDOUT );

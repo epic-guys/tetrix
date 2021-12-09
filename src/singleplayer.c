@@ -52,23 +52,27 @@ void continue_game(){
                 case KEY_RIGHT:
                     if (get_tet_cols(selected_t) + cursor < FIELD_COLS)
                         ++cursor;
+                    refreshSelector(gameField, selected_t, cursor);
                     break;
                 case KEY_LEFT:
                     if (cursor > 0)
                         --cursor;
+                    refreshSelector(gameField, selected_t, cursor);
                     break;
                 case 'r':
                     /*ruota matrice di 90 gradi*/
-
                     /*mvprintw(2,3,"%d",get_tet_type(selected_t)); LA LASCIO PER COMODITÁ*/
                     selected_t = safeRotateTetrimino(selected_t, cursor);
                     /*mvprintw(6,3,"%d",get_tet_type(selected_t)); LA LASCIO PER COMODITÁ*/
+                    refreshSelector(gameField, selected_t, cursor);
                 break;
                 case '\n':
                     dropping = 0;
+                    clearTop(gameField);
+                    refresh();
                     break;
             }
-            refreshSelector(gameField, selected_t, cursor);
+            
         }
     }
 }
