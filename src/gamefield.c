@@ -100,6 +100,7 @@ void refreshGamefield(gamefield_t *g)
     }
     wrefresh(g->win);
 }
+
 /**
  * @brief aggiunge un tetramino al campo da gioco
  * SPOILER: NON FUNZIONA, LOOOOOOOL
@@ -118,31 +119,25 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
     for(i=0;i<FIELD_ROWS;++i){
         for(j=cur_pos;j<(cur_pos + cols);++j){
 
-            /*Trovo un elemento nella riga diverso da 0 (un blocco quindi) OR sono arrivato sul fondo del campo*/
-            if(g->field[i][j]!=0 || (i=i+1) == FIELD_ROWS){
 
-                /*torno alla riga prima che nel range in cui devo stampare so che é libera*/
-                i--;
+            /*se sono all'ultima riga o se in quella posizione ci sta un pezzo risalgo*/
+            if((g->field[FIELD_ROWS-1][j]==0 && i==FIELD_ROWS-1)|| g->field[i][j]!=0){
+                if(g->field[i][j]!=0){
+                    i--;
+                }
 
-                /*partendo dalla riga in basso, colonna piú a sinistra metto il tetramino nella matrice*/
-                for(k=rows-1;k>=0;--k){
-                    for(l=0;l<cols;++l){
+                /*TODO: Verificare che il tetramino ci stia controllando tutta la riga, far si che possa fittare per davvero (se val é 0 si puó scendere)*/
 
-                        val = values[(get_tet_cols(t)*k)+l];
+                /*salgo di altezza tetramino*/
+                i = i - rows+1;
 
-                        g->field[i+k][j+l] = val;
+                /*stampo il tetramino*/
+                for(k=rows-1;k>=0;k--){
+                    for(l=0;l<cols;l++){
+                        g->field[i+k][j+l] = values[(get_tet_cols(t)*k+l)];
+                        //g->field[i][j] = 7;
                     }
                 }
-            /*
-                for(i=0;i<FIELD_ROWS;++i){
-                    for(j=0;j<FIELD_COLS;++j){
-                        if(values[(get_tet_cols(t)*i+j)])
-                            mvprintw(i,j,"%d",values[(get_tet_cols(t)*i+j)]);
-                    }
-                }
-                refresh();
-
-                interrompo (ormai ho caricato la matrice)*/
                 return;
             }
         }

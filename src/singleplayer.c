@@ -70,8 +70,6 @@ void continue_game(){
                     clearTop(gameField);
                     addTetriminoToGameField(gameField,selected_t,cursor);
                     refreshGamefield(gameField);
-                    mvprintw(6,9, "sono qua");
-                    refresh();
                     break;
             }
             
