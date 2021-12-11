@@ -109,7 +109,7 @@ void refreshGamefield(gamefield_t *g)
  * @param[in] cur_pos posizione del cursore
  */
 void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
-    int i,j,k,l,cols,rows,val;
+    int i,j,k,l,cols,rows,val,m,rowCheck=1;
     int *values;
     cols=get_tet_cols(t);
     rows=get_tet_rows(t);
@@ -122,7 +122,9 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
 
             /*se sono all'ultima riga o se in quella posizione ci sta un pezzo risalgo*/
             if((g->field[FIELD_ROWS-1][j]==0 && i==FIELD_ROWS-1)|| g->field[i][j]!=0){
-                if(g->field[i][j]!=0){
+                
+                /*se nel campo c'é un blocco e in quella posizione andrebbe un blocco del tetramino, sali di una riga*/
+                if(g->field[i][j]!=0 && values[cols*(cols-i)+(j-cur_pos)]!=0){
                     i--;
                 }
 
@@ -130,14 +132,19 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
 
                 /*salgo di altezza tetramino*/
                 i = i - rows+1;
+                j = cur_pos;
 
                 /*stampo il tetramino*/
                 for(k=rows-1;k>=0;k--){
                     for(l=0;l<cols;l++){
-                        g->field[i+k][j+l] = values[(get_tet_cols(t)*k+l)];
-                        //g->field[i][j] = 7;
+                        /*se il valore del blocco del tetramino non é zero (quindi é un pezzo effettivo) sostituiscilo
+                          L'AND É PROVVISORIO, ARRIVATI A QUESTO PUNTO NON DOVREBBERO POTERSI SOVRAPPORRE*/
+                        if(values[(cols*k+l)]!= 0 && g->field[i+k][j+l] == 0){
+                            g->field[i+k][j+l] = values[(cols*k+l)];
+                        }
                     }
                 }
+                /*ho finito di caricare il tetramino, posso tornare alla partita*/
                 return;
             }
         }
