@@ -555,4 +555,24 @@ int get_tet_type(tetrimino_t *t){
     return t->type;
 }
 
+tetrimino_t linear_rotate(tetrimino_t *t){
+    tetrimino_t *t_rotate = (tetrimino_t*)malloc(sizeof(tetrimino_t));
+    size_t i,j;
+
+    t_rotate->values = malloc(sizeof(int) * t->cols * t->rows);
+    t_rotate->cols = t->rows;
+    t_rotate->rows = t->cols;
+
+    for(i=0; i<t->rows; ++i)
+    {
+        for (j = 0; j < t->cols; ++j)
+        {
+             /* TODO algoritmo lineare per la rotazione di una matrice*/
+            int i_rot = -j;
+            int j_rot = i;
+            
+        }
+    }
+}
+
 #pragma endregion
