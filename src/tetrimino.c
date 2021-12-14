@@ -512,6 +512,36 @@ tetrimino_t* rotateTetrimino(tetrimino_t *t){
     }
     return getTetrimino(get_tet_type(t)-(N_tetrimini*3));
 }
+
+void linear_rotate(tetrimino_t *t){
+    /* tetrimino_t *t_rotate = (tetrimino_t*)malloc(sizeof(tetrimino_t)); */
+    int *v_rotate = (int*)malloc(sizeof(int) * t->rows * t->cols);
+    size_t i,j;
+
+    /*
+    t_rotate->values = malloc(sizeof(int) * t->cols * t->rows);
+    t_rotate->cols = t->rows;
+    t_rotate->rows = t->cols;
+    */
+
+    for(i=0; i<t->rows; ++i)
+    {
+        for (j = 0; j < t->cols; ++j)
+        {
+             /* TODO algoritmo lineare per la rotazione di una matrice*/
+            int i_rot = -j + t->cols - 1;
+            int j_rot = i;
+            v_rotate[i_rot * t->cols + j_rot] = t->values[i * t->rows + j];
+            /* t_rotate->values[i_rot * t_rotate->rows + j_rot] = t->values[i * t->rows + j]; */
+        }
+    }
+    free(t->values);
+    t->values = v_rotate;
+    i = t->rows;
+    t->rows = t->cols;
+    t->cols = i;
+}
+
 /**
  * @brief Stub di rotateTetrimino che verifica la fattibilitá della rotazione altrimenti non ruota
  * ATTENZIONE: Necessita FIELD_COLS (la define globale del campo da gioco)
@@ -519,10 +549,14 @@ tetrimino_t* rotateTetrimino(tetrimino_t *t){
  * @param[in] cur_pos posizione del cursore
  */
 tetrimino_t* safeRotateTetrimino(tetrimino_t *t, int cur_pos){
+    /* TEMPORANEA, NON FA NESSUN CONTROLLO, ERO PIGRO SCUSATE*/
+    linear_rotate(t);
+    /*
     if(cur_pos + rotateTetrimino(t)->cols <= FIELD_COLS){
         return rotateTetrimino(t);
     }
     return t;
+    */
 }
 
 #pragma region GETTERS
@@ -553,26 +587,6 @@ int *get_tet_values(tetrimino_t *t)
 
 int get_tet_type(tetrimino_t *t){
     return t->type;
-}
-
-tetrimino_t linear_rotate(tetrimino_t *t){
-    tetrimino_t *t_rotate = (tetrimino_t*)malloc(sizeof(tetrimino_t));
-    size_t i,j;
-
-    t_rotate->values = malloc(sizeof(int) * t->cols * t->rows);
-    t_rotate->cols = t->rows;
-    t_rotate->rows = t->cols;
-
-    for(i=0; i<t->rows; ++i)
-    {
-        for (j = 0; j < t->cols; ++j)
-        {
-             /* TODO algoritmo lineare per la rotazione di una matrice*/
-            int i_rot = -j;
-            int j_rot = i;
-            
-        }
-    }
 }
 
 #pragma endregion
