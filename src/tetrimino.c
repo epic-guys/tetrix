@@ -3,8 +3,8 @@
 
 #include <tetrimino.h>
 #include <gamefield.h>
-#define N_tetrimini 7
-#define TETRIMINOS_PER_TYPE 20
+#include <constants.h>
+
 
 /**
  * @brief Codifica di ogni tetramino.

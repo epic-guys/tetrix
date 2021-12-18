@@ -3,10 +3,10 @@
 #include <time.h>
 #include <sys/ioctl.h>
 #include <ncurses.h>
-#include <colors.h>
+#include <constants.h>
 #include <locale.h>
 
-#include "singleplayer.h"
+#include <singleplayer.h>
 
 const unsigned char ASCII_logo[] = {
     0x20, 0x20, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x20,

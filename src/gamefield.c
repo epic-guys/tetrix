@@ -2,6 +2,7 @@
 #include <ncurses.h>
 #include <tetrimino.h>
 #include <gamefield.h>
+#include <constants.h>
 
 typedef struct GameField
 {

@@ -2,6 +2,6 @@
 
 #define _GPFUNCTIONS_H_
 
-
+void form(char *memory, int m_size, char title[]);
 
 #endif

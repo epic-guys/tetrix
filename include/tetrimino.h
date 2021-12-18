@@ -1,9 +1,6 @@
 #ifndef _TETRIMINO_H_
 #define _TETRIMINO_H_
 
-#define POOL_ROWS 23
-#define POOL_COLS 50
-
 typedef enum tetrimino_type tetrimino_code_t;
 
 typedef struct Tetrimino tetrimino_t;

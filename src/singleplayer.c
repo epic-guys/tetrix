@@ -6,11 +6,14 @@
 #include <gamefield.h>
 #include <tetrimino.h>
 #include <functions.h>
+#include <constants.h>
 
 player_t *player;
 gamefield_t *gameField;
 tetrimini_pool_t *pool;
 pointboard_t *points;
+
+void continue_game();
 
 /**
  * @brief inizia una partita in single player
@@ -19,10 +22,10 @@ void newGameSingle(){
     int i;
 
     char *nickname = (char*) calloc(sizeof(char),16);
-    form(&nickname, 16, " Nome: ");
+    form(nickname, 16, " Nome: ");
     refresh();
 
-    player = initializePlayer(&nickname);
+    player = initializePlayer(nickname);
     gameField = initializeGameField(12, (COLS/2)-(POOL_COLS/2)+(POOL_COLS/4));
     pool = initializePool(10, 4);
     points = initializePointBoard(10, COLS - 30, player, NULL);
