@@ -549,14 +549,14 @@ void linear_rotate(tetrimino_t *t){
  * @param[in] cur_pos posizione del cursore
  */
 tetrimino_t* safeRotateTetrimino(tetrimino_t *t, int cur_pos){
-    /* TEMPORANEA, NON FA NESSUN CONTROLLO, ERO PIGRO SCUSATE*/
+    /* TEMPORANEA, NON FA NESSUN CONTROLLO, ERO PIGRO SCUSATE
     linear_rotate(t);
-    /*
+    */
+    /*sono tornato alla vecchia versione, sará pure stupida ma almeno worka, lol*/
     if(cur_pos + rotateTetrimino(t)->cols <= FIELD_COLS){
         return rotateTetrimino(t);
     }
     return t;
-    */
 }
 
 #pragma region GETTERS
@@ -565,28 +565,55 @@ tetrimino_t* safeRotateTetrimino(tetrimino_t *t, int cur_pos){
  * @brief restituisce la finestra della pool di tetramini
  * @param[in] t la pool di tetramini
  */
-
 WINDOW *getPoolWin(tetrimini_pool_t *t){
     return t->win;
 }
 
+/**
+ * @brief restituisce il numero di righe di un tetramino
+ * @param[in] t il tetramino
+ */
 int get_tet_rows(tetrimino_t *t)
 {
     return t->rows;
 }
 
+/**
+ * @brief restituisce il numero di colonne di un tetramino
+ * @param[in] t il tetramino
+ */
 int get_tet_cols(tetrimino_t *t)
 {
     return t->cols;
 }
 
+/**
+ * @brief restituisce l'array di valori di un tetramino
+ * @param[in] t il tetramino
+ */
 int *get_tet_values(tetrimino_t *t)
 {
     return t->values;
 }
 
+/**
+ * @brief restituisce il tipo di tetramino
+ * @param[in] t il tetramino
+ */
 int get_tet_type(tetrimino_t *t){
     return t->type;
+}
+/**
+ * @brief restituisce il colore del tetramino
+ * @param[in] t il tetramino
+ */
+int get_tet_color(tetrimino_t *t){
+    int i;
+    int *values = get_tet_values(t);
+    for(i=0;i<(get_tet_cols(t)*get_tet_rows(t))-1;++i){
+        if(values[i]!=0)
+            return values[i];
+    }
 }
 
 #pragma endregion

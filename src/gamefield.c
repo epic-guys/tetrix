@@ -68,7 +68,7 @@ void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos)
             {
                 wattron(g->win, COLOR_PAIR(val));
                 mvwprintw(g->win, 4 - get_tet_rows(t) + i, (cur_pos + j) * 2 + 1, "[]");
-                /* wattroff(g->win, COLOR_PAIR(g->field[i][j])); ALVI PO MI SPIEGHI CHE STAVI PENSANDO DI FARE CON QUESTA RIGA LOL, BUGGAVA TUTTO*/
+                /* wwattroff(g->win, COLOR_PAIR(g->field[i][j])); ALVI PO MI SPIEGHI CHE STAVI PENSANDO DI FARE CON QUESTA RIGA LOL, BUGGAVA TUTTOattroff(g->win, COLOR_PAIR(g->field[i][j])); ALVI PO MI SPIEGHI CHE STAVI PENSANDO DI FARE CON QUESTA RIGA LOL, BUGGAVA TUTTO*/
             }
         }
     }
@@ -110,16 +110,15 @@ void refreshGamefield(gamefield_t *g)
  * @param[in] cur_pos posizione del cursore
  */
 void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
-    int i,j,k,l,cols,rows,val,m,rowCheck=1;
+    int i,j,k,l,cols,rows,val,m;
     int *values;
     cols=get_tet_cols(t);
     rows=get_tet_rows(t);
     values=get_tet_values(t);
 
-    /*Scannerizzo il campo da gioco per i righe e j colonne*/
+    /*Scannerizzo il campo da gioco per {j} righe (tutte) e {j} colonne (dal cursore al cursore + colonne del tetramino) */
     for(i=0;i<FIELD_ROWS;++i){
         for(j=cur_pos;j<(cur_pos + cols);++j){
-
 
             /*se sono all'ultima riga o se in quella posizione ci sta un pezzo risalgo*/
             if((g->field[FIELD_ROWS-1][j]==0 && i==FIELD_ROWS-1)|| g->field[i][j]!=0){
@@ -129,7 +128,22 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
                     i--;
                 }
 
-                /*TODO: Verificare che il tetramino ci stia controllando tutta la riga, far si che possa fittare per davvero (se val é 0 si puó scendere)*/
+                //TODO: Verificare che il tetramino ci stia controllando tutta la riga, far si che possa fittare per davvero (se val é 0 si puó scendere)*/
+                for(l=cur_pos;l<cur_pos+cols;++l){
+                    if(g->field[i][j]!=0){
+                        i--;
+                    }
+                }
+                if(i+1<FIELD_ROWS){
+                    for(l=cur_pos;l<cur_pos+cols-1;++l){
+                    if((values[((cols*(rows-1))+l)]!=0 && g->field[i+1][j]==0) || (values[((cols*(rows-1))+l)]==0 && g->field[i+1][j]!=0) ){
+                        i++;
+                    }
+                }
+
+                
+
+                }
 
                 /*salgo di altezza tetramino*/
                 i = i - rows+1;

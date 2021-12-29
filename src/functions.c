@@ -3,6 +3,7 @@
 
 #include <functions.h>
 #include <tetrimino.h>
+#include <time.h>
 
 /**
  * @brief Funzione generale per creare un form al centro dello schermo
@@ -81,4 +82,14 @@ void form(char *memory, int m_size, char title[]){
     endwin();
     
     return;
+}
+
+/**
+ * @brief una funzione delay [ATTENZIONE, É BLOCCANTE]
+ * @param[in] millisec tempo in millisecondi
+ */
+void delay(int millisec){
+    clock_t start_time = clock();
+    while (clock() < start_time + millisec)
+        ;
 }
