@@ -116,6 +116,9 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
     rows=get_tet_rows(t);
     values=get_tet_values(t);
 
+    /*accedere a matrice[i][j] significa accedere alla locazione di memoria in posizione COLS ∗ 𝑖 + 𝑗*/
+
+
     /*Scannerizzo il campo da gioco per {j} righe (tutte) e {j} colonne (dal cursore al cursore + colonne del tetramino) */
     for(i=0;i<FIELD_ROWS;++i){
         for(j=cur_pos;j<(cur_pos + cols);++j){
@@ -124,7 +127,7 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
             if((g->field[FIELD_ROWS-1][j]==0 && i==FIELD_ROWS-1)|| g->field[i][j]!=0){
                 
                 /*se nel campo c'é un blocco e in quella posizione andrebbe un blocco del tetramino, sali di una riga*/
-                if(g->field[i][j]!=0 && values[cols*(cols-i)+(j-cur_pos)]!=0){
+                if(g->field[i][j]!=0 && values[cols*(cols-i-1)+(j-cur_pos)]!=0){
                     i--;
                 }
 
@@ -136,13 +139,10 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
                 }
                 if(i+1<FIELD_ROWS){
                     for(l=cur_pos;l<cur_pos+cols-1;++l){
-                    if((values[((cols*(rows-1))+l)]!=0 && g->field[i+1][j]==0) || (values[((cols*(rows-1))+l)]==0 && g->field[i+1][j]!=0) ){
-                        i++;
+                        if((values[((cols*(rows))+l)]!=0 && g->field[i+1][j]==0) || (values[((cols*(rows))+l)]==0 && g->field[i+1][j]!=0) ){
+                            i++;
+                        }
                     }
-                }
-
-                
-
                 }
 
                 /*salgo di altezza tetramino*/
