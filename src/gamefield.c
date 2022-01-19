@@ -116,32 +116,24 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
     rows=get_tet_rows(t);
     values=get_tet_values(t);
 
-    /*accedere a matrice[i][j] significa accedere alla locazione di memoria in posizione COLS ∗ 𝑖 + 𝑗*/
+    /*accedere a matrice[i][j] significa accedere alla locazione di memoria in posizione COLS ∗ 𝑖 + 𝑗
+      int a[10][20]; => a[3][8] == a[3 * 20 + 8];    
+    */
 
 
-    /*Scannerizzo il campo da gioco per {j} righe (tutte) e {j} colonne (dal cursore al cursore + colonne del tetramino) */
+    /*Scannerizzo il campo da gioco per {i} righe (tutte) e {j} colonne (dal cursore al cursore + colonne del tetramino) */
     for(i=0;i<FIELD_ROWS;++i){
         for(j=cur_pos;j<(cur_pos + cols);++j){
 
             /*se sono all'ultima riga o se in quella posizione ci sta un pezzo risalgo*/
-            if((g->field[FIELD_ROWS-1][j]==0 && i==FIELD_ROWS-1)|| g->field[i][j]!=0){
+            if((g->field[FIELD_ROWS-1][j]==0 && i==FIELD_ROWS-1) || g->field[i][j]!=0){
                 
-                /*se nel campo c'é un blocco e in quella posizione andrebbe un blocco del tetramino, sali di una riga*/
-                if(g->field[i][j]!=0 && values[cols*(cols-i-1)+(j-cur_pos)]!=0){
-                    i--;
-                }
-
-                //TODO: Verificare che il tetramino ci stia controllando tutta la riga, far si che possa fittare per davvero (se val é 0 si puó scendere)*/
-                for(l=cur_pos;l<cur_pos+cols;++l){
-                    if(g->field[i][j]!=0){
+                /*scansiona il fondo del tetramino*/
+                for(l=0;l<cols;++l){
+                    /*se nel campo c'é un blocco e in quella posizione andrebbe un blocco del tetramino, sali di una riga*/
+                    if(g->field[i][j+l]!=0 && values[(rows-1)*cols+l]!=0){
                         i--;
-                    }
-                }
-                if(i+1<FIELD_ROWS){
-                    for(l=cur_pos;l<cur_pos+cols-1;++l){
-                        if((values[((cols*(rows))+l)]!=0 && g->field[i+1][j]==0) || (values[((cols*(rows))+l)]==0 && g->field[i+1][j]!=0) ){
-                            i++;
-                        }
+                        break;
                     }
                 }
 
