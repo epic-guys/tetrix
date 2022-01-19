@@ -120,6 +120,8 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
       int a[10][20]; => a[3][8] == a[3 * 20 + 8];    
     */
 
+   mvprintw(3,4,"                         ");
+   refresh();
 
     /*Scannerizzo il campo da gioco per {i} righe (tutte) e {j} colonne (dal cursore al cursore + colonne del tetramino) */
     for(i=0;i<FIELD_ROWS;++i){
@@ -131,11 +133,17 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
                 /*scansiona il fondo del tetramino*/
                 for(l=0;l<cols;++l){
                     /*se nel campo c'é un blocco e in quella posizione andrebbe un blocco del tetramino, sali di una riga*/
-                    if(g->field[i][j+l]!=0 && values[(rows-1)*cols+l]!=0){
+                    if(g->field[i][l]!=0 && values[(0)*cols+l]!=0){
+                        attron(COLOR_PAIR(val));
+                        mvprintw(3,4,"entrato l: %d, fc: %d, j: %d",l,g->field[i][j+l],j);
+                        attroff(COLOR_PAIR(val));
+                        refresh();
                         i--;
-                        break;
                     }
                 }
+
+                /*se altezza tetramino é 2 fa la stessa cosa anche per la riga nel mezzo*/
+                //if()
 
                 /*salgo di altezza tetramino*/
                 i = i - rows+1;
