@@ -8,10 +8,15 @@
 #include <functions.h>
 #include <constants.h>
 
+/*
+Potrebbero creare problemi in caso in un altro file si creano
+variabili con lo stesso nome
+
 player_t *player;
 gamefield_t *gameField;
 tetrimini_pool_t *pool;
 pointboard_t *points;
+*/
 
 void continue_game();
 
@@ -19,6 +24,10 @@ void continue_game();
  * @brief inizia una partita in single player
  */
 void newGameSingle(){
+    player_t *player;
+    gamefield_t *gameField;
+    tetrimini_pool_t *pool;
+    pointboard_t *points;
     int i;
 
     char *nickname = (char*) calloc(sizeof(char),16);
@@ -29,13 +38,19 @@ void newGameSingle(){
     gameField = initializeGameField(12, (COLS/2)-(POOL_COLS/2)+(POOL_COLS/4));
     pool = initializePool(10, 4);
     points = initializePointBoard(10, COLS - 30, player, NULL);
-    continue_game();
+    continue_game(player, gameField, pool, points);
 }
 
 /**
  * @brief corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso
+ * 
+ * @param player Il giocatore.
+ * @param gameField Il campo da gioco del giocatore.
+ * @param pool I tetramini rimanenti.
+ * @param points Il punteggio del giocatore.
  */
-void continue_game(){
+void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points)
+{
     int selected_i, can_play = 1;
     tetrimino_t *selected_t;
     
@@ -61,14 +76,14 @@ void continue_game(){
                         --cursor;
                     refreshSelector(gameField, selected_t, cursor);
                     break;
-                case 'r':
+                case KEY_UP:
                     /*ruota matrice di 90 gradi*/
                     /*mvprintw(2,3,"%d",get_tet_type(selected_t)); LA LASCIO PER COMODITÁ*/
-                    selected_t = safeRotateTetrimino(selected_t, cursor);
+                    safeRotateTetrimino(selected_t, cursor);
                     /*mvprintw(6,3,"%d",get_tet_type(selected_t)); LA LASCIO PER COMODITÁ*/
                     refreshSelector(gameField, selected_t, cursor);
                 break;
-                case '\n':
+                case KEY_DOWN:
                     dropping = 0;
                     clearTop(gameField);
                     addTetriminoToGameField(gameField,selected_t,cursor);

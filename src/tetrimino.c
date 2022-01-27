@@ -502,7 +502,7 @@ int selectTetrimino(tetrimini_pool_t *pool){
 }
 /**
  * @brief Restituisce la versione ruotata di 90 gradi di un tetramino
- * @deprecated Nella mappa si consiglia l'utilizzo della stub safeRotateTetrimino
+ * @deprecated Orrore
  * @param[in] t Tetramino da ruotare
  * @return Tetramino ruotato 
  */
@@ -513,26 +513,52 @@ tetrimino_t* rotateTetrimino(tetrimino_t *t){
     return getTetrimino(get_tet_type(t)-(N_tetrimini*3));
 }
 
-void linear_rotate(tetrimino_t *t){
-    /* tetrimino_t *t_rotate = (tetrimino_t*)malloc(sizeof(tetrimino_t)); */
-    int *v_rotate = (int*)malloc(sizeof(int) * t->rows * t->cols);
-    size_t i,j;
+/**
+ * @brief Semplice algoritmo per ruotare un tetramino, sviluppato attraverso l'algebra lineare.
+ * Le posizioni dei blocchi vengono trattate come dei vettori e l'algoritmo è una applicazione
+ * lineare.
+ * Lo spazio vettoriale è \f$ V= \mathbb{R}^2 \f$ con base
+ * \f[
+ * \mathcal{B} = \left\{
+ * \begin{pmatrix}
+ *   1 \\
+ *   0
+ * \end{pmatrix},
+ * \begin{pmatrix}
+ *   0 \\
+ *   -1
+ * \end{pmatrix}
+ * \right\}
+ *  \f]
+ *  e l'applicazione lineare \f$ T: V \rightarrow V \f$:
+ *  \f[
+ *  T(v)=
+ *  \begin{pmatrix}
+ *   -v_2 \\
+ *   v_1
+ *  \end{pmatrix}
+ * \f]
+ * con $v = (v_1, v_2)^T \in V$.
+ * 
+ * L'applicazione lineare ha come risultato dei vettori ruotati di 90° che corrispondono
+ * alle posizioni del tetramino ruotato. Dato che però in realtà si parla di indici di array
+ * bisogna sommare all'indice della colonna il numero totale di colonne - 1. Senza questa
+ * operazione il tetramino risulterebbe "fuori" dalle celle e avrebbe indici negativi.
+ * 
+ * @param t Il tetramino da ruotare.
+ */
+void linear_rotate(tetrimino_t *t)
+{
+    int *v_rotate = (int *)malloc(sizeof(int) * t->rows * t->cols);
+    size_t i, j;
 
-    /*
-    t_rotate->values = malloc(sizeof(int) * t->cols * t->rows);
-    t_rotate->cols = t->rows;
-    t_rotate->rows = t->cols;
-    */
-
-    for(i=0; i<t->rows; ++i)
+    for (i = 0; i < t->rows; ++i)
     {
         for (j = 0; j < t->cols; ++j)
         {
-             /* TODO algoritmo lineare per la rotazione di una matrice*/
-            int i_rot = -j + t->cols - 1;
-            int j_rot = i;
-            v_rotate[i_rot * t->cols + j_rot] = t->values[i * t->rows + j];
-            /* t_rotate->values[i_rot * t_rotate->rows + j_rot] = t->values[i * t->rows + j]; */
+            int i_rot = j;
+            int j_rot = -i + t->rows - 1;
+            v_rotate[i_rot * t->rows + j_rot] = t->values[i * t->cols + j];
         }
     }
     free(t->values);
@@ -548,15 +574,10 @@ void linear_rotate(tetrimino_t *t){
  * @param[in] t Tetramino da ruotare
  * @param[in] cur_pos posizione del cursore
  */
-tetrimino_t* safeRotateTetrimino(tetrimino_t *t, int cur_pos){
-    /* TEMPORANEA, NON FA NESSUN CONTROLLO, ERO PIGRO SCUSATE
-    linear_rotate(t);
-    */
-    /*sono tornato alla vecchia versione, sará pure stupida ma almeno worka, lol*/
-    if(cur_pos + rotateTetrimino(t)->cols <= FIELD_COLS){
-        return rotateTetrimino(t);
-    }
-    return t;
+void safeRotateTetrimino(tetrimino_t *t, int cur_pos){
+
+    if (cur_pos + t->rows <= FIELD_COLS)
+        linear_rotate(t);
 }
 
 #pragma region GETTERS

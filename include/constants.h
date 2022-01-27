@@ -46,7 +46,7 @@
 
 #define POINTBOARD_ROWS_1P 5
 #define POINTBOARD_ROWS_2P 7
-#define POINTBOARD_COLS 27
+#define POINTBOARD_COLS 28
 
 #pragma endregion
 

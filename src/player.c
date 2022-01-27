@@ -35,11 +35,11 @@ typedef struct PointBoard
 void refreshPointBoard(pointboard_t *board)
 {
     mvwprintw(board->win, 2, 2, "%s", board->player_1->nickname);
-    mvwprintw(board->win, 2, POINTBOARD_COLS-6, "%d", board->player_1->points);
+    mvwprintw(board->win, 2, POINTBOARD_COLS-6, "%05d", board->player_1->points);
     if (board->player_2)
     {
         mvwprintw(board->win, 4, 2, "%s", board->player_2->nickname);
-        mvwprintw(board->win, 2, POINTBOARD_COLS-5, "%d", board->player_2->points);
+        mvwprintw(board->win, 2, POINTBOARD_COLS-6, "%05d", board->player_2->points);
     }
     wrefresh(board->win);
 }
@@ -52,8 +52,7 @@ void refreshPointBoard(pointboard_t *board)
  * @param y L'asse y in cui posizionare la point board.
  * @param x L'asse x in cui posizionare la point board.
  * @param player_1 Il giocatore 1.
- * @param player_2 Il giocatore 2. In caso di giocatore singolo
- * può essere NULL.
+ * @param player_2 Il giocatore 2. In caso di giocatore singolo deve essere NULL.
  * @return pointboard_t* La point board inizializzata.
  */
 pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *player_2)
@@ -65,7 +64,12 @@ pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *p
     Se c'è un giocatore la point board è alta 5.
     Se ci sono due giocatori la point board è alta 7.
     */
-    w = newwin(player_2 ? 7 : 5, POINTBOARD_COLS, y, x);
+    w = newwin(
+        player_2 ? POINTBOARD_ROWS_2P : POINTBOARD_ROWS_1P,
+        POINTBOARD_COLS,
+        y,
+        x
+    );
     box(w, 0, 0);
     
     pointBoard->win = w;
