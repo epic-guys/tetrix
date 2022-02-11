@@ -169,10 +169,6 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
       int a[10][20]; => a[3][8] == a[3 * 20 + 8];    
     */
 
-   mvprintw(3,4,"                         ");
-   refresh();
-
-
     for (k = 0; k < rows; ++k)
     {
         for (l = 0; l < cols; ++l)
@@ -184,4 +180,12 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
         }
     }
 
+}
+
+int* getGamefield(gamefield_t *g){
+    return g->field;
+}
+
+WINDOW* getGamefieldWindow(gamefield_t *g){
+    return g->win;
 }

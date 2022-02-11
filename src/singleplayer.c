@@ -55,8 +55,9 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
     tetrimino_t *selected_t;
     
     while (can_play)
-    {
-        int dropping = 1, cursor;
+    {   
+        int* field = getGamefield(gameField);
+        int dropping = 1, cursor,i,j,deletedRows=0;
         selected_i = selectTetrimino(pool);
         selected_t = getTetrimino(selected_i);
         cursor = (FIELD_COLS - get_tet_cols(selected_t)) / 2;
@@ -90,8 +91,46 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
                     refreshGamefield(gameField);
                     break;
             }
-            
         }
+        /*Droppato un tetramino verifico se le righe sono state riempite*/
+        for(i=0;i<FIELD_ROWS;++i){
+            int empty=0;
+            for(j=0;j<FIELD_COLS;++j){
+                if(!field[i * FIELD_COLS + j]){
+                    empty=1;
+                    break;
+                }
+            }
+            if(!empty){
+                int k,l;
+                deletedRows++;
+                for(k=i;k>0;--k){
+                    for(l=0;l<FIELD_COLS;++l){
+                        field[k*FIELD_COLS+l] = field[(k-1)*FIELD_COLS+l];
+                        wrefresh(getGamefieldWindow(gameField));
+                    }
+                }
+            }
+        }
+        /*aggiungo i punti*/
+        switch (deletedRows)
+        {
+        case 1:
+            /* aggiungi 1 punto */
+            break;
+        case 2:
+            /* aggiungi 3 punto */
+            break;
+        case 3:
+            /* aggiungi 6 punto */
+            break;
+        case 4:
+            /* aggiungi 12 punto */
+            break;
+        default:
+            break;
+        }
+        deletedRows = 0;
     }
 }
 
