@@ -102,18 +102,67 @@ void refreshGamefield(gamefield_t *g)
     wrefresh(g->win);
 }
 
+int get_first_free_row(gamefield_t *g,tetrimino_t *t,int cur_pos)
+{
+    int i, j, k;
+    int *values = get_tet_values(t);
+    int cols = get_tet_cols(t);
+    int rows = get_tet_rows(t);
+
+    /*
+    Scannerizzo il campo da gioco per i righe.
+    Dato che si considera la riga superiore del tetramino,
+    per evitare che vada fuori dal campo si escludono le ultime
+    rows - 1 righe del campo.
+    */
+    for (i = 0; i < FIELD_ROWS - rows + 1; ++i)
+    {
+        /*
+        A questo punto scansiono le righe del tetramino.
+        E tu starai pensando: "ma le colonne?" adesso ci arriviamo
+        con il prossimo for.
+        */
+        for (j = 0; j < rows; ++j)
+        {
+            /*
+            Scansiono sia le colonne del campo sia quelle del tetramino
+            contemporaneamente. Facendo così si evita di usare un quarto
+            ciclo for e si evitano problemi di andare fuori memoria degli array.
+            */
+            for (k = cur_pos; k < cur_pos + cols ; ++k)
+            {
+                /*
+                Controllo se nella posizione [j][k - cur_pos] c'è un blocco
+                del tetramino. Se c'è allora controlla se c'è un blocco nella
+                riga i + j esima nel campo, colonna k.
+                Se c'è vuol dire che la riga non è valida, e restituisce la
+                riga precedente.
+                */
+                if (values[j * cols + k - cur_pos])
+                    if (g->field[i + j][k])
+                        return i - 1;
+            }
+        }
+    }
+    /*
+    Se sei arrivato fino a qui hai scorso tutte
+    le righe del campo, quindi lo lasci fino in fondo.
+    */
+    return i - 1;
+}
+
 /**
  * @brief aggiunge un tetramino al campo da gioco
- * SPOILER: NON FUNZIONA, LOOOOOOOL
  * @param[in] g campo di gioco
  * @param[in] t tetramino da piazzare
  * @param[in] cur_pos posizione del cursore
  */
 void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
-    int i,j,k,l,cols,rows,val,m;
+    int i = get_first_free_row(g, t, cur_pos);
+    int k, l;
     int *values;
-    cols=get_tet_cols(t);
-    rows=get_tet_rows(t);
+    int cols=get_tet_cols(t);
+    int rows=get_tet_rows(t);
     values=get_tet_values(t);
 
     /*accedere a matrice[i][j] significa accedere alla locazione di memoria in posizione COLS ∗ 𝑖 + 𝑗
@@ -123,44 +172,14 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
    mvprintw(3,4,"                         ");
    refresh();
 
-    /*Scannerizzo il campo da gioco per {i} righe (tutte) e {j} colonne (dal cursore al cursore + colonne del tetramino) */
-    for(i=0;i<FIELD_ROWS;++i){
-        for(j=cur_pos;j<(cur_pos + cols);++j){
 
-            /*se sono all'ultima riga o se in quella posizione ci sta un pezzo risalgo*/
-            if((g->field[FIELD_ROWS-1][j]==0 && i==FIELD_ROWS-1) || g->field[i][j]!=0){
-                
-                /*scansiona il fondo del tetramino*/
-                for(l=0;l<cols;++l){
-                    /*se nel campo c'é un blocco e in quella posizione andrebbe un blocco del tetramino, sali di una riga*/
-                    if(g->field[i][l]!=0 && values[(0)*cols+l]!=0){
-                        attron(COLOR_PAIR(val));
-                        mvprintw(3,4,"entrato l: %d, fc: %d, j: %d",l,g->field[i][j+l],j);
-                        attroff(COLOR_PAIR(val));
-                        refresh();
-                        i--;
-                    }
-                }
-
-                /*se altezza tetramino é 2 fa la stessa cosa anche per la riga nel mezzo*/
-                //if()
-
-                /*salgo di altezza tetramino*/
-                i = i - rows+1;
-                j = cur_pos;
-
-                /*stampo il tetramino*/
-                for(k=rows-1;k>=0;k--){
-                    for(l=0;l<cols;l++){
-                        /*se il valore del blocco del tetramino non é zero (quindi é un pezzo effettivo) sostituiscilo
-                          L'AND É PROVVISORIO, ARRIVATI A QUESTO PUNTO NON DOVREBBERO POTERSI SOVRAPPORRE*/
-                        if(values[(cols*k+l)]!= 0 && g->field[i+k][j+l] == 0){
-                            g->field[i+k][j+l] = values[(cols*k+l)];
-                        }
-                    }
-                }
-                /*ho finito di caricare il tetramino, posso tornare alla partita*/
-                return;
+    for (k = 0; k < rows; ++k)
+    {
+        for (l = 0; l < cols; ++l)
+        {
+            if (values[k * cols + l])
+            {
+                g->field[i + k][cur_pos + l] = values[k * cols + l];
             }
         }
     }
