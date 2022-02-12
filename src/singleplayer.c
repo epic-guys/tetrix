@@ -19,6 +19,7 @@ pointboard_t *points;
 */
 
 void continue_game();
+void end_game();
 
 /**
  * @brief inizia una partita in single player
@@ -44,10 +45,10 @@ void newGameSingle(){
 /**
  * @brief corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso
  * 
- * @param player Il giocatore.
- * @param gameField Il campo da gioco del giocatore.
- * @param pool I tetramini rimanenti.
- * @param points Il punteggio del giocatore.
+ * @param[in] player Il giocatore.
+ * @param[in] gameField Il campo da gioco del giocatore.
+ * @param[in] pool I tetramini rimanenti.
+ * @param[in] points Il punteggio del giocatore.
  */
 void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points)
 {
@@ -107,8 +108,9 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
                 for(k=i;k>0;--k){
                     for(l=0;l<FIELD_COLS;++l){
                         field[k*FIELD_COLS+l] = field[(k-1)*FIELD_COLS+l];
-                        wrefresh(getGamefieldWindow(gameField));
                     }
+                refreshGamefield(gameField);
+                delay(100); /*la funzione in realtá blocca di fatti tutto il programma per 100 millisecondi*/
                 }
             }
         }
@@ -116,22 +118,28 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
         switch (deletedRows)
         {
         case 1:
-            /* aggiungi 1 punto */
+            playerAddPoints(player,points,POINTS_ONE_ROW_DELETED);
             break;
         case 2:
-            /* aggiungi 3 punto */
+            playerAddPoints(player,points,POINTS_TWO_ROW_DELETED);
             break;
         case 3:
-            /* aggiungi 6 punto */
+            playerAddPoints(player,points,POINTS_THREE_ROW_DELETED);
             break;
         case 4:
-            /* aggiungi 12 punto */
+            playerAddPoints(player,points,POINTS_FOUR_ROW_DELETED);
             break;
         default:
             break;
         }
         deletedRows = 0;
+
+        /*verifico che ci siano ancora le condizioni per giocare*/
+        if(noTetriminosLeft(pool) /*|| gameFieldIsFull()*/){
+            can_play = 0;
+        }
     }
+    end_game();
 }
 
 void end_game()/*thanos++*/

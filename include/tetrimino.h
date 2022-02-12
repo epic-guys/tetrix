@@ -32,4 +32,8 @@ void safeRotateTetrimino(tetrimino_t *t, int cur_pos);
 int get_tet_type(tetrimino_t *t);
 
 int get_tet_color(tetrimino_t *t);
+
+void removeTetriminoFromPool(int i, tetrimini_pool_t *pool);
+
+int noTetriminosLeft(tetrimini_pool_t *pool);
 #endif

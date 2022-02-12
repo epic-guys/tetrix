@@ -497,20 +497,11 @@ int selectTetrimino(tetrimini_pool_t *pool){
         wrefresh( pool->win );
     
     }while(ch != '\n');
-
-    return i;
-}
-/**
- * @brief Restituisce la versione ruotata di 90 gradi di un tetramino
- * @deprecated Orrore
- * @param[in] t Tetramino da ruotare
- * @return Tetramino ruotato 
- */
-tetrimino_t* rotateTetrimino(tetrimino_t *t){
-    if(get_tet_type(t)+N_tetrimini<N_tetrimini*4){
-        return getTetrimino(get_tet_type(t)+N_tetrimini);
+    if(pool->rem_tetriminos[i]>0){
+        removeTetriminoFromPool(i,pool);
+        return i;
     }
-    return getTetrimino(get_tet_type(t)-(N_tetrimini*3));
+    return selectTetrimino(pool);
 }
 
 /**
@@ -578,6 +569,32 @@ void safeRotateTetrimino(tetrimino_t *t, int cur_pos){
 
     if (cur_pos + t->rows <= FIELD_COLS)
         linear_rotate(t);
+}
+
+void refreshPool(tetrimini_pool_t *p)
+{
+    wrefresh(p->win);
+    refresh();
+}
+
+void removeTetriminoFromPool(int i, tetrimini_pool_t *pool){
+    if(pool->rem_tetriminos[i]>0)
+        pool->rem_tetriminos[i]-=1;
+    refreshPool(pool);
+}
+
+/**
+ * @brief controlla se ci sono tetramini rimanenti
+ * SPOILER: NON FUNZIONA
+ * @param[in] pool la pool di tetramini selezionabili 
+ */
+int noTetriminosLeft(tetrimini_pool_t *pool){
+    int i;
+    for(i=0;i<N_tetrimini;++i){
+        if(!pool->rem_tetriminos[i])
+            return 0; 
+    }
+    return 1;
 }
 
 #pragma region GETTERS

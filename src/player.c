@@ -92,3 +92,8 @@ void free_pointBoard(pointboard_t* board)
     free(board->win);
     free(board);
 }
+
+void playerAddPoints(player_t* p,pointboard_t* board,int points){
+    p->points+= points;
+    refreshPointBoard(board);
+}

@@ -89,6 +89,7 @@ void form(char *memory, int m_size, char title[]){
  * @param[in] millisec tempo in millisecondi
  */
 void delay(int millisec){
+    millisec*=100;
     clock_t start_time = clock();
     while (clock() < start_time + millisec)
         ;
