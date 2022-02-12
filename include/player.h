@@ -12,6 +12,9 @@ pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *p
 int get_player_cursor_pos(player_t *p);
 void set_player_cursor_pos(player_t *p, int cursor_pos);
 void playerAddPoints(player_t *p,pointboard_t* board, int points);
+WINDOW* getPointBoardWin(pointboard_t *p);
+char* getPlayerNick(player_t* p);
+int getPlayerPoints(player_t* p);
 
 #pragma endregion
 

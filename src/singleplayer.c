@@ -29,8 +29,7 @@ void newGameSingle(){
     gamefield_t *gameField;
     tetrimini_pool_t *pool;
     pointboard_t *points;
-    int i;
-
+    
     char *nickname = (char*) calloc(sizeof(char),16);
     form(nickname, 16, " Nome: ");
     refresh();
@@ -135,15 +134,105 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
         deletedRows = 0;
 
         /*verifico che ci siano ancora le condizioni per giocare*/
-        if(noTetriminosLeft(pool) /*|| gameFieldIsFull()*/){
+        if(noTetriminosLeft(pool) || gameFieldTopIsOccupied(gameField)){
             can_play = 0;
+            free(selected_t);
         }
     }
-    end_game();
+    end_game(gameField,pool,points, player);
 }
 
-void end_game()/*thanos++*/
+void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player)/*thanos++*/
 {
+    WINDOW* fieldWin = getGamefieldWin(gameField);
+    WINDOW* poolWin = getPoolWin(pool);
+    WINDOW* pointWin = getPointBoardWin(points);
+    WINDOW *summary;
+    int i;
+    char* thanks_TXT = "GRAZIE PER AVER GIOCATO A TETRIX, ";
+    char* nickname = getPlayerNick(player);
+    char* stats_TXT = "ECCO LE TUE STATISTICHE: ";
+    char* points_TXT = "Punteggio totale:    ";
+    int playerPoints = getPlayerPoints(player);
+    char* matchTime_TXT = "Durata del match:    ";
+
+    wclear(fieldWin);
+    wrefresh(fieldWin);
+    delwin(fieldWin);
+
+    wclear(poolWin);
+    wrefresh(poolWin);
+    delwin(poolWin);
+
+    wclear(pointWin);
+    wrefresh(pointWin);
+    delwin(pointWin);
+
+    /*TODO: VA FATTA UNA FUNZIONE PER TUTTI QUESTI WHILE CHE FANNO SCHIFO... PERÓ É FIGHISSIMO IN STILE UNDERTALE, LOL*/
+    summary = newwin( LINES/4 , COLS-2, (LINES/2)-5 , 1 );
+    box(summary, 0, 0 );
+    mvwprintw(summary,0,1," GAME OVER ");
+    wmove(summary,2,2);
+    //wprintw(summary,"GRAZIE PER AVER GIOCATO A TETRIX, %s !", getPlayerNick(player) );
+    while(thanks_TXT[i] != '\0'){
+        wprintw(summary,"%c",thanks_TXT[i++]);
+        wrefresh(summary);
+        delay(300);
+    }
+
+    i=0;
+    /*while(nickname[i] != '\0'){
+        if(nickname[i] !='\0')
+            wprintw(summary,"%c",nickname[i++]);
+        wrefresh(summary);
+        delay(300);
+    }*/
+    
+    i=0;
+    wprintw(summary,"!");
+    wrefresh(summary);
+    delay(300);
+
+    wmove(summary,3,2);
+    while(stats_TXT[i] != '\0'){
+        wprintw(summary,"%c",stats_TXT[i++]);
+        wrefresh(summary);
+        delay(300);
+    }
+
+    i=0;
+    wmove(summary,5,2);
+    while(points_TXT[i] != '\0'){
+        wprintw(summary,"%c",points_TXT[i++]);
+        wrefresh(summary);
+        delay(300);
+    }
+
+    wprintw(summary,"%05d",playerPoints);
+    wrefresh(summary);
+    delay(1000);
+
+    i=0;
+    wmove(summary,7,2);
+    while(matchTime_TXT[i] != '\0'){
+        wprintw(summary,"%c",matchTime_TXT[i++]);
+        wrefresh(summary);
+        delay(300);
+    }
+
+    wprintw(summary,"NULL!");
+    wrefresh(summary);
+    delay(1000);
+
+    while (true)
+    {
+        /* code */
+    }
+    
+
     /* TODO */
     /*free(nickname); PER RICORDARSI, ALTRIMENTI FACCIAMO UN MEMORY LEAK*/
+
+    //poi va aggiornato per tornare al menu, ora non ho sbatti e mi serve per non buggare zsh, lol
+    endwin();
 }

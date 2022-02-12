@@ -81,19 +81,39 @@ pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *p
 }
 
 /**
- * @brief Dealloca la memoria di una point board.
- * ATTENZIONE: non libera la memoria dei giocatori.
- * 
- * @param board La point board da deallocare.
+ * @brief metodo getter per ricevere la finestra ncurses della finestra di punti
+ * @param[in] p puntatore alla struct della pointboard
+ * @param[out] win la finestra di ncurses del campo da gioco
  */
-void free_pointBoard(pointboard_t* board)
-{
-    wclear(board->win);
-    free(board->win);
-    free(board);
+WINDOW* getPointBoardWin(pointboard_t *p){
+    return p->win;
 }
 
+/**
+ * @brief aggiunge punti al giocatore
+ * @param[in] p Struct del giocatore
+ * @param[in] board Struct della tabella dei punti
+ * @param[in] points Punti da aggiungere
+ */
 void playerAddPoints(player_t* p,pointboard_t* board,int points){
     p->points+= points;
     refreshPointBoard(board);
+}
+
+/**
+ * @brief ritorna il nickname di un player
+ * @param[in] p Struct del giocatore
+ * @param[out] nickname stringa con il nickname del giocatore
+ */
+char* getPlayerNick(player_t* p){
+    return p->nickname;
+}
+
+/**
+ * @brief ritorna il nickname di un player
+ * @param[in] p Struct del giocatore
+ * @param[out] points punti del giocatore
+ */
+int getPlayerPoints(player_t* p){
+    return p->points;
 }

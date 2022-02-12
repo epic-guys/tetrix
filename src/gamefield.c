@@ -68,7 +68,6 @@ void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos)
             {
                 wattron(g->win, COLOR_PAIR(val));
                 mvwprintw(g->win, 4 - get_tet_rows(t) + i, (cur_pos + j) * 2 + 1, "[]");
-                /* wwattroff(g->win, COLOR_PAIR(g->field[i][j])); ALVI PO MI SPIEGHI CHE STAVI PENSANDO DI FARE CON QUESTA RIGA LOL, BUGGAVA TUTTOattroff(g->win, COLOR_PAIR(g->field[i][j])); ALVI PO MI SPIEGHI CHE STAVI PENSANDO DI FARE CON QUESTA RIGA LOL, BUGGAVA TUTTO*/
             }
         }
     }
@@ -102,6 +101,12 @@ void refreshGamefield(gamefield_t *g)
     wrefresh(g->win);
 }
 
+/**
+ * @brief restituisce la prima riga libera nel campo da gioco
+ * @param[in] g Il campo da gioco da controllare
+ * @param[in] t Il tetramino da incastrare
+ * @param[in] cur_pos La posizione del cursore e quindi la prima colonna di discesa del tetramino
+ */
 int get_first_free_row(gamefield_t *g,tetrimino_t *t,int cur_pos)
 {
     int i, j, k;
@@ -165,8 +170,9 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
     int rows=get_tet_rows(t);
     values=get_tet_values(t);
 
-    /*accedere a matrice[i][j] significa accedere alla locazione di memoria in posizione COLS ∗ 𝑖 + 𝑗
-      int a[10][20]; => a[3][8] == a[3 * 20 + 8];    
+    /*
+        accedere a matrice[i][j] significa accedere alla locazione di memoria in posizione COLS ∗ 𝑖 + 𝑗
+        int a[10][20]; => a[3][8] == a[3 * 20 + 8];    
     */
 
     for (k = 0; k < rows; ++k)
@@ -182,10 +188,33 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
 
 }
 
+
+
+int gameFieldTopIsOccupied(gamefield_t* g){
+    int i,j;
+    for(j=0;j<FIELD_COLS;++j){
+        if(g->field[0][j]){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+/**
+ * @brief metodo getter per ricevere la matrice con i tetramini
+ * @param[in] g puntatore alla struct del campo da gioco
+ * @param[out] field la matrice di interi che rappresenta la matrice con i tetramini
+ */
 int* getGamefield(gamefield_t *g){
     return g->field;
 }
 
-WINDOW* getGamefieldWindow(gamefield_t *g){
+/**
+ * @brief metodo getter per ricevere la finestra ncurses del campo da gioco
+ * @param[in] g puntatore alla struct del campo da gioco
+ * @param[out] win la finestra di ncurses del campo da gioco 
+ */
+WINDOW* getGamefieldWin(gamefield_t *g){
     return g->win;
 }
