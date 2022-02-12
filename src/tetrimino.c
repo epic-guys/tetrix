@@ -585,13 +585,12 @@ void removeTetriminoFromPool(int i, tetrimini_pool_t *pool){
 
 /**
  * @brief controlla se ci sono tetramini rimanenti
- * SPOILER: NON FUNZIONA
  * @param[in] pool la pool di tetramini selezionabili 
  */
 int noTetriminosLeft(tetrimini_pool_t *pool){
     int i;
     for(i=0;i<N_tetrimini;++i){
-        if(!pool->rem_tetriminos[i])
+        if(pool->rem_tetriminos[i])
             return 0; 
     }
     return 1;
