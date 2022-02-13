@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <functions.h>
 #include <tetrimino.h>
@@ -15,8 +16,6 @@
 void form(char *memory, int m_size, char title[]){
     int i, ch, j, flag=0;
     WINDOW *w;
-
-    memory[m_size] = '\n';
 
     m_size--;
     
@@ -34,7 +33,6 @@ void form(char *memory, int m_size, char title[]){
             wattroff( w, A_STANDOUT );
         }
         mvwprintw(w,1,2+i,"_");
-        memory[i] = '\0';
     }
 
     wrefresh(w);
@@ -45,14 +43,12 @@ void form(char *memory, int m_size, char title[]){
         
         if(ch == 127){
             if(i>0){
-                i=i-1;
-                memory[i] = '\0';
+                memory[--i] = '\0';
             }
         }
         else{
             if(i<m_size){
-                memory[i] = ch;
-                ++i;
+                memory[i++] = ch;
             }
         }
 
@@ -81,6 +77,9 @@ void form(char *memory, int m_size, char title[]){
     delwin(w);
     endwin();
     
+    memory[++i] = '\0';
+    memory=realloc(memory,i);
+
     return;
 }
 
@@ -89,8 +88,32 @@ void form(char *memory, int m_size, char title[]){
  * @param[in] millisec tempo in millisecondi
  */
 void delay(int millisec){
-    millisec*=100;
+    millisec/=1000;
     clock_t start_time = clock();
-    while (clock() < start_time + millisec)
-        ;
+    while (clock() < start_time + millisec);
+}
+
+/**
+ * @brief elimina le finestre
+ * @param[in] w la finestra da eliminare
+ */
+void killWin(WINDOW* w){
+    wclear(w);
+    wrefresh(w);
+    delwin(w);
+}
+
+/**
+ * @brief stampa una riga di testo carattere per carattere con un delay fra ogni lettera
+ * @param[in] w la finestra dove stampare
+ * @param[in] d il delay fra o caratteri
+ * @param[in] c la stringa di caratteri da stampare
+ */
+void wprintWithDelay(WINDOW* w,int d,char* c){
+    int i=0;
+    while(c[i] != '\0'){
+        wprintw(w,"%c",c[i++]);
+        wrefresh(w);
+        delay(d);
+    }
 }

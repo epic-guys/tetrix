@@ -4,5 +4,7 @@
 
 void form(char *memory, int m_size, char title[]);
 void delay(int millisec);
+void killWin(WINDOW* w);
+void wprintWithDelay(WINDOW* w,int d,char* c);
 
 #endif

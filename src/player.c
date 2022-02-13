@@ -21,6 +21,8 @@ player_t *initializePlayer(char* nick)
     player_t *player = (player_t*) malloc(sizeof(player_t));
     player->points = 0;
     player->nickname = nick;
+    
+    refresh();
     return player;
 }
 

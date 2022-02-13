@@ -1,12 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <sys/ioctl.h>
 #include <ncurses.h>
-#include <constants.h>
-#include <locale.h>
 
 #include <singleplayer.h>
+#include <functions.h>
+#include <constants.h>
 
 const unsigned char ASCII_logo[] = {
     0x20, 0x20, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x20,
@@ -56,7 +53,6 @@ void printCredits();
  */
 void initMainScreen(){
     initscr();
-    /*setlocale(LC_ALL, "");*/
     cbreak();
     keypad(stdscr, TRUE);
     noecho();
@@ -231,10 +227,9 @@ void mainMenu(){
     {
     case 0:
         /* Single */
-        wclear(w);
-        wrefresh(w);
-        delwin(w);
+        killWin(w);
         newGameSingle();
+        mainMenu();
         break;
     case 1:
         /* PvP */
