@@ -26,6 +26,11 @@ player_t *initializePlayer(char* nick)
     return player;
 }
 
+void freePlayer(player_t* p){
+    free(p->nickname);
+    free(p);
+}
+
 typedef struct PointBoard
 {
     WINDOW *win;
@@ -80,6 +85,10 @@ pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *p
     refreshPointBoard(pointBoard);
 
     return pointBoard;
+}
+
+void freePointBoard(pointboard_t* p){
+    free(p);
 }
 
 /**

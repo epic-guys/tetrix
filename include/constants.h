@@ -22,6 +22,14 @@
 #define PAIR_MAGENTA 6
 #define PAIR_RED 7
 
+#define PAIR_BG_CYAN 101
+#define PAIR_BG_BLUE 102
+#define PAIR_BG_ORANGE 103
+#define PAIR_BG_YELLOW 104
+#define PAIR_BG_GREEN 105
+#define PAIR_BG_MAGENTA 106
+#define PAIR_BG_RED 107
+
 #pragma endregion
 
 #pragma region FIELD

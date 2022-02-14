@@ -67,26 +67,50 @@ void initColors(){
     /* CIANO su sfondo NERO */
     init_pair(PAIR_CYAN,COLOR_CYAN,COLOR_BLACK);
    
-   /* BLU su sfondo NERO */
+    /* BLU su sfondo NERO */
     init_pair(PAIR_BLUE,COLOR_BLUE,COLOR_BLACK);
    
-   /* ARANCIONE su sfondo NERO */
+    /* ARANCIONE su sfondo NERO */
     init_color(8,1000,647, 0);
     init_pair(PAIR_ORANGE,COLOR_ORANGE ,COLOR_BLACK);
    
-   /* GIALLO su sfondo NERO */
+    /* GIALLO su sfondo NERO */
     init_pair(PAIR_YELLOW,COLOR_YELLOW,COLOR_BLACK);
    
-
-   /*VERDE su sfondo NERO*/
+    /*VERDE su sfondo NERO*/
     init_pair(PAIR_GREEN,COLOR_GREEN,COLOR_BLACK);
    
-   /*VIOLA su sfondo NERO*/
+    /*VIOLA su sfondo NERO*/
     init_color(9,218,112,214);
     init_pair(PAIR_MAGENTA,COLOR_MAGENTA,COLOR_BLACK);
    
-   /*ROSSO su sfondo NERO*/
+    /*ROSSO su sfondo NERO*/
     init_pair(PAIR_RED,COLOR_RED,COLOR_BLACK);
+
+    /*sfondo OMBREGGIATURA*/
+    /*init_pair(100,COLOR_BLACK,COLOR_MAGENTA);*/
+
+    /* NERO su sfondo CIANO */
+    init_pair(PAIR_BG_CYAN,COLOR_BLACK,COLOR_CYAN);
+   
+    /* NERO su sfondo BLU */
+    init_pair(PAIR_BG_BLUE,COLOR_BLACK,COLOR_BLUE);
+   
+    /* NERO su sfondo ARANCIONE */
+    init_pair(PAIR_BG_ORANGE,COLOR_BLACK ,COLOR_ORANGE);
+   
+    /* NERO su sfondo GIALLO */
+    init_pair(PAIR_BG_YELLOW,COLOR_BLACK,COLOR_YELLOW);
+   
+    /*NERO su sfondo VERDE*/
+    init_pair(PAIR_BG_GREEN,COLOR_BLACK,COLOR_GREEN);
+   
+    /*NERO su sfondo VIOLA*/
+    init_pair(PAIR_BG_MAGENTA,COLOR_BLACK,COLOR_MAGENTA);
+   
+    /*NERO su sfondo ROSSO*/
+    init_pair(PAIR_BG_RED,COLOR_BLACK,COLOR_RED);
+
 }
 
 /**

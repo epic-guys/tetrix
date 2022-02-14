@@ -32,6 +32,10 @@ gamefield_t *initializeGameField(int y, int x){
     return gameField;
 }
 
+void freeGamefield(gamefield_t *g){
+    free(g);
+}
+
 /**
  * @brief Pulizia della parte superiore dello schermo
  * @param[in] g Il campo di gioco
@@ -46,7 +50,6 @@ void clearTop(gamefield_t *g){
     wrefresh(g->win);
 }
 
-
 /**
  * @brief stampa il tetramino selezionato nella parte superiore di un campo da gioco partendo dalla posizione del cursore
  * @param[in] g il campo da gioco dove stampare
@@ -56,18 +59,36 @@ void clearTop(gamefield_t *g){
 void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos)
 {
     int i, j, val;
-    clearTop(g);
     int *values = get_tet_values(t);
+    int rows = get_tet_rows(t);
+    int cols = get_tet_cols(t);
+    int color = swapColor(get_tet_color(t));
+    
+    /*Rimuove l'overlay precente*/
+    refreshGamefield(g);
 
-    for (i = 0; i < get_tet_rows(t); ++i)
+    refresh();
+    /*Aggiunge l'overlay alla colonna*/
+    for(j=4;j<FIELD_ROWS+4;j++){
+        if(!g->field[j-4][cur_pos]){
+            wattron(g->win, COLOR_PAIR(color));
+            mvwprintw(g->win,j,(cur_pos*2)+1,"  ");
+            wattroff(g->win, COLOR_PAIR(color));
+        }
+        else{break;}
+    }
+    
+    clearTop(g);
+
+    for (i = 0; i < rows; ++i)
     {
-        for (j = 0; j < get_tet_cols(t); ++j)
+        for (j = 0; j < cols; ++j)
         {
-            val = values[(get_tet_cols(t)*i)+j];
+            val = values[(cols*i)+j];
             if (val)
             {
                 wattron(g->win, COLOR_PAIR(val));
-                mvwprintw(g->win, 4 - get_tet_rows(t) + i, (cur_pos + j) * 2 + 1, "[]");
+                mvwprintw(g->win, 4 - rows + i, (cur_pos + j) * 2 + 1, "[]");
             }
         }
     }
@@ -188,8 +209,6 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
 
 }
 
-
-
 int gameFieldTopIsOccupied(gamefield_t* g){
     int i,j;
     for(j=0;j<FIELD_COLS;++j){
@@ -199,7 +218,6 @@ int gameFieldTopIsOccupied(gamefield_t* g){
     }
     return 0;
 }
-
 
 /**
  * @brief metodo getter per ricevere la matrice con i tetramini

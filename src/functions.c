@@ -88,7 +88,7 @@ void form(char *memory, int m_size, char title[]){
  * @param[in] millisec tempo in millisecondi
  */
 void delay(int millisec){
-    millisec/=1000;
+    millisec*=100;
     clock_t start_time = clock();
     while (clock() < start_time + millisec);
 }
@@ -116,4 +116,14 @@ void wprintWithDelay(WINDOW* w,int d,char* c){
         wrefresh(w);
         delay(d);
     }
+}
+/**
+ * @brief scambia il foreground color con il background color
+ * @param[in] c colore sotto forma numerica
+ * @param[out] c colore sotto forma numerica
+ */
+int swapColor(int c){
+    if(c<100)
+        return c+100;
+    return c-100;
 }

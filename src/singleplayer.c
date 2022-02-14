@@ -9,18 +9,8 @@
 #include <functions.h>
 #include <constants.h>
 
-/*
-Potrebbero creare problemi in caso in un altro file si creano
-variabili con lo stesso nome
-
-player_t *player;
-gamefield_t *gameField;
-tetrimini_pool_t *pool;
-pointboard_t *points;
-*/
-
-void continue_game();
-void end_game();
+void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
+void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,int start_time,int moves);
 
 /**
  * @brief inizia una partita in single player
@@ -34,7 +24,6 @@ void newGameSingle(){
     char *nickname = (char*) calloc(sizeof(char),16);
     form(nickname, 16, " Nome: ");
     refresh();
-
     player = initializePlayer(nickname);
     gameField = initializeGameField(12, (COLS/2)-(POOL_COLS/2)+(POOL_COLS/4));
     pool = initializePool(10, 4);
@@ -55,6 +44,7 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
     int selected_i, can_play = 1;
     tetrimino_t *selected_t;
     int start_time = (int)time(NULL);
+    int moves=0;
 
     while (can_play)
     {   
@@ -81,9 +71,7 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
                     break;
                 case KEY_UP:
                     /*ruota matrice di 90 gradi*/
-                    /*mvprintw(2,3,"%d",get_tet_type(selected_t)); LA LASCIO PER COMODITÁ*/
                     safeRotateTetrimino(selected_t, cursor);
-                    /*mvprintw(6,3,"%d",get_tet_type(selected_t)); LA LASCIO PER COMODITÁ*/
                     refreshSelector(gameField, selected_t, cursor);
                 break;
                 case KEY_DOWN:
@@ -94,6 +82,7 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
                     break;
             }
         }
+        moves++;
         /*Droppato un tetramino verifico se le righe sono state riempite*/
         for(i=0;i<FIELD_ROWS;++i){
             int empty=0;
@@ -138,19 +127,19 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
         /*verifico che ci siano ancora le condizioni per giocare*/
         if(noTetriminosLeft(pool) || gameFieldTopIsOccupied(gameField)){
             can_play = 0;
-            free(selected_t);
+            freeTetrimino(selected_t);
         }
     }
-    end_game(gameField,pool,points, player, (int)start_time);
+    end_game(gameField,pool,points, player, (int)start_time,moves);
 }
 
-void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,int start_time)/*thanos++*/
+void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,int start_time,int moves)/*thanos++*/
 {
     WINDOW* fieldWin = getGamefieldWin(gameField);
     WINDOW* poolWin = getPoolWin(pool);
     WINDOW* pointWin = getPointBoardWin(points);
     WINDOW *summary;
-    
+
     int end_time = (int)time(NULL);
     char ch;
     int i;
@@ -161,12 +150,14 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     char* points_TXT = "Punteggio totale:    ";
     int playerPoints = getPlayerPoints(player);
     char* matchTime_TXT = "Durata del match:    ";
+    char* moves_TXT = "Turni di gioco:      ";
+
 
     killWin(fieldWin);
     killWin(poolWin);
     killWin(pointWin);
 
-    summary = newwin( 12, COLS-2, (LINES/2)-5 , 1 );
+    summary = newwin( 14, COLS-2, (LINES/2)-5 , 1 );
     box(summary, 0, 0 );
     mvwprintw(summary,0,1," GAME OVER ");
     
@@ -199,16 +190,27 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     
     wprintw(summary,"%05d s",(end_time-start_time));
     wrefresh(summary);
+
+    delay(1000);
+    
+    wmove(summary,9,2);
+    wprintWithDelay(summary,300,moves_TXT);
+    
+    wprintw(summary,"%05d",moves);
+    wrefresh(summary);
     
     delay(1000);
 
-    wmove(summary,10,(COLS/2)-9);
+    wmove(summary,12,(COLS/2)-9);
     wattron(summary, A_STANDOUT );
     wprintw(summary,"> Torna al menu! <");
     wattroff(summary, A_STANDOUT );
-    
-    /* TODO */
-    /*free(nickname); PER RICORDARSI, ALTRIMENTI FACCIAMO UN MEMORY LEAK*/
+    wrefresh(summary);
+
+    freeGamefield(gameField);
+    freePool(pool);
+    freePointBoard(points);
+
 
     do{
         ch = wgetch(summary);

@@ -6,12 +6,15 @@ typedef enum tetrimino_type tetrimino_code_t;
 typedef struct Tetrimino tetrimino_t;
 
 tetrimino_t *getTetrimino(int type);
+void freeTetrimino(tetrimino_t *t);
 
 typedef struct TetriminoSet tetriminoset_t;
 
 typedef struct TetriminiPool tetrimini_pool_t;
 
 tetrimini_pool_t *initializePool(int x, int y);
+
+void freePool(tetrimini_pool_t* p);
 
 WINDOW *getPoolWin(tetrimini_pool_t *t);
 

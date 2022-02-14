@@ -5,7 +5,9 @@ typedef struct Player player_t;
 typedef struct PointBoard pointboard_t;
 
 player_t *initializePlayer(char *nick);
+void freePlayer(player_t* p);
 pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *player_2);
+void freePointBoard(pointboard_t* p);
 
 #pragma region GETTERS & SETTERS
 
