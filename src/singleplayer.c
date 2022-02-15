@@ -10,7 +10,7 @@
 #include <constants.h>
 
 void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
-void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,int start_time,int moves);
+void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves);
 
 /**
  * @brief inizia una partita in single player
@@ -43,7 +43,7 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
 {
     int selected_i, can_play = 1;
     tetrimino_t *selected_t;
-    int start_time = (int)time(NULL);
+    unsigned int start_time = time(NULL);
     int moves=0;
 
     while (can_play)
@@ -130,17 +130,17 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
             freeTetrimino(selected_t);
         }
     }
-    end_game(gameField,pool,points, player, (int)start_time,moves);
+    end_game(gameField,pool,points, player, start_time,moves);
 }
 
-void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,int start_time,int moves)/*thanos++*/
+void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves)/*thanos++*/
 {
     WINDOW* fieldWin = getGamefieldWin(gameField);
     WINDOW* poolWin = getPoolWin(pool);
     WINDOW* pointWin = getPointBoardWin(points);
     WINDOW *summary;
 
-    int end_time = (int)time(NULL);
+    unsigned int end_time = (int)time(NULL);
     char ch;
     int i;
 
@@ -148,7 +148,7 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     char* nickname = getPlayerNick(player);
     char* stats_TXT = "ECCO LE TUE STATISTICHE: ";
     char* points_TXT = "Punteggio totale:    ";
-    int playerPoints = getPlayerPoints(player);
+    unsigned int playerPoints = getPlayerPoints(player);
     char* matchTime_TXT = "Durata del match:    ";
     char* moves_TXT = "Turni di gioco:      ";
 
@@ -180,7 +180,7 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     wmove(summary,5,2);
     wprintWithDelay(summary,300,points_TXT);
     
-    wprintw(summary,"%05d",playerPoints);
+    wprintw(summary,"%05u",playerPoints);
     wrefresh(summary);
     
     delay(1000);
@@ -188,7 +188,7 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     wmove(summary,7,2);
     wprintWithDelay(summary,300,matchTime_TXT);
     
-    wprintw(summary,"%05d s",(end_time-start_time));
+    wprintw(summary,"%05u s",(end_time-start_time));
     wrefresh(summary);
 
     delay(1000);
@@ -211,6 +211,7 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     freePool(pool);
     freePointBoard(points);
 
+    ch = NULL;
 
     do{
         ch = wgetch(summary);
