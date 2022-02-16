@@ -88,6 +88,7 @@ void form(char *memory, int m_size, char title[]){
  * @param[in] millisec tempo in millisecondi
  */
 void delay(int millisec){
+    if(millisec==0){return;}
     millisec*=100;
     clock_t start_time = clock();
     while (clock() < start_time + millisec);
@@ -111,7 +112,11 @@ void killWin(WINDOW* w){
  */
 void wprintWithDelay(WINDOW* w,int d,char* c){
     int i=0;
+    char ch;
     while(c[i] != '\0'){
+        /*teoricamente permette di skippare il dialogo lettera per lettera ma é bloccante quindi nada*/
+        //ch = wgetch(w);
+        //if(ch== 10){d=0;}
         wprintw(w,"%c",c[i++]);
         wrefresh(w);
         delay(d);

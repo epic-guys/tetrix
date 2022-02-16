@@ -5,7 +5,7 @@
 
 typedef struct Player
 {
-    int points;
+    unsigned int points;
     char *nickname;
 } player_t;
 
@@ -125,6 +125,6 @@ char* getPlayerNick(player_t* p){
  * @param[in] p Struct del giocatore
  * @param[out] points punti del giocatore
  */
-int getPlayerPoints(player_t* p){
+unsigned int getPlayerPoints(player_t* p){
     return p->points;
 }
