@@ -117,7 +117,11 @@ void wprintWithDelay(WINDOW* w,int d,char* c){
         /*teoricamente permette di skippare il dialogo lettera per lettera ma é bloccante quindi nada*/
         //ch = wgetch(w);
         //if(ch== 10){d=0;}
-        wprintw(w,"%c",c[i++]);
+        if(c[i]!='\n')
+            wprintw(w,"%c",c[i]);
+        else
+            wmove(w,getcury(w)+1,2);
+        i++;
         wrefresh(w);
         delay(d);
     }

@@ -11,6 +11,53 @@
 
 void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
 void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves);
+void newGameSingle();
+
+void instructions(char* nickname){
+    WINDOW *instructions_win;
+    char ch;
+    int i;
+    char* welcome_TXT = "Ciao, ";
+    char* welcome2_TXT = "Benvenuto su Tetrix, di seguito troverai le istruzioni per il gioco\n\nParte 1: \nUsa le freccie UP e DOWN per muoverti nella pool di tetramini, premi ENTER per selezionarne uno\n\nParte 2:\nUsa le freccie LEFT e RIGHT per muovere il tetramino sopra la pool,\nPremi freccia UP per ruotare il tetramino di 90 gradi, premi BACKSPACE per tornare alla selezione dei tetramini, premi freccia DOWN per piazzarlo.\n\nPunteggio e Game Over: \nLa rimozione di una riga vale 1 punto, la rimozione di due righe con un solo pezzo vale 3 punti, tre righe 6 punti, quattro righe 12 punti. \nIl gioco termina quando finiscono i pezzi o il giocatore non riesce a posizionare un tetramino nel campo di gioco rispettando il limite di altezza.";
+    instructions_win = newwin( 20, COLS-2, (LINES/2)-5 , 1 );
+    box(instructions_win, 0, 0 );
+    mvwprintw(instructions_win,0,1," BENVENUTO ");
+    
+    wmove(instructions_win,2,2);
+    wprintWithDelay(instructions_win,300,welcome_TXT);
+    
+    while(nickname[++i] != '\0'){
+        if(nickname[i] !='\0'){
+            wprintw(instructions_win,"%c",nickname[--i]);
+            i++;
+        }
+        wrefresh(instructions_win);
+        delay(300);
+    }
+
+    wmove(instructions_win,3,2);
+    wprintWithDelay(instructions_win,300,welcome2_TXT);
+    
+    wmove(instructions_win,5,2);
+    //wprintWithDelay(instructions_win,300,points_TXT);
+    
+    delay(1000);
+
+    wmove(instructions_win,18,(COLS/2)-4);
+    wattron(instructions_win, A_STANDOUT );
+    wprintw(instructions_win,"> Gioca! <");
+    wattroff(instructions_win, A_STANDOUT );
+    wrefresh(instructions_win);
+
+    ch = -1;
+
+    do{
+        ch = wgetch(instructions_win);
+    }while(ch != 10);
+
+    killWin(instructions_win);
+    return;
+}
 
 /**
  * @brief inizia una partita in single player
@@ -24,6 +71,9 @@ void newGameSingle(){
     char *nickname = (char*) calloc(sizeof(char),16);
     form(nickname, 16, " Nome: ");
     refresh();
+
+    instructions(nickname);
+
     player = initializePlayer(nickname);
     gameField = initializeGameField(12, (COLS/2)-(POOL_COLS/2)+(POOL_COLS/4));
     pool = initializePool(10, 4);
@@ -226,7 +276,7 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     freePool(pool);
     freePointBoard(points);
 
-    ch = NULL;
+    ch = -1;
 
     do{
         ch = wgetch(summary);
