@@ -155,14 +155,14 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
                     int k,l;
                     mvwprintw(getGamefieldWin(gameField), i + 4, 1, "====================");
                     wrefresh(getGamefieldWin(gameField));
-                    delay(1000);
+                    delay(500);
                     deletedRows++;
                     for(k=i;k>0;--k){
                         for(l=0;l<FIELD_COLS;++l){
                             field[k*FIELD_COLS+l] = field[(k-1)*FIELD_COLS+l];
                         }
                         refreshGamefield(gameField);
-                        delay(100); /*la funzione in realtá blocca di fatti tutto il programma per 100 millisecondi*/
+                        delay(50); /*la funzione in realtá blocca di fatti tutto il programma per 100 millisecondi*/
                     }
                 }
             }
