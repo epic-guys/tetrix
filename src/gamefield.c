@@ -69,15 +69,19 @@ void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos)
 
     refresh();
     /*Aggiunge l'overlay alla colonna*/
-    for(j=4;j<FIELD_ROWS+4;j++){
-        if(!g->field[j-4][cur_pos]){
-            wattron(g->win, COLOR_PAIR(color));
-            mvwprintw(g->win,j,(cur_pos*2)+1,"  ");
-            wattroff(g->win, COLOR_PAIR(color));
+    for (i = 4; i < FIELD_ROWS + 4; i++)
+    {
+        for (j = cur_pos; j < cur_pos + cols; ++j)
+        {
+            if (!g->field[i - 4][j])
+            {
+                wattron(g->win, COLOR_PAIR(color));
+                mvwprintw(g->win, i, (j * 2) + 1, "  ");
+                wattroff(g->win, COLOR_PAIR(color));
+            }
         }
-        else{break;}
     }
-    
+
     clearTop(g);
 
     for (i = 0; i < rows; ++i)
