@@ -38,9 +38,6 @@ void instructions(char* nickname){
     wmove(instructions_win,3,2);
     wprintWithDelay(instructions_win,300,welcome2_TXT);
     
-    wmove(instructions_win,5,2);
-    //wprintWithDelay(instructions_win,300,points_TXT);
-    
     delay(1000);
 
     wmove(instructions_win,18,(COLS/2)-4);
@@ -137,13 +134,12 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
                     /*Annulla la selezione*/
                     clearTop(gameField);
                     refreshGamefield(gameField);
-                    skip = 0;
+                    
                     ch=-1;
                     dropping = 0;
-                    break;
+                    continue;
             }
         }
-        if(!skip){
             moves++;
             
             /*Droppato un tetramino verifico se le righe sono state riempite*/
@@ -188,7 +184,6 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
             }
             deletedRows = 0;
 
-        }
         /*verifico che ci siano ancora le condizioni per giocare*/dropping = 0;
         if(noTetriminosLeft(pool) || gameFieldTopIsOccupied(gameField)){
             can_play = 0;
