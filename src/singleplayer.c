@@ -24,7 +24,7 @@ void instructions(char* nickname){
     mvwprintw(instructions_win,0,1," BENVENUTO ");
     
     wmove(instructions_win,2,2);
-    wprintWithDelay(instructions_win,300,welcome_TXT);
+    wprintWithDelay(instructions_win,20,welcome_TXT);
     
     while(nickname[++i] != '\0'){
         if(nickname[i] !='\0'){
@@ -32,11 +32,11 @@ void instructions(char* nickname){
             i++;
         }
         wrefresh(instructions_win);
-        delay(300);
+        delay(20);
     }
 
     wmove(instructions_win,3,2);
-    wprintWithDelay(instructions_win,300,welcome2_TXT);
+    wprintWithDelay(instructions_win,20,welcome2_TXT);
     
     delay(1000);
 
@@ -153,6 +153,9 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
                 }
                 if(!empty){
                     int k,l;
+                    mvwprintw(getGamefieldWin(gameField), i + 4, 1, "====================");
+                    wrefresh(getGamefieldWin(gameField));
+                    delay(1000);
                     deletedRows++;
                     for(k=i;k>0;--k){
                         for(l=0;l<FIELD_COLS;++l){
