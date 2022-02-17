@@ -88,8 +88,14 @@ void form(char *memory, int m_size, char title[]){
  * @param[in] millisec tempo in millisecondi
  */
 void delay(int millisec){
-    if(millisec==0){return;}
-    millisec*=100;
+    if (millisec==0) return;
+    /*
+    La funzione clock() restituisce il numero di tick di clock
+    dall'inizio dell'esecuzione del programma.
+    Quindi converto i millisecondi in tick dividendo per 1000
+    (ms -> s) e poi moltiplico per CLOCKS_PER_SEC.
+    */
+    millisec = millisec * CLOCKS_PER_SEC / 1000;
     clock_t start_time = clock();
     while (clock() < start_time + millisec);
 }
