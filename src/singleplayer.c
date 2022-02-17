@@ -17,8 +17,17 @@ void instructions(char* nickname){
     WINDOW *instructions_win;
     char ch;
     int i;
-    char* welcome_TXT = "Ciao, ";
-    char* welcome2_TXT = "Benvenuto su Tetrix, di seguito troverai le istruzioni per il gioco\n\nParte 1: \nUsa le freccie UP e DOWN per muoverti nella pool di tetramini, premi ENTER per selezionarne uno\n\nParte 2:\nUsa le freccie LEFT e RIGHT per muovere il tetramino sopra la pool,\nPremi freccia UP per ruotare il tetramino di 90 gradi, premi BACKSPACE per tornare alla selezione dei tetramini, premi freccia DOWN per piazzarlo.\n\nPunteggio e Game Over: \nLa rimozione di una riga vale 1 punto, la rimozione di due righe con un solo pezzo vale 3 punti, tre righe 6 punti, quattro righe 12 punti. \nIl gioco termina quando finiscono i pezzi o il giocatore non riesce a posizionare un tetramino nel campo di gioco rispettando il limite di altezza.";
+    char* welcome_TXT =     "Ciao, ";
+    char* welcome2_TXT =    "Benvenuto su Tetrix, di seguito troverai le istruzioni per il gioco\n\n"
+                            "Parte 1: \n"
+                            "Usa le freccie UP e DOWN per muoverti nella pool di tetramini, premi ENTER per selezionarne uno\n\n"
+                            "Parte 2:\nUsa le freccie LEFT e RIGHT per muovere il tetramino sopra la pool,\n"
+                            "Premi freccia UP per ruotare il tetramino di 90 gradi, premi BACKSPACE per tornare alla selezione dei tetramini,\n"
+                            "premi freccia DOWN per piazzarlo.\n\n"
+                            "Punteggio e Game Over: \n"
+                            "La rimozione di una riga vale 1 punto, la rimozione di due righe con un solo pezzo vale 3 punti, tre righe 6 punti, quattro righe 12 punti. \n"
+                            "Il gioco termina quando finiscono i pezzi o il giocatore non riesce a posizionare un tetramino nel campo di gioco rispettando il limite di altezza.";
+    
     instructions_win = newwin( 20, COLS-2, (LINES/2)-5 , 1 );
     box(instructions_win, 0, 0 );
     mvwprintw(instructions_win,0,1," BENVENUTO ");
@@ -76,6 +85,7 @@ void newGameSingle(){
     pool = initializePool(10, 4);
     points = initializePointBoard(10, COLS - 30, player, NULL);
     continue_game(player, gameField, pool, points);
+    return;
 }
 
 /**
@@ -140,54 +150,59 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
                     continue;
             }
         }
-            moves++;
-            
-            /*Droppato un tetramino verifico se le righe sono state riempite*/
-            for(i=0;i<FIELD_ROWS;++i){
-                int empty=0;
-                for(j=0;j<FIELD_COLS;++j){
-                    if(!field[i * FIELD_COLS + j]){
-                        empty=1;
-                        break;
-                    }
-                }
-                if(!empty){
-                    int k,l;
-                    mvwprintw(getGamefieldWin(gameField), i + 4, 1, "====================");
-                    wrefresh(getGamefieldWin(gameField));
-                    delay(1000);
-                    deletedRows++;
-                    for(k=i;k>0;--k){
-                        for(l=0;l<FIELD_COLS;++l){
-                            field[k*FIELD_COLS+l] = field[(k-1)*FIELD_COLS+l];
-                        }
-                        refreshGamefield(gameField);
-                        delay(100); /*la funzione in realtá blocca di fatti tutto il programma per 100 millisecondi*/
-                    }
-                }
-            }
         
-            /*aggiungo i punti*/
-            switch (deletedRows)
-            {
-            case 1:
-                playerAddPoints(player,points,POINTS_ONE_ROW_DELETED);
-                break;
-            case 2:
-                playerAddPoints(player,points,POINTS_TWO_ROW_DELETED);
-                break;
-            case 3:
-                playerAddPoints(player,points,POINTS_THREE_ROW_DELETED);
-                break;
-            case 4:
-                playerAddPoints(player,points,POINTS_FOUR_ROW_DELETED);
-                break;
-            default:
-                break;
+        /*Aggiorna il counter delle mosse del giocatore*/
+        moves++;
+            
+        /*Droppato un tetramino verifico se le righe sono state riempite*/
+        for(i=0;i<FIELD_ROWS;++i){
+            int empty=0;
+            for(j=0;j<FIELD_COLS;++j){
+                if(!field[i * FIELD_COLS + j]){
+                    empty=1;
+                    break;
+                }
             }
-            deletedRows = 0;
+            if(!empty){
+                int k,l;
+                mvwprintw(getGamefieldWin(gameField), i + 4, 1, "====================");
+                wrefresh(getGamefieldWin(gameField));
+                delay(500);
+                deletedRows++;
+                for(k=i;k>0;--k){
+                    for(l=0;l<FIELD_COLS;++l){
+                        field[k*FIELD_COLS+l] = field[(k-1)*FIELD_COLS+l];
+                    }
+                    refreshGamefield(gameField);
+                    delay(50); /*la funzione in realtá blocca di fatti tutto il programma per 50 millisecondi*/
+                }
+            }
+        }
+        
+        /*aggiungo i punti*/
+        switch (deletedRows)
+        {
+        case 1:
+            playerAddPoints(player,points,POINTS_ONE_ROW_DELETED);
+            break;
+        case 2:
+            playerAddPoints(player,points,POINTS_TWO_ROW_DELETED);
+            break;
+        case 3:
+            playerAddPoints(player,points,POINTS_THREE_ROW_DELETED);
+            break;
+        case 4:
+            playerAddPoints(player,points,POINTS_FOUR_ROW_DELETED);
+            break;
+        default:
+            break;
+        }
+        
+        /*resetto le righe eliminate nel turno*/
+        deletedRows = 0;
+        dropping = 0;
 
-        /*verifico che ci siano ancora le condizioni per giocare*/dropping = 0;
+        /*verifico che ci siano ancora le condizioni per giocare*/
         if(noTetriminosLeft(pool) || gameFieldTopIsOccupied(gameField)){
             can_play = 0;
             freeTetrimino(selected_t);
