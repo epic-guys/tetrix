@@ -9,8 +9,8 @@
 #include <functions.h>
 #include <constants.h>
 
-void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
-void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves);
+void continueGame(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
+void endGame(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves);
 void newGameSingle();
 
 void instructions(char* nickname){
@@ -84,7 +84,7 @@ void newGameSingle(){
     gameField = initializeGameField(12, (COLS/2)-(POOL_COLS/2)+(POOL_COLS/4));
     pool = initializePool(10, 4);
     points = initializePointBoard(10, COLS - 30, player, NULL);
-    continue_game(player, gameField, pool, points);
+    continueGame(player, gameField, pool, points);
     return;
 }
 
@@ -96,8 +96,7 @@ void newGameSingle(){
  * @param[in] pool I tetramini rimanenti.
  * @param[in] points Il punteggio del giocatore.
  */
-void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points)
-{
+void continueGame(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points){
     int selected_i, can_play = 1;
     tetrimino_t *selected_t;
     unsigned int start_time = time(NULL);
@@ -109,7 +108,7 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
         int* field = getGamefield(gameField);
         selected_i = selectTetrimino(pool);
         selected_t = getTetrimino(selected_i);
-        cursor = (FIELD_COLS - get_tet_cols(selected_t)) / 2;
+        cursor = (FIELD_COLS - getTetCols(selected_t)) / 2;
         refreshSelector(gameField, selected_t, cursor);
         while (dropping)
         {
@@ -118,7 +117,7 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
             {
                 case KEY_RIGHT:
                     /*Muove il tetramino a destra*/
-                    if (get_tet_cols(selected_t) + cursor < FIELD_COLS)
+                    if (getTetCols(selected_t) + cursor < FIELD_COLS)
                         ++cursor;
                     refreshSelector(gameField, selected_t, cursor);
                     break;
@@ -167,7 +166,7 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
                 int k,l;
                 mvwprintw(getGamefieldWin(gameField), i + 4, 1, "====================");
                 wrefresh(getGamefieldWin(gameField));
-                delay(500);
+                delay(100);
                 deletedRows++;
                 for(k=i;k>0;--k){
                     for(l=0;l<FIELD_COLS;++l){
@@ -208,11 +207,10 @@ void continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *p
             freeTetrimino(selected_t);
         }
     }
-    end_game(gameField,pool,points, player, start_time,moves);
+    endGame(gameField,pool,points, player, start_time,moves);
 }
 
-void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves)/*thanos++*/
-{
+void endGame(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves)/*thanos++*/{
     WINDOW* fieldWin = getGamefieldWin(gameField);
     WINDOW* poolWin = getPoolWin(pool);
     WINDOW* pointWin = getPointBoardWin(points);
@@ -224,12 +222,11 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
 
     char* thanks_TXT = "GRAZIE PER AVER GIOCATO A TETRIX, ";
     char* nickname = getPlayerNick(player);
-    char* stats_TXT = "ECCO LE TUE STATISTICHE: ";
-    char* points_TXT = "Punteggio totale:    ";
+    char* stats_TXT =   "ECCO LE TUE STATISTICHE: \n\n"
+                        "Punteggio totale:    ";
     unsigned int playerPoints = getPlayerPoints(player);
     char* matchTime_TXT = "Durata del match:    ";
     char* moves_TXT = "Turni di gioco:      ";
-
 
     killWin(fieldWin);
     killWin(poolWin);
@@ -240,7 +237,7 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     mvwprintw(summary,0,1," GAME OVER ");
     
     wmove(summary,2,2);
-    wprintWithDelay(summary,300,thanks_TXT);
+    wprintWithDelay(summary,20,thanks_TXT);
     
     i=0;
     while(nickname[++i] != '\0'){
@@ -249,35 +246,32 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
             i++;
         }
         wrefresh(summary);
-        delay(300);
+        delay(20);
     }
     
     wmove(summary,3,2);
-    wprintWithDelay(summary,300,stats_TXT);
-    
-    wmove(summary,5,2);
-    wprintWithDelay(summary,300,points_TXT);
+    wprintWithDelay(summary,20,stats_TXT);
     
     wprintw(summary,"%05u",playerPoints);
     wrefresh(summary);
     
-    delay(1000);
+    delay(500);
     
     wmove(summary,7,2);
-    wprintWithDelay(summary,300,matchTime_TXT);
+    wprintWithDelay(summary,20,matchTime_TXT);
     
     wprintw(summary,"%05u s",(end_time-start_time));
     wrefresh(summary);
 
-    delay(1000);
+    delay(500);
     
     wmove(summary,9,2);
-    wprintWithDelay(summary,300,moves_TXT);
+    wprintWithDelay(summary,20,moves_TXT);
     
     wprintw(summary,"%05d",moves);
     wrefresh(summary);
     
-    delay(1000);
+    delay(500);
 
     wmove(summary,12,(COLS/2)-9);
     wattron(summary, A_STANDOUT );

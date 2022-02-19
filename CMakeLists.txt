@@ -11,6 +11,7 @@ add_library(libtetrix
     src/gamefield.c
     src/player.c
     src/singleplayer.c
+    src/multiplayer.c
     src/tetrimino.c
     src/functions.c
 

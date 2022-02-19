@@ -7,11 +7,12 @@
 #include <time.h>
 
 /**
- * @brief Funzione generale per creare un form al centro dello schermo
+ * @brief Funzione per creare un form al centro dello schermo
  * la risposta viene caricata in un array di char (allocata dal caller)
- * @param[in] memory puntatore della malloc dove mettere la risposta
- * @param[in] m_size dimensione massima della risposta che si vuole ricevere
- * @param[in] title titolo della finestra
+ * 
+ * @param[in] memory puntatore della malloc dove mettere la risposta.
+ * @param[in] m_size dimensione massima della risposta che si vuole ricevere.
+ * @param[in] title titolo della finestra.
  */
 void form(char *memory, int m_size, char title[]){
     int i, ch, j, flag=0;
@@ -84,25 +85,21 @@ void form(char *memory, int m_size, char title[]){
 }
 
 /**
- * @brief una funzione delay [ATTENZIONE, É BLOCCANTE]
- * @param[in] millisec tempo in millisecondi
+ * @brief una funzione delay. [ATTENZIONE, É BLOCCANTE]
+ * 
+ * @param[in] millisec tempo in millisecondi.
  */
 void delay(int millisec){
     if (millisec==0) return;
-    /*
-    La funzione clock() restituisce il numero di tick di clock
-    dall'inizio dell'esecuzione del programma.
-    Quindi converto i millisecondi in tick dividendo per 1000
-    (ms -> s) e poi moltiplico per CLOCKS_PER_SEC.
-    */
     millisec = millisec * CLOCKS_PER_SEC / 1000;
     clock_t start_time = clock();
     while (clock() < start_time + millisec);
 }
 
 /**
- * @brief elimina le finestre
- * @param[in] w la finestra da eliminare
+ * @brief elimina le finestre di ncurses.
+ * 
+ * @param[in] w la finestra da eliminare.
  */
 void killWin(WINDOW* w){
     wclear(w);
@@ -111,18 +108,16 @@ void killWin(WINDOW* w){
 }
 
 /**
- * @brief stampa una riga di testo carattere per carattere con un delay fra ogni lettera
- * @param[in] w la finestra dove stampare
- * @param[in] d il delay fra o caratteri
- * @param[in] c la stringa di caratteri da stampare
+ * @brief stampa una riga di testo carattere per carattere con un delay fra ogni lettera.
+ * 
+ * @param[in] w la finestra dove stampare.
+ * @param[in] d il delay fra o caratteri.
+ * @param[in] c la stringa di caratteri da stampare.
  */
 void wprintWithDelay(WINDOW* w,int d,char* c){
     int i=0;
     char ch;
     while(c[i] != '\0'){
-        /*teoricamente permette di skippare il dialogo lettera per lettera ma é bloccante quindi nada*/
-        //ch = wgetch(w);
-        //if(ch== 10){d=0;}
         if(c[i]!='\n')
             wprintw(w,"%c",c[i]);
         else
@@ -132,10 +127,19 @@ void wprintWithDelay(WINDOW* w,int d,char* c){
         delay(d);
     }
 }
+
 /**
- * @brief scambia il foreground color con il background color
- * @param[in] c colore sotto forma numerica
- * @param[out] c colore sotto forma numerica
+ * @brief scambia il foreground color con il background color e viceversa.
+ * 
+ * [Schema di funzionamento]
+ * Nel file constants.h abbiamo definito i colori e i pair [colore, testo] identificati da un numero
+ * successivamente sono stati creati i pair invertiti assegnando il valore numerico del pair + 100
+ * quindi dato il pair [n], [n+100] sará lo stesso pair che peró avrá il colore del testo come sfondo e viceversa
+ * Automaticamente facendo l'operazione inversa su un pair n t.c n > 100 
+ * trasformeremo un colore di sfondo in un colore del testo.
+ * 
+ * @param[in] c colore sotto forma numerica.
+ * @param[out] c colore sotto forma numerica.
  */
 int swapColor(int c){
     if(c<100)

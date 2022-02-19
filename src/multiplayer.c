@@ -8,8 +8,8 @@
 #include <functions.h>
 #include <constants.h>
 
-void continue_game();
-void end_game();
+void continueGame();
+void endGame();
 
 /**
  * @brief Inizia la partita in multiplayer
@@ -18,20 +18,21 @@ void end_game();
 void newGameMulti(){
     player_t *player1;
     player_t *player2;
-    tetramini_pool_t *pool;
+    gamefield_t *gameField;
+    tetrimini_pool_t *pool;
     pointboard_t *points;
 
     char *nickname1 = (char*) calloc(sizeof(char),16);
-    form(nickname1, 16, " Nome: ");
+    form(nickname1, 16, " Nome 1: ");
     refresh();
 
     char *nickname2 = (char*) calloc(sizeof(char),16);
-    form(nickname2, 16, " Nome: ");
+    form(nickname2, 16, " Nome 2: ");
     refresh();
 
     player1 = initializePlayer(nickname1);
     player2 = initializePlayer(nickname2);
     gameField = initializeGameField(12, (COLS/2)-(POOL_COLS/2)+(POOL_COLS/4));
     pool = initializePool(10, 4);
-    points = initializePointBoard(10, COLS - 30, player, NULL);
+    points = initializePointBoard(10, COLS - 30, player1, player2);
 }

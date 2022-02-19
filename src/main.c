@@ -120,8 +120,7 @@ void initColors(){
  * facilmente il logo senza hardcodare
  * l'altezza del file nel codice
  */
-int getSplashLogoHeight()
-{
+int getSplashLogoHeight(){
     int i, c = 1;
     for (i = 0; i < sizeof ASCII_logo; ++i)
     {
@@ -138,10 +137,9 @@ int getSplashLogoHeight()
  * il logo per essere stampato
  * utilizzato per cambiare
  * facilmente il logo senza hardcodare
- * la larghezza del file nel codice
+ * la larghezza del file nel codice.
  */
-int getSplashLogoWidth()
-{
+int getSplashLogoWidth(){
     int i, c = 1;
     for (i = 0; i < sizeof ASCII_logo; ++i)
     {
@@ -154,6 +152,9 @@ int getSplashLogoWidth()
     return c;
 }
 
+/**
+ * @brief stampa il logo del gioco in ASCII art.
+ */
 void printLogo(){
     WINDOW *logo;
     int i, j, space;
@@ -181,6 +182,9 @@ void printLogo(){
     curs_set(0);
 }
 
+/**
+ * @brief stampa la finestra in basso con i nostri crediti.
+ */
 void printCredits(){
     WINDOW *credits;
     int x,y;
@@ -191,6 +195,10 @@ void printCredits(){
     wrefresh(credits);
 }
 
+
+/**
+ * @brief stampa e gestisce il menú principale.
+ */
 void mainMenu(){
     WINDOW *w;
     /*Quanti elementi ci sono nel menú*/

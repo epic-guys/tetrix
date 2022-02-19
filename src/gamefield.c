@@ -12,8 +12,10 @@ typedef struct GameField
 
 /**
  * @brief crea il campo da gioco
+ * 
  * @param[in] y_pos La posizione Y iniziale in cui posizionare la finestra.
  * @param[in] x_pos La posizione X iniziale in cui posizionare la finestra.
+ * @param[out] g Lo struct del gamefield istanziato.
  */
 gamefield_t *initializeGameField(int y, int x){
 
@@ -32,13 +34,19 @@ gamefield_t *initializeGameField(int y, int x){
     return gameField;
 }
 
+/**
+ * @brief free del campo da gioco.
+ * 
+ * @param[in] g il campo da gioco.
+ */
 void freeGamefield(gamefield_t *g){
     free(g);
 }
 
 /**
- * @brief Pulizia della parte superiore dello schermo
- * @param[in] g Il campo di gioco
+ * @brief Pulizia della parte superiore dello schermo.
+ * 
+ * @param[in] g Il campo di gioco.
  */
 void clearTop(gamefield_t *g){
     int i, j;
@@ -51,18 +59,18 @@ void clearTop(gamefield_t *g){
 }
 
 /**
- * @brief stampa il tetramino selezionato nella parte superiore di un campo da gioco partendo dalla posizione del cursore
- * @param[in] g il campo da gioco dove stampare
- * @param[in] t tetramino da stampare
- * @param[in] cur_pos posizione del cursore
+ * @brief visualizza il tetramino selezionato nella parte superiore di un campo da gioco partendo dalla posizione del cursore.
+ * 
+ * @param[in] g il campo da gioco dove stampare.
+ * @param[in] t tetramino da stampare.
+ * @param[in] cur_pos posizione del cursore.
  */
-void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos)
-{
+void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos){
     int i, j, val;
-    int *values = get_tet_values(t);
-    int rows = get_tet_rows(t);
-    int cols = get_tet_cols(t);
-    int color = swapColor(get_tet_color(t));
+    int *values = getTetValues(t);
+    int rows = getTetRows(t);
+    int cols = getTetCols(t);
+    int color = swapColor(getTetColor(t));
     
     /*Rimuove l'overlay precente*/
     refreshGamefield(g);
@@ -107,8 +115,7 @@ void refreshSelector(gamefield_t *g, tetrimino_t *t, int cur_pos)
  * 
  * @param[in, out] g Il campo da gioco di cui bisogna aggiornare lo schermo.
  */
-void refreshGamefield(gamefield_t *g)
-{
+void refreshGamefield(gamefield_t *g){
     int i, j;
     for (i = 0; i < FIELD_ROWS; ++i)
     {
@@ -127,17 +134,18 @@ void refreshGamefield(gamefield_t *g)
 }
 
 /**
- * @brief restituisce la prima riga libera nel campo da gioco
- * @param[in] g Il campo da gioco da controllare
- * @param[in] t Il tetramino da incastrare
- * @param[in] cur_pos La posizione del cursore e quindi la prima colonna di discesa del tetramino
+ * @brief restituisce la prima riga libera nel campo da gioco.
+ * 
+ * @param[in] g Il campo da gioco da controllare.
+ * @param[in] t Il tetramino da incastrare.
+ * @param[in] cur_pos La posizione del cursore e quindi la prima colonna di discesa del tetramino.
+ * @param[out] row La posizione nella matrice della prima riga libera.
  */
-int get_first_free_row(gamefield_t *g,tetrimino_t *t,int cur_pos)
-{
+int getFirstFreeRow(gamefield_t *g,tetrimino_t *t,int cur_pos){
     int i, j, k;
-    int *values = get_tet_values(t);
-    int cols = get_tet_cols(t);
-    int rows = get_tet_rows(t);
+    int *values = getTetValues(t);
+    int cols = getTetCols(t);
+    int rows = getTetRows(t);
 
     /*
     Scannerizzo il campo da gioco per i righe.
@@ -182,20 +190,22 @@ int get_first_free_row(gamefield_t *g,tetrimino_t *t,int cur_pos)
 }
 
 /**
- * @brief aggiunge un tetramino al campo da gioco
- * @param[in] g campo di gioco
- * @param[in] t tetramino da piazzare
- * @param[in] cur_pos posizione del cursore
+ * @brief aggiunge un tetramino al campo da gioco.
+ * 
+ * @param[in] g campo di gioco.
+ * @param[in] t tetramino da piazzare.
+ * @param[in] cur_pos posizione del cursore.
  */
 void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
-    int i = get_first_free_row(g, t, cur_pos);
+    int i = getFirstFreeRow(g, t, cur_pos);
     int k, l;
     int *values;
-    int cols=get_tet_cols(t);
-    int rows=get_tet_rows(t);
-    values=get_tet_values(t);
+    int cols=getTetCols(t);
+    int rows=getTetRows(t);
+    values=getTetValues(t);
 
     /*
+        PROMEMORIA:
         accedere a matrice[i][j] significa accedere alla locazione di memoria in posizione COLS ∗ 𝑖 + 𝑗
         int a[10][20]; => a[3][8] == a[3 * 20 + 8];    
     */
@@ -224,18 +234,20 @@ int gameFieldTopIsOccupied(gamefield_t* g){
 }
 
 /**
- * @brief metodo getter per ricevere la matrice con i tetramini
- * @param[in] g puntatore alla struct del campo da gioco
- * @param[out] field la matrice di interi che rappresenta la matrice con i tetramini
+ * @brief metodo getter per ricevere la matrice con i tetramini.
+ * 
+ * @param[in] g puntatore alla struct del campo da gioco.
+ * @param[out] field la matrice di interi che rappresenta la matrice con i tetramini.
  */
 int* getGamefield(gamefield_t *g){
     return g->field;
 }
 
 /**
- * @brief metodo getter per ricevere la finestra ncurses del campo da gioco
- * @param[in] g puntatore alla struct del campo da gioco
- * @param[out] win la finestra di ncurses del campo da gioco 
+ * @brief metodo getter per ricevere la finestra ncurses del campo da gioco.
+ * 
+ * @param[in] g puntatore alla struct del campo da gioco.
+ * @param[out] win la finestra di ncurses del campo da gioco.
  */
 WINDOW* getGamefieldWin(gamefield_t *g){
     return g->win;

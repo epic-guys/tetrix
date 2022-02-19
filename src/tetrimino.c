@@ -44,12 +44,6 @@ typedef enum tetrimino_type
 } tetrimino_type_t;
 
 /**
- * @brief In caso serva fare un loop di tutti i tipi
- * @deprecated Basta fare un loop da 0 a 6, gli enum si comportano come interi
- */
-const tetrimino_type_t ALL_T_TYPES[N_tetrimini] = { T_I, T_J, T_L, T_O, T_S, T_T, T_Z };
-
-/**
  * @brief Non è un typo, in inglese
  * si scrive così.
  * 
@@ -77,10 +71,9 @@ typedef struct Tetrimino
  * @brief Genera il tetramino dato il suo enum. 
  * 
  * @param[in] type la sua codifica enum.
- * @return Il tetramino.
+ * @param[out] Il tetramino.
  */
-tetrimino_t *getTetrimino(int type)
-{
+tetrimino_t *getTetrimino(int type){
     int *values;
     tetrimino_t *t = malloc(sizeof(tetrimino_t));
     t->type = type;
@@ -180,10 +173,10 @@ tetrimino_t *getTetrimino(int type)
 
 /**
  * @brief Libera la memoria allocata dal tetrimino.
+ * 
  * @param[in, out] t Il tetrimino da deallocare.
  */
-void freeTetrimino(tetrimino_t *t)
-{
+void freeTetrimino(tetrimino_t *t){
     free(t->values);
     free(t);
 }
@@ -212,7 +205,7 @@ void printTetrimino(WINDOW *w,tetrimino_t *t,int y,int x){
 
 
 /**
- * @brief La struct della finestra con tutti i pezzi dei tetramini rimanenti
+ * @brief La struct della finestra con tutti i pezzi dei tetramini rimanenti.
  */
 typedef struct TetriminiPool
 {
@@ -222,7 +215,11 @@ typedef struct TetriminiPool
 
 
 /**
- * @brief funzione per inizializzare la pool dove sono presenti tutti i tetramini rimasti
+ * @brief funzione per inizializzare la pool dove sono presenti tutti i tetramini rimasti.
+ * 
+ * @param[in] y La riga da dalla quale deve iniziare a poizionare la finestra.
+ * @param[in] x La colonna da dalla quale deve iniziare a poizionare la finestra.
+ * @param[out] p Lo struct della pool istanziato.
  */
 tetrimini_pool_t *initializePool(int y, int x){
     int i;
@@ -243,15 +240,21 @@ tetrimini_pool_t *initializePool(int y, int x){
     return tetriminiPool;
 }
 
+/**
+ * @brief free della pool di tetramini.
+ * 
+ * @param[in] p La pool.
+ */
 void freePool(tetrimini_pool_t* p){
     free(p->rem_tetriminos);
     free(p);
 }
 
 /**
- * @brief Funzione STUB che stampa i tetramini in modalitá "menu"
- * @param[in] i l'indice del menu
- * @param[in] pool la pool nella quale stampare
+ * @brief Funzione STUB che stampa i tetramini in modalitá "menu".
+ * 
+ * @param[in] i l'indice del menu.
+ * @param[in] pool la pool nella quale stampare.
  */
 void printMenuStyle(int i, tetrimini_pool_t *pool){
         tetrimino_t *t = getTetrimino(i);
@@ -261,9 +264,10 @@ void printMenuStyle(int i, tetrimini_pool_t *pool){
 }
 
 /**
- * @brief permette di accedere al metodo di selezione dei tetramini
- * @param [in] w Finestra della pool da cui selezionare il pezzo
- * @return il numero della codifica del tetramino
+ * @brief permette di accedere al metodo di selezione dei tetramini.
+ * 
+ * @param [in] w Finestra della pool da cui selezionare il pezzo.
+ * @param[out] n il numero della codifica del tetramino.
  */
 int selectTetrimino(tetrimini_pool_t *pool){
 
@@ -347,10 +351,9 @@ int selectTetrimino(tetrimini_pool_t *pool){
  * bisogna sommare all'indice della colonna il numero totale di colonne - 1. Senza questa
  * operazione il tetramino risulterebbe "fuori" dalle celle e avrebbe indici negativi.
  * 
- * @param t Il tetramino da ruotare.
+ * @param[in] t Il tetramino da ruotare.
  */
-void linear_rotate(tetrimino_t *t)
-{
+void linearRotate(tetrimino_t *t){
     int *v_rotate = (int *)malloc(sizeof(int) * t->rows * t->cols);
     size_t i, j;
 
@@ -371,32 +374,45 @@ void linear_rotate(tetrimino_t *t)
 }
 
 /**
- * @brief Stub di rotateTetrimino che verifica la fattibilitá della rotazione altrimenti non ruota
- * ATTENZIONE: Necessita FIELD_COLS (la define globale del campo da gioco)
- * @param[in] t Tetramino da ruotare
- * @param[in] cur_pos posizione del cursore
+ * @brief Stub di rotateTetrimino che verifica la fattibilitá della rotazione altrimenti non ruota.
+ * 
+ * @param[in] t Tetramino da ruotare.
+ * @param[in] cur_pos posizione del cursore.
  */
 void safeRotateTetrimino(tetrimino_t *t, int cur_pos){
 
     if (cur_pos + t->rows <= FIELD_COLS)
-        linear_rotate(t);
+        linearRotate(t);
 }
 
-void refreshPool(tetrimini_pool_t *p)
-{
+/**
+ * @brief refresh della pool.
+ * 
+ * @param[in] p la pool.
+ */
+void refreshPool(tetrimini_pool_t *p){
     wrefresh(p->win);
     refresh();
 }
 
-void removeTetriminoFromPool(int i, tetrimini_pool_t *pool){
-    if(pool->rem_tetriminos[i]>0)
-        pool->rem_tetriminos[i]-=1;
-    refreshPool(pool);
+/**
+ * @brief rimuove un'unitá di un tetramino dalla pool.
+ * 
+ * @param[in] i il tipo di tetramino dalla quale togliere un'unitá.
+ * @param[in] p la pool di tetramini.
+ */
+void removeTetriminoFromPool(int i, tetrimini_pool_t *p){
+    if(p->rem_tetriminos[i]>0)
+        p->rem_tetriminos[i]-=1;
+    refreshPool(p);
 }
 
 /**
- * @brief controlla se ci sono tetramini rimanenti
- * @param[in] pool la pool di tetramini selezionabili 
+ * @brief controlla se ci sono tetramini rimanenti.
+ * 
+ * @param[in] pool la pool di tetramini selezionabili.
+ * 
+ * @param[out] i ritorna 0 se c'é almeno un tetramino di qualsiasi tipo, 1 altrimenti
  */
 int noTetriminosLeft(tetrimini_pool_t *pool){
     int i;
@@ -407,61 +423,67 @@ int noTetriminosLeft(tetrimini_pool_t *pool){
     return 1;
 }
 
-#pragma region GETTERS
-
 /**
- * @brief restituisce la finestra della pool di tetramini
- * @param[in] t la pool di tetramini
+ * @brief restituisce la finestra della pool di tetramini.
+ * 
+ * @param[in] t la pool di tetramini.
+ * @param[out] win la finestra ncurses della pool.
  */
 WINDOW *getPoolWin(tetrimini_pool_t *t){
     return t->win;
 }
 
 /**
- * @brief restituisce il numero di righe di un tetramino
- * @param[in] t il tetramino
+ * @brief restituisce il numero di righe di un tetramino.
+ * 
+ * @param[in] t il tetramino.
+ * @param[out] rows il numero di righe di cui é composto il tetramino.
  */
-int get_tet_rows(tetrimino_t *t)
-{
+int getTetRows(tetrimino_t *t){
     return t->rows;
 }
 
 /**
- * @brief restituisce il numero di colonne di un tetramino
- * @param[in] t il tetramino
+ * @brief restituisce il numero di colonne di un tetramino.
+ * 
+ * @param[in] t il tetramino.
+ * @param[out] cols il numero di colonne di cui é composto il tetramino.
  */
-int get_tet_cols(tetrimino_t *t)
-{
+int getTetCols(tetrimino_t *t){
     return t->cols;
 }
 
 /**
- * @brief restituisce l'array di valori di un tetramino
- * @param[in] t il tetramino
+ * @brief restituisce l'array di valori di un tetramino.
+ * 
+ * @param[in] t il tetramino.
+ * @param[out] values il puntatore all'array di valori del tetramino.
  */
-int *get_tet_values(tetrimino_t *t)
-{
+int *getTetValues(tetrimino_t *t){
     return t->values;
 }
 
 /**
- * @brief restituisce il tipo di tetramino
- * @param[in] t il tetramino
+ * @brief restituisce il tipo di tetramino.
+ * 
+ * @param[in] t il tetramino.
+ * @param[out] type l'intero che identifica il tipo di tetramino.
+ * 
  */
-int get_tet_type(tetrimino_t *t){
+int getTetType(tetrimino_t *t){
     return t->type;
 }
 /**
- * @brief restituisce il colore del tetramino
- * @param[in] t il tetramino
+ * @brief restituisce il colore del tetramino.
+ * 
+ * @param[in] t il tetramino.
+ * @param[out] color il numero che identifica il colore del tetramino.
  */
-int get_tet_color(tetrimino_t *t){
+int getTetColor(tetrimino_t *t){
     int i;
-    int *values = get_tet_values(t);
-    for(i=0;i<(get_tet_cols(t)*get_tet_rows(t))-1;++i){
+    int *values = getTetValues(t);
+    for(i=0;i<(getTetCols(t)*getTetRows(t))-1;++i){
         if(values[i]!=0)
             return values[i];
     }
 }
-
-#pragma endregion
