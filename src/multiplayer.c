@@ -165,6 +165,7 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
         case 2:
             playerAddPoints(turn==0 ? player1 : player2,points,POINTS_TWO_ROW_DELETED);
             break;
+            /*da aggiustare secondo specifiche del readme*/
         case 3:
             playerAddPoints(turn==0 ? player1 : player2,points,POINTS_THREE_ROW_DELETED);
             break;
@@ -192,12 +193,117 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
         
         if(turn==0 && backspace_pressed==0){
             turn=1;
+            p1_moves++;
         }
         else if(turn==1 && backspace_pressed==0){
             turn=0;
+            p2_moves++;
         }
 
         backspace_pressed=0;
     }
     
+}
+
+/*da finire di aggiustare*/
+
+void pvp_endGame(gamefield_t *gameField1, gamefield_t *gameField2, tetrimini_pool_t *pool, pointboard_t *points, player_t *player1, player_t *player2,unsigned int start_time,int p1_moves, int p2_moves)/*thanos++*/{
+    WINDOW* field1Win = getGamefieldWin(gameField1);
+    WINDOW* field2Win = getGamefieldWin(gameField2);
+    WINDOW* poolWin = getPoolWin(pool);
+    WINDOW* pointWin = getPointBoardWin(points);
+    WINDOW *summary;
+
+    unsigned int end_time = (int)time(NULL);
+    char ch;
+    int i;
+
+    char* thanks_TXT = "GRAZIE PER AVER GIOCATO A TETRIX, ";
+    char* p1_nickname = getPlayerNick(player1);
+    char* p2_nickname = getPlayerNick(player2);
+    char* stats_TXT =   "ECCO LE TUE STATISTICHE: \n\n"
+                        "Punteggio totale:    ";
+    unsigned int player1Points = getPlayerPoints(player1);
+    unsigned int player2Points = getPlayerPoints(player2);
+    char* matchTime_TXT = "Durata del match:    ";
+    char* moves_TXT = "Turni di gioco:      ";
+
+    killWin(field1Win);
+    killWin(field2Win);
+    killWin(poolWin);
+    killWin(pointWin);
+
+    summary = newwin( 14, COLS-2, (LINES/2)-5 , 1 );
+    box(summary, 0, 0 );
+    mvwprintw(summary,0,1," GAME OVER ");
+    
+    wmove(summary,2,2);
+    wprintWithDelay(summary,20,thanks_TXT);
+    
+    i=0;
+    while(p1_nickname[++i] != '\0'){
+        if(p1_nickname[i] !='\0'){
+            wprintw(summary,"%c",p1_nickname[--i]);
+            i++;
+        }
+        wrefresh(summary);
+        delay(20);
+    }
+
+    wmove(summary,3,2);
+
+    i=0;
+    while(p1_nickname[++i] != '\0'){
+        if(p1_nickname[i] !='\0'){
+            wprintw(summary,"%c",p1_nickname[--i]);
+            i++;
+        }
+        wrefresh(summary);
+        delay(20);
+    }
+    
+    wmove(summary,4,2);
+    wprintWithDelay(summary,20,stats_TXT);
+    
+    wprintw(summary,"%05u",player1Points);
+    wmove(summary,5,2);
+    wprintw(summary,"%05u",player2Points);
+    wrefresh(summary);
+    
+    delay(500);
+    
+    wmove(summary,7,2);
+    wprintWithDelay(summary,20,matchTime_TXT);
+    
+    wprintw(summary,"%05u s",(end_time-start_time));
+    wrefresh(summary);
+
+    delay(500);
+    
+    wmove(summary,9,2);
+    wprintWithDelay(summary,20,moves_TXT);
+    
+    wprintw(summary,"%05d",p1_moves);
+    wrefresh(summary);
+    
+    delay(500);
+
+    wmove(summary,12,(COLS/2)-9);
+    wattron(summary, A_STANDOUT );
+    wprintw(summary,"> Torna al menu! <");
+    wattroff(summary, A_STANDOUT );
+    wrefresh(summary);
+
+    freeGamefield(gameField1);
+    freeGamefield(gameField2);
+    freePool(pool);
+    freePointBoard(points);
+
+    ch = -1;
+
+    do{
+        ch = wgetch(summary);
+    }while(ch != 10);
+
+    killWin(summary);
 }
