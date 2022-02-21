@@ -3,13 +3,13 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <player.h>
-#include <gamefield.h>
-#include <tetrimino.h>
-#include <functions.h>
-#include <constants.h>
+#include <../include/player.h>
+#include <../include/gamefield.h>
+#include <../include/tetrimino.h>
+#include <../include/functions.h>
+#include <../include/constants.h>
 
-void continueGame(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
+void single_continueGame(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
 void endGame(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves);
 void newGameSingle();
 
@@ -84,7 +84,7 @@ void newGameSingle(){
     gameField = initializeGameField(12, (COLS/2)-(POOL_COLS/2)+(POOL_COLS/4));
     pool = initializePool(10, 4);
     points = initializePointBoard(10, COLS - 30, player, NULL);
-    continueGame(player, gameField, pool, points);
+    single_continueGame(player, gameField, pool, points);
     return;
 }
 
@@ -96,7 +96,7 @@ void newGameSingle(){
  * @param[in] pool I tetramini rimanenti.
  * @param[in] points Il punteggio del giocatore.
  */
-void continueGame(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points){
+void single_continueGame(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points){
     int selected_i, can_play = 1;
     tetrimino_t *selected_t;
     unsigned int start_time = time(NULL);

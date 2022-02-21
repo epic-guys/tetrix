@@ -99,7 +99,7 @@ void refreshPointBoard(pointboard_t *board){
     if (board->player_2)
     {
         mvwprintw(board->win, 4, 2, "%s", board->player_2->nickname);
-        mvwprintw(board->win, 2, POINTBOARD_COLS-6, "%05d", board->player_2->points);
+        mvwprintw(board->win, 4, POINTBOARD_COLS-6, "%05d", board->player_2->points);
     }
     wrefresh(board->win);
 }

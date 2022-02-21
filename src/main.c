@@ -2,6 +2,7 @@
 #include <ncurses.h>
 
 #include <singleplayer.h>
+#include <multiplayer.h>
 #include <functions.h>
 #include <constants.h>
 
@@ -265,6 +266,9 @@ void mainMenu(){
         break;
     case 1:
         /* PvP */
+        killWin(w);
+        newGameMulti();
+        mainMenu();
         break;
     case 2:
         /* PvCPU */
