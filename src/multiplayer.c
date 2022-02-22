@@ -192,9 +192,11 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
         }
         else if(!noTetriminosLeft(pool)){
             pvp_endGame(turn,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
+            return;
         }
         else if(gameFieldTopIsOccupied(turn==0 ? gameField1 : gameField2)){
             pvp_endGame(!turn,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
+            return;
         }
 
         
@@ -228,19 +230,17 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     char* thanks_TXT = "GRAZIE PER AVER GIOCATO A TETRIX, ";
     char* p1_nickname = getPlayerNick(player1);
     char* p2_nickname = getPlayerNick(player2);
-    char* stats_TXT =   "ECCO LE VOSTRE STATISTICHE: \n\n"
-                        "Punteggio giocatore:    ";
+    char* stats_TXT =   "ECCO LE VOSTRE STATISTICHE:";
     unsigned int player1Points = getPlayerPoints(player1);
     unsigned int player2Points = getPlayerPoints(player2);
     char* matchTime_TXT = "Durata del match:    ";
-    char* moves_TXT = "Turni di gioco:      ";
 
     killWin(field1Win);
     killWin(field2Win);
     killWin(poolWin);
     killWin(pointWin);
 
-    summary = newwin( 14, COLS-2, (LINES/2)-5 , 1 );
+    summary = newwin( 18, COLS-2, (LINES/2) -5, 1 );
     box(summary, 0, 0 );
     mvwprintw(summary,0,1," GAME OVER ");
     
@@ -269,16 +269,20 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
         delay(20);
     }
     
+    
     wmove(summary,4,2);
     wprintWithDelay(summary,20,stats_TXT);
-    wprintw(summary,"%05u",player1Points);
     wmove(summary,5,2);
+    wprintWithDelay(summary,20,"Punteggio giocatore 1: ");
+    wprintw(summary,"%05u",player1Points);
+    wmove(summary,6,2);
+    wprintWithDelay(summary,20,"Punteggio giocatore 2: ");
     wprintw(summary,"%05u",player2Points);
     wrefresh(summary);
     
     delay(500);
     
-    wmove(summary,7,2);
+    wmove(summary,8,2);
     wprintWithDelay(summary,20,matchTime_TXT);
     
     wprintw(summary,"%05u s",(end_time-start_time));
@@ -286,14 +290,14 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
 
     delay(500);
     
-    wmove(summary,9,2);
-    wprintWithDelay(summary,20,moves_TXT);
+    wmove(summary,10,2);
+    wprintWithDelay(summary,20,"Turni di gioco [Giocatore 1]:      ");
     
     wprintw(summary,"%05d",p1_moves);
     wrefresh(summary);
     
-    wmove(summary,10,2);
-    wprintWithDelay(summary,20,moves_TXT);
+    wmove(summary,11,2);
+    wprintWithDelay(summary,20,"Turni di gioco [Giocatore 2]:      ");
     
     wprintw(summary,"%05d",p2_moves);
     wrefresh(summary);
@@ -321,7 +325,7 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     
     delay(500);
 
-    wmove(summary,12,(COLS/2)-9);
+    wmove(summary,14,(COLS/2)-9);
     wattron(summary, A_STANDOUT );
     wprintw(summary,"> Torna al menu! <");
     wattroff(summary, A_STANDOUT );
@@ -339,4 +343,5 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     }while(ch != 10);
 
     killWin(summary);
+    return;
 }
