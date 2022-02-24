@@ -190,7 +190,8 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
             }
             freeTetrimino(selected_t);
         }
-        else if(!noTetriminosLeft(pool)){
+        
+        if(noTetriminosLeft(pool)){
             pvp_endGame(turn,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
             return;
         }
@@ -198,7 +199,6 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
             pvp_endGame(!turn,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
             return;
         }
-
         
         if(turn==0 && backspace_pressed==0){
             turn=1;
@@ -302,7 +302,11 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     wprintw(summary,"%05d",p2_moves);
     wrefresh(summary);
 
-    wprintw(summary,"%05d","Bella partita, peró ha vinto: ");
+    wmove(summary,13,2);
+
+    wprintw(summary,"Bella partita, peró ha vinto: ");
+
+    i=0;
 
     if(win_flag){
         while(p1_nickname[++i] != '\0'){
