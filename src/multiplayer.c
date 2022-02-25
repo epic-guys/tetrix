@@ -54,6 +54,7 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
     int p2_moves=0;
 
     /*Il giocatore che inizia é deciso random*/
+    srand(time(0));
     int turn = rand()%2;
     
     while (p1_can_play && p2_can_play)
@@ -192,11 +193,19 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
         }
         
         if(noTetriminosLeft(pool)){
-            pvp_endGame(turn,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
+            pvp_endGame(!turn,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
             return;
         }
         else if(gameFieldTopIsOccupied(turn==0 ? gameField1 : gameField2)){
-            pvp_endGame(!turn,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
+            if(getPlayerPoints(player1)>getPlayerPoints(player2)){
+                pvp_endGame(0,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
+            }
+            else if(getPlayerPoints(player1)>getPlayerPoints(player2)){
+                pvp_endGame(1,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
+            }
+            else{
+                pvp_endGame(!turn,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
+            }
             return;
         }
         
@@ -227,7 +236,7 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     char ch;
     int i;
 
-    char* thanks_TXT = "GRAZIE PER AVER GIOCATO A TETRIX, ";
+    char* thanks_TXT = "GRAZIE PER AVER GIOCATO A TETRIX!";
     char* p1_nickname = getPlayerNick(player1);
     char* p2_nickname = getPlayerNick(player2);
     char* stats_TXT =   "ECCO LE VOSTRE STATISTICHE:";
@@ -247,6 +256,10 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     wmove(summary,2,2);
     wprintWithDelay(summary,20,thanks_TXT);
     
+    wmove(summary,4,2);
+    wprintWithDelay(summary,20,stats_TXT);
+    wmove(summary,5,2);
+    wprintWithDelay(summary,20,"Punteggio ");
     i=0;
     while(p1_nickname[++i] != '\0'){
         if(p1_nickname[i] !='\0'){
@@ -256,9 +269,10 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
         wrefresh(summary);
         delay(20);
     }
-
-    wprintw(summary," & ");
-
+    wprintWithDelay(summary,20," : ");
+    wprintw(summary,"%05u",player1Points);
+    wmove(summary,6,2);
+    wprintWithDelay(summary,20,"Punteggio ");
     i=0;
     while(p2_nickname[++i] != '\0'){
         if(p2_nickname[i] !='\0'){
@@ -268,15 +282,7 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
         wrefresh(summary);
         delay(20);
     }
-    
-    
-    wmove(summary,4,2);
-    wprintWithDelay(summary,20,stats_TXT);
-    wmove(summary,5,2);
-    wprintWithDelay(summary,20,"Punteggio giocatore 1: ");
-    wprintw(summary,"%05u",player1Points);
-    wmove(summary,6,2);
-    wprintWithDelay(summary,20,"Punteggio giocatore 2: ");
+    wprintWithDelay(summary,20," : ");
     wprintw(summary,"%05u",player2Points);
     wrefresh(summary);
     
@@ -291,24 +297,44 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     delay(500);
     
     wmove(summary,10,2);
-    wprintWithDelay(summary,20,"Turni di gioco [Giocatore 1]:      ");
+    wprintWithDelay(summary,20,"Turni di gioco")
+    i=0;
+    while(p1_nickname[++i] != '\0'){
+        if(p1_nickname[i] !='\0'){
+            wprintw(summary,"%c",p1_nickname[--i]);
+            i++;
+        }
+        wrefresh(summary);
+        delay(20);
+    }
+    wprintWithDelay(summary,20," :      ");
     
     wprintw(summary,"%05d",p1_moves);
     wrefresh(summary);
     
     wmove(summary,11,2);
-    wprintWithDelay(summary,20,"Turni di gioco [Giocatore 2]:      ");
+    wprintWithDelay(summary,20,"Turni di gioco")
+    i=0;
+    while(p1_nickname[++i] != '\0'){
+        if(p1_nickname[i] !='\0'){
+            wprintw(summary,"%c",p1_nickname[--i]);
+            i++;
+        }
+        wrefresh(summary);
+        delay(20);
+    }
+    wprintWithDelay(summary,20," :      ");
     
     wprintw(summary,"%05d",p2_moves);
     wrefresh(summary);
 
     wmove(summary,13,2);
 
-    wprintw(summary,"Bella partita, peró ha vinto: ");
+    wprintw(summary,"VINCITORE: ");
 
     i=0;
 
-    if(win_flag){
+    if(!win_flag){
         while(p1_nickname[++i] != '\0'){
             if(p1_nickname[i] !='\0'){
                 wprintw(summary,"%c",p1_nickname[--i]);
@@ -317,7 +343,7 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
         wrefresh(summary);
         }
     }
-    else{
+    else if(win_flag){
         while(p2_nickname[++i] != '\0'){
             if(p2_nickname[i] !='\0'){
                 wprintw(summary,"%c",p2_nickname[--i]);
@@ -326,10 +352,11 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
         wrefresh(summary);
         }
     }
+    else{ wprintw(summary,"PAREGGIO"); wrefresh(summary);} /*In realtá non accade mai, almeno, dipende dalle disposizioni*/
     
     delay(500);
 
-    wmove(summary,14,(COLS/2)-9);
+    wmove(summary,16,(COLS/2)-9);
     wattron(summary, A_STANDOUT );
     wprintw(summary,"> Torna al menu! <");
     wattroff(summary, A_STANDOUT );
