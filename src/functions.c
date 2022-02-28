@@ -85,6 +85,41 @@ void form(char *memory, int m_size, char title[]){
 }
 
 /**
+ * @brief Conta il numero di righe di una
+ * ASCII art rettangolare importata in C attraverso xxd.
+ * 
+ * @param ascii La stringa contenente la ASCII art.
+ * @return Il numero di righe.
+ */
+int getASCIIArtRows(char ascii[])
+{
+    int i = 0, r = 1;
+    while (ascii[i] != '\0')
+    {
+        if (ascii[i] == '\n')
+        {
+            ++r;
+        }
+        ++i;
+    }
+    return r;
+}
+
+/**
+ * @brief Conta il numero di colonne di una
+ * ASCII art rettangolare importata in C attraverso xxd.
+ * @param ascii La stringa contenente la ASCII art.
+ * @return Il numero di colonne
+ */
+int getASCIIArtCols(char ascii[])
+{
+    int i = 0;
+    while (ascii[i] != '\n' && ascii[i] != '\0')
+        ++i;
+    return i;
+}
+
+/**
  * @brief una funzione delay. [ATTENZIONE, É BLOCCANTE]
  * 
  * @param[in] millisec tempo in millisecondi.
@@ -125,6 +160,24 @@ void wprintWithDelay(WINDOW* w,int d,char* c){
         i++;
         wrefresh(w);
         delay(d);
+    }
+}
+
+void mvwprintwrows(WINDOW* w, int y, int x, char* c)
+{
+    int i = 0, j = 0;
+    wmove(w, y, x);
+    while (c[j] != '\0')
+    {
+        if (c[j] == '\n')
+        {
+            wmove(w, y + ++i, x);
+        }
+        else
+        {
+            waddch(w, c[j]);
+        }
+        ++j;
     }
 }
 

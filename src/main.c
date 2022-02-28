@@ -39,12 +39,10 @@ const unsigned char ASCII_logo[] = {
     0x20, 0x20, 0x20, 0x20, 0x20, 0x24, 0x23, 0x23, 0x20, 0x20, 0x20, 0x20,
     0x20, 0x20, 0x20, 0x20, 0x23, 0x24, 0x23, 0x20, 0x20, 0x20, 0x20, 0x20,
     0x20, 0x20, 0x20, 0x20, 0x20, 0x23, 0x4c, 0x23, 0x20, 0x20, 0x20, 0x23,
-    0x2a, 0x23};
+    0x2a, 0x23, 0x0};
 
 void initColors();
 void initMainScreen();
-int getSplashLogoHeight();
-int getSplashLogoWidth();
 void printLogo();
 void printMenu();
 void printCredits();
@@ -115,45 +113,6 @@ void initColors(){
 }
 
 /**
- * @brief Calcola quante righe occuperà
- * il logo per essere stampato
- * utilizzato per cambiare
- * facilmente il logo senza hardcodare
- * l'altezza del file nel codice
- */
-int getSplashLogoHeight(){
-    int i, c = 1;
-    for (i = 0; i < sizeof ASCII_logo; ++i)
-    {
-        if (ASCII_logo[i] == '\n')
-        {
-            c++;
-        }
-    }
-    return c;
-}
-
-/**
- * @brief calcola quante colonne occuperà
- * il logo per essere stampato
- * utilizzato per cambiare
- * facilmente il logo senza hardcodare
- * la larghezza del file nel codice.
- */
-int getSplashLogoWidth(){
-    int i, c = 1;
-    for (i = 0; i < sizeof ASCII_logo; ++i)
-    {
-        if (ASCII_logo[i] == '\n')
-        {
-            return c;
-        }
-        c++;
-    }
-    return c;
-}
-
-/**
  * @brief stampa il logo del gioco in ASCII art.
  */
 void printLogo(){
@@ -162,22 +121,8 @@ void printLogo(){
     
     logo = newwin( 10, COLS-2, 1, 1 );
 
-    space = (COLS - getSplashLogoWidth()) / 2 - 5;
-    for (j = 0; j < space; ++j)
-    {
-        wprintw(logo," ");
-    }
-    for (i = 0; i < sizeof ASCII_logo; i++)
-    {
-        wprintw(logo,"%c", ASCII_logo[i]);
-        if (ASCII_logo[i] == '\n')
-        {
-            for (j = 0; j < space; ++j)
-            {
-                wprintw(logo," ");
-            }
-        }
-    }
+    space = (COLS - getASCIIArtCols(ASCII_logo)) / 2 - 5;
+    mvwprintwrows(logo, 0, space, ASCII_logo);
     wrefresh(logo);
     /* Nasconde il cursore di sistema*/
     curs_set(0);

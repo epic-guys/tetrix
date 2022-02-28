@@ -9,6 +9,15 @@ void killWin(WINDOW* w);
 
 void wprintWithDelay(WINDOW* w,int d,char* c);
 
+void mvwprintwrows(WINDOW* w, int y, int x, char* c);
+
 int swapColor(int c);
+
+#pragma region ASCII ART
+
+int getASCIIArtRows(char ascii[]);
+int getASCIIArtCols(char ascii[]);
+
+#pragma endregion
 
 #endif
