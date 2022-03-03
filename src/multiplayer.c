@@ -297,7 +297,7 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     delay(500);
     
     wmove(summary,10,2);
-    wprintWithDelay(summary,20,"Turni di gioco")
+    wprintWithDelay(summary,20,"Turni di gioco");
     i=0;
     while(p1_nickname[++i] != '\0'){
         if(p1_nickname[i] !='\0'){
@@ -313,7 +313,7 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     wrefresh(summary);
     
     wmove(summary,11,2);
-    wprintWithDelay(summary,20,"Turni di gioco")
+    wprintWithDelay(summary,20,"Turni di gioco");
     i=0;
     while(p1_nickname[++i] != '\0'){
         if(p1_nickname[i] !='\0'){
@@ -376,3 +376,5 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     killWin(summary);
     return;
 }
+
+//dopo lo cancello sto provando
