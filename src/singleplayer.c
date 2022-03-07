@@ -111,7 +111,7 @@ void newGameSingle(){
     tetrimini_pool_t *pool;
     pointboard_t *points;
     
-    char *nickname = (char*) calloc(sizeof(char),16);
+    char *nickname = (char*) malloc(sizeof(char) * 16);
     form(nickname, 16, " Nome: ");
     refresh();
 

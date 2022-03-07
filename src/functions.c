@@ -26,6 +26,7 @@ void form(char *memory, int m_size, char title[]){
     
     /*stampa gli underscore, mette il cursore, pulisce la memoria, aggiunge il null terminator*/
     for(i=0;i<m_size;++i){
+        memory[i] = 0;
         if(i==0){
             wattron( w, A_STANDOUT );
         }
