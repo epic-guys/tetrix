@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <functions.h>
 #include <tetrimino.h>
 #include <time.h>
 
@@ -39,10 +38,19 @@ void form(char *memory, int m_size, char title[]){
     wrefresh(w);
 
     i=0;
-    while(ch != 10){
+    /*
+    Bisogna fare un loop infinito perché l'input viene preso all'interno della funzione.
+    Sarà poi la funzione a doverlo rompere appena incontra il carattere '\n'.
+    Utilizzando il metodo vecchio, viene aggiunto il carattere '\n' alla stringa.
+    */
+    while(1){
         ch = wgetch(w);
-        
-        if(ch == 127){
+        /*
+        Avrei voluto usare uno switch ma sarebbe stato un problema fare break,
+        dato che è necessario per lo switch.
+        */
+        if (ch == '\n') break;
+        else if(ch == 127){
             if(i>0){
                 memory[--i] = '\0';
             }
@@ -50,6 +58,7 @@ void form(char *memory, int m_size, char title[]){
         else{
             if(i<m_size){
                 memory[i++] = ch;
+                //memory[i] = '\0';
             }
         }
 
@@ -73,10 +82,7 @@ void form(char *memory, int m_size, char title[]){
         wrefresh(w);
     }
 
-    wclear(w);
-    wrefresh(w);
-    delwin(w);
-    endwin();
+    killWin(w);
     
     memory[++i] = '\0';
     memory=realloc(memory,i);
