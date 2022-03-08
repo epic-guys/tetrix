@@ -15,7 +15,7 @@ typedef struct GameField
  * 
  * @param[in] y_pos La posizione Y iniziale in cui posizionare la finestra.
  * @param[in] x_pos La posizione X iniziale in cui posizionare la finestra.
- * @param[out] g Lo struct del gamefield istanziato.
+ * @return Lo struct del gamefield istanziato.
  */
 gamefield_t *initializeGameField(int y, int x){
 

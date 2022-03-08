@@ -14,6 +14,7 @@ add_library(libtetrix
     src/multiplayer.c
     src/tetrimino.c
     src/functions.c
+    src/constants.c
 
 )
 

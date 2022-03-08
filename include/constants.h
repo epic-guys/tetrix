@@ -74,4 +74,12 @@
 
 #pragma endregion
 
+#pragma region ART
+
+extern const unsigned char ART_LOGO[];
+
+extern const char ART_GAME_OVER[];
+
+#pragma endregion
+
 #endif

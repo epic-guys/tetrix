@@ -219,7 +219,7 @@ typedef struct TetriminiPool
  * 
  * @param[in] y La riga da dalla quale deve iniziare a poizionare la finestra.
  * @param[in] x La colonna da dalla quale deve iniziare a poizionare la finestra.
- * @param[out] p Lo struct della pool istanziato.
+ * @return Lo struct della pool istanziato.
  */
 tetrimini_pool_t *initializePool(int y, int x){
     int i;

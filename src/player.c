@@ -94,11 +94,11 @@ void freePointBoard(pointboard_t* p){
  * @param[in] board La pointboard da ricaricare.
  */
 void refreshPointBoard(pointboard_t *board){
-    mvwprintw(board->win, 2, 2, "%s", board->player_1->nickname);
+    mvwprintw(board->win, 2, 1, "%s", board->player_1->nickname);
     mvwprintw(board->win, 2, POINTBOARD_COLS-6, "%05d", board->player_1->points);
     if (board->player_2)
     {
-        mvwprintw(board->win, 4, 2, "%s", board->player_2->nickname);
+        mvwprintw(board->win, 4, 1, "%s", board->player_2->nickname);
         mvwprintw(board->win, 4, POINTBOARD_COLS-6, "%05d", board->player_2->points);
     }
     wrefresh(board->win);
