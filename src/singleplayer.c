@@ -79,16 +79,23 @@ void newGameSingle(){
     pointboard_t *points;
     
     char *nickname = (char*) malloc(sizeof(char) * 16);
+    int logo_rows = getASCIIArtRows(ART_LOGO);
     form(nickname, 16, " Nome: ");
     refresh();
 
-    instructions(nickname);
+    //instructions(nickname);
 
     player = initializePlayer(nickname);
-    /* FIXME STO ANCORA SISTEMANDO, MI È SALITO SONNO */
-    gameField = initializeGameField(7, (COLS - POOL_COLS - POINTBOARD_COLS - FIELD_W_COLS) / 2);
-    pool = initializePool(6, 0);
-    points = initializePointBoard(10, COLS - 28, player, NULL);
+    /*
+    FIXME per qualche ragione il campo e la pool continuano
+    a spostarsi troppo sotto quando il terminale è troppo piccolo
+    */
+    gameField = initializeGameField(
+        (LINES + logo_rows - FIELD_W_ROWS - 3) / 2,
+        (COLS + POOL_COLS - POINTBOARD_COLS - FIELD_W_COLS) / 2
+        );
+    pool = initializePool((LINES + logo_rows - POOL_ROWS) / 2, 0);
+    points = initializePointBoard(10, COLS - POINTBOARD_COLS, player, NULL);
     single_continueGame(player, gameField, pool, points);
     return;
 }
