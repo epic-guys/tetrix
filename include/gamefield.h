@@ -23,4 +23,6 @@ int* getGamefield(gamefield_t *g);
 
 WINDOW* getGamefieldWin(gamefield_t *g);
 
+int is_row_empty(gamefield_t *field, int row);
+
 #endif

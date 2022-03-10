@@ -252,3 +252,45 @@ int* getGamefield(gamefield_t *g){
 WINDOW* getGamefieldWin(gamefield_t *g){
     return g->win;
 }
+
+/**
+ * @brief Controlla se la riga del campo, entrambi specificati
+ * via parametro, è vuota.
+ * 
+ * @param field Il campo su cui controllare la riga
+ * @param row La riga da controllare
+ * @return 1 se la riga è vuota, 0 se ha almeno un blocco, -1 se la riga
+ * è fuori dal campo
+ */
+int is_row_empty(gamefield_t *field, int row)
+{
+    int i;
+    if (row < 0 || row >= 15) return -1;
+    for (i = 0; i < FIELD_COLS; ++i)
+    {
+        if (field->field[row][i])
+            return 0;
+    }
+    return 1;
+}
+
+/**
+ * @brief Controlla se la riga del campo, entrambi specificati
+ * via parametro, è piena.
+ * 
+ * @param field Il campo su cui controllare la riga
+ * @param row La riga da controllare
+ * @return 1 se la riga è piena, 0 se ha almeno una cella vuota, -1 se la riga
+ * è fuori dal campo
+ */
+int is_row_full(gamefield_t *field, int row)
+{
+    int i;
+    if (row < 0 || row >= 15) return -1;
+    for (i = 0; i < FIELD_COLS; ++i)
+    {
+        if (!field->field[row][i])
+            return 0;
+    }
+    return 1;
+}

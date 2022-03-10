@@ -21,59 +21,55 @@ void pvp_instructions(){
  * 
  */
 void newGameMulti(){
-    player_t *player1;
-    player_t *player2;
-    gamefield_t *gameField1;
-    gamefield_t *gameField2;
+    player_t **players = (player_t **) malloc(sizeof(player_t *) * 2);
+    gamefield_t **gameFields = (gamefield_t **) malloc(sizeof(gamefield_t *) * 2);
+
     tetrimini_pool_t *pool;
     pointboard_t *points;
 
-    char *nickname1 = (char*) calloc(sizeof(char),16);
-    char *nickname2 = (char*) calloc(sizeof(char),16);
+    char *nickname1 = (char*) malloc(sizeof(char) * 16);
+    char *nickname2 = (char*) malloc(sizeof(char) * 16);
 
     form(nickname1, 16, " Nome 1: ");
     refresh();
     form(nickname2, 16, " Nome 2: ");
     refresh();
 
-    player1 = initializePlayer(nickname1);
-    player2 = initializePlayer(nickname2);
-    gameField1 = initializeGameField(12, 5);
-    gameField2 = initializeGameField(12, (COLS/2)+(POOL_COLS/2));
+    players[0] = initializePlayer(nickname1);
+    players[1] = initializePlayer(nickname2);    
+    gameFields[0] = initializeGameField(12, 5);
+    gameFields[1] = initializeGameField(12, (COLS/2)+(POOL_COLS/2));
     pool = initializePool(12, (COLS/2)-(POOL_COLS/2)-20);
-    points = initializePointBoard(10, COLS - 30, player1, player2);
+    points = initializePointBoard(10, COLS - 30, players[0], players[1]);
 
-    pvp_continueGame(player1, player2, gameField1, gameField2, pool, points);
+    pvp_continueGame(players, gameFields, pool, points);
 }
 
-void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameField1, gamefield_t *gameField2, tetrimini_pool_t *pool, pointboard_t *points){
-    int p1_can_play =1, p2_can_play =1,selected_i;
+void pvp_continueGame(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points){
+    int can_play[2] = {1, 1};
+    int selected_i;
     tetrimino_t *selected_t;
     unsigned int start_time = time(NULL),seed=time(0);
-    int p1_moves=0;
-    int p2_moves=0;
+    int *moves = (int*)malloc(sizeof(int) * 2);
+    moves[0] = 0;
+    moves[1] = 0;
+    int turn;
 
     /*Il giocatore che inizia é deciso random*/
     srand(time(0));
-    int turn = rand()%2;
+    turn = rand()%2;
     
-    while (p1_can_play && p2_can_play)
+    while (can_play[0] && can_play[1])
     {
         int dropping = 1, cursor,i,j,deletedRows=0, skip = 1,backspace_pressed=0;
-        int *field1, *field2;
+        int *currentField;
         
         selected_i = selectTetrimino(pool);
         selected_t = getTetrimino(selected_i);
         cursor = (FIELD_COLS - getTetCols(selected_t)) / 2;
-        
-        if(turn==0){
-            field1 = getGamefield(gameField1);
-            refreshSelector(gameField1, selected_t, cursor);
-        }
-        else if(turn==1){
-            field2 = getGamefield(gameField2);
-            refreshSelector(gameField2, selected_t, cursor);
-        }
+
+        currentField = getGamefield(gameFields[turn]);
+        refreshSelector(gameFields[turn], selected_t, cursor);
 
         while(dropping){
             int ch = getch();
@@ -83,31 +79,31 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
                     /*Muove il tetramino a destra*/
                     if (getTetCols(selected_t) + cursor < FIELD_COLS)
                         ++cursor;
-                        refreshSelector(turn==0 ? gameField1 : gameField2, selected_t, cursor);
+                        refreshSelector(gameFields[turn], selected_t, cursor);
 
                     break;
                 case KEY_LEFT:
                     /*Muove il tetramino a sinistra*/
                     if (cursor > 0)
                         --cursor;
-                    refreshSelector(turn==0 ? gameField1 : gameField2, selected_t, cursor);
+                    refreshSelector(gameFields[turn], selected_t, cursor);
                     break;
                 case KEY_UP:
                     /*ruota matrice di 90 gradi*/
                     safeRotateTetrimino(selected_t, cursor);
-                    refreshSelector(turn==0 ? gameField1 : gameField2, selected_t, cursor);
-                break;
+                    refreshSelector(gameFields[turn], selected_t, cursor);
+                    break;
                 case KEY_DOWN:
                     /*Droppa il tetramino*/
                     dropping = 0;
-                    clearTop(turn==0 ? gameField1 : gameField2);
-                    addTetriminoToGameField(turn==0 ? gameField1 : gameField2,selected_t,cursor);
-                    refreshGamefield(turn==0 ? gameField1 : gameField2);
+                    clearTop(gameFields[turn]);
+                    addTetriminoToGameField(gameFields[turn],selected_t,cursor);
+                    refreshGamefield(gameFields[turn]);
                     break;
                 case KEY_BACKSPACE:
                     /*Annulla la selezione*/
-                    clearTop(turn==0 ? gameField1 : gameField2);
-                    refreshGamefield(turn==0 ? gameField1 : gameField2);
+                    clearTop(gameFields[turn]);
+                    refreshGamefield(gameFields[turn]);
                     backspace_pressed=1;
                     ch=-1;
                     dropping = 0;
@@ -115,41 +111,22 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
             }
 
             /*Aggiorna il counter delle mosse del giocatore*/
-            turn==0 ? p1_moves++ : p2_moves++;
+            moves[turn]++;
 
             /*Droppato un tetramino verifico se le righe sono state riempite*/
-            for(i=0;i<FIELD_ROWS;++i){
-                int empty=0;
-                for(j=0;j<FIELD_COLS;++j){
-                    if(turn==0){
-                        if(!field1[i * FIELD_COLS + j]){
-                            empty=1;
-                            break;
-                        }
-                    }
-                    else{
-                        if(!field2[i * FIELD_COLS + j]){
-                            empty=1;
-                            break;
-                        }
-                    }
-                }
-                if(!empty){
+            for(i = 0; i < FIELD_ROWS; ++i)
+            {
+                if(is_row_full(gameFields[turn], i)){
                     int k,l;
-                    mvwprintw(getGamefieldWin(turn==0 ? gameField1 : gameField2), i + 4, 1, "====================");
-                    wrefresh(getGamefieldWin(turn==0 ? gameField1 : gameField2));
+                    mvwprintw(getGamefieldWin(gameFields[turn]), i + 4, 1, "====================");
+                    wrefresh(getGamefieldWin(gameFields[turn]));
                     delay(100);
                     deletedRows++;
                     for(k=i;k>0;--k){
                         for(l=0;l<FIELD_COLS;++l){
-                            if(turn==0){
-                                field1[k*FIELD_COLS+l] = field1[(k-1)*FIELD_COLS+l];
-                            }
-                            else{
-                                field2[k*FIELD_COLS+l] = field2[(k-1)*FIELD_COLS+l];
-                            }
+                            currentField[k * FIELD_COLS + l] = currentField[(k-1)*FIELD_COLS+l];
                         }
-                        refreshGamefield(turn==0 ? gameField1 : gameField2);
+                        refreshGamefield(gameFields[turn]);
                         delay(50); /*la funzione in realtá blocca di fatti tutto il programma per 50 millisecondi*/
                     }
                 }
@@ -161,61 +138,49 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
         switch (deletedRows)
         {
         case 1:
-            playerAddPoints(turn==0 ? player1 : player2,points,POINTS_ONE_ROW_DELETED);
+            playerAddPoints(players[turn], points, POINTS_ONE_ROW_DELETED);
             break;
         case 2:
-            playerAddPoints(turn==0 ? player1 : player2,points,POINTS_TWO_ROW_DELETED);
+            playerAddPoints(players[turn], points, POINTS_TWO_ROW_DELETED);
             break;
             /*da aggiustare secondo specifiche del readme*/
         case 3:
-            playerAddPoints(turn==0 ? player1 : player2,points,POINTS_THREE_ROW_DELETED);
+            playerAddPoints(players[turn], points, POINTS_THREE_ROW_DELETED);
             break;
         case 4:
-            playerAddPoints(turn==0 ? player1 : player2,points,POINTS_FOUR_ROW_DELETED);
+            playerAddPoints(players[turn], points, POINTS_FOUR_ROW_DELETED);
             break;
         default:
             break;
         }
-        
+
         /*resetto le righe eliminate nel turno*/
         deletedRows = 0;
         dropping = 0;
 
         /*verifico che ci siano ancora le condizioni per giocare*/
-        if(noTetriminosLeft(pool) || gameFieldTopIsOccupied(turn==0 ? gameField1 : gameField2)){
-            if(turn==0){
-                p1_can_play=0;
-            }
-            else{
-                p2_can_play=0;
-            }
+        if(noTetriminosLeft(pool) || gameFieldTopIsOccupied(gameFields[turn])){
+            can_play[turn] = 0;
+            
             freeTetrimino(selected_t);
         }
-        
-        if(noTetriminosLeft(pool)){
-            pvp_endGame(!turn,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
+
+        if (noTetriminosLeft(pool))
+        {
+            int winner = getPlayerPoints(players[0]) < getPlayerPoints(players[1]);
+            pvp_endGame(winner, gameFields, pool, points, players, start_time, moves);
             return;
         }
-        else if(gameFieldTopIsOccupied(turn==0 ? gameField1 : gameField2)){
-            if(getPlayerPoints(player1)>getPlayerPoints(player2)){
-                pvp_endGame(0,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
-            }
-            else if(getPlayerPoints(player1)>getPlayerPoints(player2)){
-                pvp_endGame(1,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
-            }
-            else{
-                pvp_endGame(!turn,gameField1,gameField2,pool,points,player1,player2,start_time,p1_moves,p2_moves);
-            }
+        if (gameFieldTopIsOccupied(gameFields[turn]))
+        {
+            pvp_endGame(1 - turn, gameFields, pool, points, players, start_time, moves);
             return;
         }
-        
-        if(turn==0 && backspace_pressed==0){
-            turn=1;
-            p1_moves++;
-        }
-        else if(turn==1 && backspace_pressed==0){
-            turn=0;
-            p2_moves++;
+
+        if (!backspace_pressed)
+        {
+            moves[turn]++;
+            turn = 1 - turn;
         }
 
         backspace_pressed=0;
@@ -225,9 +190,9 @@ void pvp_continueGame(player_t *player1, player_t *player2, gamefield_t *gameFie
 
 /*da finire di aggiustare*/
 
-void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, tetrimini_pool_t *pool, pointboard_t *points, player_t *player1, player_t *player2,unsigned int start_time,int p1_moves, int p2_moves)/*thanos++*/{
-    WINDOW* field1Win = getGamefieldWin(gameField1);
-    WINDOW* field2Win = getGamefieldWin(gameField2);
+void pvp_endGame(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players,unsigned int start_time,int *moves)/*thanos++*/{
+    WINDOW* field1Win = getGamefieldWin(gameFields[0]);
+    WINDOW* field2Win = getGamefieldWin(gameFields[1]);
     WINDOW* poolWin = getPoolWin(pool);
     WINDOW* pointWin = getPointBoardWin(points);
     WINDOW *summary;
@@ -237,11 +202,10 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     int i;
 
     char* thanks_TXT = "GRAZIE PER AVER GIOCATO A TETRIX!";
-    char* p1_nickname = getPlayerNick(player1);
-    char* p2_nickname = getPlayerNick(player2);
+    char* p1_nickname = getPlayerNick(players[0]);
+    char* p2_nickname = getPlayerNick(players[1]);
     char* stats_TXT =   "ECCO LE VOSTRE STATISTICHE:";
-    unsigned int player1Points = getPlayerPoints(player1);
-    unsigned int player2Points = getPlayerPoints(player2);
+    unsigned int playersPoints[2] = { getPlayerPoints(players[0]), getPlayerPoints(players[1])};
     char* matchTime_TXT = "Durata del match:    ";
 
     killWin(field1Win);
@@ -270,7 +234,7 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
         delay(20);
     }
     wprintWithDelay(summary,20," : ");
-    wprintw(summary,"%05u",player1Points);
+    wprintw(summary,"%05u",playersPoints[0]);
     wmove(summary,6,2);
     wprintWithDelay(summary,20,"Punteggio ");
     i=0;
@@ -283,7 +247,7 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
         delay(20);
     }
     wprintWithDelay(summary,20," : ");
-    wprintw(summary,"%05u",player2Points);
+    wprintw(summary,"%05u",playersPoints[1]);
     wrefresh(summary);
     
     delay(500);
@@ -309,7 +273,7 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     }
     wprintWithDelay(summary,20," :      ");
     
-    wprintw(summary,"%05d",p1_moves);
+    wprintw(summary,"%05d",moves[0]);
     wrefresh(summary);
     
     wmove(summary,11,2);
@@ -325,7 +289,7 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     }
     wprintWithDelay(summary,20," :      ");
     
-    wprintw(summary,"%05d",p2_moves);
+    wprintw(summary,"%05d",moves[1]);
     wrefresh(summary);
 
     wmove(summary,13,2);
@@ -362,10 +326,15 @@ void pvp_endGame(int win_flag,gamefield_t *gameField1, gamefield_t *gameField2, 
     wattroff(summary, A_STANDOUT );
     wrefresh(summary);
 
-    freeGamefield(gameField1);
-    freeGamefield(gameField2);
+    freePlayer(players[0]);
+    freePlayer(players[1]);
+    free(players);
+    freeGamefield(gameFields[0]);
+    freeGamefield(gameFields[1]);
+    free(gameFields);
     freePool(pool);
     freePointBoard(points);
+    free(moves);
 
     ch = -1;
 
