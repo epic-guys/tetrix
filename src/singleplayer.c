@@ -83,7 +83,7 @@ void newGameSingle(){
     form(nickname, 16, " Nome: ");
     refresh();
 
-    //instructions(nickname);
+    instructions(nickname);
 
     player = initializePlayer(nickname);
     /*
