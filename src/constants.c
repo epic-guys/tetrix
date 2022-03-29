@@ -69,3 +69,18 @@ const char ART_GAME_OVER[] = {
   0x2d, 0x2d, 0x2d, 0x2d, 0x27, 0x60, 0x2d, 0x2d, 0x27, 0x20, 0x27, 0x2d,
   0x2d, 0x27, 0x20, 0x0a, 0x0
 };
+
+const char *SINGLE_WELCOME_TXT[] = {
+  "Ciao, ",
+  "Benvenuto su Tetrix, di seguito troverai le istruzioni per il gioco\n\n"
+  "Parte 1: \n"
+  "Usa le freccie UP e DOWN per muoverti nella pool di tetramini, premi ENTER per selezionarne uno\n\n"
+  "Parte 2:\nUsa le freccie LEFT e RIGHT per muovere il tetramino sopra la pool,\n"
+  "Premi freccia UP per ruotare il tetramino di 90 gradi, premi BACKSPACE per tornare alla selezione dei tetramini,\n"
+  "premi freccia DOWN per piazzarlo.\n\n"
+  "Punteggio e Game Over:\n"
+  "La rimozione di una riga vale 1 punto, la rimozione di due righe con un solo pezzo vale 3 punti, tre righe 6 punti,\n"
+  "quattro righe 12 punti.\n"
+  "Il gioco termina quando finiscono i pezzi o il giocatore non riesce a posizionare un tetramino nel campo di gioco\n"
+  "rispettando il limite di altezza."
+};

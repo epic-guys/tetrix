@@ -8,6 +8,7 @@
 #include <../include/tetrimino.h>
 #include <../include/functions.h>
 #include <../include/constants.h>
+#include "../src/constants.c"
 
 
 void single_continueGame(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
@@ -18,18 +19,6 @@ void instructions(char* nickname){
     WINDOW *instructions_win;
     char ch;
     int i;
-    char* welcome_TXT =     "Ciao, ";
-    char* welcome2_TXT =    "Benvenuto su Tetrix, di seguito troverai le istruzioni per il gioco\n\n"
-                            "Parte 1: \n"
-                            "Usa le freccie UP e DOWN per muoverti nella pool di tetramini, premi ENTER per selezionarne uno\n\n"
-                            "Parte 2:\nUsa le freccie LEFT e RIGHT per muovere il tetramino sopra la pool,\n"
-                            "Premi freccia UP per ruotare il tetramino di 90 gradi, premi BACKSPACE per tornare alla selezione dei tetramini,\n"
-                            "premi freccia DOWN per piazzarlo.\n\n"
-                            "Punteggio e Game Over:\n"
-                            "La rimozione di una riga vale 1 punto, la rimozione di due righe con un solo pezzo vale 3 punti, tre righe 6 punti,\n"
-                            "quattro righe 12 punti.\n"
-                            "Il gioco termina quando finiscono i pezzi o il giocatore non riesce a posizionare un tetramino nel campo di gioco\n"
-                            "rispettando il limite di altezza.";
     int art_cols = getASCIIArtRows(ART_LOGO);
     /* 3 è l'altezza della finestra dei credits */
     instructions_win = newwin( LINES - art_cols - 3, COLS, 6 , 0 );
@@ -37,19 +26,10 @@ void instructions(char* nickname){
     mvwprintw(instructions_win,0,1," BENVENUTO ");
     
     wmove(instructions_win,2,2);
-    wprintWithDelay(instructions_win,20,welcome_TXT);
-    
-    while(nickname[i] != '\0'){
-        
-        wprintw(instructions_win,"%c",nickname[i]);
-        i++;
-        
-        wrefresh(instructions_win);
-        delay(20);
-    }
-
+    wprintWithDelay(instructions_win,20,SINGLE_WELCOME_TXT[0]);
+    wprintWithDelay(instructions_win,20,nickname);
     wmove(instructions_win,3,2);
-    wprintWithDelay(instructions_win,20,welcome2_TXT);
+    wprintWithDelay(instructions_win,20,SINGLE_WELCOME_TXT[1]);
     
     delay(1000);
 
@@ -257,14 +237,7 @@ void endGame(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *point
     wprintWithDelay(summary,20,thanks_TXT);
     
     i=0;
-    while(nickname[++i] != '\0'){
-        if(nickname[i] !='\0'){
-            wprintw(summary,"%c",nickname[--i]);
-            i++;
-        }
-        wrefresh(summary);
-        delay(20);
-    }
+    wprintWithDelay(summary,20,nickname);
     
     wmove(summary,3,2);
     wprintWithDelay(summary,20,stats_TXT);
