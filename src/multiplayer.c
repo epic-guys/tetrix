@@ -27,12 +27,12 @@ void newGameMulti(){
     tetrimini_pool_t *pool;
     pointboard_t *points;
 
-    char *nickname1 = (char*) malloc(sizeof(char) * 16);
-    char *nickname2 = (char*) malloc(sizeof(char) * 16);
+    char *nickname1;
+    char *nickname2;
 
-    form(nickname1, 16, " Nome 1: ");
+    nickname1 = form(16, " Nome 1: ");
     refresh();
-    form(nickname2, 16, " Nome 2: ");
+    nickname1= form(16, " Nome 2: ");
     refresh();
 
     players[0] = initializePlayer(nickname1);

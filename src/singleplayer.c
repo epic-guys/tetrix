@@ -58,9 +58,9 @@ void newGameSingle(){
     tetrimini_pool_t *pool;
     pointboard_t *points;
     
-    char *nickname = (char*) malloc(sizeof(char) * 16);
+    char *nickname;
     int logo_rows = getASCIIArtRows(ART_LOGO);
-    form(nickname, 16, " Nome: ");
+    nickname = form(16, " Nome: ");
     refresh();
 
     instructions(nickname);
