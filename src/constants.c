@@ -108,3 +108,12 @@ const char *PVP_WELCOME_TXT[] = {
   "Il gioco termina quando finiscono i pezzi o un giocatore non riesce a posizionare un tetramino nel campo di gioco\n"
   "rispettando il limite di altezza."
 };
+
+const char *PVP_END_TXT[] = {
+  "GRAZIE PER AVER GIOCATO A TETRIX! \n"
+  "ECCO LE VOSTRE STATISTICHE: \n\n",
+  "Punteggio ",
+  "Durata del match: ",
+  "Turni di gioco ",
+  "VINCITORE: "
+};

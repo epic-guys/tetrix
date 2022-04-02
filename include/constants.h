@@ -86,6 +86,7 @@ extern const char ART_GAME_OVER[];
 extern const char *SINGLE_WELCOME_TXT[];
 extern const char *SINGLE_END_TXT[];
 extern const char *PVP_WELCOME_TXT[];
+extern const char *PVP_END_TXT[];
 
 #pragma endregion
 

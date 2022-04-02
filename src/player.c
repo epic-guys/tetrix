@@ -96,16 +96,11 @@ void freePointBoard(pointboard_t* p){
  */
 void refreshPointBoard(pointboard_t *board){
 
-        wattron(board->win, A_STANDOUT );
     mvwprintw(board->win, 2, 1, "%s", board->player_1->nickname);
-    wattroff(board->win, A_STANDOUT );
     mvwprintw(board->win, 2, POINTBOARD_COLS-6, "%05d", board->player_1->points);
     if (board->player_2)
     {
-
-            wattron(board->win, A_STANDOUT );
         mvwprintw(board->win, 4, 1, "%s", board->player_2->nickname);
-        wattroff(board->win, A_STANDOUT );
         mvwprintw(board->win, 4, POINTBOARD_COLS-6, "%05d", board->player_2->points);
     }
     wrefresh(board->win);
