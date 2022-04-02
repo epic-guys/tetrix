@@ -222,7 +222,12 @@ void addTetriminoToGameField(gamefield_t *g,tetrimino_t *t,int cur_pos){
     }
 
 }
-
+/**
+ * @brief controlla se il gamefield é stato 
+ * saturato in almeno un blocco.
+ * @param[in] g gamefield da controllare
+ * @return int 
+ */
 int gameFieldTopIsOccupied(gamefield_t* g){
     int i,j;
     for(j=0;j<FIELD_COLS;++j){
@@ -283,7 +288,7 @@ int is_row_empty(gamefield_t *field, int row)
  * @return 1 se la riga è piena, 0 se ha almeno una cella vuota, -1 se la riga
  * è fuori dal campo
  */
-int is_row_full(gamefield_t *field, int row)
+int isRowFull(gamefield_t *field, int row)
 {
     int i;
     if (row < 0 || row >= 15) return -1;
@@ -293,4 +298,43 @@ int is_row_full(gamefield_t *field, int row)
             return 0;
     }
     return 1;
+}
+/**
+ * @brief Controlla se la riga del campo, entrambi specificati
+ * via parametro, è vuota.
+ * 
+ * @param field Il campo su cui controllare la riga
+ * @param row La riga da controllare
+ * @return 1 se la riga è vuota, 0 se ha almeno una cella piena, -1 se la riga
+ * è fuori dal campo
+ */
+int isRowEmpty(gamefield_t *field, int row){
+    int i;
+    if (row < 0 || row >= 15) return -1;
+    for (i = 0; i < FIELD_COLS; ++i)
+    {
+        if (field->field[row][i])
+            return 0;
+    }
+    return 1;
+}
+/**
+ * @brief inverte i valori in una riga del campo da gioco.
+ * 
+ * @param[in] field il campo da gioco 
+ * @param[in] row la riga dove effettuare l'operazione
+ */
+void flipValuesInRow(gamefield_t *field, int row){
+    row = FIELD_ROWS-row-1;
+    int i;
+    if(isRowEmpty(field,row) == 1){
+        for (i = 0; i < FIELD_COLS; ++i){
+            if(field->field[row][i] == 0){
+                field->field[row][i] = randomColor();
+            }
+            else{
+                field->field[row][i] = 0;
+            }
+        }
+    }
 }

@@ -30,7 +30,7 @@ void pvp_instructions(char* nickname1, char* nickname2){
 
     delay(1000);
 
-    wmove(instructions_win,18,(COLS/2)-4);
+    wmove(instructions_win,19,(COLS/2)-4);
     wattron(instructions_win, A_STANDOUT );
     wprintw(instructions_win,"> Gioca! <");
     wattroff(instructions_win, A_STANDOUT );
@@ -96,6 +96,7 @@ void pvp_continueGame(player_t **players, gamefield_t **gameFields, tetrimini_po
     {
         int dropping = 1, cursor,i,j,deletedRows=0, skip = 1,backspace_pressed=0;
         int *currentField;
+        mvprintw(11, (COLS/2)-(POOL_COLS/2)-19, "                                ");
         mvprintw(11, (COLS/2)-(POOL_COLS/2)-19, "Turno di: %s", getPlayerNick(players[turn]));
         refresh();
 
@@ -155,7 +156,7 @@ void pvp_continueGame(player_t **players, gamefield_t **gameFields, tetrimini_po
             /*Droppato un tetramino verifico se le righe sono state riempite*/
             for(i = 0; i < FIELD_ROWS; ++i)
             {
-                if(is_row_full(gameFields[turn], i)){
+                if(isRowFull(gameFields[turn], i)){
                     int k,l;
                     mvwprintw(getGamefieldWin(gameFields[turn]), i + 4, 1, "====================");
                     wrefresh(getGamefieldWin(gameFields[turn]));
@@ -182,12 +183,17 @@ void pvp_continueGame(player_t **players, gamefield_t **gameFields, tetrimini_po
         case 2:
             playerAddPoints(players[turn], points, POINTS_TWO_ROW_DELETED);
             break;
-            /*da aggiustare secondo specifiche del readme*/
         case 3:
-            playerAddPoints(players[turn], points, POINTS_THREE_ROW_DELETED);
+            for(i=0;i<3;++i){
+                flipValuesInRow(gameFields[1 - turn], i);
+            }
+            refreshGamefield(gameFields[1 - turn]);
             break;
         case 4:
-            playerAddPoints(players[turn], points, POINTS_FOUR_ROW_DELETED);
+            for(i=0;i<3;++i){
+                flipValuesInRow(gameFields[1 - turn], i);
+            }
+            refreshGamefield(gameFields[1 - turn]);
             break;
         default:
             break;

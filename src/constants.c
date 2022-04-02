@@ -103,8 +103,9 @@ const char *PVP_WELCOME_TXT[] = {
   "Premete freccia UP per ruotare il tetramino di 90 gradi, premete BACKSPACE per tornare alla selezione dei tetramini,\n"
   "premete freccia DOWN per piazzarlo.\n\n"
   "Punteggio e Game Over:\n"
-  "La rimozione di una riga vale 1 punto, la rimozione di due righe con un solo pezzo vale 3 punti, tre righe 6 punti,\n"
-  "quattro righe 12 punti.\n"
+  "La rimozione di una riga vale 1 punto, la rimozione di due righe con un solo pezzo vale 3 punti,\n"
+  "in caso di rimozione di tre o quattro righe il campo da gioco dell'avversario viene modificato,\n"
+  "viene invertito ogni blocco per il corrispondente numero di righe \n"
   "Il gioco termina quando finiscono i pezzi o un giocatore non riesce a posizionare un tetramino nel campo di gioco\n"
   "rispettando il limite di altezza."
 };

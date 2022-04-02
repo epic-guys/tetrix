@@ -4,6 +4,7 @@
 
 #include <tetrimino.h>
 #include <time.h>
+#include <constants.h>
 
 /**
  * @brief Funzione per creare un form al centro dello schermo
@@ -204,4 +205,12 @@ int swapColor(int c){
     if(c<100)
         return c+100;
     return c-100;
+}
+/**
+ * @brief ritorna un colore a caso tra quelli definiti in constants.h.
+ * 
+ * @return int il colore sotto forma numerica.
+ */ 
+int randomColor(){
+    return rand()%(COLOR_ORANGE+1);
 }
