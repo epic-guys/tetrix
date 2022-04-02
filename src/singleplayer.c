@@ -8,8 +8,6 @@
 #include <../include/tetrimino.h>
 #include <../include/functions.h>
 #include <../include/constants.h>
-#include "../src/constants.c"
-
 
 void single_continueGame(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
 void endGame(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves);
@@ -18,7 +16,6 @@ void newGameSingle();
 void instructions(char* nickname){
     WINDOW *instructions_win;
     char ch;
-    int i;
     int art_cols = getASCIIArtRows(ART_LOGO);
     /* 3 è l'altezza della finestra dei credits */
     instructions_win = newwin( LINES - art_cols - 3, COLS, 6 , 0 );
@@ -210,13 +207,8 @@ void endGame(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *point
     char ch;
     int i;
 
-    char* thanks_TXT = "GRAZIE PER AVER GIOCATO A TETRIX, ";
     char* nickname = getPlayerNick(player);
-    char* stats_TXT =   "ECCO LE TUE STATISTICHE: \n\n"
-                        "Punteggio totale:    ";
     unsigned int playerPoints = getPlayerPoints(player);
-    char* matchTime_TXT = "Durata del match:    ";
-    char* moves_TXT = "Turni di gioco:      ";
 
     int ypos = (getmaxy(summary) - getASCIIArtRows(ART_GAME_OVER)) / 2;
     int xpos = (getmaxx(summary) - getASCIIArtCols(ART_GAME_OVER)) / 2;
@@ -234,21 +226,15 @@ void endGame(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *point
     wrefresh(summary);
     
     wmove(summary,2,2);
-    wprintWithDelay(summary,20,thanks_TXT);
-    
-    i=0;
+    wprintWithDelay(summary,20,SINGLE_END_TXT[0]);
     wprintWithDelay(summary,20,nickname);
-    
     wmove(summary,3,2);
-    wprintWithDelay(summary,20,stats_TXT);
-    
+    wprintWithDelay(summary,20,SINGLE_END_TXT[1]);
     wprintw(summary,"%05u",playerPoints);
     wrefresh(summary);
-    
     delay(500);
-    
     wmove(summary,7,2);
-    wprintWithDelay(summary,20,matchTime_TXT);
+    wprintWithDelay(summary,20,SINGLE_END_TXT[2]);
     
     wprintw(summary,"%05u",(end_time-start_time));
     wrefresh(summary);
@@ -256,7 +242,7 @@ void endGame(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *point
     delay(500);
     
     wmove(summary,9,2);
-    wprintWithDelay(summary,20,moves_TXT);
+    wprintWithDelay(summary,20,SINGLE_END_TXT[3]);
     
     wprintw(summary,"%05d",moves);
     wrefresh(summary);

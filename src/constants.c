@@ -1,3 +1,4 @@
+#define CONSTANTS_C
 const unsigned char ART_LOGO[] = {
     0x20, 0x20, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x23, 0x20,
     0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
@@ -82,5 +83,28 @@ const char *SINGLE_WELCOME_TXT[] = {
   "La rimozione di una riga vale 1 punto, la rimozione di due righe con un solo pezzo vale 3 punti, tre righe 6 punti,\n"
   "quattro righe 12 punti.\n"
   "Il gioco termina quando finiscono i pezzi o il giocatore non riesce a posizionare un tetramino nel campo di gioco\n"
+  "rispettando il limite di altezza."
+};
+
+const char *SINGLE_END_TXT[] = {
+  "GRAZIE PER AVER GIOCATO A TETRIX, ",
+  "ECCO LE TUE STATISTICHE: \n\n"
+  "Punteggio totale:    ",
+  "Durata del match:    ",
+  "Turni di gioco:      "
+};
+
+const char *PVP_WELCOME_TXT[] = {
+  "Ciao, ",
+  "Benvenuti su Tetrix, di seguito troverete le istruzioni per il gioco\n\n"
+  "Parte 1: \n"
+  "Usate le freccie UP e DOWN per muovervi nella pool di tetramini, premete ENTER per selezionarne uno\n\n"
+  "Parte 2:\nUsate le freccie LEFT e RIGHT per muovere il tetramino sopra la pool,\n"
+  "Premete freccia UP per ruotare il tetramino di 90 gradi, premete BACKSPACE per tornare alla selezione dei tetramini,\n"
+  "premete freccia DOWN per piazzarlo.\n\n"
+  "Punteggio e Game Over:\n"
+  "La rimozione di una riga vale 1 punto, la rimozione di due righe con un solo pezzo vale 3 punti, tre righe 6 punti,\n"
+  "quattro righe 12 punti.\n"
+  "Il gioco termina quando finiscono i pezzi o un giocatore non riesce a posizionare un tetramino nel campo di gioco\n"
   "rispettando il limite di altezza."
 };

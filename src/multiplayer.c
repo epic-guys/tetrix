@@ -6,13 +6,42 @@
 #include <gamefield.h>
 #include <tetrimino.h>
 #include <functions.h>
-#include <constants.h>
+#include <../include/constants.h>
 
 void pvp_continueGame();
 void pvp_endGame();
 void newGameMulti();
 
-void pvp_instructions(){
+void pvp_instructions(char* nickname1, char* nickname2){
+    WINDOW *instructions_win;
+    char ch;
+    int art_cols = getASCIIArtRows(ART_LOGO);
+    instructions_win = newwin( LINES - art_cols - 3, COLS, 6 , 0 );
+    box(instructions_win, 0, 0 );
+    mvwprintw(instructions_win,0,1," BENVENUTI ");
+
+    wmove(instructions_win,2,2);
+    wprintWithDelay(instructions_win,20,PVP_WELCOME_TXT[0]);
+    wprintWithDelay(instructions_win,20,nickname1);
+    wprintWithDelay(instructions_win,20," e ");
+    wprintWithDelay(instructions_win,20,nickname2);
+    wmove(instructions_win,3,2);
+    wprintWithDelay(instructions_win,20,PVP_WELCOME_TXT[1]);
+
+    delay(1000);
+
+    wmove(instructions_win,18,(COLS/2)-4);
+    wattron(instructions_win, A_STANDOUT );
+    wprintw(instructions_win,"> Gioca! <");
+    wattroff(instructions_win, A_STANDOUT );
+    wrefresh(instructions_win);
+
+    ch = -1;
+    do{
+        ch = wgetch(instructions_win);
+    }while(ch != 10);
+
+    killWin(instructions_win);
     return;
 }
 
@@ -27,6 +56,7 @@ void newGameMulti(){
     tetrimini_pool_t *pool;
     pointboard_t *points;
 
+
     char *nickname1 = (char*) malloc(sizeof(char) * 16);
     char *nickname2 = (char*) malloc(sizeof(char) * 16);
 
@@ -35,8 +65,11 @@ void newGameMulti(){
     form(nickname2, 16, " Nome 2: ");
     refresh();
 
+    pvp_instructions(nickname1, nickname2);
+
     players[0] = initializePlayer(nickname1);
-    players[1] = initializePlayer(nickname2);    
+    players[1] = initializePlayer(nickname2);
+
     gameFields[0] = initializeGameField(12, 5);
     gameFields[1] = initializeGameField(12, (COLS/2)+(POOL_COLS/2));
     pool = initializePool(12, (COLS/2)-(POOL_COLS/2)-20);
