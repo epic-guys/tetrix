@@ -60,9 +60,9 @@ void newGameMulti(){
     char *nickname1 = (char*) malloc(sizeof(char) * 16);
     char *nickname2 = (char*) malloc(sizeof(char) * 16);
 
-    form(nickname1, 16, " Nome 1: ");
+    nickname1 = form(16, " Nome 1: ");
     refresh();
-    form(nickname2, 16, " Nome 2: ");
+    nickname1= form(16, " Nome 2: ");
     refresh();
 
     pvp_instructions(nickname1, nickname2);

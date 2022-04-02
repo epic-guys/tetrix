@@ -9,13 +9,14 @@
  * @brief Funzione per creare un form al centro dello schermo
  * la risposta viene caricata in un array di char (allocata dal caller)
  * 
- * @param[in] memory puntatore della malloc dove mettere la risposta.
  * @param[in] m_size dimensione massima della risposta che si vuole ricevere.
  * @param[in] title titolo della finestra.
+ * @return L'array contenente la stringa, di dimensione m_size + 1.
  */
-void form(char *memory, int m_size, char title[]){
+char* form(int m_size, char title[]){
     int i, ch, j, flag=0;
     WINDOW *w;
+    char* memory = calloc(m_size + 1, sizeof(char));
 
     m_size--;
     
@@ -26,7 +27,6 @@ void form(char *memory, int m_size, char title[]){
     
     /*stampa gli underscore, mette il cursore, pulisce la memoria, aggiunge il null terminator*/
     for(i=0;i<m_size;++i){
-        memory[i] = 0;
         if(i==0){
             wattron( w, A_STANDOUT );
         }
@@ -86,9 +86,8 @@ void form(char *memory, int m_size, char title[]){
     killWin(w);
     
     memory[++i] = '\0';
-    memory=realloc(memory,i);
 
-    return;
+    return memory;
 }
 
 /**
