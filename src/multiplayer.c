@@ -96,7 +96,6 @@ void pvp_continueGame(player_t **players, gamefield_t **gameFields, tetrimini_po
     {
         int dropping = 1, cursor,i,j,deletedRows=0, skip = 1,backspace_pressed=0;
         int *currentField;
-        
         mvprintw(11, (COLS/2)-(POOL_COLS/2)-19, "Turno di: %s", getPlayerNick(players[turn]));
         refresh();
 
@@ -150,7 +149,7 @@ void pvp_continueGame(player_t **players, gamefield_t **gameFields, tetrimini_po
 
             /*Aggiorna il counter delle mosse del giocatore*/
             if(!backspace_pressed){
-                moves[turn]++;
+                moves[turn] = moves[turn] + 1;
             }
 
             /*Droppato un tetramino verifico se le righe sono state riempite*/
@@ -239,6 +238,10 @@ void pvp_endGame(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool, 
     char ch;
     int i;
 
+    /*Dio dell'informatica perdonami per questa patch indegna,
+      credo sia colpa delle FS se sto veramente per pushare*/
+    moves[0] = moves[0]/6 + 1;
+    moves[1] = moves[1]/6 + 1;
     char* p1_nickname = getPlayerNick(players[0]);
     char* p2_nickname = getPlayerNick(players[1]);
     unsigned int playersPoints[2] = { getPlayerPoints(players[0]), getPlayerPoints(players[1])};
@@ -322,7 +325,7 @@ void pvp_endGame(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool, 
     free(gameFields);
     freePool(pool);
     freePointBoard(points);
-    //free(moves);
+    free(moves);
 
     ch = -1;
 
