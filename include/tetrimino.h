@@ -27,6 +27,8 @@ void refreshPool(tetrimini_pool_t *p);
 
 void removeTetriminoFromPool(int i, tetrimini_pool_t *pool);
 
+void addTetriminoFromPool(int i, tetrimini_pool_t *p);
+
 int noTetriminosLeft(tetrimini_pool_t *pool);
 
 WINDOW *getPoolWin(tetrimini_pool_t *t);

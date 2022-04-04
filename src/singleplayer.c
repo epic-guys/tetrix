@@ -132,11 +132,12 @@ void single_continueGame(player_t *player, gamefield_t *gameField, tetrimini_poo
                     /*Annulla la selezione*/
                     clearTop(gameField);
                     refreshGamefield(gameField);
+                    addTetriminoFromPool(selected_i, pool);
                     
                     ch=-1;
                     dropping = 0;
-                    continue;
                     moves--;
+                    continue;
             }
         }
         

@@ -408,6 +408,18 @@ void removeTetriminoFromPool(int i, tetrimini_pool_t *p){
 }
 
 /**
+ * @brief aggiunge un'unitá di un tetramino dalla pool.
+ * 
+ * @param[in] i il tipo di tetramino dalla quale aggiungere un'unitá.
+ * @param[in] p la pool di tetramini.
+ */
+void addTetriminoFromPool(int i, tetrimini_pool_t *p){
+    if(p->rem_tetriminos[i]>0)
+        p->rem_tetriminos[i]+=1;
+    refreshPool(p);
+}
+
+/**
  * @brief controlla se ci sono tetramini rimanenti.
  * 
  * @param[in] pool la pool di tetramini selezionabili.

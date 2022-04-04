@@ -141,6 +141,7 @@ void pvp_continueGame(player_t **players, gamefield_t **gameFields, tetrimini_po
                     /*Annulla la selezione*/
                     clearTop(gameFields[turn]);
                     refreshGamefield(gameFields[turn]);
+                    addTetriminoFromPool(selected_i, pool);
                     backspace_pressed=1;
                     ch=-1;
                     dropping = 0;
@@ -190,10 +191,10 @@ void pvp_continueGame(player_t **players, gamefield_t **gameFields, tetrimini_po
             refreshGamefield(gameFields[1 - turn]);
             break;
         case 4:
-            for(i=0;i<3;++i){
-                flipValuesInRow(gameFields[1 - turn], i);
+            for(i=0;i<4;++i){
+                flipValuesInRow(gameFields[1-turn], i);
             }
-            refreshGamefield(gameFields[1 - turn]);
+            refreshGamefield(gameFields[1-turn]);
             break;
         default:
             break;

@@ -327,6 +327,7 @@ int isRowEmpty(gamefield_t *field, int row){
 void flipValuesInRow(gamefield_t *field, int row){
     row = FIELD_ROWS-row-1;
     int i;
+    mvprintw(4,4,"%d",row);
     if(isRowEmpty(field,row) == 1){
         for (i = 0; i < FIELD_COLS; ++i){
             if(field->field[row][i] == 0){
