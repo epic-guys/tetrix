@@ -313,7 +313,7 @@ void flip_values_in_row(gamefield_t *field, int row){
         for (i = 0; i < FIELD_COLS; ++i){
             if(field->field[nrow][i] == 0){
                 field->field[nrow][i] = random_color();
-                delay(10);
+                delay(50);
                 refresh_gamefield(field);
             }
             else{
