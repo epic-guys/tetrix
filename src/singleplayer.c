@@ -128,6 +128,7 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
                     add_tetrimino_to_gamefield(gameField,selected_t,cursor);
                     refresh_gamefield(gameField);
                     break;
+                case 127: //non é un typo
                 case KEY_BACKSPACE:
                     /*Annulla la selezione*/
                     clear_top(gameField);

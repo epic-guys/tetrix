@@ -54,7 +54,7 @@ char* form(int m_size, char title[]){
         dato che è necessario per lo switch.
         */
         if (ch == '\n') break;
-        else if(ch == 127){
+        else if(ch == 127 || ch == KEY_BACKSPACE){
             if(i>0){
                 memory[--i] = '\0';
             }
@@ -62,7 +62,6 @@ char* form(int m_size, char title[]){
         else{
             if(i<m_size){
                 memory[i++] = ch;
-                //memory[i] = '\0';
             }
         }
 
