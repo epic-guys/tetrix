@@ -3,6 +3,7 @@
 #include <tetrimino.h>
 #include <gamefield.h>
 #include <constants.h>
+#include <functions.h>
 
 typedef struct GameField
 {
@@ -280,22 +281,43 @@ int is_row_full(gamefield_t *field, int row)
 }
 
 /**
+ * @brief Controlla se la riga del campo, entrambi specificati
+ * via parametro, è vuota.
+ * 
+ * @param field Il campo su cui controllare la riga
+ * @param row La riga da controllare
+ * @return 1 se la riga è vuota, 0 se ha almeno una cella piena, -1 se la riga
+ * è fuori dal campo
+ */
+int is_row_empty(gamefield_t *field, int row){
+    int i;
+    if (row < 0 || row >= 15) return -1;
+    for (i = 0; i < FIELD_COLS; ++i)
+    {
+        if (field->field[row][i])
+            return 0;
+    }
+    return 1;
+}
+
+/**
  * @brief inverte i valori in una riga del campo da gioco.
  * 
  * @param[in] field il campo da gioco 
  * @param[in] row la riga dove effettuare l'operazione
  */
 void flip_values_in_row(gamefield_t *field, int row){
-    row = FIELD_ROWS-row-1;
+    int nrow = FIELD_ROWS-row-1;
     int i;
-    mvprintw(4,4,"%d",row);
     if(is_row_empty(field,row) == 1){
         for (i = 0; i < FIELD_COLS; ++i){
-            if(field->field[row][i] == 0){
-                field->field[row][i] = random_color();
+            if(field->field[nrow][i] == 0){
+                field->field[nrow][i] = random_color();
+                delay(10);
+                refresh_gamefield(field);
             }
             else{
-                field->field[row][i] = 0;
+                field->field[nrow][i] = 0;
             }
         }
     }

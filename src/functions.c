@@ -213,5 +213,5 @@ int swap_color(int c){
  * @return int il colore sotto forma numerica.
  */ 
 int random_color(){
-    return rand()%(COLOR_ORANGE+1);
+    return rand()%(7/*numero colori*/)+1;
 }
