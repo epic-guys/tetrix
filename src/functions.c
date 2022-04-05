@@ -6,6 +6,8 @@
 #include <time.h>
 #include <constants.h>
 
+void killWin(WINDOW* w);
+
 /**
  * @brief Funzione per creare un form al centro dello schermo
  * la risposta viene caricata in un array di char (allocata dal caller)

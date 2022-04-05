@@ -45,6 +45,8 @@ typedef struct PointBoard
 
 }pointboard_t;
 
+void refreshPointBoard(pointboard_t *board);
+
 /**
  * @brief Inizializza una finestra che tiene traccia
  * dei punti di ogni giocatore. Viene posizionata con l'angolo
