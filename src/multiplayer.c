@@ -213,7 +213,7 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 
         if (no_tetriminos_left(pool))
         {
-            int winner = getPlayerPoints(players[0]) < getPlayerPoints(players[1]);
+            int winner = get_player_points(players[0]) < get_player_points(players[1]);
             pvp_end_game(winner, gameFields, pool, points, players, start_time, moves);
             return;
         }
@@ -251,7 +251,7 @@ void pvp_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
     moves[1] = moves[1]/6 + 1;
     char* p1_nickname = get_player_nick(players[0]);
     char* p2_nickname = get_player_nick(players[1]);
-    unsigned int playersPoints[2] = { getPlayerPoints(players[0]), getPlayerPoints(players[1])};
+    unsigned int playersPoints[2] = { get_player_points(players[0]), get_player_points(players[1])};
     kill_win(field1Win);
     kill_win(field2Win);
     kill_win(poolWin);

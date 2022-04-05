@@ -19,6 +19,6 @@ void player_add_points(player_t *p,pointboard_t* board, int points);
 
 char* get_player_nick(player_t* p);
 
-int getPlayerPoints(player_t* p);
+int get_player_points(player_t* p);
 
 #endif
