@@ -7,27 +7,27 @@
 #include <constants.h>
 
 
-void initColors();
-void initMainScreen();
-void printLogo();
-void printMenu();
-void printCredits();
+void init_colors();
+void init_main_screen();
+void print_logo();
+void print_menu();
+void print_credits();
 
 /**
  * @brief inizializza la finestra main di ncurses con i nostri parametri (é una funzione stub)
  */
-void initMainScreen(){
+void init_main_screen(){
     initscr();
     cbreak();
     keypad(stdscr, TRUE);
     noecho();
-    initColors();
+    init_colors();
     refresh();
 }
 /**
  * @brief inizializziamo tutti i colori (é una funzione stub)
  */
-void initColors(){
+void init_colors(){
     start_color();
     /* CIANO su sfondo NERO */
     init_pair(PAIR_CYAN,COLOR_CYAN,COLOR_BLACK);
@@ -81,13 +81,13 @@ void initColors(){
 /**
  * @brief stampa il logo del gioco in ASCII art.
  */
-void printLogo(){
+void print_logo(){
     WINDOW *logo;
     int i, j, space;
     
     logo = newwin( 10, COLS-2, 0, 0 );
 
-    space = (COLS - getASCIIArtCols(ART_LOGO)) / 2 - 5;
+    space = (COLS - get_ASCII_art_cols(ART_LOGO)) / 2 - 5;
     mvwprintwrows(logo, 0, space, ART_LOGO);
     wrefresh(logo);
     /* Nasconde il cursore di sistema*/
@@ -97,7 +97,7 @@ void printLogo(){
 /**
  * @brief stampa la finestra in basso con i nostri crediti.
  */
-void printCredits(){
+void print_credits(){
     WINDOW *credits;
     int x,y;
     credits = newwin( 3, COLS-2, LINES-3 , 1 );
@@ -111,7 +111,7 @@ void printCredits(){
 /**
  * @brief stampa e gestisce il menú principale.
  */
-void mainMenu(){
+void main_menu(){
     WINDOW *w;
     /*Quanti elementi ci sono nel menú*/
     int N_items = 4;
@@ -171,15 +171,15 @@ void mainMenu(){
     {
     case 0:
         /* Single */
-        killWin(w);
-        newGameSingle();
-        mainMenu();
+        kill_win(w);
+        new_game_single();
+        main_menu();
         break;
     case 1:
         /* PvP */
-        killWin(w);
-        newGameMulti();
-        mainMenu();
+        kill_win(w);
+        new_game_multi();
+        main_menu();
         break;
     case 2:
         /* PvCPU */
@@ -201,14 +201,14 @@ void mainMenu(){
 int main(){
     /*Inizia il programma*/
     /*Attivo NCURSES con i nostri parametri*/
-    initMainScreen();
+    init_main_screen();
     if(LINES < 30 || COLS < 125){
         printf("Comprati un monitor piu' grande, poveraccio!");
         endwin();
         return 69;
     }
-    printCredits();
-    printLogo();
-    mainMenu();
+    print_credits();
+    print_logo();
+    main_menu();
     return 0;
 }

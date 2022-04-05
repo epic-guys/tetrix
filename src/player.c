@@ -17,7 +17,7 @@ typedef struct Player
  * @param[in] nick Il nome del giocatore.
  * @param[out] p Lo struct giocatore istanziato. 
  */
-player_t *initializePlayer(char* nick){
+player_t *initialize_player(char* nick){
     player_t *player = (player_t*) malloc(sizeof(player_t));
     player->points = 0;
     player->nickname = nick;
@@ -31,7 +31,7 @@ player_t *initializePlayer(char* nick){
  * 
  * @param[in] p il player.
  */
-void freePlayer(player_t* p){
+void free_player(player_t* p){
     free(p->nickname);
     free(p);
 }
@@ -45,7 +45,7 @@ typedef struct PointBoard
 
 }pointboard_t;
 
-void refreshPointBoard(pointboard_t *board);
+void refresh_pointboard(pointboard_t *board);
 
 /**
  * @brief Inizializza una finestra che tiene traccia
@@ -58,7 +58,7 @@ void refreshPointBoard(pointboard_t *board);
  * @param[in] player_2 Il giocatore 2. In caso di giocatore singolo deve essere NULL.
  * @param[out] pointboard_t La point board inizializzata.
  */
-pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *player_2){
+pointboard_t *initialize_pointboard(int y, int x, player_t *player_1, player_t *player_2){
     pointboard_t *pointBoard = (pointboard_t *)malloc(sizeof(pointboard_t));
 
     WINDOW *w;
@@ -77,7 +77,7 @@ pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *p
     pointBoard->win = w;
     pointBoard->player_1 = player_1;
     pointBoard->player_2 = player_2;
-    refreshPointBoard(pointBoard);
+    refresh_pointboard(pointBoard);
 
     return pointBoard;
 }
@@ -87,7 +87,7 @@ pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *p
  * 
  * @param[in] p La pointboard.
  */
-void freePointBoard(pointboard_t* p){
+void free_pointboard(pointboard_t* p){
     free(p);
 }
 
@@ -96,7 +96,7 @@ void freePointBoard(pointboard_t* p){
  * 
  * @param[in] board La pointboard da ricaricare.
  */
-void refreshPointBoard(pointboard_t *board){
+void refresh_pointboard(pointboard_t *board){
 
     mvwprintw(board->win, 2, 1, "%s", board->player_1->nickname);
     mvwprintw(board->win, 2, POINTBOARD_COLS-6, "%05d", board->player_1->points);
@@ -114,7 +114,7 @@ void refreshPointBoard(pointboard_t *board){
  * @param[in] p puntatore alla struct della pointboard.
  * @param[out] win la finestra di ncurses del campo da gioco.
  */
-WINDOW* getPointBoardWin(pointboard_t *p){
+WINDOW* get_pointboard_win(pointboard_t *p){
     return p->win;
 }
 
@@ -125,9 +125,9 @@ WINDOW* getPointBoardWin(pointboard_t *p){
  * @param[in] board Struct della tabella dei punti.
  * @param[in] points Punti da aggiungere.
  */
-void playerAddPoints(player_t* p,pointboard_t* board,int points){
+void player_add_points(player_t* p,pointboard_t* board,int points){
     p->points+= points;
-    refreshPointBoard(board);
+    refresh_pointboard(board);
 }
 
 /**
@@ -136,7 +136,7 @@ void playerAddPoints(player_t* p,pointboard_t* board,int points){
  * @param[in] p Struct del giocatore.
  * @param[out] nickname stringa con il nickname del giocatore.
  */
-char* getPlayerNick(player_t* p){
+char* get_player_nick(player_t* p){
     return p->nickname;
 }
 
@@ -146,6 +146,6 @@ char* getPlayerNick(player_t* p){
  * @param[in] p Struct del giocatore.
  * @param[out] points punti del giocatore.
  */
-unsigned int getPlayerPoints(player_t* p){
+unsigned int get_player_points(player_t* p){
     return p->points;
 }

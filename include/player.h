@@ -3,21 +3,21 @@
 
 typedef struct Player player_t;
 
-player_t *initializePlayer(char *nick);
+player_t *initialize_player(char *nick);
 
-void freePlayer(player_t* p);
+void free_player(player_t* p);
 
 typedef struct PointBoard pointboard_t;
 
-pointboard_t *initializePointBoard(int y, int x, player_t *player_1, player_t *player_2);
+pointboard_t *initialize_pointboard(int y, int x, player_t *player_1, player_t *player_2);
 
-void freePointBoard(pointboard_t* p);
+void free_pointboard(pointboard_t* p);
 
-WINDOW* getPointBoardWin(pointboard_t *p);
+WINDOW* get_pointboard_win(pointboard_t *p);
 
-void playerAddPoints(player_t *p,pointboard_t* board, int points);
+void player_add_points(player_t *p,pointboard_t* board, int points);
 
-char* getPlayerNick(player_t* p);
+char* get_player_nick(player_t* p);
 
 int getPlayerPoints(player_t* p);
 

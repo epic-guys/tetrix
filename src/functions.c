@@ -6,7 +6,7 @@
 #include <time.h>
 #include <constants.h>
 
-void killWin(WINDOW* w);
+void kill_win(WINDOW* w);
 
 /**
  * @brief Funzione per creare un form al centro dello schermo
@@ -86,7 +86,7 @@ char* form(int m_size, char title[]){
         wrefresh(w);
     }
 
-    killWin(w);
+    kill_win(w);
     
     memory[++i] = '\0';
 
@@ -100,7 +100,7 @@ char* form(int m_size, char title[]){
  * @param ascii La stringa contenente la ASCII art.
  * @return Il numero di righe.
  */
-int getASCIIArtRows(char ascii[])
+int get_ASCII_art_rows(char ascii[])
 {
     int i = 0, r = 1;
     while (ascii[i] != '\0')
@@ -120,7 +120,7 @@ int getASCIIArtRows(char ascii[])
  * @param ascii La stringa contenente la ASCII art.
  * @return Il numero di colonne
  */
-int getASCIIArtCols(char ascii[])
+int get_ASCII_art_cols(char ascii[])
 {
     int i = 0;
     while (ascii[i] != '\n' && ascii[i] != '\0')
@@ -145,7 +145,7 @@ void delay(int millisec){
  * 
  * @param[in] w la finestra da eliminare.
  */
-void killWin(WINDOW* w){
+void kill_win(WINDOW* w){
     wclear(w);
     wrefresh(w);
     delwin(w);
@@ -158,7 +158,7 @@ void killWin(WINDOW* w){
  * @param[in] d il delay fra o caratteri.
  * @param[in] c la stringa di caratteri da stampare.
  */
-void wprintWithDelay(WINDOW* w,int d,char* c){
+void wprint_with_delay(WINDOW* w,int d,char* c){
     int i=0;
     char ch;
     while(c[i] != '\0'){
@@ -203,7 +203,7 @@ void mvwprintwrows(WINDOW* w, int y, int x, char* c)
  * @param[in] c colore sotto forma numerica.
  * @param[out] c colore sotto forma numerica.
  */
-int swapColor(int c){
+int swap_color(int c){
     if(c<100)
         return c+100;
     return c-100;
@@ -213,6 +213,6 @@ int swapColor(int c){
  * 
  * @return int il colore sotto forma numerica.
  */ 
-int randomColor(){
+int random_color(){
     return rand()%(COLOR_ORANGE+1);
 }

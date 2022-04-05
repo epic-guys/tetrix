@@ -5,18 +5,18 @@ char* form(int m_size, char title[]);
 
 void delay(int millisec);
 
-void killWin(WINDOW* w);
+void kill_win(WINDOW* w);
 
-void wprintWithDelay(WINDOW* w,int d,char* c);
+void wprint_with_delay(WINDOW* w,int d,char* c);
 
 void mvwprintwrows(WINDOW* w, int y, int x, char* c);
 
-int swapColor(int c);
+int swap_color(int c);
 
 #pragma region ASCII ART
 
-int getASCIIArtRows(char ascii[]);
-int getASCIIArtCols(char ascii[]);
+int get_ASCII_art_rows(char ascii[]);
+int get_ASCII_art_cols(char ascii[]);
 
 #pragma endregion
 
