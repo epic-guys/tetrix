@@ -128,7 +128,7 @@ void single_continueGame(player_t *player, gamefield_t *gameField, tetrimini_poo
                     addTetriminoToGameField(gameField,selected_t,cursor);
                     refreshGamefield(gameField);
                     break;
-                case 127:
+                case KEY_BACKSPACE:
                     /*Annulla la selezione*/
                     clearTop(gameField);
                     refreshGamefield(gameField);

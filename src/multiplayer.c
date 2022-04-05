@@ -137,7 +137,7 @@ void pvp_continueGame(player_t **players, gamefield_t **gameFields, tetrimini_po
                     refreshGamefield(gameFields[turn]);
                     moves[turn]++;
                     break;
-                case 127:
+                case KEY_BACKSPACE:
                     /*Annulla la selezione*/
                     clearTop(gameFields[turn]);
                     refreshGamefield(gameFields[turn]);
