@@ -145,30 +145,8 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
         /*Aggiorna il counter delle mosse del giocatore*/
         moves++;
         /*Droppato un tetramino verifico se le righe sono state riempite*/
-        for(i=0;i<FIELD_ROWS;++i){
-            int empty=0;
-            for(j=0;j<FIELD_COLS;++j){
-                if(!field[i * FIELD_COLS + j]){
-                    empty=1;
-                    break;
-                }
-            }
-            if(!empty){
-                int k,l;
-                mvwprintw(get_gamefield_win(gameField), i + 4, 1, "====================");
-                wrefresh(get_gamefield_win(gameField));
-                delay(100);
-                deletedRows++;
-                for(k=i;k>0;--k){
-                    for(l=0;l<FIELD_COLS;++l){
-                        field[k*FIELD_COLS+l] = field[(k-1)*FIELD_COLS+l];
-                    }
-                    refresh_gamefield(gameField);
-                    delay(50); /*la funzione in realtá blocca di fatti tutto il programma per 50 millisecondi*/
-                }
-            }
-        }
-        
+        deletedRows = check_field(gameField);
+
         /*aggiungo i punti*/
         switch (deletedRows)
         {
@@ -189,7 +167,6 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
         }
         
         /*resetto le righe eliminate nel turno*/
-        deletedRows = 0;
         dropping = 0;
         free_tetrimino(selected_t);
         /*verifico che ci siano ancora le condizioni per giocare*/

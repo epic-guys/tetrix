@@ -4,6 +4,7 @@
 #include <gamefield.h>
 #include <constants.h>
 #include <functions.h>
+#include  <player.h>
 
 typedef struct GameField
 {
@@ -191,19 +192,30 @@ int get_first_free_row(gamefield_t *g,tetrimino_t *t,int cur_pos){
 }
 
 /**
- * @brief aggiunge un tetramino al campo da gioco.
+ * @brief Aggiunge un tetramino al campo da gioco.
  * 
  * @param[in] g campo di gioco.
  * @param[in] t tetramino da piazzare.
  * @param[in] cur_pos posizione del cursore.
+ * @return 1 se il tetramino si è incastrato, 0 se il
+ * campo era pieno e non è riuscito.
  */
-void add_tetrimino_to_gamefield(gamefield_t *g,tetrimino_t *t,int cur_pos){
+int add_tetrimino_to_gamefield(gamefield_t *g,tetrimino_t *t,int cur_pos){
     int i = get_first_free_row(g, t, cur_pos);
     int k, l;
     int *values;
     int cols=get_tet_cols(t);
     int rows=get_tet_rows(t);
     values=get_tet_values(t);
+
+    /*
+    Se la prima riga libera è minore di zero, vuol dire che sono fuori
+    dal campo, quindi il giocatore ha perso.
+    */
+    if (i < 0)
+    {
+        return 0;
+    }
 
     /*
         PROMEMORIA:
@@ -222,6 +234,7 @@ void add_tetrimino_to_gamefield(gamefield_t *g,tetrimino_t *t,int cur_pos){
         }
     }
 
+    return 1;
 }
 /**
  * @brief controlla se il gamefield é stato 
@@ -229,14 +242,9 @@ void add_tetrimino_to_gamefield(gamefield_t *g,tetrimino_t *t,int cur_pos){
  * @param[in] g gamefield da controllare
  * @return int 
  */
-int is_gamefield_top_occupied(gamefield_t* g){
-    int i,j;
-    for(j=0;j<FIELD_COLS;++j){
-        if(g->field[0][j]){
-            return 1;
-        }
-    }
-    return 0;
+int is_gamefield_top_occupied(gamefield_t* g)
+{
+    return !is_row_empty(g, 0);
 }
 
 /**
@@ -298,6 +306,39 @@ int is_row_empty(gamefield_t *field, int row){
             return 0;
     }
     return 1;
+}
+
+/**
+ * @brief Controlla il campo se è pieno o se ha
+ * righe piene.
+ * 
+ * @param gameField Il campo da controllare.
+ * @return Il numero di righe che il giocatore ha riempito.
+ */
+int check_field(gamefield_t* gameField)
+{
+    int i, j, deletedRows = 0;
+    for (i = 0; i < FIELD_ROWS; ++i)
+    {
+        if (is_row_full(gameField, i))
+        {
+            int k, l;
+            mvwprintw(gameField->win, i + 4, 1, "====================");
+            wrefresh(gameField->win);
+            delay(100);
+            deletedRows++;
+            for (k = i; k > 0; --k)
+            {
+                for (l = 0; l < FIELD_COLS; ++l)
+                {
+                    gameField->field[k][l] = gameField->field[(k - 1)][l];
+                }
+                refresh_gamefield(gameField);
+                delay(50); /*la funzione in realtà blocca di fatti tutto il programma per 50 millisecondi*/
+            }
+        }
+    }
+    return deletedRows;
 }
 
 /**
