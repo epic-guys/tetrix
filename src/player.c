@@ -149,3 +149,22 @@ char* get_player_nick(player_t* p){
 unsigned int get_player_points(player_t* p){
     return p->points;
 }
+
+/**
+ * @brief Restituisce il numero di punti corrispondenti
+ * alle righe riempite.
+ * 
+ * @param deletedRows Le righe riempite. 
+ * @return I punti.
+ */
+int get_points(int deletedRows)
+{
+    switch (deletedRows)
+    {
+        case 1: return POINTS_ONE_ROW_DELETED;
+        case 2: return POINTS_TWO_ROW_DELETED;
+        case 3: return POINTS_THREE_ROW_DELETED;
+        case 4: return POINTS_FOUR_ROW_DELETED;
+        default: return 0;
+    }
+}

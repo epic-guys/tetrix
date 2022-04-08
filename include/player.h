@@ -21,4 +21,6 @@ char* get_player_nick(player_t* p);
 
 int get_player_points(player_t* p);
 
+int get_points(int deletedRows);
+
 #endif

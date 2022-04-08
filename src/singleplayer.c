@@ -97,77 +97,22 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
         int* field = get_gamefield(gameField);
         selected_i = select_tetrimino(pool);
         selected_t = get_tetrimino(selected_i);
-        cursor = (FIELD_COLS - get_tet_cols(selected_t)) / 2;
-        refresh_selector(gameField, selected_t, cursor);
-        while (dropping)
-        {
-            int ch = getch();
-            switch (ch)
-            {
-                case KEY_RIGHT:
-                    /*Muove il tetramino a destra*/
-                    if (get_tet_cols(selected_t) + cursor < FIELD_COLS)
-                        ++cursor;
-                    refresh_selector(gameField, selected_t, cursor);
-                    break;
-                case KEY_LEFT:
-                    /*Muove il tetramino a sinistra*/
-                    if (cursor > 0)
-                        --cursor;
-                    refresh_selector(gameField, selected_t, cursor);
-                    break;
-                case KEY_UP:
-                    /*ruota matrice di 90 gradi*/
-                    safe_rotate_tetrimino(selected_t, cursor);
-                    refresh_selector(gameField, selected_t, cursor);
-                break;
-                case KEY_DOWN:
-                    /*Droppa il tetramino*/
-                    dropping = 0;
-                    clear_top(gameField);
-                    add_tetrimino_to_gamefield(gameField,selected_t,cursor);
-                    refresh_gamefield(gameField);
-                    break;
-                case 127: //non é un typo
-                case KEY_BACKSPACE:
-                    /*Annulla la selezione*/
-                    clear_top(gameField);
-                    refresh_gamefield(gameField);
-                    add_tetrimino_from_pool(selected_i, pool);
-                    
-                    ch=-1;
-                    dropping = 0;
-                    moves--;
-                    continue;
-            }
-        }
-        
-        /*Aggiorna il counter delle mosse del giocatore*/
-        moves++;
-        /*Droppato un tetramino verifico se le righe sono state riempite*/
-        deletedRows = check_field(gameField);
 
-        /*aggiungo i punti*/
-        switch (deletedRows)
+        /* Riceve l'input di dove droppare il tetramino */
+        cursor = manage_drop(gameField, selected_t);
+                
+        /*Aggiorna il counter delle mosse del giocatore*/
+        if (cursor >= 0)
         {
-        case 1:
-            player_add_points(player,points,POINTS_ONE_ROW_DELETED);
-            break;
-        case 2:
-            player_add_points(player,points,POINTS_TWO_ROW_DELETED);
-            break;
-        case 3:
-            player_add_points(player,points,POINTS_THREE_ROW_DELETED);
-            break;
-        case 4:
-            player_add_points(player,points,POINTS_FOUR_ROW_DELETED);
-            break;
-        default:
-            break;
+            add_tetrimino_to_gamefield(gameField, selected_t, cursor);
+            moves++;
+            /*Droppato un tetramino verifico se le righe sono state riempite*/
+            deletedRows = check_field(gameField);
+
+            /*aggiungo i punti*/
+            player_add_points(player, points, get_points(deletedRows));
         }
         
-        /*resetto le righe eliminate nel turno*/
-        dropping = 0;
         free_tetrimino(selected_t);
         /*verifico che ci siano ancora le condizioni per giocare*/
         if(no_tetriminos_left(pool) || is_gamefield_top_occupied(gameField)){

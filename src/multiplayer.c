@@ -106,7 +106,9 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 
         currentField = get_gamefield(gameFields[turn]);
         refresh_selector(gameFields[turn], selected_t, cursor);
-
+        /*
+        FIXME sostituire con funzione manage_drop
+        */
         while(dropping){
             int ch = getch();
             switch (ch)
@@ -156,49 +158,15 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
             }
 
             /*Droppato un tetramino verifico se le righe sono state riempite*/
-            for(i = 0; i < FIELD_ROWS; ++i)
-            {
-                if(is_row_full(gameFields[turn], i)){
-                    int k,l;
-                    mvwprintw(get_gamefield_win(gameFields[turn]), i + 4, 1, "====================");
-                    wrefresh(get_gamefield_win(gameFields[turn]));
-                    delay(100);
-                    deletedRows++;
-                    for(k=i;k>0;--k){
-                        for(l=0;l<FIELD_COLS;++l){
-                            currentField[k * FIELD_COLS + l] = currentField[(k-1)*FIELD_COLS+l];
-                        }
-                        refresh_gamefield(gameFields[turn]);
-                        delay(50); /*la funzione in realtá blocca di fatti tutto il programma per 50 millisecondi*/
-                    }
-                }
-            }
-
+            deletedRows = check_field(gameFields[turn]);
         }
 
         /*aggiungo i punti*/
-        switch (deletedRows)
+        player_add_points(players[turn], points, get_points(deletedRows));
+        if (deletedRows >= 3)
         {
-        case 1:
-            player_add_points(players[turn], points, POINTS_ONE_ROW_DELETED);
-            break;
-        case 2:
-            player_add_points(players[turn], points, POINTS_TWO_ROW_DELETED);
-            break;
-        case 3:
-            for(i=0;i<3;++i){
-                flip_values_in_row(gameFields[1 - turn], i);
-            }
+            flip_values(gameFields[1 - turn], deletedRows);
             refresh_gamefield(gameFields[1 - turn]);
-            break;
-        case 4:
-            for(i=0;i<4;++i){
-                flip_values_in_row(gameFields[1-turn], i);
-            }
-            refresh_gamefield(gameFields[1-turn]);
-            break;
-        default:
-            break;
         }
 
         /*resetto le righe eliminate nel turno*/
