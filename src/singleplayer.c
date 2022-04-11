@@ -93,7 +93,7 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
 
     while (can_play)
     {   
-        int dropping = 1, cursor,i,j,deletedRows=0, skip = 1;
+        int dropping = 1, cursor, deletedRows, added = 1;
         int* field = get_gamefield(gameField);
         selected_i = select_tetrimino(pool);
         selected_t = get_tetrimino(selected_i);
@@ -104,18 +104,25 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
         /*Aggiorna il counter delle mosse del giocatore*/
         if (cursor >= 0)
         {
-            add_tetrimino_to_gamefield(gameField, selected_t, cursor);
+            added = add_tetrimino_to_gamefield(gameField, selected_t, cursor);
+            remove_tetrimino_from_pool(selected_i, pool);
             moves++;
             /*Droppato un tetramino verifico se le righe sono state riempite*/
             deletedRows = check_field(gameField);
 
+        }
+        
+        if (added)
+        {
             /*aggiungo i punti*/
             player_add_points(player, points, get_points(deletedRows));
         }
-        
+
         free_tetrimino(selected_t);
+        
         /*verifico che ci siano ancora le condizioni per giocare*/
-        if(no_tetriminos_left(pool) || is_gamefield_top_occupied(gameField)){
+        if(no_tetriminos_left(pool) || !added)
+        {
             can_play = 0;
         }
     }
@@ -183,6 +190,7 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     free_gamefield(gameField);
     free_pool(pool);
     free_pointboard(points);
+    free_player(player);
 
     ch = -1;
 

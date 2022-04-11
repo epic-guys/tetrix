@@ -4,6 +4,7 @@
 #include <tetrimino.h>
 #include <gamefield.h>
 #include <constants.h>
+#include <functions.h>
 
 
 /**
@@ -70,8 +71,8 @@ typedef struct Tetrimino
 /**
  * @brief Genera il tetramino dato il suo enum. 
  * 
- * @param[in] type la sua codifica enum.
- * @param[out] Il tetramino.
+ * @param[in] type la sua codifica.
+ * @return Il tetramino allocato. È vuoto se il valore passato non è valido.
  */
 tetrimino_t *get_tetrimino(int type){
     int *values;
@@ -166,7 +167,9 @@ tetrimino_t *get_tetrimino(int type){
             t->rows = 2;
             break;
         default:
-            printf("Non so come hai fatto ma hai passato un valore non presente nell'enum");
+            t->values = NULL;
+            t->cols = 0;
+            t->rows = 0;
     }
     return t;
 }
@@ -210,7 +213,15 @@ void print_tetrimino(WINDOW *w,tetrimino_t *t,int y,int x){
 typedef struct TetriminiPool
 {
     WINDOW *win;
-    int *rem_tetriminos;    
+    int *rem_tetriminos;
+    /*
+    Per ottimizzare il controllo di
+    quanti tetramini sono rimasti, meglio
+    fare una cache di quelli totali.
+    Molto più veloce di scorrere ogni volta
+    l'array.
+    */
+    int total_tetriminos;
 } tetrimini_pool_t;
 
 
@@ -226,12 +237,17 @@ tetrimini_pool_t *initialize_pool(int y, int x){
     WINDOW *w;
     tetrimini_pool_t *tetriminiPool = (tetrimini_pool_t*) malloc(sizeof(tetrimini_pool_t));
     tetriminiPool->rem_tetriminos = malloc(sizeof(int) * N_tetrimini);
+    tetriminiPool->total_tetriminos = N_tetrimini * TETRIMINOS_PER_TYPE;
     for(i = 0; i < N_tetrimini; ++i)
     {
         tetriminiPool->rem_tetriminos[i] = TETRIMINOS_PER_TYPE;
     }
 
     w = newwin(POOL_ROWS, POOL_COLS, y, x);
+    /* Attiva i tasti speciali, tra cui le freccette */
+    keypad(w, TRUE);
+    /* Nasconde il cursore di sistema*/
+    curs_set(0);
     box(w,0,0);
     wmove(w,getcurx(w)+1,getcury(w)+2);
     wprintw(w,"TETRAMINI DISPONIBILI: ");
@@ -267,56 +283,68 @@ void print_menu_style(int i, tetrimini_pool_t *pool){
  * @brief permette di accedere al metodo di selezione dei tetramini.
  * 
  * @param [in] w Finestra della pool da cui selezionare il pezzo.
- * @param[out] n il numero della codifica del tetramino.
+ * @return Il numero della codifica del tetramino, -1 se non ci sono
+ * più tetramini.
  */
-int select_tetrimino(tetrimini_pool_t *pool){
+int select_tetrimino(tetrimini_pool_t *pool)
+{
+    int i, ch, selecting = 1;
 
-    int i, ch;
-
-    /* Stampa il menu iniziale*/
-    for(i=0;i<N_tetrimini;++i) {
-        if(i == 0)
-            /*"sottolinea" il primo elemento*/
-            wattron( pool->win, A_STANDOUT );
-        else
-            wattroff( pool->win, A_STANDOUT );
-        print_menu_style(i,pool);
+    /* Stampa il menu iniziale */
+    for (i = 0; i < N_tetrimini; ++i)
+    {
+        print_menu_style(i, pool);
     }
+
+    if (no_tetriminos_left(pool)) return -1;
 
     /*carica lo schermo*/
+    i = -1;
+    do
+    {
+        i = next_circular(i, N_tetrimini);
+    }
+    while (pool->rem_tetriminos[i] <= 0);
+    wattron(pool->win, A_STANDOUT);
+    print_menu_style(i, pool);
+    wattroff(pool->win, A_STANDOUT);
     wrefresh(pool->win);
-    i = 0;
-    /*sposta il focus della tastiera sulla finestra*/
-    keypad(pool->win,TRUE);
-    /* Nasconde il cursore di sistema*/
-    curs_set(0);
-    
-    do{
-        ch = wgetch(pool->win); 
-        print_menu_style(i,pool);
-        switch(ch) {
-            case KEY_UP:
-                i--;
-                i = (i<0) ? N_tetrimini-1 : i;
+    while (selecting)
+    {
+        ch = wgetch(pool->win);
+        print_menu_style(i, pool);
+        switch (ch)
+        {
+        case KEY_UP:
+            do
+            {
+                i = prev_circular(i, N_tetrimini);
+            }
+            while (pool->rem_tetriminos[i] <= 0);
+            
             break;
-            case KEY_DOWN:
-                i++;
-                i = (i>N_tetrimini-1) ? 0 : i;
+        case KEY_DOWN:
+            do
+            {
+                i = next_circular(i, N_tetrimini);
+            }
+            while (pool->rem_tetriminos[i] <= 0);
+            break;
+        case '\n':
+            selecting = 0;
             break;
         }
-        
+
         /*Sottolinea la scelta*/
-        wattron( pool->win, A_STANDOUT );
-        print_menu_style(i,pool);
-        wattroff( pool->win, A_STANDOUT );
-        wrefresh( pool->win );
-    
-    }while(ch != '\n');
-    if(pool->rem_tetriminos[i]>0){
-        remove_tetrimino_from_pool(i,pool);
-        return i;
+        wattron(pool->win, A_STANDOUT);
+        print_menu_style(i, pool);
+        wattroff(pool->win, A_STANDOUT);
+        wrefresh(pool->win);
     }
-    return select_tetrimino(pool);
+    if (pool->rem_tetriminos[i] > 0)
+        return i;
+    else
+        return -1;
 }
 
 /**
@@ -403,7 +431,10 @@ void refresh_pool(tetrimini_pool_t *p){
  */
 void remove_tetrimino_from_pool(int i, tetrimini_pool_t *p){
     if(p->rem_tetriminos[i]>0)
-        p->rem_tetriminos[i]-=1;
+    {
+        p->rem_tetriminos[i]--;
+        p->total_tetriminos--;
+    }
     refresh_pool(p);
 }
 
@@ -413,9 +444,10 @@ void remove_tetrimino_from_pool(int i, tetrimini_pool_t *p){
  * @param[in] i il tipo di tetramino dalla quale aggiungere un'unitá.
  * @param[in] p la pool di tetramini.
  */
-void add_tetrimino_from_pool(int i, tetrimini_pool_t *p){
-    if(p->rem_tetriminos[i]>0)
-        p->rem_tetriminos[i]+=1;
+void add_tetrimino_from_pool(int i, tetrimini_pool_t *p)
+{
+    p->rem_tetriminos[i]++;
+    p->total_tetriminos++;
     refresh_pool(p);
 }
 

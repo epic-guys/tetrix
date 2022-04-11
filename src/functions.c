@@ -215,3 +215,33 @@ int swap_color(int c){
 int random_color(){
     return rand()%(7/*numero colori*/)+1;
 }
+
+/**
+ * @brief Restituisce l'indice dell'elemento successivo
+ * in una struttura dati ordinata, ipotizzando che questa sia circolare.
+ * Se i è l'ultimo elemento, allora restituisce il primo.
+ * 
+ * @param i L'indice attuale.
+ * @param max La dimensione della struttura dati.
+ * @return L'indice dell'elemento successivo.
+ */
+int next_circular(int i, int size)
+{
+    if (i >= size - 1) return 0;
+    else return i + 1;
+}
+
+/**
+ * @brief Restituisce l'indice dell'elemento precedente
+ * in una struttura dati ordinata, ipotizzando che questa sia circolare.
+ * Se i è il primo elemento, allora restituisce l'ultimo.
+ * 
+ * @param i L'indice attuale.
+ * @param max La dimensione della struttura dati.
+ * @return L'indice dell'elemento successivo.
+ */
+int prev_circular(int i, int size)
+{
+    if (i <= 0) return size - 1;
+    else return i - 1;
+}
