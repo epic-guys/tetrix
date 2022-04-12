@@ -419,7 +419,7 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
     void flip_values(gamefield_t * field, int rows)
     {
         int i;
-        for (i = 0; i < rows; ++i)
+        for (i = FIELD_ROWS - 1; i > FIELD_ROWS - rows - 1; --i)
         {
             flip_values_in_row(field, i);
         }
@@ -433,21 +433,20 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
      */
     void flip_values_in_row(gamefield_t * field, int row)
     {
-        int nrow = FIELD_ROWS - row - 1;
         int i;
-        if (is_row_empty(field, row) == 1)
+        if (!is_row_empty(field, row))
         {
             for (i = 0; i < FIELD_COLS; ++i)
             {
-                if (field->field[nrow][i] == 0)
+                if (field->field[row][i] == 0)
                 {
-                    field->field[nrow][i] = random_color();
-                    delay(50);
+                    field->field[row][i] = random_color();
                     refresh_gamefield(field);
+                    delay(50);
                 }
                 else
                 {
-                    field->field[nrow][i] = 0;
+                    field->field[row][i] = 0;
                 }
             }
         }

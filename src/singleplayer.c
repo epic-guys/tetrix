@@ -107,15 +107,14 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
             added = add_tetrimino_to_gamefield(gameField, selected_t, cursor);
             remove_tetrimino_from_pool(selected_i, pool);
             moves++;
-            /*Droppato un tetramino verifico se le righe sono state riempite*/
-            deletedRows = check_field(gameField);
+            if (added)
+            {
 
-        }
-        
-        if (added)
-        {
-            /*aggiungo i punti*/
-            player_add_points(player, points, get_points(deletedRows));
+                /*Droppato un tetramino verifico se le righe sono state riempite*/
+                deletedRows = check_field(gameField);
+                /*aggiungo i punti*/
+                player_add_points(player, points, get_points(deletedRows));
+            }
         }
 
         free_tetrimino(selected_t);

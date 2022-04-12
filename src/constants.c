@@ -98,8 +98,8 @@ const char *PVP_WELCOME_TXT[] = {
   "Ciao, ",
   "Benvenuti su Tetrix, di seguito troverete le istruzioni per il gioco\n\n"
   "Parte 1: \n"
-  "Usate le freccie UP e DOWN per muovervi nella pool di tetramini, premete ENTER per selezionarne uno\n\n"
-  "Parte 2:\nUsate le freccie LEFT e RIGHT per muovere il tetramino sopra la pool,\n"
+  "Usate le frecce UP e DOWN per muovervi nella pool di tetramini, premete ENTER per selezionarne uno\n\n"
+  "Parte 2:\nUsate le frecce LEFT e RIGHT per muovere il tetramino sopra la pool,\n"
   "Premete freccia UP per ruotare il tetramino di 90 gradi, premete BACKSPACE per tornare alla selezione dei tetramini,\n"
   "premete freccia DOWN per piazzarlo.\n\n"
   "Punteggio e Game Over:\n"

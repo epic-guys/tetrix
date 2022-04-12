@@ -79,8 +79,8 @@ void new_game_multi(){
 }
 
 void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points){
-    int can_play[2] = {1, 1};
     int selected_i;
+    int winner = -1;
     tetrimino_t *selected_t;
     unsigned int start_time = time(NULL),seed=time(0);
     int *moves = (int*)malloc(sizeof(int) * 2);
@@ -92,9 +92,9 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
     srand(time(NULL));
     turn = rand()%2;
     
-    while (can_play[0] && can_play[1])
+    while (winner < 0)
     {
-        int dropping = 1, cursor,i,j,deletedRows=0, skip = 1,backspace_pressed=0;
+        int dropping = 1, cursor,deletedRows=0, added = 1;
         int *currentField;
         mvprintw(11, (COLS/2)-(POOL_COLS/2)-19, "                                ");
         mvprintw(11, (COLS/2)-(POOL_COLS/2)-19, "Turno di: %s", get_player_nick(players[turn]));
@@ -106,100 +106,40 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 
         currentField = get_gamefield(gameFields[turn]);
         refresh_selector(gameFields[turn], selected_t, cursor);
-        /*
-        FIXME sostituire con funzione manage_drop
-        */
-        while(dropping){
-            int ch = getch();
-            switch (ch)
+        cursor = manage_drop(gameFields[turn], selected_t);
+        
+        if (cursor >= 0)
+        {
+            added = add_tetrimino_to_gamefield(gameFields[turn], selected_t, cursor);
+            remove_tetrimino_from_pool(selected_i, pool);
+            moves[turn]++;
+
+            if (added)
             {
-                case KEY_RIGHT:
-                    /*Muove il tetramino a destra*/
-                    if (get_tet_cols(selected_t) + cursor < FIELD_COLS)
-                        ++cursor;
-                        refresh_selector(gameFields[turn], selected_t, cursor);
-
-                    break;
-                case KEY_LEFT:
-                    /*Muove il tetramino a sinistra*/
-                    if (cursor > 0)
-                        --cursor;
-                    refresh_selector(gameFields[turn], selected_t, cursor);
-                    break;
-                case KEY_UP:
-                    /*ruota matrice di 90 gradi*/
-                    safe_rotate_tetrimino(selected_t, cursor);
-                    refresh_selector(gameFields[turn], selected_t, cursor);
-                    break;
-                case KEY_DOWN:
-                    /*Droppa il tetramino*/
-                    dropping = 0;
-                    clear_top(gameFields[turn]);
-                    add_tetrimino_to_gamefield(gameFields[turn],selected_t,cursor);
-                    refresh_gamefield(gameFields[turn]);
-                    moves[turn]++;
-                    break;
-                case 127: //non é un typo
-                case KEY_BACKSPACE:
-                    /*Annulla la selezione*/
-                    clear_top(gameFields[turn]);
-                    refresh_gamefield(gameFields[turn]);
-                    add_tetrimino_from_pool(selected_i, pool);
-                    backspace_pressed=1;
-                    ch=-1;
-                    dropping = 0;
-                    //continue;
-                    break;
+                deletedRows = check_field(gameFields[turn]);
+                if (deletedRows > 0)
+                {
+                    player_add_points(players[turn], points, get_points(deletedRows));
+                    if (deletedRows >= 3)
+                    {
+                        flip_values(gameFields[1 - turn], deletedRows);
+                    }
+                }
+                if (no_tetriminos_left(pool) && !added)
+                {
+                    winner = get_player_points(players[0]) < get_player_points(players[1]);
+                }
             }
-
-            /*Aggiorna il counter delle mosse del giocatore*/
-            if(!backspace_pressed){
-                moves[turn] = moves[turn] + 1;
+            else
+            {
+                winner = 1 - turn;
             }
-
-            /*Droppato un tetramino verifico se le righe sono state riempite*/
-            deletedRows = check_field(gameFields[turn]);
-        }
-
-        /*aggiungo i punti*/
-        player_add_points(players[turn], points, get_points(deletedRows));
-        if (deletedRows >= 3)
-        {
-            flip_values(gameFields[1 - turn], deletedRows);
-            refresh_gamefield(gameFields[1 - turn]);
-        }
-
-        /*resetto le righe eliminate nel turno*/
-        deletedRows = 0;
-        dropping = 0;
-
-        /*verifico che ci siano ancora le condizioni per giocare*/
-        if(no_tetriminos_left(pool) || is_gamefield_top_occupied(gameFields[turn])){
-            can_play[turn] = 0;
             
-            free_tetrimino(selected_t);
-        }
-
-        if (no_tetriminos_left(pool))
-        {
-            int winner = get_player_points(players[0]) < get_player_points(players[1]);
-            pvp_end_game(winner, gameFields, pool, points, players, start_time, moves);
-            return;
-        }
-        if (is_gamefield_top_occupied(gameFields[turn]))
-        {
-            pvp_end_game(1 - turn, gameFields, pool, points, players, start_time, moves);
-            return;
-        }
-
-        if (!backspace_pressed)
-        {
             turn = 1 - turn;
         }
-
-        backspace_pressed=0;
+        free_tetrimino(selected_t);
     }
-    
+    pvp_end_game(winner, gameFields, pool, points, players, start_time, moves);
 }
 
 /*da finire di aggiustare*/
