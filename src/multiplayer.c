@@ -70,10 +70,10 @@ void new_game_multi(){
     players[0] = initialize_player(nickname1);
     players[1] = initialize_player(nickname2);
 
-    gameFields[0] = initialize_gamefield(12, 5);
-    gameFields[1] = initialize_gamefield(12, (COLS/2)+(POOL_COLS/2));
-    pool = initialize_pool(12, (COLS/2)-(POOL_COLS/2)-20);
-    points = initialize_pointboard(10, COLS - 30, players[0], players[1]);
+    gameFields[0] = initialize_gamefield(6, 5); /*inizialmente era così: 12, 5 */
+    gameFields[1] = initialize_gamefield(6, (COLS/2)+(POOL_COLS/2)+5); /*inizialmente era così: 12, (COLS/2)+(POOL_COLS/2)*/
+    pool = initialize_pool(6, (COLS/2)-(POOL_COLS/2)-3); /*inizialmente è così: 12, (COLS/2)-(POOL_COLS/2)-20*/
+    points = initialize_pointboard(0, COLS - 30, players[0], players[1]); /*inizialmente era così: 10, COLS - 30, players[0], players[1]*/
 
     pvp_continue_game(players, gameFields, pool, points);
 }
@@ -96,8 +96,8 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
     {
         int dropping = 1, cursor,deletedRows=0, added = 1;
         int *currentField;
-        mvprintw(11, (COLS/2)-(POOL_COLS/2)-19, "                                ");
-        mvprintw(11, (COLS/2)-(POOL_COLS/2)-19, "Turno di: %s", get_player_nick(players[turn]));
+        mvprintw(5,0, "                                "); /*inizialmente era così: 11, (COLS/2)-(POOL_COLS/2)-19*/
+        mvprintw(5,0, "Turno di: %s", get_player_nick(players[turn])); /*inizialmente era così: 11, (COLS/2)-(POOL_COLS/2)-19*/
         refresh();
 
         selected_i = select_tetrimino(pool);

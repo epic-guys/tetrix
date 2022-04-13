@@ -68,10 +68,10 @@ void new_game_single(){
     a spostarsi troppo sotto quando il terminale è troppo piccolo
     */
     gameField = initialize_gamefield(
-        (LINES + logo_rows - FIELD_W_ROWS - 3) / 2,
+        (LINES + logo_rows - FIELD_W_ROWS - 15) / 2, //prima era: (LINES + logo_rows - FIELD_W_ROWS - 3) / 2
         (COLS + POOL_COLS - POINTBOARD_COLS - FIELD_W_COLS) / 2
         );
-    pool = initialize_pool((LINES + logo_rows - POOL_ROWS) / 2, 0);
+    pool = initialize_pool((LINES + logo_rows - POOL_ROWS - 3) / 2, 0); //prima era: (LINES + logo_rows - POOL_ROWS) / 2, 0 
     points = initialize_pointboard(10, COLS - POINTBOARD_COLS, player, NULL);
     single_continue_game(player, gameField, pool, points);
     return;
