@@ -8,7 +8,8 @@
 
 typedef struct GameField
 {
-    int field[FIELD_ROWS][FIELD_COLS];
+    int *field;
+    //int field[FIELD_ROWS][FIELD_COLS];
     WINDOW *win;
 } gamefield_t;
 
@@ -22,11 +23,12 @@ typedef struct GameField
 gamefield_t *initialize_gamefield(int y, int x){
 
     gamefield_t *gameField = (gamefield_t*) malloc(sizeof(gamefield_t));
+    gameField->field = (int*) malloc(sizeof(int) * (FIELD_COLS * FIELD_ROWS));
     WINDOW *w;
     size_t i, j;
     for (i = 0; i < FIELD_ROWS; i++)
         for (j = 0; j < FIELD_COLS; j++)
-            gameField->field[i][j] = 0;
+            gameField->field[FIELD_COLS * i + j] = 0;
     w = newwin(FIELD_W_ROWS, FIELD_W_COLS, y, x);
     /* ncurses con il valore 0 mette il bordo di default */
     wborder(w, 0, 0, ' ', 0, ' ', ' ', 0, 0);
@@ -42,6 +44,7 @@ gamefield_t *initialize_gamefield(int y, int x){
  * @param[in] g il campo da gioco.
  */
 void free_gamefield(gamefield_t *g){
+    free(g->field);
     free(g);
 }
 
@@ -83,7 +86,7 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos){
     {
         for (j = cur_pos; j < cur_pos + cols; ++j)
         {
-            if (!g->field[i - 4][j])
+            if (!g->field[FIELD_COLS * (i-4) + j])
             {
                 wattron(g->win, COLOR_PAIR(color));
                 mvwprintw(g->win, i, (j * 2) + 1, "  ");
@@ -181,11 +184,11 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
             for (j = 0; j < FIELD_COLS; ++j)
             {
                 wmove(g->win, FIELD_W_ROWS - FIELD_ROWS + i - 1, j * 2 + 1);
-                if (g->field[i][j])
+                if (g->field[FIELD_COLS * i + j])
                 {
-                    wattron(g->win, COLOR_PAIR(g->field[i][j]));
+                    wattron(g->win, COLOR_PAIR(g->field[FIELD_COLS * i + j]));
                     wprintw(g->win, "[]");
-                    wattroff(g->win, COLOR_PAIR(g->field[i][j]));
+                    wattroff(g->win, COLOR_PAIR(g->field[FIELD_COLS * i + j]));
                 }
                 else
                     wprintw(g->win, "  ");
@@ -239,7 +242,7 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
                     riga precedente.
                     */
                     if (values[j * cols + k - cur_pos])
-                        if (g->field[i + j][k])
+                        if (g->field[FIELD_COLS * (i + j) + k])
                             return i - 1;
                 }
             }
@@ -290,7 +293,7 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
             {
                 if (values[k * cols + l])
                 {
-                    g->field[i + k][cur_pos + l] = values[k * cols + l];
+                    g->field[FIELD_COLS * (i + k) + (cur_pos + l)] = values[k * cols + l];
                 }
             }
         }
@@ -348,7 +351,7 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
             return -1;
         for (i = 0; i < FIELD_COLS; ++i)
         {
-            if (!field->field[row][i])
+            if (!field->field[FIELD_COLS * row + i])
                 return 0;
         }
         return 1;
@@ -370,7 +373,7 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
             return -1;
         for (i = 0; i < FIELD_COLS; ++i)
         {
-            if (field->field[row][i])
+            if (field->field[FIELD_COLS * row + i])
                 return 0;
         }
         return 1;
@@ -399,7 +402,7 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
                 {
                     for (l = 0; l < FIELD_COLS; ++l)
                     {
-                        gameField->field[k][l] = gameField->field[(k - 1)][l];
+                        gameField->field[FIELD_COLS * k + l] = gameField->field[FIELD_COLS * (k-1) + l];
                     }
                     refresh_gamefield(gameField);
                     delay(50); /*la funzione in realtà blocca di fatti tutto il programma per 50 millisecondi*/
@@ -438,15 +441,15 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
         {
             for (i = 0; i < FIELD_COLS; ++i)
             {
-                if (field->field[row][i] == 0)
+                if (field->field[FIELD_COLS * row + i] == 0)
                 {
-                    field->field[row][i] = random_color();
+                    field->field[FIELD_COLS * row + i] = random_color();
                     refresh_gamefield(field);
                     delay(50);
                 }
                 else
                 {
-                    field->field[row][i] = 0;
+                    field->field[FIELD_COLS * row + i] = 0;
                 }
             }
         }

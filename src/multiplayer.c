@@ -154,8 +154,6 @@ void pvp_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
     char ch;
     int i;
 
-    /*Dio dell'informatica perdonami per questa patch indegna,
-      credo sia colpa delle FS se sto veramente per pushare*/
     moves[0] = moves[0];
     moves[1] = moves[1];
     char* p1_nickname = get_player_nick(players[0]);
@@ -165,7 +163,7 @@ void pvp_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
     kill_win(field2Win);
     kill_win(poolWin);
     kill_win(pointWin);
-    mvprintw(11, (COLS/2)-(POOL_COLS/2)-19, "                                ");
+    mvprintw(5,0, "                                ");
     refresh();
 
     summary = newwin( 18, COLS-2, (LINES/2) -5, 1 );
