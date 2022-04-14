@@ -156,8 +156,8 @@ void pvp_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
 
     /*Dio dell'informatica perdonami per questa patch indegna,
       credo sia colpa delle FS se sto veramente per pushare*/
-    moves[0] = moves[0]/6 + 1;
-    moves[1] = moves[1]/6 + 1;
+    moves[0] = moves[0];
+    moves[1] = moves[1];
     char* p1_nickname = get_player_nick(players[0]);
     char* p2_nickname = get_player_nick(players[1]);
     unsigned int playersPoints[2] = { get_player_points(players[0]), get_player_points(players[1])};
