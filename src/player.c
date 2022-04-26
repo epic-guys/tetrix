@@ -41,9 +41,7 @@ typedef struct PointBoard
     WINDOW *win;
     player_t *player_1;
     player_t *player_2;
-    int active_player;
-
-}pointboard_t;
+} pointboard_t;
 
 void refresh_pointboard(pointboard_t *board);
 

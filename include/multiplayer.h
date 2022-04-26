@@ -1,6 +1,8 @@
 #ifndef _MULTIPLAYER_H_
 #define _MULTIPLAYER_H_
 
-void new_game_multi();
+void pvp_new_game();
+
+void pve_new_game();
 
 #endif

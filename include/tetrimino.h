@@ -1,6 +1,44 @@
 #ifndef _TETRIMINO_H_
 #define _TETRIMINO_H_
 
+/**
+ * @brief Codifica di ogni tetramino.
+ * 
+ * T_I:
+ * ████████
+ * T_J:
+ *   ██
+ *   ██
+ * ████
+ * T_L:
+ * ██
+ * ██
+ * ████
+ * T_S:
+ *   ████
+ * ████
+ * T_O:
+ * ████
+ * ████
+ * T_Z:
+ * ████
+ *   ████
+ * T_T:
+ * ██████
+ *   ██
+ */
+typedef enum tetrimino_type
+{
+    T_I = 0,
+    T_J = 1,
+    T_L = 2,
+    T_S = 3,
+    T_O = 4,
+    T_Z = 5,
+    T_T = 6,
+} tetrimino_type_t;
+
+
 typedef enum tetrimino_type tetrimino_code_t;
 
 typedef struct Tetrimino tetrimino_t;
@@ -32,6 +70,8 @@ void add_tetrimino_from_pool(int i, tetrimini_pool_t *p);
 int no_tetriminos_left(tetrimini_pool_t *pool);
 
 WINDOW *get_pool_win(tetrimini_pool_t *t);
+
+int get_remaining_tetriminos(tetrimini_pool_t *pool, tetrimino_code_t type);
 
 int get_tet_rows(tetrimino_t *t);
 

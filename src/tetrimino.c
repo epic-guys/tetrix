@@ -6,44 +6,6 @@
 #include <constants.h>
 #include <functions.h>
 
-
-/**
- * @brief Codifica di ogni tetramino.
- * 
- * T_I:
- * ████████
- * T_J:
- *   ██
- *   ██
- * ████
- * T_L:
- * ██
- * ██
- * ████
- * T_S:
- *   ████
- * ████
- * T_O:
- * ████
- * ████
- * T_Z:
- * ████
- *   ████
- * T_T:
- * ██████
- *   ██
- */
-typedef enum tetrimino_type
-{
-    T_I = 0,
-    T_J = 1,
-    T_L = 2,
-    T_S = 3,
-    T_O = 4,
-    T_Z = 5,
-    T_T = 6,
-} tetrimino_type_t;
-
 /**
  * @brief Non è un typo, in inglese
  * si scrive così.
@@ -475,6 +437,18 @@ int no_tetriminos_left(tetrimini_pool_t *pool){
  */
 WINDOW *get_pool_win(tetrimini_pool_t *t){
     return t->win;
+}
+
+/**
+ * @brief Restituisce il numero di tetramini rimasti
+ * per il tipo passato per parametro.
+ * 
+ * @param type Il tipo di tetrimino.
+ * @return Il numero di tetramini rimasti.
+ */
+int get_remaining_tetriminos(tetrimini_pool_t *pool, tetrimino_code_t type)
+{
+    return pool->rem_tetriminos[type];
 }
 
 /**

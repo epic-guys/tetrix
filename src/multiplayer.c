@@ -10,7 +10,11 @@
 
 void pvp_continue_game();
 void pvp_end_game();
-void new_game_multi();
+void pvp_new_game();
+
+int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetrimino);
+
+#pragma region PVP
 
 void pvp_instructions(char* nickname1, char* nickname2){
     WINDOW *instructions_win;
@@ -49,7 +53,7 @@ void pvp_instructions(char* nickname1, char* nickname2){
  * @brief Inizia la partita in multiplayer
  * 
  */
-void new_game_multi(){
+void pvp_new_game(){
     player_t **players = (player_t **) malloc(sizeof(player_t *) * 2);
     gamefield_t **gameFields = (gamefield_t **) malloc(sizeof(gamefield_t *) * 2);
 
@@ -250,3 +254,148 @@ void pvp_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
     kill_win(summary);
     return;
 }
+
+#pragma endregion
+
+#pragma region PVE
+
+void pve_new_game()
+{
+    player_t **players = (player_t **) malloc(sizeof(player_t *) * 2);
+    gamefield_t **gameFields = (gamefield_t **) malloc(sizeof(gamefield_t *) * 2);
+    tetrimini_pool_t *pool;
+    pointboard_t *points;
+    char *playerName;
+
+    playerName = form(16, "Nome giocatore");
+    refresh();
+
+    players[0] = initialize_player(playerName);
+    players[1] = initialize_player("CPU");
+
+    gameFields[0] = initialize_gamefield(6, 5); /*inizialmente era così: 12, 5 */
+    gameFields[1] = initialize_gamefield(6, (COLS/2)+(POOL_COLS/2)+5); /*inizialmente era così: 12, (COLS/2)+(POOL_COLS/2)*/
+    pool = initialize_pool(6, (COLS/2)-(POOL_COLS/2)-3); /*inizialmente è così: 12, (COLS/2)-(POOL_COLS/2)-20*/
+    points = initialize_pointboard(0, COLS - 30, players[0], players[1]); /*inizialmente era così: 10, COLS - 30, players[0], players[1]*/
+
+    pve_continue_game(players, gameFields, pool, points);
+}
+
+void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points)
+{
+    tetrimino_code_t selected_i;
+    int winner = -1;
+    tetrimino_t *selected_t;
+    unsigned int start_time = time(NULL),seed=time(0);
+    int *moves = (int*)malloc(sizeof(int) * 2);
+    moves[0] = 0;
+    moves[1] = 0;
+    int turn;
+
+    /*Il giocatore che inizia é deciso random*/
+    srand(time(NULL));
+    turn = rand()%2;
+
+    while (winner < 0)
+    {
+        int dropping = 1, cursor,deletedRows=0, added = 1;
+        int *currentField;
+        mvprintw(5,0, "                                "); /*inizialmente era così: 11, (COLS/2)-(POOL_COLS/2)-19*/
+        mvprintw(5,0, "Turno di: %s", get_player_nick(players[turn])); /*inizialmente era così: 11, (COLS/2)-(POOL_COLS/2)-19*/
+        refresh();
+
+        if (turn == 0)
+        {
+
+            selected_i = select_tetrimino(pool);
+            selected_t = get_tetrimino(selected_i);
+            cursor = (FIELD_COLS - get_tet_cols(selected_t)) / 2;
+
+            currentField = get_gamefield(gameFields[turn]);
+            refresh_selector(gameFields[turn], selected_t, cursor);
+            cursor = manage_drop(gameFields[turn], selected_t);
+        }
+        else
+        {
+            cpu_play(gameFields[1], pool, &selected_t);
+        }
+        
+        if (cursor >= 0)
+        {
+            added = add_tetrimino_to_gamefield(gameFields[turn], selected_t, cursor);
+            remove_tetrimino_from_pool(get_tet_type(selected_t), pool);
+            moves[turn]++;
+
+            if (added)
+            {
+                deletedRows = check_field(gameFields[turn]);
+                if (deletedRows > 0)
+                {
+                    player_add_points(players[turn], points, get_points(deletedRows));
+                    if (deletedRows >= 3)
+                    {
+                        flip_values(gameFields[1 - turn], deletedRows);
+                    }
+                }
+                if (no_tetriminos_left(pool) && !added)
+                {
+                    winner = get_player_points(players[0]) < get_player_points(players[1]);
+                }
+            }
+            else
+            {
+                winner = 1 - turn;
+            }
+            
+            turn = 1 - turn;
+        }
+        free_tetrimino(selected_t);
+    }
+    pvp_end_game(winner, gameFields, pool, points, players, start_time, moves);
+
+}
+
+/**
+ * @brief Funzione principale della CPU, da chiamare quando deve giocare.
+ * Per ora si limita a giocare randomicamente, per scopi di testing.
+ * 
+ * FIXME la funzione dovrebbe restituire 2 valori:
+ * - La posizione del cursore
+ * - Il tetrimino scelto
+ * Per ora utilizzo un puntatore, ma se ci sono soluzioni migliori meglio usare quelle.
+ * 
+ * @param[in] gameField Il campo della CPU.
+ * @param[in] pool I tetramini rimanenti.
+ * @param[out] tetrimino Il tetrimino da restituire.
+ * @return Il cursore.
+ */
+int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetrimino)
+{
+    /*
+    Per evitare che la CPU scelga un numero random fuori dal campo, gioca con il seguente ordine:
+    - Sceglie il tetramino
+    - Lo ruota
+    - Decide la posizione
+    */
+
+    tetrimino_code_t tet_type;
+    int rot;
+
+    do
+    {
+        tet_type = rand() % 7;
+    }
+    while (get_remaining_tetriminos(pool, tet_type) <= 0);
+
+    *tetrimino = get_tetrimino(tet_type);
+
+    for (rot = rand() % 4; rot > 0; --rot)
+    {
+        /* Passo 0 come cursore così è sicuro che lo ruota */
+        safe_rotate_tetrimino(*tetrimino, 0);
+    }
+
+    return rand() % (FIELD_COLS - get_tet_cols(*tetrimino));
+}
+
+#pragma endregion

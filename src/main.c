@@ -178,11 +178,13 @@ void main_menu(){
     case 1:
         /* PvP */
         kill_win(w);
-        new_game_multi();
+        pvp_new_game();
         main_menu();
         break;
     case 2:
-        /* PvCPU */
+        kill_win(w);
+        pve_new_game();
+        main_menu();
         break;
     case 3:
         endwin();
