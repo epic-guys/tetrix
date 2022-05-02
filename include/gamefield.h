@@ -1,4 +1,5 @@
 #include <tetrimino.h>
+#include <curses.h>
 
 #ifndef _GAMEFIELD_H_
 #define _GAMEFIELD_H_
@@ -17,11 +18,15 @@ void refresh_gamefield(gamefield_t *g);
 
 int manage_drop(gamefield_t *gameField, tetrimino_t *t);
 
+int get_first_free_row(gamefield_t * g, tetrimino_t * t, int cur_pos);
+
 int add_tetrimino_to_gamefield(gamefield_t *g,tetrimino_t *t,int cur_pos);
 
 int is_gamefield_top_occupied(gamefield_t* g);
 
 int* get_gamefield(gamefield_t *g);
+
+int *get_gamefield_cloned(gamefield_t *g);
 
 WINDOW* get_gamefield_win(gamefield_t *g);
 

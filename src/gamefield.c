@@ -4,7 +4,7 @@
 #include <gamefield.h>
 #include <constants.h>
 #include <functions.h>
-#include  <player.h>
+#include <player.h>
 
 typedef struct GameField
 {
@@ -325,6 +325,25 @@ int *get_gamefield(gamefield_t * g)
 }
 
 /**
+ * @brief Clona il gamefield e restituisce la sua matrice.
+ * @param g Il gamefield da clonare.
+ * @return La matrice clonata.
+ */
+int *get_gamefield_cloned(gamefield_t *g)
+{
+    int *field = (int *) malloc(sizeof(int) * FIELD_ROWS * FIELD_COLS);
+    int i, j;
+    for (i = 0; i < FIELD_ROWS; ++i)
+    {
+        for (j = 0; j < FIELD_COLS; ++j)
+        {
+            field[i * FIELD_COLS + j] = g->field[i * FIELD_COLS + j];
+        }
+    }
+    return field;
+}
+
+/**
  * @brief metodo getter per ricevere la finestra ncurses del campo da gioco.
  *
  * @param[in] g puntatore alla struct del campo da gioco.
@@ -346,12 +365,17 @@ WINDOW *get_gamefield_win(gamefield_t * g)
  */
 int is_row_full(gamefield_t * field, int row)
 {
+    return is_row_full(field->field, row);
+}
+
+int is_row_full(int *field, int row)
+{
     int i;
     if (row < 0 || row >= 15)
         return -1;
     for (i = 0; i < FIELD_COLS; ++i)
     {
-        if (!field->field[FIELD_COLS * row + i])
+        if (!field[FIELD_COLS * row + i])
             return 0;
     }
     return 1;

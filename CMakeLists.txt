@@ -15,7 +15,7 @@ add_library(libtetrix
     src/tetrimino.c
     src/functions.c
     src/constants.c
-
+    src/bot.c
 )
 
 # Collega il modulo libetetrix a tetrix
