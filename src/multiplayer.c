@@ -8,10 +8,13 @@
 #include <functions.h>
 #include <../include/constants.h>
 
-void pvp_continue_game();
-void pvp_end_game();
 void pvp_new_game();
+void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points);
+void pvp_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players,unsigned int start_time,int *moves);
 
+void pve_new_game();
+void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points);
+void pve_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players,unsigned int start_time,int *moves);
 int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetrimino);
 
 #pragma region PVP
@@ -396,7 +399,7 @@ int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetri
         safe_rotate_tetrimino(*tetrimino, 0);
     }
 
-    return rand() % (FIELD_COLS - get_tet_cols(*tetrimino));
+    return rand() % (FIELD_COLS - get_tet_cols(*tetrimino) - 1);
 }
 
 
