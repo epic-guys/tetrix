@@ -205,8 +205,8 @@ int main(){
     /*Attivo NCURSES con i nostri parametri*/
     init_main_screen();
     if(LINES < 30 || COLS < 125){
-        printf("Comprati un monitor piu' grande, poveraccio!");
         endwin();
+        printf("ERRORE! \nIl programma richiede almeno 125 colonne e 30 righe\n");
         return 69;
     }
     print_credits();

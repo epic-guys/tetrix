@@ -365,17 +365,12 @@ WINDOW *get_gamefield_win(gamefield_t * g)
  */
 int is_row_full(gamefield_t * field, int row)
 {
-    return is_row_full(field->field, row);
-}
-
-int is_row_full(int *field, int row)
-{
     int i;
     if (row < 0 || row >= 15)
         return -1;
     for (i = 0; i < FIELD_COLS; ++i)
     {
-        if (!field[FIELD_COLS * row + i])
+        if (!field->field[FIELD_COLS * row + i])
             return 0;
     }
     return 1;
