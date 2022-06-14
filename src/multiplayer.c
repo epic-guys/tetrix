@@ -2,11 +2,11 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <player.h>
-#include <gamefield.h>
-#include <tetrimino.h>
-#include <functions.h>
-#include <../include/constants.h>
+#include "../include/player.h"
+#include "../include/gamefield.h"
+#include "../include/tetrimino.h"
+#include "../include/functions.h"
+#include "../include/constants.h"
 
 void pvp_new_game();
 void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points);

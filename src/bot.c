@@ -1,7 +1,7 @@
-#include <tetrimino.h>
-#include <gamefield.h>
-#include <constants.h>
-#include <bot.h>
+#include "../include/tetrimino.h"
+#include "../include/gamefield.h"
+#include "../include/constants.h"
+#include "../include/bot.h"
 
 /**************************************************************************************
  *                                     ATTENZIONE                                     *

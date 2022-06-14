@@ -1,7 +1,8 @@
 #include <ncurses.h>
 #include <malloc.h>
 #include <string.h>
-#include <constants.h>
+
+#include "../include/constants.h"
 
 typedef struct Player
 {

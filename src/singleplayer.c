@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <../include/player.h>
-#include <../include/gamefield.h>
-#include <../include/tetrimino.h>
-#include <../include/functions.h>
-#include <../include/constants.h>
+#include "../include/player.h"
+#include "../include/gamefield.h"
+#include "../include/tetrimino.h"
+#include "../include/functions.h"
+#include "../include/constants.h"
 
 void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
 void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves);

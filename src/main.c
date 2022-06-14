@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <ncurses.h>
 
-#include <singleplayer.h>
-#include <multiplayer.h>
-#include <functions.h>
-#include <constants.h>
+#include "../include/singleplayer.h"
+#include "../include/multiplayer.h"
+#include "../include/functions.h"
+#include "../include/constants.h"
 
 
 void init_colors();

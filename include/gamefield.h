@@ -1,5 +1,4 @@
-#include <tetrimino.h>
-#include <curses.h>
+#include "tetrimino.h"
 
 #ifndef _GAMEFIELD_H_
 #define _GAMEFIELD_H_

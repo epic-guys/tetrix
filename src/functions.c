@@ -1,10 +1,10 @@
 #include <ncurses.h>
 #include <string.h>
 #include <stdlib.h>
-
-#include <tetrimino.h>
 #include <time.h>
-#include <constants.h>
+
+#include "../include/tetrimino.h"
+#include "../include/constants.h"
 
 void kill_win(WINDOW* w);
 
@@ -99,7 +99,7 @@ char* form(int m_size, char title[]){
  * @param ascii La stringa contenente la ASCII art.
  * @return Il numero di righe.
  */
-int get_ASCII_art_rows(char ascii[])
+int get_ASCII_art_rows(const char ascii[])
 {
     int i = 0, r = 1;
     while (ascii[i] != '\0')
@@ -119,7 +119,7 @@ int get_ASCII_art_rows(char ascii[])
  * @param ascii La stringa contenente la ASCII art.
  * @return Il numero di colonne
  */
-int get_ASCII_art_cols(char ascii[])
+int get_ASCII_art_cols(const char ascii[])
 {
     int i = 0;
     while (ascii[i] != '\n' && ascii[i] != '\0')
