@@ -389,7 +389,7 @@ int is_row_full(gamefield_t * field, int row)
 int is_row_empty(gamefield_t * field, int row)
 {
     int i;
-    if (row < 0 || row >= 15)
+    if (row < 0 || row >= FIELD_ROWS)
         return -1;
     for (i = 0; i < FIELD_COLS; ++i)
     {
