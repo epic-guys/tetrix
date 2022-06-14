@@ -64,8 +64,8 @@ void pvp_new_game(){
     pointboard_t *points;
 
 
-    char *nickname1 = (char*) malloc(sizeof(char) * 16); //PERCHË TU CAUSI UN MEMORY LEAK (bravo copilot che commenta al posto mio)
-    char *nickname2 = (char*) malloc(sizeof(char) * 16);
+    char *nickname1;
+    char *nickname2;
 
     nickname1 = form(16, " Nome 1: ");
     refresh();
@@ -493,6 +493,7 @@ void pve_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
     wrefresh(summary);
 
     free_player(players[0]);
+    free_player(players[1]);
     free(players);
     free_gamefield(gameFields[0]);
     free_gamefield(gameFields[1]);
