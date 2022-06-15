@@ -3,17 +3,77 @@
 #include "../include/constants.h"
 #include "../include/bot.h"
 
-/**************************************************************************************
- *                                     ATTENZIONE                                     *
- *                                                                                    *
- * Ogni funzione che faccia dei controlli su una configurazione data deve avere       *
- * un puntatore ad un tetramino già istanziato. Questo per evitare di allocare        *
- * un tetramino ogni volta che si fa un controllo. La ricorsione è già estremamente   *
- * pesante, meglio ottimizzare ove possibile.                                         *
- * Inoltre ogni funzione che faccia un controllo su un drop specifico deve avere      *
- * come parametro non il gamefield ma una matrice di interi clonata con il tetramino  *
- * già droppato.                                                                      *
- **************************************************************************************/
+/**
+ * IT'S BRUTEFORCE TIME!!!
+ * Prova tutte le board con tutti i tetramini e tutte le rotazioni, si salva i tre punteggi piú alti :)
+ * In dettaglio:
+ * Copio la board di partenza e provo una combinazione, vedo il suo punteggio in base a: 
+ * blocchi occupati,
+ * righe completate,
+ * se fa finire il gioco per riempimento.
+ */
+
+typedef struct strategy{
+    int score;
+    int *field;
+} strategy_t;
+
+/**
+ * @brief funzione che istanzia la strategia copiando giá la board
+ * 
+ * @param field 
+ * @return strategy_t* 
+ */
+strategy_t *strategy_create(int *field){
+    strategy_t *strategy = malloc(sizeof(strategy_t));
+    strategy->score = 0;
+    strategy->field = (int*) malloc(sizeof(int) * (FIELD_COLS * FIELD_ROWS));
+    // copio il field
+    memcpy(strategy->field, field, sizeof(int) * (FIELD_COLS * FIELD_ROWS));
+    return strategy;
+}
+
+void *strategy_destroy(strategy_t *strategy){
+    free(strategy->field);
+    free(strategy);
+}
+
+int calculate_score(int *field){
+/**
+ * TUTORIAL: come si calcola lo score
+ * chi ha meno blocchi occupati,
+ * righe completate,
+ * se fa finire il gioco per riempimento.
+ */
+
+    //parto da num_blocchi e tolgo punti se la riga non é piena ma ho aggiunto blocchi
+    int score = FIELD_ROWS * FIELD_COLS;
+    int i, j;
+    if(is_gamefield_top_occupied(field)){
+        score = 0;
+    }
+    for(i = 0; i < FIELD_ROWS; i++){
+        for(j = 0; j < FIELD_COLS; j++){
+            if(!is_row_full(field, i)){
+                if(field[i * FIELD_COLS + j] != 0){
+                    score--;
+                }
+            }
+            else{
+                score+=FIELD_COLS+10; //se la riga é piena, aggiungo punti (FIELD_COLS + un bonus)
+            }
+        }
+    }
+    return score;
+}
+
+void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos){
+    
+    //piazza il tetrmino nella board
+    add_tetrimino_to_gamefield(strategy->field, tetrimino, cur_pos);
+    //calcola il punteggio
+    strategy->score = calculate_score(strategy->field);
+}
 
 /**
  * @brief Funzione in entrata del bot.
@@ -21,58 +81,10 @@
  * @param pool La pool di tetramini, per far sì che possa scegliere un tetramino rimanente.
  * @return La configurazione che il bot considera migliore.
  */
-config_t get_best_config(gamefield_t *field, tetrimini_pool_t *pool)
+strategy_t choose_strategy(gamefield_t *field, tetrimini_pool_t *pool)
 {
-    // TODO
-}
+    int i;
+    for(i=0;i<N_tetrimini; i++){
 
-/**
- * @brief Controlla se viene lasciata qualche cella vuota sotto il tetramino nella
- * configurazione data.
- * @param field Il campo su cui controllare.
- * @param config La configurazione da controllare.
- * @param tetrimino L'istanza del tetramino.
- * @return 1 se viene lasciata qualche cella vuota, 0 altrimenti.
- */
-int leaves_empty_below(int *field, config_t config, tetrimino_t *tetrimino)
-{
-    /* NON TESTATA */
-    int i, j;
-    /*
-    Controllo le colonne del tetramino droppato, confrontando ogni cella con quella sotto.
-    Se quella sotto era vuota e quella sopra è piena, allora viene coperta una cella vuota.
-    Tutti gli altri casi sono tollerati.
-    */
-    for (j = config.cursor; j < config.cursor + get_tet_cols(tetrimino); ++j)
-    {
-        int prev_filled = field[(FIELD_ROWS - 1) * FIELD_COLS + j];
-        for (i = FIELD_ROWS - 2; i >= 0; ++i)
-        {
-            if (field[i * FIELD_COLS + j])
-            {
-                if (!prev_filled)
-                    return 1;
-                prev_filled = field[i * FIELD_COLS + j];
-            }
-        }
     }
-    return 0;
-}
-
-/**
- * @brief Restituisce il numero di righe riempite totalmente dalla configurazione attuale.
- * @param field Il campo in cui testare il drop.
- * @param config La configurazione del drop.
- * @param tetrimino L'istanza del tetramino.
- * @return Il numero di righe che questa configurazione elimina.
- */
-int tetris(int *field, config_t config, tetrimino_t *tetrimino)
-{
-    int i, j, count = 0;
-    for (i = 0; i < FIELD_ROWS; ++i)
-    {
-        if (is_row_full(field, i))
-            ++count;
-    }
-    return count;
 }
