@@ -10,37 +10,39 @@
 #include "../include/constants.h"
 
 void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
-void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves);
+void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player, unsigned int start_time, int moves);
 void new_game_single();
 
-void instructions(char* nickname){
+void instructions(char *nickname)
+{
     WINDOW *instructions_win;
     char ch;
     int art_cols = get_ASCII_art_rows(ART_LOGO);
     /* 3 è l'altezza della finestra dei credits */
-    instructions_win = newwin( LINES - art_cols - 3, COLS, 6 , 0 );
-    box(instructions_win, 0, 0 );
-    mvwprintw(instructions_win,0,1," BENVENUTO ");
-    
-    wmove(instructions_win,2,2);
-    wprint_with_delay(instructions_win,TXT_DELAY,SINGLE_WELCOME_TXT[0]);
-    wprint_with_delay(instructions_win,TXT_DELAY,nickname);
-    wmove(instructions_win,3,2);
-    wprint_with_delay(instructions_win,TXT_DELAY,SINGLE_WELCOME_TXT[1]);
-    
+    instructions_win = newwin(LINES - art_cols - 3, COLS, 6, 0);
+    box(instructions_win, 0, 0);
+    mvwprintw(instructions_win, 0, 1, " BENVENUTO ");
+
+    wmove(instructions_win, 2, 2);
+    wprint_with_delay(instructions_win, TXT_DELAY, SINGLE_WELCOME_TXT[0]);
+    wprint_with_delay(instructions_win, TXT_DELAY, nickname);
+    wmove(instructions_win, 3, 2);
+    wprint_with_delay(instructions_win, TXT_DELAY, SINGLE_WELCOME_TXT[1]);
+
     delay(1000);
 
-    wmove(instructions_win,18,(COLS/2)-4);
-    wattron(instructions_win, A_STANDOUT );
-    wprintw(instructions_win,"> Gioca! <");
-    wattroff(instructions_win, A_STANDOUT );
+    wmove(instructions_win, 18, (COLS / 2) - 4);
+    wattron(instructions_win, A_STANDOUT);
+    wprintw(instructions_win, "> Gioca! <");
+    wattroff(instructions_win, A_STANDOUT);
     wrefresh(instructions_win);
 
     ch = -1;
 
-    do{
+    do
+    {
         ch = wgetch(instructions_win);
-    }while(ch != 10);
+    } while (ch != 10);
 
     kill_win(instructions_win);
     return;
@@ -49,12 +51,13 @@ void instructions(char* nickname){
 /**
  * @brief inizia una partita in single player
  */
-void new_game_single(){
+void new_game_single()
+{
     player_t *player;
     gamefield_t *gameField;
     tetrimini_pool_t *pool;
     pointboard_t *points;
-    
+
     char *nickname;
     int logo_rows = get_ASCII_art_rows(ART_LOGO);
     nickname = form(16, " Nome: ");
@@ -68,10 +71,9 @@ void new_game_single(){
     a spostarsi troppo sotto quando il terminale è troppo piccolo
     */
     gameField = initialize_gamefield(
-        (LINES + logo_rows - FIELD_W_ROWS - 15) / 2, //prima era: (LINES + logo_rows - FIELD_W_ROWS - 3) / 2
-        (COLS + POOL_COLS - POINTBOARD_COLS - FIELD_W_COLS) / 2
-        );
-    pool = initialize_pool((LINES + logo_rows - POOL_ROWS - 3) / 2, 0); //prima era: (LINES + logo_rows - POOL_ROWS) / 2, 0 
+        (LINES + logo_rows - FIELD_W_ROWS - 15) / 2, // prima era: (LINES + logo_rows - FIELD_W_ROWS - 3) / 2
+        (COLS + POOL_COLS - POINTBOARD_COLS - FIELD_W_COLS) / 2);
+    pool = initialize_pool((LINES + logo_rows - POOL_ROWS - 3) / 2, 0); // prima era: (LINES + logo_rows - POOL_ROWS) / 2, 0
     points = initialize_pointboard(10, COLS - POINTBOARD_COLS, player, NULL);
     single_continue_game(player, gameField, pool, points);
     return;
@@ -79,28 +81,29 @@ void new_game_single(){
 
 /**
  * @brief corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso
- * 
+ *
  * @param[in] player Il giocatore.
  * @param[in] gameField Il campo da gioco del giocatore.
  * @param[in] pool I tetramini rimanenti.
  * @param[in] points Il punteggio del giocatore.
  */
-void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points){
+void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points)
+{
     int selected_i, can_play = 1;
     tetrimino_t *selected_t;
     unsigned int start_time = time(NULL);
-    int moves=0;
+    int moves = 0;
 
     while (can_play)
-    {   
+    {
         int dropping = 1, cursor, deletedRows, added = 1;
-        int* field = get_gamefield(gameField);
+        int *field = get_gamefield(gameField);
         selected_i = select_tetrimino(pool);
         selected_t = get_tetrimino(selected_i);
 
         /* Riceve l'input di dove droppare il tetramino */
         cursor = manage_drop(gameField, selected_t);
-                
+
         /*Aggiorna il counter delle mosse del giocatore*/
         if (cursor >= 0)
         {
@@ -118,27 +121,28 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
         }
 
         free_tetrimino(selected_t);
-        
+
         /*verifico che ci siano ancora le condizioni per giocare*/
-        if(no_tetriminos_left(pool) || !added)
+        if (no_tetriminos_left(pool) || !added)
         {
             can_play = 0;
         }
     }
-    end_game(gameField,pool,points, player, start_time,moves);
+    end_game(gameField, pool, points, player, start_time, moves);
 }
 
-void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player,unsigned int start_time,int moves)/*thanos++*/{
-    WINDOW* fieldWin = get_gamefield_win(gameField);
-    WINDOW* poolWin = get_pool_win(pool);
-    WINDOW* pointWin = get_pointboard_win(points);
-    WINDOW *summary = newwin( 14, COLS-2, (LINES/2)-5 , 1 );
+void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player, unsigned int start_time, int moves) /*thanos++*/
+{
+    WINDOW *fieldWin = get_gamefield_win(gameField);
+    WINDOW *poolWin = get_pool_win(pool);
+    WINDOW *pointWin = get_pointboard_win(points);
+    WINDOW *summary = newwin(14, COLS - 2, (LINES / 2) - 5, 1);
 
     unsigned int end_time = (int)time(NULL);
     char ch;
     int i;
 
-    char* nickname = get_player_nick(player);
+    char *nickname = get_player_nick(player);
     unsigned int playerPoints = get_player_points(player);
 
     int ypos = (getmaxy(summary) - get_ASCII_art_rows(ART_GAME_OVER)) / 2;
@@ -148,42 +152,42 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     kill_win(poolWin);
     kill_win(pointWin);
 
-    box(summary, 0, 0 );
+    box(summary, 0, 0);
     mvwprintwrows(summary, ypos, xpos, ART_GAME_OVER);
     wrefresh(summary);
     delay(1000);
     wclear(summary);
-    box(summary, 0, 0 );
+    box(summary, 0, 0);
     wrefresh(summary);
-    
-    wmove(summary,2,2);
-    wprint_with_delay(summary,TXT_DELAY,SINGLE_END_TXT[0]);
-    wprint_with_delay(summary,TXT_DELAY,nickname);
-    wmove(summary,3,2);
-    wprint_with_delay(summary,TXT_DELAY,SINGLE_END_TXT[1]);
-    wprintw(summary,"%05u",playerPoints);
+
+    wmove(summary, 2, 2);
+    wprint_with_delay(summary, TXT_DELAY, SINGLE_END_TXT[0]);
+    wprint_with_delay(summary, TXT_DELAY, nickname);
+    wmove(summary, 3, 2);
+    wprint_with_delay(summary, TXT_DELAY, SINGLE_END_TXT[1]);
+    wprintw(summary, "%05u", playerPoints);
     wrefresh(summary);
     delay(500);
-    wmove(summary,7,2);
-    wprint_with_delay(summary,TXT_DELAY,SINGLE_END_TXT[2]);
-    
-    wprintw(summary,"%05u",(end_time-start_time));
+    wmove(summary, 7, 2);
+    wprint_with_delay(summary, TXT_DELAY, SINGLE_END_TXT[2]);
+
+    wprintw(summary, "%05u", (end_time - start_time));
     wrefresh(summary);
 
     delay(500);
-    
-    wmove(summary,9,2);
-    wprint_with_delay(summary,TXT_DELAY,SINGLE_END_TXT[3]);
-    
-    wprintw(summary,"%05d",moves);
+
+    wmove(summary, 9, 2);
+    wprint_with_delay(summary, TXT_DELAY, SINGLE_END_TXT[3]);
+
+    wprintw(summary, "%05d", moves);
     wrefresh(summary);
-    
+
     delay(500);
 
-    wmove(summary,12,(COLS/2)-9);
-    wattron(summary, A_STANDOUT );
-    wprintw(summary,"> Torna al menu! <");
-    wattroff(summary, A_STANDOUT );
+    wmove(summary, 12, (COLS / 2) - 9);
+    wattron(summary, A_STANDOUT);
+    wprintw(summary, "> Torna al menu! <");
+    wattroff(summary, A_STANDOUT);
     wrefresh(summary);
 
     free_gamefield(gameField);
@@ -193,9 +197,10 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
 
     ch = -1;
 
-    do{
+    do
+    {
         ch = wgetch(summary);
-    }while(ch != 10);
+    } while (ch != 10);
 
     kill_win(summary);
 }

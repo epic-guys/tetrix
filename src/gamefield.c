@@ -15,15 +15,16 @@ typedef struct GameField
 
 /**
  * @brief crea il campo da gioco
- * 
+ *
  * @param[in] y_pos La posizione Y iniziale in cui posizionare la finestra.
  * @param[in] x_pos La posizione X iniziale in cui posizionare la finestra.
  * @return Lo struct del gamefield istanziato.
  */
-gamefield_t *initialize_gamefield(int y, int x){
+gamefield_t *initialize_gamefield(int y, int x)
+{
 
-    gamefield_t *gameField = (gamefield_t*) malloc(sizeof(gamefield_t));
-    gameField->field = (int*) malloc(sizeof(int) * (FIELD_COLS * FIELD_ROWS));
+    gamefield_t *gameField = (gamefield_t *)malloc(sizeof(gamefield_t));
+    gameField->field = (int *)malloc(sizeof(int) * (FIELD_COLS * FIELD_ROWS));
     WINDOW *w;
     size_t i, j;
     for (i = 0; i < FIELD_ROWS; i++)
@@ -40,20 +41,22 @@ gamefield_t *initialize_gamefield(int y, int x){
 
 /**
  * @brief free del campo da gioco.
- * 
+ *
  * @param[in] g il campo da gioco.
  */
-void free_gamefield(gamefield_t *g){
+void free_gamefield(gamefield_t *g)
+{
     free(g->field);
     free(g);
 }
 
 /**
  * @brief Pulizia della parte superiore dello schermo.
- * 
+ *
  * @param[in] g Il campo di gioco.
  */
-void clear_top(gamefield_t *g){
+void clear_top(gamefield_t *g)
+{
     int i, j;
     for (i = 0; i < 4; ++i)
     {
@@ -65,18 +68,19 @@ void clear_top(gamefield_t *g){
 
 /**
  * @brief visualizza il tetramino selezionato nella parte superiore di un campo da gioco partendo dalla posizione del cursore.
- * 
+ *
  * @param[in] g il campo da gioco dove stampare.
  * @param[in] t tetramino da stampare.
  * @param[in] cur_pos posizione del cursore.
  */
-void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos){
-    int i, j, val,stop=0;
+void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos)
+{
+    int i, j, val, stop = 0;
     int *values = get_tet_values(t);
     int rows = get_tet_rows(t);
     int cols = get_tet_cols(t);
     int color = swap_color(get_tet_color(t));
-    
+
     /*Rimuove l'overlay precente*/
     refresh_gamefield(g);
 
@@ -87,18 +91,17 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos){
         for (j = cur_pos; j < cur_pos + cols; ++j)
         {
 
-            if(g->field[FIELD_COLS * (i-4) + j]){
-                stop=1;
-
+            if (g->field[FIELD_COLS * (i - 4) + j])
+            {
+                stop = 1;
             }
-            
         }
-        if(!stop)
+        if (!stop)
         {
             for (j = cur_pos; j < cur_pos + cols; ++j)
             {
-            
-                if (!g->field[FIELD_COLS * (i-4) + j] && !stop)
+
+                if (!g->field[FIELD_COLS * (i - 4) + j] && !stop)
                 {
                     wattron(g->win, COLOR_PAIR(color));
                     mvwprintw(g->win, i, (j * 2) + 1, "  ");
@@ -106,7 +109,6 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos){
                 }
             }
         }
-        
     }
 
     clear_top(g);
@@ -115,7 +117,7 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos){
     {
         for (j = 0; j < cols; ++j)
         {
-            val = values[(cols*i)+j];
+            val = values[(cols * i) + j];
             if (val)
             {
                 wattron(g->win, COLOR_PAIR(val));
@@ -129,10 +131,10 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos){
 
 /**
  * @brief Gestisce l'input del trop del tetramino.
- * 
+ *
  * @param gameField Il campo dove bisogna droppare il tetramino.
  * @param t Il tetramino da droppare.
- * @return 
+ * @return
  */
 int manage_drop(gamefield_t *gameField, tetrimino_t *t)
 {
@@ -170,6 +172,7 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
             refresh_selector(gameField, t, cursor);
             break;
 
+        case '\n': /* non é un typo */
         case KEY_ENTER:
             /*Droppa il tetramino*/
             dropping = 0;
@@ -196,7 +199,7 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
  *
  * @param[in, out] g Il campo da gioco di cui bisogna aggiornare lo schermo.
  */
-void refresh_gamefield(gamefield_t * g)
+void refresh_gamefield(gamefield_t *g)
 {
     int i, j;
     for (i = 0; i < FIELD_ROWS; ++i)
@@ -225,7 +228,7 @@ void refresh_gamefield(gamefield_t * g)
  * @param[in] cur_pos La posizione del cursore e quindi la prima colonna di discesa del tetramino.
  * @param[out] row La posizione nella matrice della prima riga libera.
  */
-int get_first_free_row(int *f, tetrimino_t * t, int cur_pos)
+int get_first_free_row(int *f, tetrimino_t *t, int cur_pos)
 {
     int i, j, k;
     int *values = get_tet_values(t);
@@ -283,9 +286,9 @@ int get_first_free_row(int *f, tetrimino_t * t, int cur_pos)
  * @return 1 se il tetramino si è incastrato, 0 se il
  * campo era pieno e non è riuscito.
  */
-int add_tetrimino_to_gamefield(gamefield_t * g, tetrimino_t * t, int cur_pos)
+int add_tetrimino_to_gamefield(gamefield_t *g, tetrimino_t *t, int cur_pos)
 {
-    int res = add_tetrimino_to_field(g->field,t,cur_pos);
+    int res = add_tetrimino_to_field(g->field, t, cur_pos);
     refresh_gamefield(g);
 
     return res;
@@ -300,7 +303,7 @@ int add_tetrimino_to_gamefield(gamefield_t * g, tetrimino_t * t, int cur_pos)
  * @return 1 se il tetramino si è incastrato, 0 se il
  * campo era pieno e non è riuscito.
  */
-int add_tetrimino_to_field(int *f, tetrimino_t * t, int cur_pos)
+int add_tetrimino_to_field(int *f, tetrimino_t *t, int cur_pos)
 {
     int i = get_first_free_row(f, t, cur_pos);
     int k, l;
@@ -344,7 +347,7 @@ int add_tetrimino_to_field(int *f, tetrimino_t * t, int cur_pos)
  * @param[in] g gamefield da controllare
  * @return int
  */
-int is_gamefield_top_occupied(gamefield_t * g)
+int is_gamefield_top_occupied(gamefield_t *g)
 {
     return is_field_top_occupied(g->field);
 }
@@ -366,13 +369,14 @@ int is_field_top_occupied(int *f)
  * @param[in] g puntatore alla struct del campo da gioco.
  * @return field la matrice di interi che rappresenta la matrice con i tetramini.
  */
-int *get_gamefield(gamefield_t * g)
+int *get_gamefield(gamefield_t *g)
 {
     return g->field;
 }
 
-void set_field(gamefield_t *g, int *field){
-    //free(g->field);
+void set_field(gamefield_t *g, int *field)
+{
+    // free(g->field);
     g->field = field;
 }
 
@@ -382,7 +386,7 @@ void set_field(gamefield_t *g, int *field){
  * @param[in] g puntatore alla struct del campo da gioco.
  * @param[out] win la finestra di ncurses del campo da gioco.
  */
-WINDOW *get_gamefield_win(gamefield_t * g)
+WINDOW *get_gamefield_win(gamefield_t *g)
 {
     return g->win;
 }
@@ -438,7 +442,7 @@ int is_row_empty(int *field, int row)
  * @param gameField Il campo da controllare.
  * @return Il numero di righe che il giocatore ha riempito.
  */
-int check_field(gamefield_t * gameField)
+int check_field(gamefield_t *gameField)
 {
     int i, j, deletedRows = 0;
     for (i = 0; i < FIELD_ROWS; ++i)
@@ -454,7 +458,7 @@ int check_field(gamefield_t * gameField)
             {
                 for (l = 0; l < FIELD_COLS; ++l)
                 {
-                    gameField->field[FIELD_COLS * k + l] = gameField->field[FIELD_COLS * (k-1) + l];
+                    gameField->field[FIELD_COLS * k + l] = gameField->field[FIELD_COLS * (k - 1) + l];
                 }
                 refresh_gamefield(gameField);
                 delay(50); /*la funzione in realtà blocca di fatti tutto il programma per 50 millisecondi*/
@@ -471,7 +475,7 @@ int check_field(gamefield_t * gameField)
  * @param field Il campo su cui invertire le righe.
  * @param rows Il numero di righe.
  */
-void flip_values(gamefield_t * field, int rows)
+void flip_values(gamefield_t *field, int rows)
 {
     int i;
     for (i = FIELD_ROWS - 1; i > FIELD_ROWS - rows - 1; --i)
@@ -486,7 +490,7 @@ void flip_values(gamefield_t * field, int rows)
  * @param[in] field il campo da gioco
  * @param[in] row la riga dove effettuare l'operazione
  */
-void flip_values_in_row(gamefield_t * field, int row)
+void flip_values_in_row(gamefield_t *field, int row)
 {
     int i;
     if (!is_row_empty(field->field, row))
@@ -514,7 +518,7 @@ void flip_values_in_row(gamefield_t * field, int row)
  */
 int *clone_field(int *f)
 {
-    int *field = (int *) malloc(sizeof(int) * FIELD_ROWS * FIELD_COLS);
+    int *field = (int *)malloc(sizeof(int) * FIELD_ROWS * FIELD_COLS);
     int i, j;
     for (i = 0; i < FIELD_ROWS; ++i)
     {
