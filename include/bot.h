@@ -1,14 +1,13 @@
 #ifndef _BOT_H_
 #define _BOT_H_
 
-typedef struct config
-{
-    tetrimino_type_t tetrimino;
-    int cursor;
-    int rotation;
-} config_t;
+typedef struct Strategy strategy_t;
 
 
-config_t get_best_config(gamefield_t *field, tetrimini_pool_t *pool);
+strategy_t *strategy_create(int *field);
+void strategy_destroy(strategy_t *strategy);
+void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos);
+void choose_strategy(gamefield_t *field, tetrimini_pool_t *pool);
+int calculate_score(int *field);
 
 #endif

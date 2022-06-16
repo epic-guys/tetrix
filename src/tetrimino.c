@@ -364,7 +364,7 @@ void linear_rotate(tetrimino_t *t){
 }
 
 /**
- * @brief Stub di rotateTetrimino che verifica la fattibilitá della rotazione altrimenti non ruota.
+ * @brief Stub di rotateLinear che verifica la fattibilitá della rotazione altrimenti non ruota.
  * 
  * @param[in] t Tetramino da ruotare.
  * @param[in] cur_pos posizione del cursore.

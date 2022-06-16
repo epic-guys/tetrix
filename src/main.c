@@ -184,7 +184,7 @@ void main_menu(){
     case 2:
         /* PvCPU */
         kill_win(w);
-        //pve_new_game();
+        pve_new_game();
         main_menu();
         break;
     case 3:

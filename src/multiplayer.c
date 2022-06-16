@@ -7,6 +7,7 @@
 #include "../include/tetrimino.h"
 #include "../include/functions.h"
 #include "../include/constants.h"
+#include "../include/bot.h"
 
 void pvp_new_game();
 void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points);
@@ -149,7 +150,6 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
     pvp_end_game(winner, gameFields, pool, points, players, start_time, moves);
 }
 
-/*da finire di aggiustare*/
 void pvp_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players,unsigned int start_time,int *moves)/*thanos++*/{
     WINDOW* field1Win = get_gamefield_win(gameFields[0]);
     WINDOW* field2Win = get_gamefield_win(gameFields[1]);
@@ -321,7 +321,9 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
         }
         else
         {
-            cpu_play(gameFields[1], pool, &selected_t);
+            
+            //cpu_play(gameFields[1], pool, &selected_t);
+            choose_strategy(gameFields[1],pool);
         }
         
         if (cursor >= 0)

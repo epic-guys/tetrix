@@ -10,7 +10,6 @@
 typedef struct GameField
 {
     int *field;
-    //int field[FIELD_ROWS][FIELD_COLS];
     WINDOW *win;
 } gamefield_t;
 
@@ -206,7 +205,7 @@ void refresh_gamefield(gamefield_t * g)
  * @param[in] cur_pos La posizione del cursore e quindi la prima colonna di discesa del tetramino.
  * @param[out] row La posizione nella matrice della prima riga libera.
  */
-int get_first_free_row(gamefield_t * g, tetrimino_t * t, int cur_pos)
+int get_first_free_row(int *f, tetrimino_t * t, int cur_pos)
 {
     int i, j, k;
     int *values = get_tet_values(t);
@@ -243,7 +242,7 @@ int get_first_free_row(gamefield_t * g, tetrimino_t * t, int cur_pos)
                 riga precedente.
                 */
                 if (values[j * cols + k - cur_pos])
-                    if (g->field[FIELD_COLS * (i + j) + k])
+                    if (f[FIELD_COLS * (i + j) + k])
                         return i - 1;
             }
         }
@@ -256,7 +255,7 @@ int get_first_free_row(gamefield_t * g, tetrimino_t * t, int cur_pos)
 }
 
 /**
- * @brief Aggiunge un tetramino al campo da gioco.
+ * @brief Aggiunge un tetramino al campo da gioco (funzione stub creata per compatibilitá).
  *
  * @param[in] g campo di gioco.
  * @param[in] t tetramino da piazzare.
@@ -266,7 +265,24 @@ int get_first_free_row(gamefield_t * g, tetrimino_t * t, int cur_pos)
  */
 int add_tetrimino_to_gamefield(gamefield_t * g, tetrimino_t * t, int cur_pos)
 {
-    int i = get_first_free_row(g, t, cur_pos);
+    int res = add_tetrimino_to_field(g->field,t,cur_pos);
+    refresh_gamefield(g);
+
+    return res;
+}
+
+/**
+ * @brief Aggiunge un tetramino al campo da gioco.
+ *
+ * @param[in] f matrice di gioco (quella dove sono salvati i tetramini).
+ * @param[in] t tetramino da piazzare.
+ * @param[in] cur_pos posizione del cursore.
+ * @return 1 se il tetramino si è incastrato, 0 se il
+ * campo era pieno e non è riuscito.
+ */
+int add_tetrimino_to_field(int *f, tetrimino_t * t, int cur_pos)
+{
+    int i = get_first_free_row(f, t, cur_pos);
     int k, l;
     int *values;
     int cols = get_tet_cols(t);
@@ -294,15 +310,14 @@ int add_tetrimino_to_gamefield(gamefield_t * g, tetrimino_t * t, int cur_pos)
         {
             if (values[k * cols + l])
             {
-                g->field[FIELD_COLS * (i + k) + (cur_pos + l)] = values[k * cols + l];
+                f[FIELD_COLS * (i + k) + (cur_pos + l)] = values[k * cols + l];
             }
         }
     }
 
-    refresh_gamefield(g);
-
     return 1;
 }
+
 /**
  * @brief controlla se il gamefield é stato
  * saturato in almeno un blocco.
@@ -311,37 +326,34 @@ int add_tetrimino_to_gamefield(gamefield_t * g, tetrimino_t * t, int cur_pos)
  */
 int is_gamefield_top_occupied(gamefield_t * g)
 {
-    return !is_row_empty(g, 0);
+    return is_field_top_occupied(g->field);
+}
+
+/**
+ * @brief controlla se il field é stato
+ * saturato in almeno un blocco.
+ * @param[in] f la matrice campo da gioco
+ * @return int
+ */
+int is_field_top_occupied(int *f)
+{
+    return !is_row_empty(f, 0);
 }
 
 /**
  * @brief metodo getter per ricevere la matrice con i tetramini.
  *
  * @param[in] g puntatore alla struct del campo da gioco.
- * @param[out] field la matrice di interi che rappresenta la matrice con i tetramini.
+ * @return field la matrice di interi che rappresenta la matrice con i tetramini.
  */
 int *get_gamefield(gamefield_t * g)
 {
     return g->field;
 }
 
-/**
- * @brief Clona il gamefield e restituisce la sua matrice.
- * @param g Il gamefield da clonare.
- * @return La matrice clonata.
- */
-int *get_gamefield_cloned(gamefield_t *g)
-{
-    int *field = (int *) malloc(sizeof(int) * FIELD_ROWS * FIELD_COLS);
-    int i, j;
-    for (i = 0; i < FIELD_ROWS; ++i)
-    {
-        for (j = 0; j < FIELD_COLS; ++j)
-        {
-            field[i * FIELD_COLS + j] = g->field[i * FIELD_COLS + j];
-        }
-    }
-    return field;
+void set_field(gamefield_t *g, int *field){
+    free(g->field);
+    g->field = field;
 }
 
 /**
@@ -364,14 +376,14 @@ WINDOW *get_gamefield_win(gamefield_t * g)
  * @return 1 se la riga è piena, 0 se ha almeno una cella vuota, -1 se la riga
  * è fuori dal campo
  */
-int is_row_full(gamefield_t * field, int row)
+int is_row_full(int *field, int row)
 {
     int i;
     if (row < 0 || row >= 15)
         return -1;
     for (i = 0; i < FIELD_COLS; ++i)
     {
-        if (!field->field[FIELD_COLS * row + i])
+        if (!field[FIELD_COLS * row + i])
             return 0;
     }
     return 1;
@@ -386,14 +398,14 @@ int is_row_full(gamefield_t * field, int row)
  * @return 1 se la riga è vuota, 0 se ha almeno una cella piena, -1 se la riga
  * è fuori dal campo
  */
-int is_row_empty(gamefield_t * field, int row)
+int is_row_empty(int *field, int row)
 {
     int i;
     if (row < 0 || row >= FIELD_ROWS)
         return -1;
     for (i = 0; i < FIELD_COLS; ++i)
     {
-        if (field->field[FIELD_COLS * row + i])
+        if (field[FIELD_COLS * row + i])
             return 0;
     }
     return 1;
@@ -411,7 +423,7 @@ int check_field(gamefield_t * gameField)
     int i, j, deletedRows = 0;
     for (i = 0; i < FIELD_ROWS; ++i)
     {
-        if (is_row_full(gameField, i))
+        if (is_row_full(gameField->field, i))
         {
             int k, l;
             mvwprintw(gameField->win, i + 4, 1, "====================");
@@ -457,7 +469,7 @@ void flip_values(gamefield_t * field, int rows)
 void flip_values_in_row(gamefield_t * field, int row)
 {
     int i;
-    if (!is_row_empty(field, row))
+    if (!is_row_empty(field->field, row))
     {
         for (i = 0; i < FIELD_COLS; ++i)
         {
@@ -473,4 +485,23 @@ void flip_values_in_row(gamefield_t * field, int row)
             }
         }
     }
+}
+
+/**
+ * @brief Clona il field e restituisce il puntatore.
+ * @param f Il field da clonare.
+ * @return La matrice clonata.
+ */
+int *clone_field(int *f)
+{
+    int *field = (int *) malloc(sizeof(int) * FIELD_ROWS * FIELD_COLS);
+    int i, j;
+    for (i = 0; i < FIELD_ROWS; ++i)
+    {
+        for (j = 0; j < FIELD_COLS; ++j)
+        {
+            field[i * FIELD_COLS + j] = f[i * FIELD_COLS + j];
+        }
+    }
+    return field;
 }
