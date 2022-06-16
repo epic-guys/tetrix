@@ -342,18 +342,34 @@ int select_tetrimino(tetrimini_pool_t *pool)
  * operazione il tetramino risulterebbe "fuori" dalle celle e avrebbe indici negativi.
  * 
  * @param[in] t Il tetramino da ruotare.
+ * @param[in] dir La direzione in cui ruotare il tetramino. 0 sta per destra, qualsiasi altro valore sinistra.
  */
-void linear_rotate(tetrimino_t *t){
+void linear_rotate(tetrimino_t *t, int dir){
     int *v_rotate = (int *)malloc(sizeof(int) * t->rows * t->cols);
     size_t i, j;
 
-    for (i = 0; i < t->rows; ++i)
+    if (dir == 0)
     {
-        for (j = 0; j < t->cols; ++j)
+        for (i = 0; i < t->rows; ++i)
         {
-            int i_rot = j;
-            int j_rot = -i + t->rows - 1;
-            v_rotate[i_rot * t->rows + j_rot] = t->values[i * t->cols + j];
+            for (j = 0; j < t->cols; ++j)
+            {
+                int i_rot = j;
+                int j_rot = -i + t->rows - 1;
+                v_rotate[i_rot * t->rows + j_rot] = t->values[i * t->cols + j];
+            }
+        }
+    }
+    else
+    {
+        for (i = 0; i < t->rows; ++i)
+        {
+            for (j = 0; j < t->cols; ++j)
+            {
+                int i_rot = -j + t->cols - 1;
+                int j_rot = i;
+                v_rotate[i_rot * t->rows + j_rot] = t->values[i * t->cols + j];
+            }
         }
     }
     free(t->values);
@@ -367,12 +383,13 @@ void linear_rotate(tetrimino_t *t){
  * @brief Stub di rotateLinear che verifica la fattibilitá della rotazione altrimenti non ruota.
  * 
  * @param[in] t Tetramino da ruotare.
- * @param[in] cur_pos posizione del cursore.
+ * @param[in] cur_pos Posizione del cursore.
+ * @param[in] dir Direzione di rotazione.
  */
-void safe_rotate_tetrimino(tetrimino_t *t, int cur_pos){
+void safe_rotate_tetrimino(tetrimino_t *t, int cur_pos, int dir){
 
     if (cur_pos + t->rows <= FIELD_COLS)
-        linear_rotate(t);
+        linear_rotate(t, dir);
 }
 
 /**

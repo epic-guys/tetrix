@@ -69,7 +69,7 @@ void choose_strategy(gamefield_t *g, tetrimini_pool_t *pool)
             for(j=0;j<FIELD_COLS;j++){
                 for(k=0;k<4;k++){
                     strategy_t *str = strategy_create(get_gamefield(g));
-                    safe_rotate_tetrimino(t,j);
+                    safe_rotate_tetrimino(t, j, 0);
                     //faccio finalmente la strategia
                     strategy_update(str,t,j);
 

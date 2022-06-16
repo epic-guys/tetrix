@@ -32,6 +32,9 @@ find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 target_link_libraries(tetrix ${CURSES_LIBRARIES})
 
+# Test valgrind
+add_test(NAME mem_check COMMAND valgrind ./tetrix)
+
 file(GLOB SOURCES "*.c")
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

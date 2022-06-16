@@ -160,11 +160,17 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
 
         case KEY_UP:
             /*ruota matrice di 90 gradi*/
-            safe_rotate_tetrimino(t, cursor);
+            safe_rotate_tetrimino(t, cursor, 0);
             refresh_selector(gameField, t, cursor);
             break;
 
         case KEY_DOWN:
+            /*ruota matrice di 90 gradi*/
+            safe_rotate_tetrimino(t, cursor, 1);
+            refresh_selector(gameField, t, cursor);
+            break;
+
+        case KEY_ENTER:
             /*Droppa il tetramino*/
             dropping = 0;
             clear_top(gameField);

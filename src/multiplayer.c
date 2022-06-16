@@ -398,7 +398,7 @@ int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetri
     for (rot = rand() % 4; rot > 0; --rot)
     {
         /* Passo 0 come cursore così è sicuro che lo ruota */
-        safe_rotate_tetrimino(*tetrimino, 0);
+        safe_rotate_tetrimino(*tetrimino, 0, 0);
     }
 
     return rand() % (FIELD_COLS - get_tet_cols(*tetrimino) - 1);
