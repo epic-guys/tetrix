@@ -245,3 +245,11 @@ int prev_circular(int i, int size)
     if (i <= 0) return size - 1;
     else return i - 1;
 }
+
+int super_free(void** ptr){
+    if(ptr==NULL)
+        return 0;
+    free(*ptr);
+    *ptr=NULL;
+    return 1;
+}

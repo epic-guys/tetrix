@@ -20,6 +20,7 @@ int prev_circular(int i, int size);
 #pragma region ASCII ART
 
 int get_ASCII_art_rows(char ascii[]);
+
 int get_ASCII_art_cols(char ascii[]);
 
 #pragma endregion

@@ -23,10 +23,10 @@ void instructions(char* nickname){
     mvwprintw(instructions_win,0,1," BENVENUTO ");
     
     wmove(instructions_win,2,2);
-    wprint_with_delay(instructions_win,20,SINGLE_WELCOME_TXT[0]);
-    wprint_with_delay(instructions_win,20,nickname);
+    wprint_with_delay(instructions_win,TXT_DELAY,SINGLE_WELCOME_TXT[0]);
+    wprint_with_delay(instructions_win,TXT_DELAY,nickname);
     wmove(instructions_win,3,2);
-    wprint_with_delay(instructions_win,20,SINGLE_WELCOME_TXT[1]);
+    wprint_with_delay(instructions_win,TXT_DELAY,SINGLE_WELCOME_TXT[1]);
     
     delay(1000);
 
@@ -157,15 +157,15 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     wrefresh(summary);
     
     wmove(summary,2,2);
-    wprint_with_delay(summary,20,SINGLE_END_TXT[0]);
-    wprint_with_delay(summary,20,nickname);
+    wprint_with_delay(summary,TXT_DELAY,SINGLE_END_TXT[0]);
+    wprint_with_delay(summary,TXT_DELAY,nickname);
     wmove(summary,3,2);
-    wprint_with_delay(summary,20,SINGLE_END_TXT[1]);
+    wprint_with_delay(summary,TXT_DELAY,SINGLE_END_TXT[1]);
     wprintw(summary,"%05u",playerPoints);
     wrefresh(summary);
     delay(500);
     wmove(summary,7,2);
-    wprint_with_delay(summary,20,SINGLE_END_TXT[2]);
+    wprint_with_delay(summary,TXT_DELAY,SINGLE_END_TXT[2]);
     
     wprintw(summary,"%05u",(end_time-start_time));
     wrefresh(summary);
@@ -173,7 +173,7 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
     delay(500);
     
     wmove(summary,9,2);
-    wprint_with_delay(summary,20,SINGLE_END_TXT[3]);
+    wprint_with_delay(summary,TXT_DELAY,SINGLE_END_TXT[3]);
     
     wprintw(summary,"%05d",moves);
     wrefresh(summary);

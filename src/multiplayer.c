@@ -29,12 +29,12 @@ void pvp_instructions(char* nickname1, char* nickname2){
     mvwprintw(instructions_win,0,1," BENVENUTI ");
 
     wmove(instructions_win,2,2);
-    wprint_with_delay(instructions_win,20,PVP_WELCOME_TXT[0]);
-    wprint_with_delay(instructions_win,20,nickname1);
-    wprint_with_delay(instructions_win,20," e ");
-    wprint_with_delay(instructions_win,20,nickname2);
+    wprint_with_delay(instructions_win,TXT_DELAY,PVP_WELCOME_TXT[0]);
+    wprint_with_delay(instructions_win,TXT_DELAY,nickname1);
+    wprint_with_delay(instructions_win,TXT_DELAY," e ");
+    wprint_with_delay(instructions_win,TXT_DELAY,nickname2);
     wmove(instructions_win,3,2);
-    wprint_with_delay(instructions_win,20,PVP_WELCOME_TXT[1]);
+    wprint_with_delay(instructions_win,TXT_DELAY,PVP_WELCOME_TXT[1]);
 
     delay(1000);
 
@@ -178,22 +178,22 @@ void pvp_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
     mvwprintw(summary,0,1," GAME OVER ");
     
     wmove(summary,2,2);
-    wprint_with_delay(summary,20,PVP_END_TXT[0]);
-    wprint_with_delay(summary,20,PVP_END_TXT[1]);
-    wprint_with_delay(summary,20,p1_nickname);
-    wprint_with_delay(summary,20," : ");
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[0]);
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[1]);
+    wprint_with_delay(summary,TXT_DELAY,p1_nickname);
+    wprint_with_delay(summary,TXT_DELAY," : ");
     wprintw(summary,"%05u",playersPoints[0]);
     wmove(summary,6,2);
-    wprint_with_delay(summary,20,PVP_END_TXT[1]);
-    wprint_with_delay(summary,20,p2_nickname);
-    wprint_with_delay(summary,20," : ");
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[1]);
+    wprint_with_delay(summary,TXT_DELAY,p2_nickname);
+    wprint_with_delay(summary,TXT_DELAY," : ");
     wprintw(summary,"%05u",playersPoints[1]);
     wrefresh(summary);
     
     delay(500);
     
     wmove(summary,8,2);
-    wprint_with_delay(summary,20,PVP_END_TXT[2]);
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[2]);
     
     wprintw(summary,"%05u s",(end_time-start_time));
     wrefresh(summary);
@@ -201,32 +201,32 @@ void pvp_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
     delay(500);
     
     wmove(summary,10,2);
-    wprint_with_delay(summary,20,PVP_END_TXT[3]);
-    wprint_with_delay(summary,20,p1_nickname);
-    wprint_with_delay(summary,20," :      ");
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[3]);
+    wprint_with_delay(summary,TXT_DELAY,p1_nickname);
+    wprint_with_delay(summary,TXT_DELAY," :      ");
     
     wprintw(summary,"%05d",moves[0]);
     wrefresh(summary);
     
     wmove(summary,11,2);
-    wprint_with_delay(summary,20,PVP_END_TXT[3]);
-    wprint_with_delay(summary,20,p2_nickname);
-    wprint_with_delay(summary,20," :      ");
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[3]);
+    wprint_with_delay(summary,TXT_DELAY,p2_nickname);
+    wprint_with_delay(summary,TXT_DELAY," :      ");
     
     wprintw(summary,"%05d",moves[1]);
     wrefresh(summary);
 
     wmove(summary,13,2);
 
-    wprint_with_delay(summary,20,PVP_END_TXT[4]);
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[4]);
 
     i=0;
 
     if(!win_flag){
-        wprint_with_delay(summary,20,p1_nickname);
+        wprint_with_delay(summary,TXT_DELAY,p1_nickname);
     }
     else if(win_flag){
-        wprint_with_delay(summary,20,p2_nickname);
+        wprint_with_delay(summary,TXT_DELAY,p2_nickname);
     }
     else{ wprintw(summary,"PAREGGIO"); wrefresh(summary);} /*In realtá non accade mai, almeno, dipende dalle disposizioni*/
     
@@ -434,22 +434,22 @@ void pve_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
     mvwprintw(summary,0,1," GAME OVER ");
     
     wmove(summary,2,2);
-    wprint_with_delay(summary,20,PVP_END_TXT[0]);
-    wprint_with_delay(summary,20,PVP_END_TXT[1]);
-    wprint_with_delay(summary,20,p1_nickname);
-    wprint_with_delay(summary,20," : ");
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[0]);
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[1]);
+    wprint_with_delay(summary,TXT_DELAY,p1_nickname);
+    wprint_with_delay(summary,TXT_DELAY," : ");
     wprintw(summary,"%05u",playersPoints[0]);
     wmove(summary,6,2);
-    wprint_with_delay(summary,20,PVP_END_TXT[1]);
-    wprint_with_delay(summary,20,p2_nickname);
-    wprint_with_delay(summary,20," : ");
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[1]);
+    wprint_with_delay(summary,TXT_DELAY,p2_nickname);
+    wprint_with_delay(summary,TXT_DELAY," : ");
     wprintw(summary,"%05u",playersPoints[1]);
     wrefresh(summary);
     
     delay(500);
     
     wmove(summary,8,2);
-    wprint_with_delay(summary,20,PVP_END_TXT[2]);
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[2]);
     
     wprintw(summary,"%05u s",(end_time-start_time));
     wrefresh(summary);
@@ -457,32 +457,32 @@ void pve_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
     delay(500);
     
     wmove(summary,10,2);
-    wprint_with_delay(summary,20,PVP_END_TXT[3]);
-    wprint_with_delay(summary,20,p1_nickname);
-    wprint_with_delay(summary,20," :      ");
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[3]);
+    wprint_with_delay(summary,TXT_DELAY,p1_nickname);
+    wprint_with_delay(summary,TXT_DELAY," :      ");
     
     wprintw(summary,"%05d",moves[0]);
     wrefresh(summary);
     
     wmove(summary,11,2);
-    wprint_with_delay(summary,20,PVP_END_TXT[3]);
-    wprint_with_delay(summary,20,p2_nickname);
-    wprint_with_delay(summary,20," :      ");
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[3]);
+    wprint_with_delay(summary,TXT_DELAY,p2_nickname);
+    wprint_with_delay(summary,TXT_DELAY," :      ");
     
     wprintw(summary,"%05d",moves[1]);
     wrefresh(summary);
 
     wmove(summary,13,2);
 
-    wprint_with_delay(summary,20,PVP_END_TXT[4]);
+    wprint_with_delay(summary,TXT_DELAY,PVP_END_TXT[4]);
 
     i=0;
 
     if(!win_flag){
-        wprint_with_delay(summary,20,p1_nickname);
+        wprint_with_delay(summary,TXT_DELAY,p1_nickname);
     }
     else if(win_flag){
-        wprint_with_delay(summary,20,p2_nickname);
+        wprint_with_delay(summary,TXT_DELAY,p2_nickname);
     }
     else{ wprintw(summary,"PAREGGIO"); wrefresh(summary);} /*In realtá non accade mai, almeno, dipende dalle disposizioni*/
     
@@ -502,7 +502,7 @@ void pve_end_game(int win_flag,gamefield_t **gameFields, tetrimini_pool_t *pool,
     free(gameFields);
     free_pool(pool);
     free_pointboard(points);
-    free(moves);
+    free(moves);    
 
     ch = -1;
 

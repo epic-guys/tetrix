@@ -37,8 +37,8 @@ strategy_t *strategy_create(int *field)
 
 void strategy_destroy(strategy_t *strategy)
 {
-    free(strategy->field);
-    free(strategy);
+    super_free(strategy->field);
+    super_free(strategy);
 }
 
 void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos)
@@ -99,7 +99,7 @@ void choose_strategy(gamefield_t *g, tetrimini_pool_t *pool)
                     }
                 }
             }
-            //free_tetrimino(t);
+            //super_free_tetrimino(t);
         }
     }
     //ho le migliori tre strategie, ne ritorno una random

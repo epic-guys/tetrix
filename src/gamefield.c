@@ -71,7 +71,7 @@ void clear_top(gamefield_t *g){
  * @param[in] cur_pos posizione del cursore.
  */
 void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos){
-    int i, j, val;
+    int i, j, val,stop=0;
     int *values = get_tet_values(t);
     int rows = get_tet_rows(t);
     int cols = get_tet_cols(t);
@@ -86,13 +86,27 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos){
     {
         for (j = cur_pos; j < cur_pos + cols; ++j)
         {
-            if (!g->field[FIELD_COLS * (i-4) + j])
+
+            if(g->field[FIELD_COLS * (i-4) + j]){
+                stop=1;
+
+            }
+            
+        }
+        if(!stop)
+        {
+            for (j = cur_pos; j < cur_pos + cols; ++j)
             {
-                wattron(g->win, COLOR_PAIR(color));
-                mvwprintw(g->win, i, (j * 2) + 1, "  ");
-                wattroff(g->win, COLOR_PAIR(color));
+            
+                if (!g->field[FIELD_COLS * (i-4) + j] && !stop)
+                {
+                    wattron(g->win, COLOR_PAIR(color));
+                    mvwprintw(g->win, i, (j * 2) + 1, "  ");
+                    wattroff(g->win, COLOR_PAIR(color));
+                }
             }
         }
+        
     }
 
     clear_top(g);

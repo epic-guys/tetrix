@@ -71,6 +71,7 @@
 #define POINTS_TWO_ROW_DELETED 3
 #define POINTS_THREE_ROW_DELETED 6
 #define POINTS_FOUR_ROW_DELETED 12
+#define TXT_DELAY 7
 
 #pragma endregion
 
