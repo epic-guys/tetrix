@@ -68,44 +68,48 @@ void choose_strategy(gamefield_t *g, tetrimini_pool_t *pool)
             tetrimino_t *t = get_tetrimino(i);
             for(j=0;j<FIELD_COLS;j++){
                 for(k=0;k<4;k++){
-                    strategy_t *str  = strategy_create(get_gamefield(g));
+                    strategy_t *str = strategy_create(get_gamefield(g));
                     safe_rotate_tetrimino(t,j);
                     //faccio finalmente la strategia
                     strategy_update(str,t,j);
-                    
+
                     if(best_strategies[0] == NULL ){
                         best_strategies[0] = str;
-                    }else if(best_strategies[1] == NULL){
+                    }
+                    else if(best_strategies[1] == NULL){
                         if(str->score > best_strategies[0]->score){
                             best_strategies[1] = best_strategies[0];
                             best_strategies[0] = str;
                         }else{ best_strategies[1] = str; }
-                    }else if(best_strategies[2] == NULL){
+                    } /*
+                    else if(best_strategies[2] == NULL){
                         best_strategies[2] = str;
-                    }
-
-                    if(str->score > best_strategies[2]->score){
-                        strategy_destroy(best_strategies[2]);
-                        if(str->score > best_strategies[1]->score){
-                            best_strategies[2] = best_strategies[1];
-                            if(str->score > best_strategies[0]->score){
-                                best_strategies[1] = best_strategies[0];
-                                best_strategies[0] = str;
-                            }else{ best_strategies[1] = str; }
-                        }else{ best_strategies[2] = str; }
-                    }else{ strategy_destroy(str); }
+                    }else{
+                        //mvprintw(10,15,"else");
+                        if(str->score > best_strategies[2]->score){
+                            strategy_destroy(best_strategies[2]);
+                            if(str->score > best_strategies[1]->score){
+                                best_strategies[2] = best_strategies[1];
+                                if(str->score > best_strategies[0]->score){
+                                    best_strategies[1] = best_strategies[0];
+                                    best_strategies[0] = str;
+                                }else{ best_strategies[1] = str; }
+                            }else{ best_strategies[2] = str; }
+                        }else{ strategy_destroy(str); }
+                    }*/
                 }
             }
-            free_tetrimino(t);
+            //free_tetrimino(t);
         }
     }
     //ho le migliori tre strategie, ne ritorno una random
     for(i=0;i<3;i++){
         if(i != choosen){
-            strategy_destroy(best_strategies[i]);
+            //strategy_destroy(best_strategies[i]);
         }
     }
-    set_field(g,best_strategies[choosen]->field);  
+    //set_field(g,best_strategies[choosen]->field);
+    //set_field(g,best_strategies[0]->field);  
 }
 
 int calculate_score(int *field)
