@@ -57,10 +57,10 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos)
  */
 void choose_strategy(gamefield_t *g, tetrimini_pool_t *pool)
 {
-    strategy_t* best_strategies[3] = { NULL };
+    strategy_t* best_strategies[3] = { NULL, NULL, NULL };
     int i,j,k,l;
     int choosen = rand()%3;
-    for(i=0;i<N_tetrimini; i++){
+    for(i = 0; i < N_tetrimini; i++){
         if(get_remaining_tetriminos(pool, i) == 0){
             break;
         }
@@ -81,7 +81,7 @@ void choose_strategy(gamefield_t *g, tetrimini_pool_t *pool)
                             best_strategies[1] = best_strategies[0];
                             best_strategies[0] = str;
                         }else{ best_strategies[1] = str; }
-                    } /*
+                    } 
                     else if(best_strategies[2] == NULL){
                         best_strategies[2] = str;
                     }else{
@@ -96,7 +96,7 @@ void choose_strategy(gamefield_t *g, tetrimini_pool_t *pool)
                                 }else{ best_strategies[1] = str; }
                             }else{ best_strategies[2] = str; }
                         }else{ strategy_destroy(str); }
-                    }*/
+                    }
                 }
             }
             //free_tetrimino(t);
