@@ -190,6 +190,14 @@ void wprint_with_delay(WINDOW *w, int d, char *c)
     }
 }
 
+
+/**
+ * @brief stampa una riga di testo carattere per carattere peró supporta anche il \n come a capo.
+ * @param[in] w la finestra dove stampare.
+ * @param[in] y la riga dove stampare.
+ * @param[in] x la colonna dove stampare.
+ * @param[in] c il puntatore alla stringa di caratteri da stampare.
+ */
 void mvwprintwrows(WINDOW *w, int y, int x, char *c)
 {
     int i = 0, j = 0;
@@ -227,6 +235,7 @@ int swap_color(int c)
         return c + 100;
     return c - 100;
 }
+
 /**
  * @brief ritorna un colore a caso tra quelli definiti in constants.h.
  *
@@ -271,6 +280,12 @@ int prev_circular(int i, int size)
         return i - 1;
 }
 
+/**
+ * @brief una funzione da usare al posto della free, permette di non liberare memoria giá liberata.
+ * 
+ * @param ptr pointer di pointer alla memoria da liberare
+ * @return 1 se é andato a buon fine, 0 altrimenti.
+ */
 int super_free(void **ptr)
 {
     if (ptr == NULL)

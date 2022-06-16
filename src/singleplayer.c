@@ -12,7 +12,11 @@
 void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points);
 void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player, unsigned int start_time, int moves);
 void new_game_single();
-
+/**
+ * @brief stampa le istruzioni per la partita in singleplayer
+ * 
+ * @param[in] nickname puntatore al nome del giocatore
+ */
 void instructions(char *nickname)
 {
     WINDOW *instructions_win;
@@ -81,11 +85,12 @@ void new_game_single()
 
 /**
  * @brief corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso
+ *        controllando eventuali perdite, righe riempite ecc...
  *
- * @param[in] player Il giocatore.
- * @param[in] gameField Il campo da gioco del giocatore.
- * @param[in] pool I tetramini rimanenti.
- * @param[in] points Il punteggio del giocatore.
+ * @param[in] player Il puntatore al giocatore.
+ * @param[in] gameField Il puntatore al campo da gioco del giocatore.
+ * @param[in] pool La pool usata in partita con i tetramini rimanenti.
+ * @param[in] points Il puntatore al punteggio del giocatore.
  */
 void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points)
 {
@@ -131,6 +136,16 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
     end_game(gameField, pool, points, player, start_time, moves);
 }
 
+/**
+ * @brief gestisce la fine della partita e dealloca tutto ció che é stato usato
+ * 
+ * @param[in] gameField Il puntatore al campo da gioco del giocatore.
+ * @param[in] pool La pool usata in partita con i tetramini rimanenti. (serve per deallocarla)
+ * @param[in] points Il puntatore al punteggio del giocatore.
+ * @param[in] player Il puntatore al giocatore.
+ * @param[in] start_time timestamp di inizio della partita.
+ * @param[in] moves Il numero di mosse effettuate.
+ */
 void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player, unsigned int start_time, int moves) /*thanos++*/
 {
     WINDOW *fieldWin = get_gamefield_win(gameField);

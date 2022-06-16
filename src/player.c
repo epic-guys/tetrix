@@ -38,7 +38,9 @@ void free_player(player_t *p)
     free(p->nickname);
     free(p);
 }
-
+/**
+ * @brief struct della tabella dei punti, contiene la finestra di ncurses e il/i puntatore/i al/ai player.
+ */
 typedef struct PointBoard
 {
     WINDOW *win;

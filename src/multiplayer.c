@@ -20,6 +20,12 @@ int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetri
 
 #pragma region PVP
 
+/**
+ * @brief stampa le istruzioni per la partita in pvp
+ * 
+ * @param[in] nickname1 puntatore al nome del primo giocatore
+ * @param[in] nickname2 puntatore al nome del secondo giocatore
+ */
 void pvp_instructions(char *nickname1, char *nickname2)
 {
     WINDOW *instructions_win;
@@ -57,7 +63,6 @@ void pvp_instructions(char *nickname1, char *nickname2)
 
 /**
  * @brief Inizia la partita in multiplayer
- *
  */
 void pvp_new_game()
 {
@@ -88,6 +93,15 @@ void pvp_new_game()
     pvp_continue_game(players, gameFields, pool, points);
 }
 
+/**
+ * @brief corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso fra i giocatori
+ *        controllando eventuali perdite, righe riempite ecc...
+ *
+ * @param[in] players Array di puntatori ai giocatori.
+ * @param[in] gameFields Array di puntatoro ai campi da gioco dei giocatori.
+ * @param[in] pool La pool usata in partita con i tetramini rimanenti.
+ * @param[in] points Il puntatore ai punteggii dei giocatori.
+ */
 void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points)
 {
     int selected_i;
@@ -153,6 +167,17 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
     pvp_end_game(winner, gameFields, pool, points, players, start_time, moves);
 }
 
+/**
+ * @brief gestisce la fine della partita e dealloca tutto ció che é stato usato
+ * 
+ * @param[in] win_flag valore che segna chi ha vinto la partita
+ * @param[in] gameFields Array di puntatori ai campi da gioco dei giocatori.
+ * @param[in] pool La pool usata in partita con i tetramini rimanenti. (serve per deallocarla)
+ * @param[in] points Il puntatore ai punteggi dei giocatori.
+ * @param[in] players Array di puntatori ai giocatori.
+ * @param[in] start_time timestamp di inizio della partita.
+ * @param[in] moves puntatore ad array di int contenente per ciascun giocatore il numero di mosse effettuate.
+ */
 void pvp_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players, unsigned int start_time, int *moves) /*thanos++*/
 {
     WINDOW *field1Win = get_gamefield_win(gameFields[0]);
@@ -174,7 +199,7 @@ void pvp_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool
     kill_win(field2Win);
     kill_win(poolWin);
     kill_win(pointWin);
-    mvprintw(5, 0, "                                ");
+    mvprintw(5, 0, "                                "); /* Pulisce lo schermo dall scritta "turno di giocatoreX" */
     refresh();
 
     summary = newwin(18, COLS - 2, (LINES / 2) - 5, 1);
@@ -372,13 +397,7 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 }
 
 /**
- * @brief Funzione principale della CPU, da chiamare quando deve giocare.
- * Per ora si limita a giocare randomicamente, per scopi di testing.
- *
- * FIXME la funzione dovrebbe restituire 2 valori:
- * - La posizione del cursore
- * - Il tetrimino scelto
- * Per ora utilizzo un puntatore, ma se ci sono soluzioni migliori meglio usare quelle.
+ * @brief DEPRECATED: non la usiamo piú, stiamo scrivendo in bot.c la nuova strategia, la lascio per qualche commit.
  *
  * @param[in] gameField Il campo della CPU.
  * @param[in] pool I tetramini rimanenti.
@@ -413,7 +432,7 @@ int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetri
     return rand() % (FIELD_COLS - get_tet_cols(*tetrimino) - 1);
 }
 
-/*da finire di aggiustare*/
+/*da finire di aggiustare  CREDO SIA INUTILE, si puó usare pvp_end_game*/
 void pve_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players, unsigned int start_time, int *moves) /*thanos++*/
 {
     WINDOW *field1Win = get_gamefield_win(gameFields[0]);

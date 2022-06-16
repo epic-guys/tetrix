@@ -199,11 +199,23 @@ void main_menu()
     default:
         delwin(w);
         endwin();
-        printf("Tetrix ha Flatlineato");
+        printf("Tetrix ha Flatlineato"); /* Grande citazione */
         break;
     }
 }
 
+/**
+ * @brief C'era una volta una principessa bellissima che si chiamava Tetrix.
+ *        Vittima peró di un terribile incantesimo che poteva essere spezzato solo dalla prima valutazione positiva ricevuta.
+ *        Era rinchiusa in una repo, resa privata da un terribile octocat sputa fuoco (la mascotte di Github).
+ *        Ella attendeva nel sito dell'octocoso, nella repo piú remota del progetto piú abbandonato
+ *        il professore di programmazione e la sua valutazione positiva...
+ * 
+ *        Si ahahahahah, certo aspetta e spera... 
+ *                                                  ~ Sherek (piú o meno: https://youtu.be/watch?v=5ukYEcSXxOA)
+ * 
+ * @return letteralmente ritorna come é andata, se non é 0 preoccupati :lol:
+ */
 int main()
 {
     /*Inizia il programma*/

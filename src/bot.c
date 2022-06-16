@@ -14,7 +14,9 @@
  * righe completate,
  * se fa finire il gioco per riempimento.
  */
-
+/**
+ * @brief struct della strategia di gioco, contentiene il suo campo da gioco e il "punteggio" della strategia. 
+ */
 typedef struct Strategy
 {
     int score;

@@ -7,6 +7,10 @@
 #include "../include/functions.h"
 #include "../include/player.h"
 
+/**
+ * @brief struct contentente il puntatore alla matrice del campo di gioco 
+ * e il puntatore alla finestra di ncurses.
+ */
 typedef struct GameField
 {
     int *field;
@@ -130,7 +134,7 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos)
 }
 
 /**
- * @brief Gestisce l'input del trop del tetramino.
+ * @brief Gestisce l'input del drop del tetramino.
  *
  * @param gameField Il campo dove bisogna droppare il tetramino.
  * @param t Il tetramino da droppare.
