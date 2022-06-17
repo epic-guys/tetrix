@@ -9,41 +9,41 @@
  * IT'S BRUTEFORCE TIME!!!
  * Prova tutte le board con tutti i tetramini e tutte le rotazioni, si salva i tre punteggi piú alti :)
  * In dettaglio:
- * Copio la board di partenza e provo una combinazione, vedo il suo punteggio in base a: 
+ * Copio la board di partenza e provo una combinazione, vedo il suo punteggio in base a:
  * blocchi occupati,
  * righe completate,
  * se fa finire il gioco per riempimento.
  */
-/**
- * @brief struct della strategia di gioco, contentiene il suo campo da gioco e il "punteggio" della strategia. 
- */
+ /**
+  * @brief struct della strategia di gioco, contentiene il suo campo da gioco e il "punteggio" della strategia.
+  */
 typedef struct Strategy
 {
     int score;
-    int *field;
+    int* field;
 } strategy_t;
 
 /**
  * @brief funzione che istanzia la strategia copiando giá la board
- * 
- * @param field 
- * @return strategy_t* 
+ *
+ * @param field
+ * @return strategy_t*
  */
-strategy_t *strategy_create(int *field)
+strategy_t* strategy_create(int* field)
 {
-    strategy_t *strategy = malloc(sizeof(strategy_t));
+    strategy_t* strategy = malloc(sizeof(strategy_t));
     strategy->score = 0;
     strategy->field = clone_field(field);
     return strategy;
 }
 
-void strategy_destroy(strategy_t *strategy)
+void strategy_destroy(strategy_t* strategy)
 {
-    super_free(strategy->field);
-    super_free(strategy);
+    free(strategy->field);
+    free(strategy);
 }
 
-void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos)
+void strategy_update(strategy_t* strategy, tetrimino_t* tetrimino, int cur_pos)
 {
     //aggiunge il tetramino alla board
     add_tetrimino_to_field(strategy->field, tetrimino, cur_pos);
@@ -52,52 +52,68 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos)
 }
 
 /**
+ * @brief Funzione **ricorsiva ** che compara la strategia passata per parametro con le migliori.
+ * Se ci sono slot liberi, la inserisce automaticamente nel primo di questi.
+ * Se invece non ci sono slot liberi, constrolla le altre strategie e se è migliore
+ * di una di queste la sostituisce.
+ * 
+ * @param best L'array di strategie.
+ * @param size La dimensione dell'array.
+ * @param str La strategia da inserire.
+ * @return 1 se ha inserito la strategia nell'array, 0 altrimenti.
+ */
+int set_strategy(strategy_t** best, int size, strategy_t* str)
+{
+    if (size <= 0)
+        return 0;
+    else if (best[0] == NULL) {
+        best[0] = str;
+        return 1;
+    }
+    else
+    {
+        if (set_strategy(best + 1, size - 1, str))
+            return 1;
+        else if (best[0]->score < str->score)
+        {
+            strategy_destroy(best[0]);
+            best[0] = str;
+            return 1;
+        }
+        else return 0;
+    }
+}
+
+/**
  * @brief Funzione di bruteforce del bot.
  * @param g Il campo su cui preparare una strategia.
  * @param pool La pool di tetramini, per far sì che possa scegliere un tetramino rimanente.
  * @return La strategia che il bot considera migliore.
  */
-void choose_strategy(gamefield_t *g, tetrimini_pool_t *pool)
+void choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
 {
     strategy_t* best_strategies[3] = { NULL, NULL, NULL };
-    int i,j,k,l;
-    int choosen = rand()%3;
-    for(i = 0; i < N_tetrimini; i++){
-        if(get_remaining_tetriminos(pool, i) == 0){
-            break;
+    int i, j, k, l;
+    int chosen = rand() % 3;
+    for (i = 0; i < N_tetrimini; i++) {
+        if (get_remaining_tetriminos(pool, i) == 0) {
+            continue;
         }
-        else{
-            tetrimino_t *t = get_tetrimino(i);
-            for(j=0;j<FIELD_COLS;j++){
-                for(k=0;k<4;k++){
-                    strategy_t *str = strategy_create(get_gamefield(g));
-                    safe_rotate_tetrimino(t, j, 0);
-                    //faccio finalmente la strategia
-                    strategy_update(str,t,j);
+        else {
+            tetrimino_t* t = get_tetrimino(i);
+            for (j = 0;j < FIELD_COLS;j++) {
+                for (k = 0;k < 4; k++) {
+                    strategy_t* str = strategy_create(get_gamefield(g));
+                    /*
+                    Se non riesco a ruotare il tetramino non ha senso fare una strategia.
+                    Con questo if si controlla di conseguenza anche se il tetramino ci sta nel campo.
+                    */
+                    if (safe_rotate_tetrimino(t, j, 0))
+                    {
+                        //faccio finalmente la strategia
+                        strategy_update(str, t, j);
 
-                    if(best_strategies[0] == NULL ){
-                        best_strategies[0] = str;
-                    }
-                    else if(best_strategies[1] == NULL){
-                        if(str->score > best_strategies[0]->score){
-                            best_strategies[1] = best_strategies[0];
-                            best_strategies[0] = str;
-                        }else{ best_strategies[1] = str; }
-                    } 
-                    else if(best_strategies[2] == NULL){
-                        best_strategies[2] = str;
-                    }else{
-                        //mvprintw(10,15,"else");
-                        if(str->score > best_strategies[2]->score){
-                            strategy_destroy(best_strategies[2]);
-                            if(str->score > best_strategies[1]->score){
-                                best_strategies[2] = best_strategies[1];
-                                if(str->score > best_strategies[0]->score){
-                                    best_strategies[1] = best_strategies[0];
-                                    best_strategies[0] = str;
-                                }else{ best_strategies[1] = str; }
-                            }else{ best_strategies[2] = str; }
-                        }else{ strategy_destroy(str); }
+                        set_strategy(best_strategies, 3, str);
                     }
                 }
             }
@@ -105,40 +121,40 @@ void choose_strategy(gamefield_t *g, tetrimini_pool_t *pool)
         }
     }
     //ho le migliori tre strategie, ne ritorno una random
-    for(i=0;i<3;i++){
-        if(i != choosen){
-            //strategy_destroy(best_strategies[i]);
-        }
+
+    set_field(g, best_strategies[chosen]->field);
+
+    for (i = 0; i < 3; ++i)
+    {
+        strategy_destroy(best_strategies[i]);
     }
-    //set_field(g,best_strategies[choosen]->field);
-    //set_field(g,best_strategies[0]->field);  
 }
 
-int calculate_score(int *field)
+int calculate_score(int* field)
 {
-/**
- * TUTORIAL: come si calcola lo score
- * chi ha meno blocchi occupati,
- * righe completate,
- * se fa finire il gioco per riempimento.
- */
+    /**
+     * TUTORIAL: come si calcola lo score
+     * chi ha meno blocchi occupati,
+     * righe completate,
+     * se fa finire il gioco per riempimento.
+     */
 
-    //parto da num_blocchi e tolgo punti se la riga non é piena ma ho aggiunto blocchi
+     //parto da num_blocchi e tolgo punti se la riga non é piena ma ho aggiunto blocchi
     int score = FIELD_ROWS * FIELD_COLS;
     int i, j;
     //se fa finire il gioco semplicemente fa schifo come opzione
-    if(is_field_top_occupied(field)){
+    if (is_field_top_occupied(field)) {
         return 0; //immagina ricevere zero punti LMAO
     }
-    for(i = 0; i < FIELD_ROWS; i++){
-        for(j = 0; j < FIELD_COLS; j++){
-            if(!is_row_full(field, i)){
-                if(field[i * FIELD_COLS + j] != 0){
+    for (i = 0; i < FIELD_ROWS; i++) {
+        for (j = 0; j < FIELD_COLS; j++) {
+            if (!is_row_full(field, i)) {
+                if (field[i * FIELD_COLS + j] != 0) {
                     score--;
                 }
             }
-            else{
-                score+=FIELD_COLS+10; //se la riga é piena, aggiungo punti (FIELD_COLS + un bonus)
+            else {
+                score += FIELD_COLS + 10; //se la riga é piena, aggiungo punti (FIELD_COLS + un bonus)
             }
         }
     }

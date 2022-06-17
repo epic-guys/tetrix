@@ -7,7 +7,7 @@ void delay(int millisec);
 
 void kill_win(WINDOW* w);
 
-void wprint_with_delay(WINDOW* w,int d,char* c);
+void wprint_with_delay(WINDOW* w,int d, const char* c);
 
 void mvwprintwrows(WINDOW* w, int y, int x, char* c);
 

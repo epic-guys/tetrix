@@ -91,4 +91,19 @@ extern const char *PVP_END_TXT[];
 
 #pragma endregion
 
+#pragma region CPU
+
+/*
+Con "error" si intende la dimensione dell'array in cui la CPU
+selezionerà le migliori mosse. Più è grande, più è probabile che la CPU
+non faccia la mossa migliore.
+*/
+
+#define CPU_ERROR_EASY 10
+#define CPU_ERROR_NORMAL 5
+#define CPU_ERROR_HARD 3
+#define CPU_ERROR_IMPOSSIBLE 1
+
+#pragma endregion
+
 #endif

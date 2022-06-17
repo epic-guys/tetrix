@@ -1,6 +1,9 @@
 #ifndef _BOT_H_
 #define _BOT_H_
 
+#include <tetrimino.h>
+#include <gamefield.h>
+
 typedef struct Strategy strategy_t;
 
 
