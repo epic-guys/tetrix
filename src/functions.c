@@ -174,7 +174,7 @@ void kill_win(WINDOW *w)
  * @param[in] d il delay fra o caratteri.
  * @param[in] c la stringa di caratteri da stampare.
  */
-void wprint_with_delay(WINDOW *w, int d, char *c)
+void wprint_with_delay(WINDOW *w, int d, const char *c)
 {
     int i = 0;
     char ch;
@@ -288,7 +288,7 @@ int prev_circular(int i, int size)
  */
 int super_free(void **ptr)
 {
-    if (ptr == NULL)
+    if (*ptr == NULL)
         return 0;
     free(*ptr);
     *ptr = NULL;

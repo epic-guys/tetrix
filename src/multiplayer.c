@@ -393,7 +393,8 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 
             turn = 1 - turn;
         }
-        free_tetrimino(selected_t);
+        if (turn == 0)
+            free_tetrimino(selected_t);
     }
     pve_end_game(winner, gameFields, pool, points, players, start_time, moves);
 }

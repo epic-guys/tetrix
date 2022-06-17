@@ -10,14 +10,14 @@
  * IT'S BRUTEFORCE TIME!!!
  * Prova tutte le board con tutti i tetramini e tutte le rotazioni, si salva i tre punteggi piú alti :)
  * In dettaglio:
- * Copio la board di partenza e provo una combinazione, vedo il suo punteggio in base a: 
+ * Copio la board di partenza e provo una combinazione, vedo il suo punteggio in base a:
  * blocchi occupati,
  * righe completate,
  * se fa finire il gioco per riempimento.
  */
-/**
- * @brief struct della strategia di gioco, contentiene il suo campo da gioco e il "punteggio" della strategia. 
- */
+ /**
+  * @brief struct della strategia di gioco, contentiene il suo campo da gioco e il "punteggio" della strategia.
+  */
 typedef struct Strategy
 {
     int score;
@@ -31,18 +31,18 @@ typedef struct Strategy
  * @param[in] field 
  * @return puntatore alla strategia 
  */
-strategy_t *strategy_create(int *field)
+strategy_t* strategy_create(int* field)
 {
-    strategy_t *strategy = malloc(sizeof(strategy_t));
+    strategy_t* strategy = malloc(sizeof(strategy_t));
     strategy->score = 0;
     strategy->field = clone_field(field);
     return strategy;
 }
 
-void strategy_destroy(strategy_t *strategy)
+void strategy_destroy(strategy_t* strategy)
 {
-    super_free(strategy->field);
-    super_free(strategy);
+    free(strategy->field);
+    free(strategy);
 }
 
 void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,int last_used_tetrimino)
@@ -51,7 +51,40 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,i
     add_tetrimino_to_field(strategy->field, tetrimino, cur_pos);
    
     //calcola il punteggio
-    strategy->score = calculate_score(strategy->field,tetrimino,last_used_tetrimino);
+    strategy->score = calculate_score(strategy->field,get_tet_type(tetrimino),last_used_tetrimino);
+}
+
+/**
+ * @brief Funzione **ricorsiva ** che compara la strategia passata per parametro con le migliori.
+ * Se ci sono slot liberi, la inserisce automaticamente nel primo di questi.
+ * Se invece non ci sono slot liberi, constrolla le altre strategie e se è migliore
+ * di una di queste la sostituisce.
+ * 
+ * @param best L'array di strategie.
+ * @param size La dimensione dell'array.
+ * @param str La strategia da inserire.
+ * @return 1 se ha inserito la strategia nell'array, 0 altrimenti.
+ */
+int set_strategy(strategy_t** best, int size, strategy_t* str)
+{
+    if (size <= 0)
+        return 0;
+    else if (best[0] == NULL) {
+        best[0] = str;
+        return 1;
+    }
+    else
+    {
+        if (set_strategy(best + 1, size - 1, str))
+            return 1;
+        else if (best[0]->score < str->score)
+        {
+            strategy_destroy(best[0]);
+            best[0] = str;
+            return 1;
+        }
+        else return 0;
+    }
 }
 
 /**
@@ -60,7 +93,7 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,i
  * @param[in] pool La pool di tetramini, per far sì che possa scegliere un tetramino rimanente.
  * @return La strategia che il bot considera migliore.
  */
-void choose_strategy(gamefield_t *g, tetrimini_pool_t *pool)
+void choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
 {
     strategy_t* best_strategies[3] = { NULL, NULL, NULL };
     int i,j,k,l,last_used_tet=99;
@@ -154,29 +187,29 @@ void choose_strategy(gamefield_t *g, tetrimini_pool_t *pool)
     }
 
     //ho le migliori tre strategie, ne ritorno una random
-    for(i=0;i<3;i++){
-        if(i != choosen){
-            strategy_destroy(best_strategies[i]);
-        }
+
+    set_field(g, best_strategies[choosen]->field);
+
+    for (i = 0; i < 3; ++i)
+    {
+        strategy_destroy(best_strategies[i]);
     }
-    set_field(g,best_strategies[choosen]->field);
-    last_used_tet = best_strategies[choosen]->tet;
 }
 
 int calculate_score(int *field,int tet_type,int last_used_tet)
 {
-/**
- * TUTORIAL: come si calcola lo score
- * chi ha meno blocchi occupati,
- * righe completate,
- * se fa finire il gioco per riempimento.
- */
+    /**
+     * TUTORIAL: come si calcola lo score
+     * chi ha meno blocchi occupati,
+     * righe completate,
+     * se fa finire il gioco per riempimento.
+     */
 
-    //parto da num_blocchi e tolgo punti se la riga non é piena ma ho aggiunto blocchi
+     //parto da num_blocchi e tolgo punti se la riga non é piena ma ho aggiunto blocchi
     int score = FIELD_ROWS * FIELD_COLS;
     int i, j;
     //se fa finire il gioco semplicemente fa schifo come opzione
-    if(is_field_top_occupied(field)){
+    if (is_field_top_occupied(field)) {
         return 0; //immagina ricevere zero punti LMAO
     }
     
@@ -192,8 +225,8 @@ int calculate_score(int *field,int tet_type,int last_used_tet)
                     score--;
                 }
             }
-            else{
-                score+=FIELD_COLS+10; //se la riga é piena, aggiungo punti (FIELD_COLS + un bonus)
+            else {
+                score += FIELD_COLS + 10; //se la riga é piena, aggiungo punti (FIELD_COLS + un bonus)
             }
         }
     }

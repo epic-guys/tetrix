@@ -380,7 +380,7 @@ int *get_gamefield(gamefield_t *g)
 
 void set_field(gamefield_t *g, int *field)
 {
-    // free(g->field);
+    free(g->field);
     g->field = field;
 }
 

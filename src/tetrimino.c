@@ -390,12 +390,17 @@ void linear_rotate(tetrimino_t *t, int dir)
  * @param[in] t Tetramino da ruotare.
  * @param[in] cur_pos Posizione del cursore.
  * @param[in] dir Direzione di rotazione.
+ * @return 1 se è riuscito a ruotare, 0 altrimenti.
  */
-void safe_rotate_tetrimino(tetrimino_t *t, int cur_pos, int dir)
+int safe_rotate_tetrimino(tetrimino_t *t, int cur_pos, int dir)
 {
 
     if (cur_pos + t->rows <= FIELD_COLS)
+    {
         linear_rotate(t, dir);
+        return 1;
+    }
+    else return 0;
 }
 
 /**
