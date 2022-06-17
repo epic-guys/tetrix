@@ -17,6 +17,8 @@ int next_circular(int i, int size);
 
 int prev_circular(int i, int size);
 
+int super_free(void **ptr);
+
 #pragma region ASCII ART
 
 int get_ASCII_art_rows(char ascii[]);

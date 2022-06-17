@@ -354,11 +354,13 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
             currentField = get_gamefield(gameFields[turn]);
             refresh_selector(gameFields[turn], selected_t, cursor);
             cursor = manage_drop(gameFields[turn], selected_t);
+            
         }
         else
         {
 
             // cpu_play(gameFields[1], pool, &selected_t);
+            
             choose_strategy(gameFields[1], pool);
         }
 
