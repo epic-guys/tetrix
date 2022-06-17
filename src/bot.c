@@ -22,6 +22,7 @@ typedef struct Strategy
 {
     int score;
     int tet;
+    int rotation;
     int cursor;
     int *field;
 } strategy_t;
@@ -51,16 +52,33 @@ int get_strategy_cursor(strategy_t* s)
     return s->cursor;
 }
 
-void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,int last_used_tetrimino)
+int get_strategy_tet_type(strategy_t* s)
+{
+    return s->tet;
+}
+
+int get_strategy_tet_rotation(strategy_t* s)
+{
+    return s->rotation;
+}
+
+void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,int rotation,int last_used_tetrimino)
 {   
+    int* tmp = clone_field(strategy->field);
+    
     //aggiunge il tetramino alla board
     add_tetrimino_to_field(strategy->field, tetrimino, cur_pos);
    
     //salva il cursore
     strategy->cursor = cur_pos;
 
+    //salva la rotazione del tetramino
+    strategy->rotation = rotation;
+
     //calcola il punteggio
-    strategy->score = calculate_score(strategy->field,get_tet_type(tetrimino),last_used_tetrimino);
+    strategy->score = calculate_score(strategy->field,tmp,get_tet_type(tetrimino),last_used_tetrimino);
+    free_tetrimino(tetrimino);
+    free(tmp);
 }
 
 /**
@@ -123,11 +141,12 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
                 for(k=0;k<4;k++){
 
                     strategy_t *str = strategy_create(get_gamefield(g));
-                    
-                    safe_rotate_tetrimino(t, j, 0);
-                    cols = (FIELD_COLS-get_tet_cols(t))/2;
+                    if(!safe_rotate_tetrimino(t, j, 0)){
+                        break;
+                    }
+                    //cols = (FIELD_COLS-get_tet_cols(t))/2;
                     //faccio finalmente la strategia
-                    strategy_update(str,t,j,last_used_tet);
+                    strategy_update(str,t,j,k,last_used_tet);
 
                     if(best_strategies[0] == NULL ){
                         best_strategies[0] = str;
@@ -204,7 +223,7 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
     return best_strategies[choosen];
 }
 
-int calculate_score(int *field,int tet_type,int last_used_tet)
+int calculate_score(int *field,int *old,int tet_type,int last_used_tet)
 {
     /**
      * TUTORIAL: come si calcola lo score
@@ -226,17 +245,33 @@ int calculate_score(int *field,int tet_type,int last_used_tet)
     }
     
 
-    for(i = 0; i < FIELD_ROWS; i++){
-        for(j = 0; j < FIELD_COLS; j++){
+
+    for(i = 0; i < FIELD_ROWS/2; i++){
+        for(j = 0; j < FIELD_COLS/2; j++){
             if(!is_row_full(field, i)){
-                if(field[i * FIELD_COLS + j] != 0){
+                if(field[i * FIELD_COLS/2 + j] != 0){
                     score--;
                 }
             }
             else {
-                score += FIELD_COLS + 10; //se la riga é piena, aggiungo punti (FIELD_COLS + un bonus)
+                score += FIELD_COLS/2 + 10; //se la riga é piena, aggiungo punti (FIELD_COLS + un bonus)
             }
         }
     }
-    return score;
+mvprintw(10,10,"score: %d",score);
+refresh();
+    return score - compare_fields(field,old);
+}
+
+int compare_fields(int* new,int* old)
+{
+    int i,j;
+    for(i = 0; i < FIELD_ROWS/2; i++){
+        for(j = 0; j < FIELD_COLS/2; j++){
+            if(new[i * FIELD_COLS/2 + j] != old[i * FIELD_COLS/2 + j]){
+                return i;
+            }
+        }
+    }
+    return FIELD_ROWS/2;
 }

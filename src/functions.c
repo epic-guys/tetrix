@@ -112,7 +112,7 @@ char *form(int m_size, char title[])
  * @param ascii La stringa contenente la ASCII art.
  * @return Il numero di righe.
  */
-int get_ASCII_art_rows(const char ascii[])
+int get_ASCII_art_rows(const unsigned char ascii[])
 {
     int i = 0, r = 1;
     while (ascii[i] != '\0')
@@ -132,7 +132,7 @@ int get_ASCII_art_rows(const char ascii[])
  * @param ascii La stringa contenente la ASCII art.
  * @return Il numero di colonne
  */
-int get_ASCII_art_cols(const char ascii[])
+int get_ASCII_art_cols(const unsigned char ascii[])
 {
     int i = 0;
     while (ascii[i] != '\n' && ascii[i] != '\0')

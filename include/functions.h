@@ -21,9 +21,9 @@ int super_free(void **ptr);
 
 #pragma region ASCII ART
 
-int get_ASCII_art_rows(char ascii[]);
+int get_ASCII_art_rows(const unsigned char ascii[]);
 
-int get_ASCII_art_cols(char ascii[]);
+int get_ASCII_art_cols(const unsigned char ascii[]);
 
 #pragma endregion
 

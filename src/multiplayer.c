@@ -358,11 +358,16 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
         }
         else
         {
-
+            int i;
             // cpu_play(gameFields[1], pool, &selected_t);
             
             strategy_t* s = choose_strategy(gameFields[1], pool);
+mvprintw(6,10,"yepap ext");
+refresh();
             cursor = get_strategy_cursor(s);
+            selected_t = get_tetrimino(get_strategy_tet_type(s));
+            for(i=0;i<get_strategy_tet_rotation(s);i++)
+                safe_rotate_tetrimino(selected_t,cursor,0);
             
         }
 
@@ -395,8 +400,7 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 
             turn = 1 - turn;
         }
-        if (turn == 0)
-            free_tetrimino(selected_t);
+        free_tetrimino(selected_t);
     }
     pve_end_game(winner, gameFields, pool, points, players, start_time, moves);
 }
