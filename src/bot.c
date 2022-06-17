@@ -22,6 +22,7 @@ typedef struct Strategy
 {
     int score;
     int tet;
+    int cursor;
     int *field;
 } strategy_t;
 
@@ -45,11 +46,19 @@ void strategy_destroy(strategy_t* strategy)
     free(strategy);
 }
 
+int get_strategy_cursor(strategy_t* s)
+{
+    return s->cursor;
+}
+
 void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,int last_used_tetrimino)
 {   
     //aggiunge il tetramino alla board
     add_tetrimino_to_field(strategy->field, tetrimino, cur_pos);
    
+    //salva il cursore
+    strategy->cursor = cur_pos;
+
     //calcola il punteggio
     strategy->score = calculate_score(strategy->field,get_tet_type(tetrimino),last_used_tetrimino);
 }
@@ -93,7 +102,7 @@ int set_strategy(strategy_t** best, int size, strategy_t* str)
  * @param[in] pool La pool di tetramini, per far sì che possa scegliere un tetramino rimanente.
  * @return La strategia che il bot considera migliore.
  */
-void choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
+strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
 {
     strategy_t* best_strategies[3] = { NULL, NULL, NULL };
     int i,j,k,l,last_used_tet=99;
@@ -108,15 +117,15 @@ void choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
         else{
             
             tetrimino_t *t = get_tetrimino(i);
-            
-            for(j=0;j<FIELD_COLS;j++){
+            int cols = (FIELD_COLS-get_tet_cols(t))/2;
+            for(j=0;j<cols;j++){
                 
                 for(k=0;k<4;k++){
 
                     strategy_t *str = strategy_create(get_gamefield(g));
                     
                     safe_rotate_tetrimino(t, j, 0);
-                    
+                    cols = (FIELD_COLS-get_tet_cols(t))/2;
                     //faccio finalmente la strategia
                     strategy_update(str,t,j,last_used_tet);
 
@@ -187,13 +196,12 @@ void choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
     }
 
     //ho le migliori tre strategie, ne ritorno una random
-
-    set_field(g, best_strategies[choosen]->field);
-
     for (i = 0; i < 3; ++i)
     {
-        strategy_destroy(best_strategies[i]);
+        if(i != choosen)
+            strategy_destroy(best_strategies[i]);
     }
+    return best_strategies[choosen];
 }
 
 int calculate_score(int *field,int tet_type,int last_used_tet)

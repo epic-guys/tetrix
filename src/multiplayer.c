@@ -361,7 +361,9 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 
             // cpu_play(gameFields[1], pool, &selected_t);
             
-            choose_strategy(gameFields[1], pool);
+            strategy_t* s = choose_strategy(gameFields[1], pool);
+            cursor = get_strategy_cursor(s);
+            
         }
 
         if (cursor >= 0)
