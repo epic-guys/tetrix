@@ -128,14 +128,15 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
     int choosen = rand()%3;
     
     for(i = 0; i < N_tetrimini; i++){
-
-        if(get_remaining_tetriminos(pool, i) == 0)
+mvprintw(1+i,1,"TetriminoAA %d: %d",i,get_remaining_tetriminos(pool,i));
+refresh();
+        if(0 == get_remaining_tetriminos(pool, i))
         {
+mvprintw(1+i,1,"TetriminoAA %d: FINITO!",i);
+refresh();
             continue;
         }
-        /*else
-        {*/
-            
+
             tetrimino_t *t = get_tetrimino(i);
             int cols = (FIELD_COLS-get_tet_cols(t))/2;
             for(j=0;j<cols;j++){
@@ -145,81 +146,30 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
                     strategy_t *str = strategy_create(get_gamefield(g));
 
                     if(!safe_rotate_tetrimino(t, j, 0)){
-                        break;
+                        strategy_destroy(str);
+                        continue;
                     }
 
                     //cols = (FIELD_COLS-get_tet_cols(t))/2;
                     /*faccio finalmente la strategia*/
                     strategy_update(str,t,j,k,last_used_tet);
 
-                    if(best_strategies[0] == NULL ){
-                        best_strategies[0] = str;
+                    if(!set_strategy(best_strategies,3,str)){ /*il 3 forse puó essere messo nelle impostazioni*/
+                        strategy_destroy(str);
                     }
-
-                    else if(best_strategies[1] == NULL){
-                        
-                        if(str->score > best_strategies[0]->score){
-                            
-                            best_strategies[1] = best_strategies[0];
-                            best_strategies[0] = str;
-                        
-                        }else{ best_strategies[1] = str; }
-                    }
-
-                    else if(best_strategies[2] == NULL){
-
-                        if(str->score > best_strategies[0]->score){
-
-                            best_strategies[2] = best_strategies[1];
-                            best_strategies[1] = best_strategies[0];
-                            best_strategies[0] = str;
-                        
-                        }
-
-                        else if(str->score > best_strategies[1]->score){ 
-
-                            best_strategies[2] = best_strategies[1];
-                            best_strategies[1] = str; 
-                        
-                        }
-                        
-                        else{ best_strategies[2] = str; }                
-
-                    }else{
-
-                        if(str->score > best_strategies[2]->score){
-                            
-                            strategy_destroy(best_strategies[2]);
-                            
-                            if(str->score > best_strategies[1]->score){
-                                
-                                best_strategies[2] = best_strategies[1];
-                                
-                                if(str->score > best_strategies[0]->score){
-                                    
-                                    best_strategies[1] = best_strategies[0];
-                                    
-                                    best_strategies[0] = str;
-                                }
-                                else{ best_strategies[1] = str; }
-                            }
-                            
-                            else{ best_strategies[2] = str; }
-                        
-                        }else{ strategy_destroy(str); }
-
-                    }
-
 
                 }
 
             }
             free_tetrimino(t);
-        /*}*/
     }
 
-    //ho le migliori tre strategie, ne ritorno una random
+    //ho le migliori X strategie, ne ritorno una random
     strategy_t *tmp = best_strategies[choosen];
+    last_used_tet = tmp->tet;
+mvprintw(0,0,"Tetrimino %d: %d",best_strategies[choosen]->tet,get_remaining_tetriminos(pool, best_strategies[choosen]->tet));
+refresh();
+
     for (i = 0; i < 3; ++i)
     {
         if(i != choosen)
