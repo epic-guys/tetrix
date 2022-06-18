@@ -479,7 +479,7 @@ WINDOW *get_pool_win(tetrimini_pool_t *t)
  * @param type Il tipo di tetrimino.
  * @return Il numero di tetramini rimasti.
  */
-int get_remaining_tetriminos(tetrimini_pool_t *pool, tetrimino_code_t type)
+int get_remaining_tetriminos(tetrimini_pool_t *pool, tetrimino_type_t type)
 {
     return pool->rem_tetriminos[type];
 }

@@ -323,7 +323,7 @@ void pve_new_game()
 
 void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points)
 {
-    tetrimino_code_t selected_i;
+    tetrimino_type_t selected_i;
     int winner = -1;
     tetrimino_t *selected_t;
     unsigned int start_time = time(NULL), seed = time(0);
@@ -423,7 +423,7 @@ int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetri
     - Decide la posizione
     */
 
-    tetrimino_code_t tet_type;
+    tetrimino_type_t tet_type;
     int rot;
 
     do

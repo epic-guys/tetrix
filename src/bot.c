@@ -24,18 +24,18 @@ typedef struct Strategy
     int tet;
     int rotation;
     int cursor;
-    int *field;
+    int* field;
 } strategy_t;
 
 /**
  * @brief funzione che istanzia la strategia copiando giá la board
- * 
- * @param[in] field 
- * @return puntatore alla strategia 
+ *
+ * @param[in] field
+ * @return puntatore alla strategia
  */
 strategy_t* strategy_create(int* field)
 {
-    strategy_t* strategy = (strategy_t *) malloc(sizeof(strategy_t));
+    strategy_t* strategy = (strategy_t*)malloc(sizeof(strategy_t));
     strategy->score = 0;
     strategy->field = clone_field(field);
     return strategy;
@@ -62,10 +62,10 @@ int get_strategy_tet_rotation(strategy_t* s)
     return s->rotation;
 }
 
-void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,int rotation,int last_used_tetrimino)
-{   
+void strategy_update(strategy_t* strategy, tetrimino_t* tetrimino, int cur_pos, int rotation, int last_used_tetrimino)
+{
     int* tmp = clone_field(strategy->field);
-    
+
     //aggiunge il tetramino alla board
     add_tetrimino_to_field(strategy->field, tetrimino, cur_pos);
 
@@ -76,7 +76,9 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,i
     strategy->rotation = rotation;
 
     //calcola il punteggio
-    strategy->score = calculate_score(strategy->field,tmp,get_tet_type(tetrimino),last_used_tetrimino);
+    strategy->score = calculate_score(strategy->field, tmp, get_tet_type(tetrimino), last_used_tetrimino);
+
+    strategy->tet = get_tet_type(tetrimino);
 
     //free_tetrimino(tetrimino);
     //super_free((void **) &tmp);
@@ -87,7 +89,7 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,i
  * Se ci sono slot liberi, la inserisce automaticamente nel primo di questi.
  * Se invece non ci sono slot liberi, constrolla le altre strategie e se è migliore
  * di una di queste la sostituisce.
- * 
+ *
  * @param best L'array di strategie.
  * @param size La dimensione dell'array.
  * @param str La strategia da inserire.
@@ -124,62 +126,56 @@ int set_strategy(strategy_t** best, int size, strategy_t* str)
 strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
 {
     strategy_t* best_strategies[3] = { NULL, NULL, NULL };
-    int i,j,k,l,last_used_tet=99;
-    int choosen = rand()%3;
-    
-    for(i = 0; i < N_tetrimini; i++){
-mvprintw(1+i,1,"TetriminoAA %d: %d",i,get_remaining_tetriminos(pool,i));
-refresh();
-        if(0 == get_remaining_tetriminos(pool, i))
+    int i, j, k, l, last_used_tet = 99;
+    int choosen = rand() % 3;
+
+    for (i = 0; i < N_tetrimini; i++) {
+        if (0 == get_remaining_tetriminos(pool, i))
         {
-mvprintw(1+i,1,"TetriminoAA %d: FINITO!",i);
-refresh();
             continue;
         }
 
-            tetrimino_t *t = get_tetrimino(i);
-            int cols = (FIELD_COLS-get_tet_cols(t))/2;
-            for(j=0;j<cols;j++){
-                
-                for(k=0;k<4;k++){
+        tetrimino_t* t = get_tetrimino(i);
+        int cols = FIELD_COLS - get_tet_cols(t);
+        for (j = 0;j < cols;j++) {
 
-                    strategy_t *str = strategy_create(get_gamefield(g));
+            for (k = 0;k < 4;k++) {
 
-                    if(!safe_rotate_tetrimino(t, j, 0)){
-                        strategy_destroy(str);
-                        continue;
-                    }
+                strategy_t* str = strategy_create(get_gamefield(g));
 
-                    //cols = (FIELD_COLS-get_tet_cols(t))/2;
-                    /*faccio finalmente la strategia*/
-                    strategy_update(str,t,j,k,last_used_tet);
+                if (!safe_rotate_tetrimino(t, j, 0)) {
+                    strategy_destroy(str);
+                    continue;
+                }
 
-                    if(!set_strategy(best_strategies,3,str)){ /*il 3 forse puó essere messo nelle impostazioni*/
-                        strategy_destroy(str);
-                    }
+                //cols = (FIELD_COLS-get_tet_cols(t))/2;
+                /*faccio finalmente la strategia*/
+                strategy_update(str, t, j, k, last_used_tet);
 
+                if (!set_strategy(best_strategies, 3, str)) { /*il 3 forse puó essere messo nelle impostazioni*/
+                    strategy_destroy(str);
                 }
 
             }
-            free_tetrimino(t);
+
+        }
+        free_tetrimino(t);
     }
 
     //ho le migliori X strategie, ne ritorno una random
-    strategy_t *tmp = best_strategies[choosen];
+    strategy_t* tmp = best_strategies[choosen];
     last_used_tet = tmp->tet;
-mvprintw(0,0,"Tetrimino %d: %d",best_strategies[choosen]->tet,get_remaining_tetriminos(pool, best_strategies[choosen]->tet));
-refresh();
 
     for (i = 0; i < 3; ++i)
     {
-        if(i != choosen)
+        if (i != choosen)
             strategy_destroy(best_strategies[i]);
-        best_strategies[i] = NULL;        
+        best_strategies[i] = NULL;
     }
     return tmp;
 }
 
-int calculate_score(int *field,int *old,int tet_type,int last_used_tet)
+int calculate_score(int* field, int* old, int tet_type, int last_used_tet)
 {
     /**
      * TUTORIAL: come si calcola lo score
@@ -195,37 +191,37 @@ int calculate_score(int *field,int *old,int tet_type,int last_used_tet)
     if (is_field_top_occupied(field)) {
         return 0; //immagina ricevere zero punti LMAO
     }
-    
-    if(last_used_tet == tet_type){
-        score-= 30;
+
+    if (last_used_tet == tet_type) {
+        score -= 30;
     }
-    
 
 
-    for(i = 0; i < FIELD_ROWS/2; i++){
-        for(j = 0; j < FIELD_COLS/2; j++){
-            if(!is_row_full(field, i)){
-                if(field[i * FIELD_COLS/2 + j] != 0){
+
+    for (i = 0; i < FIELD_ROWS / 2; i++) {
+        for (j = 0; j < FIELD_COLS / 2; j++) {
+            if (!is_row_full(field, i)) {
+                if (field[i * FIELD_COLS / 2 + j] != 0) {
                     score--;
                 }
             }
             else {
-                score += FIELD_COLS/2 + 10; //se la riga é piena, aggiungo punti (FIELD_COLS + un bonus)
+                score += FIELD_COLS / 2 + 10; //se la riga é piena, aggiungo punti (FIELD_COLS + un bonus)
             }
         }
     }
-    return score - compare_fields(field,old);
+    return score - compare_fields(field, old);
 }
 
-int compare_fields(int* new,int* old)
+int compare_fields(int* new, int* old)
 {
-    int i,j;
-    for(i = 0; i < FIELD_ROWS/2; i++){
-        for(j = 0; j < FIELD_COLS/2; j++){
-            if(new[i * FIELD_COLS/2 + j] != old[i * FIELD_COLS/2 + j]){
-                return i*4;
+    int i, j;
+    for (i = 0; i < FIELD_ROWS / 2; i++) {
+        for (j = 0; j < FIELD_COLS / 2; j++) {
+            if (new[i * FIELD_COLS / 2 + j] != old[i * FIELD_COLS / 2 + j]) {
+                return i * 4;
             }
         }
     }
-    return FIELD_ROWS/2;
+    return FIELD_ROWS / 2;
 }

@@ -40,8 +40,13 @@ typedef enum tetrimino_type
     T_T = 6,
 } tetrimino_type_t;
 
+typedef struct tetrimino_config
+{
+    tetrimino_type_t type;
+    int rotation;
+    int cursor;
+} tetrimino_config_t;
 
-typedef enum tetrimino_type tetrimino_code_t;
 
 typedef struct Tetrimino tetrimino_t;
 
@@ -73,7 +78,7 @@ int no_tetriminos_left(tetrimini_pool_t *pool);
 
 WINDOW *get_pool_win(tetrimini_pool_t *t);
 
-int get_remaining_tetriminos(tetrimini_pool_t *pool, tetrimino_code_t type);
+int get_remaining_tetriminos(tetrimini_pool_t *pool, tetrimino_type_t type);
 
 int get_tet_rows(tetrimino_t *t);
 
