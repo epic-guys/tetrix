@@ -338,7 +338,7 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 
     while (winner < 0)
     {
-        int dropping = 1, cursor, deletedRows = 0, added = 1;
+        int dropping = 1, cursor, deletedRows = 0, added = 1,cpu_first_move=0;
         int *currentField;
         mvprintw(5, 0, "                                ");
         mvprintw(5, 0, "Turno di: %s", get_player_nick(players[turn]));
@@ -359,17 +359,34 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
         else
         {
             int i;
-            // cpu_play(gameFields[1], pool, &selected_t);
-            
+            if(cpu_first_move==0){
+                int t,r,c;
+                tetrimino_t* tet;
+                do
+                {
+                    t = rand()%N_tetrimini;
+                    c = rand()%FIELD_COLS-4;
+                    tet = get_tetrimino(t);
+                    for(r=0;r<rand()%4;r++){
+                        safe_rotate_tetrimino(tet,c,0);
+                    }
+                }
+                while(c + get_tet_cols(tet) >= FIELD_COLS && get_remaining_tetriminos(pool,t) > 0);
+                cpu_first_move++;
+                cursor = c;
+                selected_t = tet;
+                
+            }
+            else{
             strategy_t* s = choose_strategy(gameFields[1], pool);
 
             cursor = get_strategy_cursor(s);
             selected_t = get_tetrimino(get_strategy_tet_type(s));
-//mvprintw(0,0,"Data:\nTetrimino: %d\nCursor: %d\nRotation: %d\nTet: %d",get_strategy_tet_type(s),get_strategy_cursor(s),get_strategy_tet_rotation(s),get_remaining_tetriminos(pool,get_strategy_tet_type(s)));
-refresh();
             for(i=0;i<get_strategy_tet_rotation(s);i++)
                 safe_rotate_tetrimino(selected_t,cursor,0);
             
+            strategy_destroy(s);
+            }
         }
 
         if (cursor >= 0)
@@ -406,41 +423,7 @@ refresh();
     pve_end_game(winner, gameFields, pool, points, players, start_time, moves);
 }
 
-/**
- * @brief DEPRECATED: non la usiamo piú, stiamo scrivendo in bot.c la nuova strategia, la lascio per qualche commit.
- *
- * @param[in] gameField Il campo della CPU.
- * @param[in] pool I tetramini rimanenti.
- * @param[out] tetrimino Il tetrimino da restituire.
- * @return Il cursore.
- */
-int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetrimino)
-{
-    /*
-    Per evitare che la CPU scelga un numero random fuori dal campo, gioca con il seguente ordine:
-    - Sceglie il tetramino
-    - Lo ruota
-    - Decide la posizione
-    */
 
-    tetrimino_type_t tet_type;
-    int rot;
-
-    do
-    {
-        tet_type = rand() % 7;
-    } while (get_remaining_tetriminos(pool, tet_type) <= 0);
-
-    *tetrimino = get_tetrimino(tet_type);
-
-    for (rot = rand() % 4; rot > 0; --rot)
-    {
-        /* Passo 0 come cursore così è sicuro che lo ruota */
-        safe_rotate_tetrimino(*tetrimino, 0, 0);
-    }
-
-    return rand() % (FIELD_COLS - get_tet_cols(*tetrimino) - 1);
-}
 
 /*da finire di aggiustare  CREDO SIA INUTILE, si puó usare pvp_end_game*/
 void pve_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players, unsigned int start_time, int *moves) /*thanos++*/
@@ -539,7 +522,6 @@ void pve_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool
     wrefresh(summary);
 
     free_player(players[0]);
-    free_player(players[1]);
     free(players);
     free_gamefield(gameFields[0]);
     free_gamefield(gameFields[1]);

@@ -81,7 +81,7 @@ void strategy_update(strategy_t* strategy, tetrimino_t* tetrimino, int cur_pos, 
     strategy->tet = get_tet_type(tetrimino);
 
     //free_tetrimino(tetrimino);
-    //super_free((void **) &tmp);
+    free(tmp);
 }
 
 /**
@@ -127,6 +127,7 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
 {
     strategy_t* best_strategies[3] = { NULL, NULL, NULL };
     int i, j, k, l, last_used_tet = 99;
+    srand(time(NULL));
     int choosen = rand() % 3;
 
     for (i = 0; i < N_tetrimini; i++) {
@@ -159,7 +160,7 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
             }
 
         }
-        free_tetrimino(t);
+        //free_tetrimino(t);
     }
 
     //ho le migliori X strategie, ne ritorno una random
