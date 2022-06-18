@@ -61,7 +61,7 @@
 #pragma region TETRIMINO
 
 #define N_tetrimini 7
-#define TETRIMINOS_PER_TYPE 20
+#define TETRIMINOS_PER_TYPE 5
 
 #pragma endregion
 

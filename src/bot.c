@@ -35,7 +35,7 @@ typedef struct Strategy
  */
 strategy_t* strategy_create(int* field)
 {
-    strategy_t* strategy = malloc(sizeof(strategy_t));
+    strategy_t* strategy = (strategy_t *) malloc(sizeof(strategy_t));
     strategy->score = 0;
     strategy->field = clone_field(field);
     return strategy;
@@ -68,7 +68,7 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,i
     
     //aggiunge il tetramino alla board
     add_tetrimino_to_field(strategy->field, tetrimino, cur_pos);
-   
+
     //salva il cursore
     strategy->cursor = cur_pos;
 
@@ -77,12 +77,13 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos,i
 
     //calcola il punteggio
     strategy->score = calculate_score(strategy->field,tmp,get_tet_type(tetrimino),last_used_tetrimino);
-    free_tetrimino(tetrimino);
-    free(tmp);
+
+    //free_tetrimino(tetrimino);
+    //super_free((void **) &tmp);
 }
 
 /**
- * @brief Funzione **ricorsiva ** che compara la strategia passata per parametro con le migliori.
+ * @brief Funzione **ricorsiva** che compara la strategia passata per parametro con le migliori.
  * Se ci sono slot liberi, la inserisce automaticamente nel primo di questi.
  * Se invece non ci sono slot liberi, constrolla le altre strategie e se è migliore
  * di una di queste la sostituisce.
@@ -127,12 +128,13 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
     int choosen = rand()%3;
     
     for(i = 0; i < N_tetrimini; i++){
-        
-        if(get_remaining_tetriminos(pool, i) == 0){
-            break;
+
+        if(get_remaining_tetriminos(pool, i) == 0)
+        {
+            continue;
         }
-        
-        else{
+        /*else
+        {*/
             
             tetrimino_t *t = get_tetrimino(i);
             int cols = (FIELD_COLS-get_tet_cols(t))/2;
@@ -141,11 +143,13 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
                 for(k=0;k<4;k++){
 
                     strategy_t *str = strategy_create(get_gamefield(g));
+
                     if(!safe_rotate_tetrimino(t, j, 0)){
                         break;
                     }
+
                     //cols = (FIELD_COLS-get_tet_cols(t))/2;
-                    //faccio finalmente la strategia
+                    /*faccio finalmente la strategia*/
                     strategy_update(str,t,j,k,last_used_tet);
 
                     if(best_strategies[0] == NULL ){
@@ -211,16 +215,18 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
 
             }
             free_tetrimino(t);
-        }
+        /*}*/
     }
 
     //ho le migliori tre strategie, ne ritorno una random
+    strategy_t *tmp = best_strategies[choosen];
     for (i = 0; i < 3; ++i)
     {
         if(i != choosen)
             strategy_destroy(best_strategies[i]);
+        best_strategies[i] = NULL;        
     }
-    return best_strategies[choosen];
+    return tmp;
 }
 
 int calculate_score(int *field,int *old,int tet_type,int last_used_tet)
@@ -258,8 +264,6 @@ int calculate_score(int *field,int *old,int tet_type,int last_used_tet)
             }
         }
     }
-mvprintw(10,10,"score: %d",score);
-refresh();
     return score - compare_fields(field,old);
 }
 
@@ -269,7 +273,7 @@ int compare_fields(int* new,int* old)
     for(i = 0; i < FIELD_ROWS/2; i++){
         for(j = 0; j < FIELD_COLS/2; j++){
             if(new[i * FIELD_COLS/2 + j] != old[i * FIELD_COLS/2 + j]){
-                return i;
+                return i*4;
             }
         }
     }

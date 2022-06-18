@@ -362,10 +362,11 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
             // cpu_play(gameFields[1], pool, &selected_t);
             
             strategy_t* s = choose_strategy(gameFields[1], pool);
-mvprintw(6,10,"yepap ext");
-refresh();
+
             cursor = get_strategy_cursor(s);
             selected_t = get_tetrimino(get_strategy_tet_type(s));
+mvprintw(0,0,"Data:\nTetrimino: %d\nCursor: %d\nRotation: %d\nTet: %d",get_strategy_tet_type(s),get_strategy_cursor(s),get_strategy_tet_rotation(s),get_remaining_tetriminos(pool,get_strategy_tet_type(s)));
+refresh();
             for(i=0;i<get_strategy_tet_rotation(s);i++)
                 safe_rotate_tetrimino(selected_t,cursor,0);
             
