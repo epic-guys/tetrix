@@ -544,3 +544,50 @@ int get_tet_color(tetrimino_t *t)
             return values[i];
     }
 }
+int is_safe_to_place_tet(tetrimino_t *t,int r)
+{
+    int i;
+    int j;
+    int k;
+    int cols, rows;
+    int* values;
+    
+    for(i=0;i<r;i++)
+    {
+        linear_rotate(t,0);
+    }
+
+    cols=get_tet_cols(t);
+    rows=get_tet_rows(t);
+    values = get_tet_values(t);
+
+    /*
+        PROMEMORIA:
+        accedere a matrice[i][j] significa accedere alla locazione di memoria in posizione COLS ∗ 𝑖 + 𝑗
+        int a[10][20]; => a[3][8] == a[3 * 20 + 8];
+    */
+    for(i=0;i<rows;i++)
+    {
+
+        for(j=0;j<cols;j++)
+        {
+            if(values[cols * i + j]!=0)
+            {
+                if(i+1 != rows)
+                {
+                    for(k=i;k<rows;k++)
+                    {
+                        if(values[cols * k + j]==0)
+                        {
+                            return 1;
+                        }
+                    }
+                }
+                
+            }
+        }
+
+    }
+    return 0;
+
+}
