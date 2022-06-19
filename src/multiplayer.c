@@ -394,7 +394,7 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
                         safe_rotate_tetrimino(tet,c,0);
                     }
                 }
-                while(c + get_tet_cols(tet) >= FIELD_COLS && get_remaining_tetriminos(pool,t) > 0 && !is_safe_to_place_tet(tet,r));
+                while(c + get_tet_cols(tet) >= FIELD_COLS && get_remaining_tetriminos(pool,t) > 0 && !is_safe_to_place_tet(tet));
                 cpu_first_move++;
                 cursor = c;
                 selected_t = tet;
