@@ -14,7 +14,7 @@ void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *poin
 void new_game_single();
 /**
  * @brief stampa le istruzioni per la partita in singleplayer
- * 
+ *
  * @param[in] nickname puntatore al nome del giocatore
  */
 void instructions(char *nickname)
@@ -138,7 +138,7 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
 
 /**
  * @brief gestisce la fine della partita e dealloca tutto ció che é stato usato
- * 
+ *
  * @param[in] gameField Il puntatore al campo da gioco del giocatore.
  * @param[in] pool La pool usata in partita con i tetramini rimanenti. (serve per deallocarla)
  * @param[in] points Il puntatore al punteggio del giocatore.

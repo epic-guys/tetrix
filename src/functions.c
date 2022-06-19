@@ -109,7 +109,7 @@ char *form(int m_size, char title[])
  * @brief Conta il numero di righe di una
  * ASCII art rettangolare importata in C attraverso xxd.
  *
- * @param ascii La stringa contenente la ASCII art.
+ * @param[in] ascii La stringa contenente la ASCII art.
  * @return Il numero di righe.
  */
 int get_ASCII_art_rows(const unsigned char ascii[])
@@ -129,7 +129,7 @@ int get_ASCII_art_rows(const unsigned char ascii[])
 /**
  * @brief Conta il numero di colonne di una
  * ASCII art rettangolare importata in C attraverso xxd.
- * @param ascii La stringa contenente la ASCII art.
+ * @param[in] ascii La stringa contenente la ASCII art.
  * @return Il numero di colonne
  */
 int get_ASCII_art_cols(const unsigned char ascii[])
@@ -190,7 +190,6 @@ void wprint_with_delay(WINDOW *w, int d, const char *c)
     }
 }
 
-
 /**
  * @brief stampa una riga di testo carattere per carattere peró supporta anche il \n come a capo.
  * @param[in] w la finestra dove stampare.
@@ -227,7 +226,7 @@ void mvwprintwrows(WINDOW *w, int y, int x, const char *c)
  * trasformeremo un colore di sfondo in un colore del testo.
  *
  * @param[in] c colore sotto forma numerica.
- * @param[out] c colore sotto forma numerica.
+ * @return c colore sotto forma numerica.
  */
 int swap_color(int c)
 {
@@ -251,8 +250,8 @@ int random_color()
  * in una struttura dati ordinata, ipotizzando che questa sia circolare.
  * Se i è l'ultimo elemento, allora restituisce il primo.
  *
- * @param i L'indice attuale.
- * @param max La dimensione della struttura dati.
+ * @param[in] i L'indice attuale.
+ * @param[in] max La dimensione della struttura dati.
  * @return L'indice dell'elemento successivo.
  */
 int next_circular(int i, int size)
@@ -268,8 +267,8 @@ int next_circular(int i, int size)
  * in una struttura dati ordinata, ipotizzando che questa sia circolare.
  * Se i è il primo elemento, allora restituisce l'ultimo.
  *
- * @param i L'indice attuale.
- * @param max La dimensione della struttura dati.
+ * @param[in] i L'indice attuale.
+ * @param[in] max La dimensione della struttura dati.
  * @return L'indice dell'elemento successivo.
  */
 int prev_circular(int i, int size)
@@ -281,16 +280,24 @@ int prev_circular(int i, int size)
 }
 
 /**
- * @brief una funzione da usare al posto della free, permette di non liberare memoria giá liberata.
+ * @brief funzione che serve per comparare due campi da gioco.
  * 
- * @param ptr pointer di pointer alla memoria da liberare
- * @return 1 se é andato a buon fine, 0 altrimenti.
+ * @param[in] first il puntatore al primo campo da gioco.
+ * @param[in] second il puntatore al secondo campo da gioco.
+ * @return la prima riga diversa.
  */
-int super_free(void **ptr)
+int compare_fields(int *first, int *second)
 {
-    if (*ptr == NULL)
-        return 0;
-    free(*ptr);
-    *ptr = NULL;
-    return 1;
+    int i, j;
+    for (i = 0; i < FIELD_ROWS; i++)
+    {
+        for (j = 0; j < FIELD_COLS; j++)
+        {
+            if (first[i * FIELD_COLS + j] != second[i * FIELD_COLS + j])
+            {
+                return i;
+            }
+        }
+    }
+    return FIELD_ROWS;
 }

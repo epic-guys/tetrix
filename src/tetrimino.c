@@ -24,7 +24,7 @@
  */
 typedef struct Tetrimino
 {
-    int* values;
+    int *values;
     int cols;
     int rows;
     tetrimino_type_t type;
@@ -36,10 +36,10 @@ typedef struct Tetrimino
  * @param[in] type la sua codifica.
  * @return Il tetramino allocato. È vuoto se il valore passato non è valido.
  */
-tetrimino_t* get_tetrimino(int type)
+tetrimino_t *get_tetrimino(int type)
 {
-    int* values;
-    tetrimino_t* t = malloc(sizeof(tetrimino_t));
+    int *values;
+    tetrimino_t *t = malloc(sizeof(tetrimino_t));
     t->type = type;
     switch (type)
     {
@@ -142,7 +142,7 @@ tetrimino_t* get_tetrimino(int type)
  *
  * @param[in, out] t Il tetrimino da deallocare.
  */
-void free_tetrimino(tetrimino_t* t)
+void free_tetrimino(tetrimino_t *t)
 {
     free(t->values);
     free(t);
@@ -155,7 +155,7 @@ void free_tetrimino(tetrimino_t* t)
  * @param[in] y  la y relativa della finestra
  * @param[in] x  la x relativa della finestra
  */
-void print_tetrimino(WINDOW* w, tetrimino_t* t, int y, int x)
+void print_tetrimino(WINDOW *w, tetrimino_t *t, int y, int x)
 {
     int i, j, c = 0;
     for (i = 0; i < t->rows; ++i)
@@ -178,8 +178,8 @@ void print_tetrimino(WINDOW* w, tetrimino_t* t, int y, int x)
  */
 typedef struct TetriminiPool
 {
-    WINDOW* win;
-    int* rem_tetriminos;
+    WINDOW *win;
+    int *rem_tetriminos;
     /*
     Per ottimizzare il controllo di
     quanti tetramini sono rimasti, meglio
@@ -197,11 +197,11 @@ typedef struct TetriminiPool
  * @param[in] x La colonna da dalla quale deve iniziare a posizionare la finestra.
  * @return Lo struct della pool istanziato.
  */
-tetrimini_pool_t* initialize_pool(int y, int x)
+tetrimini_pool_t *initialize_pool(int y, int x)
 {
     int i;
-    WINDOW* w;
-    tetrimini_pool_t* tetriminiPool = (tetrimini_pool_t*)malloc(sizeof(tetrimini_pool_t));
+    WINDOW *w;
+    tetrimini_pool_t *tetriminiPool = (tetrimini_pool_t *)malloc(sizeof(tetrimini_pool_t));
     tetriminiPool->rem_tetriminos = malloc(sizeof(int) * N_tetrimini);
     tetriminiPool->total_tetriminos = N_tetrimini * TETRIMINOS_PER_TYPE;
     for (i = 0; i < N_tetrimini; ++i)
@@ -227,7 +227,7 @@ tetrimini_pool_t* initialize_pool(int y, int x)
  *
  * @param[in] p La pool.
  */
-void free_pool(tetrimini_pool_t* p)
+void free_pool(tetrimini_pool_t *p)
 {
     free(p->rem_tetriminos);
     free(p);
@@ -239,9 +239,9 @@ void free_pool(tetrimini_pool_t* p)
  * @param[in] i l'indice del menu.
  * @param[in] pool la pool nella quale stampare.
  */
-void print_menu_style(int i, tetrimini_pool_t* pool)
+void print_menu_style(int i, tetrimini_pool_t *pool)
 {
-    tetrimino_t* t = get_tetrimino(i);
+    tetrimino_t *t = get_tetrimino(i);
     print_tetrimino(pool->win, t, 2 + (i * 3), 3);
     free_tetrimino(t);
     mvwprintw(pool->win, getcury(pool->win), POOL_COLS / 2, "Rimanenti:%10d", pool->rem_tetriminos[i]);
@@ -254,7 +254,7 @@ void print_menu_style(int i, tetrimini_pool_t* pool)
  * @return Il numero della codifica del tetramino, -1 se non ci sono
  * più tetramini.
  */
-int select_tetrimino(tetrimini_pool_t* pool)
+int select_tetrimino(tetrimini_pool_t *pool)
 {
     int i, ch, selecting = 1;
 
@@ -348,9 +348,9 @@ int select_tetrimino(tetrimini_pool_t* pool)
  * @param[in] t Il tetramino da ruotare.
  * @param[in] dir La direzione in cui ruotare il tetramino. 0 sta per destra, qualsiasi altro valore sinistra.
  */
-void linear_rotate(tetrimino_t* t, int dir)
+void linear_rotate(tetrimino_t *t, int dir)
 {
-    int* v_rotate = (int*)malloc(sizeof(int) * t->rows * t->cols);
+    int *v_rotate = (int *)malloc(sizeof(int) * t->rows * t->cols);
     size_t i, j;
 
     if (dir == 0)
@@ -392,7 +392,7 @@ void linear_rotate(tetrimino_t* t, int dir)
  * @param[in] dir Direzione di rotazione.
  * @return 1 se è riuscito a ruotare, 0 altrimenti.
  */
-int safe_rotate_tetrimino(tetrimino_t* t, int cur_pos, int dir)
+int safe_rotate_tetrimino(tetrimino_t *t, int cur_pos, int dir)
 {
 
     if (cur_pos + t->rows <= FIELD_COLS)
@@ -400,7 +400,8 @@ int safe_rotate_tetrimino(tetrimino_t* t, int cur_pos, int dir)
         linear_rotate(t, dir);
         return 1;
     }
-    else return 0;
+    else
+        return 0;
 }
 
 /**
@@ -408,7 +409,7 @@ int safe_rotate_tetrimino(tetrimino_t* t, int cur_pos, int dir)
  *
  * @param[in] p la pool.
  */
-void refresh_pool(tetrimini_pool_t* p)
+void refresh_pool(tetrimini_pool_t *p)
 {
     wrefresh(p->win);
     refresh();
@@ -420,7 +421,7 @@ void refresh_pool(tetrimini_pool_t* p)
  * @param[in] i il tipo di tetramino dalla quale togliere un'unitá.
  * @param[in] p la pool di tetramini.
  */
-void remove_tetrimino_from_pool(int i, tetrimini_pool_t* p)
+void remove_tetrimino_from_pool(int i, tetrimini_pool_t *p)
 {
     if (p->rem_tetriminos[i] > 0)
     {
@@ -436,7 +437,7 @@ void remove_tetrimino_from_pool(int i, tetrimini_pool_t* p)
  * @param[in] i il tipo di tetramino dalla quale aggiungere un'unitá.
  * @param[in] p la pool di tetramini.
  */
-void add_tetrimino_from_pool(int i, tetrimini_pool_t* p)
+void add_tetrimino_from_pool(int i, tetrimini_pool_t *p)
 {
     p->rem_tetriminos[i]++;
     p->total_tetriminos++;
@@ -450,7 +451,7 @@ void add_tetrimino_from_pool(int i, tetrimini_pool_t* p)
  *
  * @param[out] i ritorna 0 se c'é almeno un tetramino di qualsiasi tipo, 1 altrimenti
  */
-int no_tetriminos_left(tetrimini_pool_t* pool)
+int no_tetriminos_left(tetrimini_pool_t *pool)
 {
     int i;
     for (i = 0; i < N_tetrimini; ++i)
@@ -467,7 +468,7 @@ int no_tetriminos_left(tetrimini_pool_t* pool)
  * @param[in] t la pool di tetramini.
  * @param[out] win la finestra ncurses della pool.
  */
-WINDOW* get_pool_win(tetrimini_pool_t* t)
+WINDOW *get_pool_win(tetrimini_pool_t *t)
 {
     return t->win;
 }
@@ -479,7 +480,7 @@ WINDOW* get_pool_win(tetrimini_pool_t* t)
  * @param type Il tipo di tetrimino.
  * @return Il numero di tetramini rimasti.
  */
-int get_remaining_tetriminos(tetrimini_pool_t* pool, tetrimino_type_t type)
+int get_remaining_tetriminos(tetrimini_pool_t *pool, tetrimino_type_t type)
 {
     return pool->rem_tetriminos[type];
 }
@@ -490,7 +491,7 @@ int get_remaining_tetriminos(tetrimini_pool_t* pool, tetrimino_type_t type)
  * @param[in] t il tetramino.
  * @param[out] rows il numero di righe di cui é composto il tetramino.
  */
-int get_tet_rows(tetrimino_t* t)
+int get_tet_rows(tetrimino_t *t)
 {
     return t->rows;
 }
@@ -501,7 +502,7 @@ int get_tet_rows(tetrimino_t* t)
  * @param[in] t il tetramino.
  * @param[out] cols il numero di colonne di cui é composto il tetramino.
  */
-int get_tet_cols(tetrimino_t* t)
+int get_tet_cols(tetrimino_t *t)
 {
     return t->cols;
 }
@@ -512,7 +513,7 @@ int get_tet_cols(tetrimino_t* t)
  * @param[in] t il tetramino.
  * @param[out] values il puntatore all'array di valori del tetramino.
  */
-int* get_tet_values(tetrimino_t* t)
+int *get_tet_values(tetrimino_t *t)
 {
     return t->values;
 }
@@ -524,7 +525,7 @@ int* get_tet_values(tetrimino_t* t)
  * @param[out] type l'intero che identifica il tipo di tetramino.
  *
  */
-int get_tet_type(tetrimino_t* t)
+int get_tet_type(tetrimino_t *t)
 {
     return t->type;
 }
@@ -534,10 +535,10 @@ int get_tet_type(tetrimino_t* t)
  * @param[in] t il tetramino.
  * @param[out] color il numero che identifica il colore del tetramino.
  */
-int get_tet_color(tetrimino_t* t)
+int get_tet_color(tetrimino_t *t)
 {
     int i;
-    int* values = get_tet_values(t);
+    int *values = get_tet_values(t);
     for (i = 0; i < (get_tet_cols(t) * get_tet_rows(t)) - 1; ++i)
     {
         if (values[i] != 0)
@@ -545,11 +546,11 @@ int get_tet_color(tetrimino_t* t)
     }
 }
 
-int is_safe_to_place_tet(tetrimino_t* t)
+int is_safe_to_place_tet(tetrimino_t *t)
 {
     int i, j, k;
     int cols, rows;
-    int* values;
+    int *values;
 
     cols = get_tet_cols(t);
     rows = get_tet_rows(t);
@@ -577,7 +578,6 @@ int is_safe_to_place_tet(tetrimino_t* t)
                     return 0;
             }
         }
-
     }
     return 1;
 }

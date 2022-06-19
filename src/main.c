@@ -24,6 +24,7 @@ void init_main_screen()
     init_colors();
     refresh();
 }
+
 /**
  * @brief inizializziamo tutti i colori (é una funzione stub)
  */
@@ -170,7 +171,7 @@ void main_menu()
         mvwprintw(w, i + 1, 2, "%s", item);
         wattroff(w, A_STANDOUT);
 
-    } while (ch != 10 /* significa enter (non so nemmeno io perché ma funzia) */);
+    } while (ch != 10);
 
     switch (i)
     {
