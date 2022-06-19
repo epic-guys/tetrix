@@ -70,6 +70,29 @@ void clear_top(gamefield_t *g)
     wrefresh(g->win);
 }
 
+void draw_cursor(gamefield_t *g, tetrimino_t *t, int cur_pos)
+{
+    int free = get_first_free_row(g->field, t, cur_pos);
+    int i, j;
+    int *values = get_tet_values(t);
+    int rows = get_tet_rows(t);
+    int cols = get_tet_cols(t);
+    int color = swap_color(get_tet_color(t));
+    for (i = free; i < free + rows; ++i)
+    {
+        for (j = cur_pos; j < cur_pos + cols; ++j)
+        {
+            if (values[(i - free) * cols + (j - cur_pos)])
+            {
+                wattron(g->win, COLOR_PAIR(color));
+                mvwprintw(g->win, i + 4, (j * 2) + 1, "  ");
+                wattroff(g->win, COLOR_PAIR(color));
+            }
+        }
+    }
+    wrefresh(g->win);
+}
+
 /**
  * @brief visualizza il tetramino selezionato nella parte superiore di un campo da gioco partendo dalla posizione del cursore.
  *
@@ -90,30 +113,8 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos)
 
     refresh();
     /*Aggiunge l'overlay alla colonna*/
-    for (i = 4; i < FIELD_ROWS + 4; i++)
-    {
-        for (j = cur_pos; j < cur_pos + cols; ++j)
-        {
-
-            if (g->field[FIELD_COLS * (i - 4) + j])
-            {
-                stop = 1;
-            }
-        }
-        if (!stop)
-        {
-            for (j = cur_pos; j < cur_pos + cols; ++j)
-            {
-
-                if (!g->field[FIELD_COLS * (i - 4) + j] && !stop)
-                {
-                    wattron(g->win, COLOR_PAIR(color));
-                    mvwprintw(g->win, i, (j * 2) + 1, "  ");
-                    wattroff(g->win, COLOR_PAIR(color));
-                }
-            }
-        }
-    }
+    
+    draw_cursor(g, t, cur_pos);
 
     clear_top(g);
 

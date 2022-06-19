@@ -198,7 +198,7 @@ void wprint_with_delay(WINDOW *w, int d, const char *c)
  * @param[in] x la colonna dove stampare.
  * @param[in] c il puntatore alla stringa di caratteri da stampare.
  */
-void mvwprintwrows(WINDOW *w, int y, int x, char *c)
+void mvwprintwrows(WINDOW *w, int y, int x, const char *c)
 {
     int i = 0, j = 0;
     wmove(w, y, x);
