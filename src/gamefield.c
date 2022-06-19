@@ -62,7 +62,7 @@ void free_gamefield(gamefield_t *g)
 void clear_top(gamefield_t *g)
 {
     int i, j;
-    for (i = 0; i < 4; ++i)
+    for (i = 0; i < TOP_ROWS; ++i)
     {
         wmove(g->win, i, 0);
         wclrtoeol(g->win);
@@ -85,7 +85,7 @@ void draw_cursor(gamefield_t *g, tetrimino_t *t, int cur_pos)
             if (values[(i - free) * cols + (j - cur_pos)])
             {
                 wattron(g->win, COLOR_PAIR(color));
-                mvwprintw(g->win, i + 4, (j * 2) + 1, "  ");
+                mvwprintw(g->win, i + TOP_ROWS, (j * 2) + 1, "  ");
                 wattroff(g->win, COLOR_PAIR(color));
             }
         }
@@ -126,7 +126,7 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos)
             if (val)
             {
                 wattron(g->win, COLOR_PAIR(val));
-                mvwprintw(g->win, 4 - rows + i, (cur_pos + j) * 2 + 1, "[]");
+                mvwprintw(g->win, TOP_ROWS - rows + i, (cur_pos + j) * 2 + 1, "[]");
             }
         }
     }
@@ -455,7 +455,7 @@ int check_field(gamefield_t *gameField)
         if (is_row_full(gameField->field, i))
         {
             int k, l;
-            mvwprintw(gameField->win, i + 4, 1, "====================");
+            mvwprintw(gameField->win, i + TOP_ROWS, 1, "====================");
             wrefresh(gameField->win);
             delay(100);
             deletedRows++;

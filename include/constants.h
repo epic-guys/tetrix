@@ -40,6 +40,7 @@
 #define FIELD_W_ROWS FIELD_ROWS + 1 + 4
 /*Finestra del campo->Colonne(orizzontale = NUmero colonne * 2(blocco) + 2 bordi(destra-sinistra)*/
 #define FIELD_W_COLS FIELD_COLS * 2 + 2
+#define TOP_ROWS 4
 
 #pragma endregion
 
