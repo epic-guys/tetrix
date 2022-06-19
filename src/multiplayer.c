@@ -14,7 +14,7 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 void pvp_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players, unsigned int start_time, int *moves);
 
 void pve_new_game();
-void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points);
+void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points,int difficulty);
 void pve_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players, unsigned int start_time, int *moves);
 int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetrimino);
 
@@ -298,6 +298,26 @@ void pvp_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool
 
 #pragma region PVE
 
+/**
+ * @brief Crea un menu per selezionare la difficoltà
+ * e restituisce il valore di errore del bot. Il suo errore
+ * consiste nella dimensione dell'array delle migliori soluzioni, da cui
+ * selezionerà casualmente la mossa. Più è grande l'array, meno è probabile
+ * che scelga la soluzione migliore.
+ * 
+ * @return L'errore del bot.
+ */
+int select_difficulty()
+{
+    return CPU_ERROR_HARD;
+}
+
+void pve_instructions(char* nickName)
+{
+    /* TODO solita menata*/
+    return;
+}
+
 void pve_new_game()
 {
     player_t **players = (player_t **)malloc(sizeof(player_t *) * 2);
@@ -310,6 +330,8 @@ void pve_new_game()
 
     refresh();
 
+    pve_instructions(playerName);
+
     players[0] = initialize_player(playerName);
     players[1] = initialize_player("CPU");
 
@@ -318,10 +340,11 @@ void pve_new_game()
     pool = initialize_pool(6, (COLS / 2) - (POOL_COLS / 2) - 3);
     points = initialize_pointboard(0, COLS - 30, players[0], players[1]);
 
-    pve_continue_game(players, gameFields, pool, points);
+    
+    pve_continue_game(players, gameFields, pool, points,select_difficulty());
 }
 
-void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points)
+void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points,int difficulty)
 {
     tetrimino_type_t selected_i;
     int winner = -1;
@@ -375,10 +398,9 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
                 cpu_first_move++;
                 cursor = c;
                 selected_t = tet;
-                
             }
             else{
-            strategy_t* s = choose_strategy(gameFields[1], pool);
+            strategy_t* s = choose_strategy(gameFields[1], pool,difficulty);
 
             cursor = get_strategy_cursor(s);
             selected_t = get_tetrimino(get_strategy_tet_type(s));

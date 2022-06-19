@@ -123,7 +123,7 @@ int set_strategy(strategy_t** best, int size, strategy_t* str)
  * @param[in] pool La pool di tetramini, per far sì che possa scegliere un tetramino rimanente.
  * @return La strategia che il bot considera migliore.
  */
-strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
+strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool,int err)
 {
     strategy_t* best_strategies[3] = { NULL, NULL, NULL };
     int i, j, k, l, last_used_tet = 99;
@@ -153,7 +153,7 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool)
                 /*faccio finalmente la strategia*/
                 strategy_update(str, t, j, k, last_used_tet);
 
-                if (!set_strategy(best_strategies, 3, str)) { /*il 3 forse puó essere messo nelle impostazioni*/
+                if (!set_strategy(best_strategies, err, str)) {
                     strategy_destroy(str);
                 }
 
