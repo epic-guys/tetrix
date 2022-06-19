@@ -57,6 +57,8 @@
 #define POINTBOARD_ROWS_2P 7
 #define POINTBOARD_COLS 28
 
+#define NICKNAME_LEN 16
+
 #pragma endregion
 
 #pragma region TETRIMINO
@@ -89,6 +91,7 @@ extern const char *SINGLE_WELCOME_TXT[];
 extern const char *SINGLE_END_TXT[];
 extern const char *PVP_WELCOME_TXT[];
 extern const char *PVP_END_TXT[];
+extern const char *PVE_WELCOME_TXT[];
 
 #pragma endregion
 
@@ -101,7 +104,7 @@ non faccia la mossa migliore.
 */
 
 #define CPU_ERROR_EASY 10
-#define CPU_ERROR_NORMAL 5
+#define CPU_ERROR_MEDIUM 5
 #define CPU_ERROR_HARD 3
 #define CPU_ERROR_IMPOSSIBLE 1
 

@@ -125,8 +125,9 @@ int set_strategy(strategy_t** best, int size, strategy_t* str)
  */
 strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool,int err)
 {
-    strategy_t* best_strategies[3] = { NULL, NULL, NULL };
-    int i, j, k, l, last_used_tet = 99;
+    strategy_t** best_strategies = (strategy_t**) calloc(sizeof(strategy_t*), err); 
+    
+    int i, j, k, l, last_used_tet = -1;
     srand(time(NULL));
     int choosen = rand() % 3;
 
@@ -160,19 +161,19 @@ strategy_t* choose_strategy(gamefield_t* g, tetrimini_pool_t* pool,int err)
             }
 
         }
-        //free_tetrimino(t);
     }
 
-    //ho le migliori X strategie, ne ritorno una random
+    /*ho le migliori X strategie, ne ritorno una random*/
     strategy_t* tmp = best_strategies[choosen];
     last_used_tet = tmp->tet;
 
-    for (i = 0; i < 3; ++i)
+    for (i = 0; i < err; ++i)
     {
         if (i != choosen)
             strategy_destroy(best_strategies[i]);
         best_strategies[i] = NULL;
     }
+    free(best_strategies);
     return tmp;
 }
 

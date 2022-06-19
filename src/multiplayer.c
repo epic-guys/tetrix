@@ -15,8 +15,6 @@ void pvp_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool
 
 void pve_new_game();
 void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points,int difficulty);
-void pve_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players, unsigned int start_time, int *moves);
-int cpu_play(gamefield_t *gameField, tetrimini_pool_t *pool, tetrimino_t **tetrimino);
 
 #pragma region PVP
 
@@ -309,12 +307,122 @@ void pvp_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool
  */
 int select_difficulty()
 {
-    return CPU_ERROR_HARD;
+    WINDOW *w;
+    /*Quanti elementi ci sono nel menú*/
+    int N_items = 4,diff;
+    char list[4][22] = {"PONG (easy)", "MINE SWEEPER (medium)", "DARK SOULS (hard)", "2048 (impossible)"};
+    char item[22];
+    int ch = -1, i = 0, width = 21;
+
+    w = newwin(10, COLS - 2, LINES / 2, 1);
+
+    box(w, 0, 0);
+
+    for (i = 0; i < N_items; ++i)
+    {
+        if (i == 0)
+            /*"sottolinea" il primo elemento*/
+            wattron(w, A_STANDOUT);
+        else
+            wattroff(w, A_STANDOUT);
+        sprintf(item, "%-10s", list[i]);
+        mvwprintw(w, i + 1, 2, "%s", item);
+    }
+
+    /*carica lo schermo*/
+    wrefresh(w);
+    i = 0;
+    /*sposta il focus della tastiera sulla finestra*/
+    keypad(w, TRUE);
+    /* Nasconde il cursore di sistema*/
+    curs_set(0);
+
+    do
+    {
+        ch = wgetch(w);
+
+        sprintf(item, "%-7s", list[i]);
+        mvwprintw(w, i + 1, 2, "%s", item);
+
+        switch (ch)
+        {
+        case KEY_UP:
+            i--;
+            i = (i < 0) ? N_items - 1 : i;
+            break;
+        case KEY_DOWN:
+            i++;
+            i = (i > N_items - 1) ? 0 : i;
+            break;
+        }
+
+        /*Sottolinea la scelta*/
+        wattron(w, A_STANDOUT);
+        sprintf(item, "%-7s", list[i]);
+        mvwprintw(w, i + 1, 2, "%s", item);
+        wattroff(w, A_STANDOUT);
+
+    } while (ch != 10);
+
+    switch (i)
+    {
+    case 0:
+        /* easy */
+        diff = CPU_ERROR_EASY;
+        break;
+    case 1:
+        /* medium */
+        diff = CPU_ERROR_MEDIUM;
+        break;
+    case 2:
+        /* hard */
+        diff = CPU_ERROR_HARD;
+        break;
+    case 3:
+        /* impossible */
+        diff = CPU_ERROR_IMPOSSIBLE;
+        break;
+
+    default:
+        delwin(w);
+        endwin();
+        printf("Tetrix ha Flatlineato");
+        break;
+    }
+    kill_win(w);
+    return diff;
 }
 
-void pve_instructions(char* nickName)
+void pve_instructions(char* nickname)
 {
-    /* TODO solita menata*/
+    WINDOW *instructions_win;
+    char ch;
+    int art_cols = get_ASCII_art_rows(ART_LOGO);
+    instructions_win = newwin(LINES - art_cols - 3, COLS, 6, 0);
+    box(instructions_win, 0, 0);
+    mvwprintw(instructions_win, 0, 1, " BENVENUTO ");
+
+    wmove(instructions_win, 2, 2);
+    wprint_with_delay(instructions_win, TXT_DELAY, PVE_WELCOME_TXT[0]);
+    wprint_with_delay(instructions_win, TXT_DELAY, nickname);
+    wmove(instructions_win, 3, 2);
+    wprint_with_delay(instructions_win, TXT_DELAY, PVE_WELCOME_TXT[1]);
+
+    delay(1000);
+
+    wmove(instructions_win, 19, (COLS / 2) - 4);
+    wattron(instructions_win, A_STANDOUT);
+    wprintw(instructions_win, "> Gioca! <");
+    wattroff(instructions_win, A_STANDOUT);
+    wrefresh(instructions_win);
+
+    ch = -1;
+    do
+    {
+        ch = wgetch(instructions_win);
+    } while (ch != 10);
+
+    kill_win(instructions_win);
     return;
 }
 
@@ -325,23 +433,26 @@ void pve_new_game()
     tetrimini_pool_t *pool;
     pointboard_t *points;
     char *playerName;
+    char *botName = (char*) malloc(sizeof(char) * NICKNAME_LEN);
+    int diff;
+    strcpy(botName, "CPU");
 
-    playerName = form(16, " Nome: ");
+    playerName = form(NICKNAME_LEN, " Nome: ");
 
     refresh();
 
     pve_instructions(playerName);
+    diff = select_difficulty();
 
     players[0] = initialize_player(playerName);
-    players[1] = initialize_player("CPU");
+    players[1] = initialize_player(botName);
 
     gameFields[0] = initialize_gamefield(6, 5);
     gameFields[1] = initialize_gamefield(6, (COLS / 2) + (POOL_COLS / 2) + 5);
     pool = initialize_pool(6, (COLS / 2) - (POOL_COLS / 2) - 3);
     points = initialize_pointboard(0, COLS - 30, players[0], players[1]);
-
     
-    pve_continue_game(players, gameFields, pool, points,select_difficulty());
+    pve_continue_game(players, gameFields, pool, points,diff);
 }
 
 void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points,int difficulty)
@@ -384,17 +495,19 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
             int i;
             if(cpu_first_move==0){
                 int t,r,c;
-                tetrimino_t* tet;
+                tetrimino_t* tet = NULL;
                 do
                 {
+                    if (tet)
+                        free_tetrimino(tet);
                     t = rand()%N_tetrimini;
-                    c = rand()%FIELD_COLS-4;
                     tet = get_tetrimino(t);
+                    c = rand()%FIELD_COLS - get_tet_cols(tet);
                     for(r=0;r<rand()%4;r++){
                         safe_rotate_tetrimino(tet,c,0);
                     }
                 }
-                while(c + get_tet_cols(tet) >= FIELD_COLS && get_remaining_tetriminos(pool,t) > 0 && !is_safe_to_place_tet(tet));
+                while(get_remaining_tetriminos(pool,t) <= 0 || !is_safe_to_place_tet(tet));
                 cpu_first_move++;
                 cursor = c;
                 selected_t = tet;
@@ -442,125 +555,7 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
         }
         free_tetrimino(selected_t);
     }
-    pve_end_game(winner, gameFields, pool, points, players, start_time, moves);
-}
-
-
-
-/*da finire di aggiustare  CREDO SIA INUTILE, si puó usare pvp_end_game*/
-void pve_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players, unsigned int start_time, int *moves) /*thanos++*/
-{
-    WINDOW *field1Win = get_gamefield_win(gameFields[0]);
-    WINDOW *field2Win = get_gamefield_win(gameFields[1]);
-    WINDOW *poolWin = get_pool_win(pool);
-    WINDOW *pointWin = get_pointboard_win(points);
-    WINDOW *summary;
-
-    unsigned int end_time = (int)time(NULL);
-    char ch;
-    int i;
-
-    moves[0] = moves[0];
-    moves[1] = moves[1];
-    char *p1_nickname = get_player_nick(players[0]);
-    char *p2_nickname = get_player_nick(players[1]);
-    unsigned int playersPoints[2] = {get_player_points(players[0]), get_player_points(players[1])};
-    kill_win(field1Win);
-    kill_win(field2Win);
-    kill_win(poolWin);
-    kill_win(pointWin);
-    mvprintw(5, 0, "                                ");
-    refresh();
-
-    summary = newwin(18, COLS - 2, (LINES / 2) - 5, 1);
-    box(summary, 0, 0);
-    mvwprintw(summary, 0, 1, " GAME OVER ");
-
-    wmove(summary, 2, 2);
-    wprint_with_delay(summary, TXT_DELAY, PVP_END_TXT[0]);
-    wprint_with_delay(summary, TXT_DELAY, PVP_END_TXT[1]);
-    wprint_with_delay(summary, TXT_DELAY, p1_nickname);
-    wprint_with_delay(summary, TXT_DELAY, " : ");
-    wprintw(summary, "%05u", playersPoints[0]);
-    wmove(summary, 6, 2);
-    wprint_with_delay(summary, TXT_DELAY, PVP_END_TXT[1]);
-    wprint_with_delay(summary, TXT_DELAY, p2_nickname);
-    wprint_with_delay(summary, TXT_DELAY, " : ");
-    wprintw(summary, "%05u", playersPoints[1]);
-    wrefresh(summary);
-
-    delay(500);
-
-    wmove(summary, 8, 2);
-    wprint_with_delay(summary, TXT_DELAY, PVP_END_TXT[2]);
-
-    wprintw(summary, "%05u s", (end_time - start_time));
-    wrefresh(summary);
-
-    delay(500);
-
-    wmove(summary, 10, 2);
-    wprint_with_delay(summary, TXT_DELAY, PVP_END_TXT[3]);
-    wprint_with_delay(summary, TXT_DELAY, p1_nickname);
-    wprint_with_delay(summary, TXT_DELAY, " :      ");
-
-    wprintw(summary, "%05d", moves[0]);
-    wrefresh(summary);
-
-    wmove(summary, 11, 2);
-    wprint_with_delay(summary, TXT_DELAY, PVP_END_TXT[3]);
-    wprint_with_delay(summary, TXT_DELAY, p2_nickname);
-    wprint_with_delay(summary, TXT_DELAY, " :      ");
-
-    wprintw(summary, "%05d", moves[1]);
-    wrefresh(summary);
-
-    wmove(summary, 13, 2);
-
-    wprint_with_delay(summary, TXT_DELAY, PVP_END_TXT[4]);
-
-    i = 0;
-
-    if (!win_flag)
-    {
-        wprint_with_delay(summary, TXT_DELAY, p1_nickname);
-    }
-    else if (win_flag)
-    {
-        wprint_with_delay(summary, TXT_DELAY, p2_nickname);
-    }
-    else
-    {
-        wprintw(summary, "PAREGGIO");
-        wrefresh(summary);
-    } /*In realtá non accade mai, almeno, dipende dalle disposizioni*/
-
-    delay(500);
-
-    wmove(summary, 16, (COLS / 2) - 9);
-    wattron(summary, A_STANDOUT);
-    wprintw(summary, "> Torna al menu! <");
-    wattroff(summary, A_STANDOUT);
-    wrefresh(summary);
-
-    free_player(players[0]);
-    free(players);
-    free_gamefield(gameFields[0]);
-    free_gamefield(gameFields[1]);
-    free(gameFields);
-    free_pool(pool);
-    free_pointboard(points);
-    free(moves);
-
-    ch = -1;
-
-    do
-    {
-        ch = wgetch(summary);
-    } while (ch != 10);
-
-    kill_win(summary);
-    return;
+    pvp_end_game(winner, gameFields, pool, points, players, start_time, moves);
 }
 
 #pragma endregion

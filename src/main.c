@@ -119,7 +119,7 @@ void main_menu()
     int N_items = 4;
     char list[4][15] = {"Single Player", "PvP", "PvCPU", "Quit"};
     char item[15];
-    int ch, i = 0, width = 7;
+    int ch = -1, i = 0, width = 7;
     /* Crea una nuova finestra */
     w = newwin(10, COLS - 2, LINES / 2, 1);
     /* imposta i bordi*/
@@ -193,6 +193,7 @@ void main_menu()
         main_menu();
         break;
     case 3:
+        /* Quit */
         endwin();
         break;
 

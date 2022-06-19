@@ -114,3 +114,18 @@ const char *PVP_END_TXT[] = {
     "Durata del match: ",
     "Turni di gioco ",
     "VINCITORE: "};
+
+const char *PVE_WELCOME_TXT[] = {
+    "Ciao, ",
+    "Benvenuto su Tetrix, di seguito troverai le istruzioni per il gioco\n\n"
+    "Parte 1: \n"
+    "Usa le freccie UP e DOWN per muoverti nella pool di tetramini, premi ENTER per selezionarne uno\n\n"
+    "Parte 2:\nUsa le freccie LEFT e RIGHT per muovere il tetramino sopra la pool,\n"
+    "Premi le frecce UP o DOWN per ruotare il tetramino di 90 gradi, premi BACKSPACE per tornare alla selezione dei tetramini,\n"
+    "premi ENTER per piazzarlo.\n\n"
+    "Punteggio e Game Over:\n"
+    "La rimozione di una riga vale 1 punto, la rimozione di due righe con un solo pezzo vale 3 punti,\n"
+    "in caso di rimozione di tre o quattro righe il campo da gioco della CPU viene modificato,\n"
+    "viene invertito ogni blocco per il corrispondente numero di righe \n"
+    "Il gioco termina quando finiscono i pezzi o il giocatore/la CPU non riesce a posizionare un tetramino nel campo di gioco\n"
+    "rispettando il limite di altezza."};
