@@ -303,12 +303,43 @@ int compare_fields(int *first, int *second)
 }
 
 /**
- * @brief 
- * @param[in] mat
- * @param[in] rows
- * @param[in] cols
+ * @brief Controlla se una matrice qualsiasi contiene celle vuote bloccate
+ * da celle piene al di sopra.
+ * @param[in] mat La matrice da controllare.
+ * @param[in] rows Il numero di righe della matrice.
+ * @param[in] cols Il numero di colonne della matrice.
+ * @return 0 se la matrice non ha celle bloccate, altrimenti restituisce
+ * $ r \times c $, con $r$ il numero di righe bloccate, $c$ le colonne bloccate.
  */
-int blank(int* mat, int rows, int cols)
+int blank_cells(int* mat, int rows, int cols)
 {
+    int i, j;
+    int max_rows = 0, max_cols = 0;
 
+    for (j = cols - 1; j >= 0; --j)
+    {
+        int found_free = 0;
+        int stuck_cols = 0;
+        for (i = rows - 1; i >= 0; --i)
+        {
+            if (mat[stuck_cols * i + j] == 0)
+            {
+                if (!found_free)
+                    found_free = 1;
+            }
+            else
+            {
+                if (found_free)
+                    ++stuck_cols;
+            }
+        }
+        if (found_free)
+        {
+            int stuck_rows = rows - i;
+            if (stuck_rows > max_rows) max_rows = stuck_rows;
+            if (stuck_cols > max_cols) max_cols = stuck_cols;
+        }
+    }
+
+    return max_rows * max_cols;
 }

@@ -9,7 +9,7 @@ void kill_win(WINDOW* w);
 
 void wprint_with_delay(WINDOW* w,int d, const char* c);
 
-void mvwprintwrows(WINDOW* w, int y, int x, char* c);
+void mvwprintwrows(WINDOW* w, int y, int x, const char* c);
 
 int swap_color(int c);
 
@@ -24,6 +24,8 @@ int super_free(void **ptr);
 int get_ASCII_art_rows(const unsigned char ascii[]);
 
 int get_ASCII_art_cols(const unsigned char ascii[]);
+
+int blank_cells(int* mat, int rows, int cols);
 
 #pragma endregion
 
