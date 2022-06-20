@@ -271,6 +271,7 @@ int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_u
             score += FIELD_COLS * 10; /* se la riga é piena, aggiungo punti (FIELD_COLS + un bonus) */
         }
     }
+    
     free_tetrimino(last_used_tet);
-    return score - compare_fields(s->field, old)*4;
+    return score;/* + blank_cells(s->field, FIELD_ROWS, FIELD_COLS) * 10; */
 }
