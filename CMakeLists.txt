@@ -6,6 +6,7 @@ enable_testing()
 
 # Crea il modulo tetrix e aggiunge l'eseguibile main.c
 add_executable(tetrix src/main.c)
+add_executable(tester src/tester.c)
 # Crea il modulo libtetrix e aggiunge i file come librerie
 add_library(libtetrix
     src/gamefield.c
@@ -20,6 +21,7 @@ add_library(libtetrix
 
 # Collega il modulo libetetrix a tetrix
 target_link_libraries(tetrix libtetrix)
+target_link_libraries(tester libtetrix)
 # Permette di includere nel progetto la cartella "include"
 include_directories(include)
 
@@ -31,6 +33,7 @@ set_property(TARGET libtetrix PROPERTY C_STANDARD 90)
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIR})
 target_link_libraries(tetrix ${CURSES_LIBRARIES})
+target_link_libraries(tester ${CURSES_LIBRARIES})
 
 # Test valgrind
 add_test(NAME mem_check COMMAND valgrind ./tetrix)

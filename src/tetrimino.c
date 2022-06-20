@@ -548,6 +548,12 @@ int get_tet_color(tetrimino_t *t)
 
 int is_safe_to_place_tet(tetrimino_t *t)
 {
+    return !blank_cells(t->values, t->rows, t->cols);
+}
+
+/*
+int is_safe_to_place_tet(tetrimino_t *t)
+{
     int i, j, k;
     int cols, rows;
     int *values;
@@ -560,7 +566,7 @@ int is_safe_to_place_tet(tetrimino_t *t)
         PROMEMORIA:
         accedere a matrice[i][j] significa accedere alla locazione di memoria in posizione COLS ∗ 𝑖 + 𝑗
         int a[10][20]; => a[3][8] == a[3 * 20 + 8];
-    */
+    
     for (j = cols - 1; j >= 0; --j)
     {
         int found_free = 0;
@@ -581,6 +587,7 @@ int is_safe_to_place_tet(tetrimino_t *t)
     }
     return 1;
 }
+*/
 
 int are_tet_equal(tetrimino_t* f,tetrimino_t* s)
 {

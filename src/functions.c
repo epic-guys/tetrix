@@ -319,25 +319,26 @@ int blank_cells(int* mat, int rows, int cols)
     for (j = cols - 1; j >= 0; --j)
     {
         int found_free = 0;
-        int stuck_cols = 0;
+        int stuck_rows = 0;
         for (i = rows - 1; i >= 0; --i)
         {
-            if (mat[stuck_cols * i + j] == 0)
+            if (mat[cols * i + j] == 0)
             {
-                if (!found_free)
-                    found_free = 1;
+                found_free = 1;
             }
             else
             {
                 if (found_free)
-                    ++stuck_cols;
+                {
+                    stuck_rows = rows - i - 1;
+                }
             }
         }
-        if (found_free)
+
+        if (stuck_rows > 0)
         {
-            int stuck_rows = rows - i;
+            ++max_cols;
             if (stuck_rows > max_rows) max_rows = stuck_rows;
-            if (stuck_cols > max_cols) max_cols = stuck_cols;
         }
     }
 
