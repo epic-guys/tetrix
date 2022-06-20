@@ -581,3 +581,22 @@ int is_safe_to_place_tet(tetrimino_t *t)
     }
     return 1;
 }
+
+int are_tet_equal(tetrimino_t* f,tetrimino_t* s)
+{
+    int i,j;
+    if(f->cols == s->cols && f->rows == s->rows){
+        for(i=0;i<f->rows;++i)
+        {
+            for(j=0;j<f->cols;++j)
+            {
+                if(f->values[f->cols*i+j] != s->values[s->cols*i+j])
+                {
+                    return 0;
+                }
+            }
+        }
+        return 1;
+    }
+    return 0;
+}

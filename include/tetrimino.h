@@ -92,4 +92,6 @@ int get_tet_color(tetrimino_t *t);
 
 int is_safe_to_place_tet(tetrimino_t *t);
 
+int are_tet_equal(tetrimino_t* f,tetrimino_t* s);
+
 #endif

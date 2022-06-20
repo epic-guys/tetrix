@@ -283,6 +283,30 @@ int get_first_free_row(int *f, tetrimino_t *t, int cur_pos)
 }
 
 /**
+ * @brief restituisce la prima riga libera nel campo da gioco.
+ *
+ * @param[in] g Il campo da gioco da controllare.
+ * @param[in] t Il tetramino da incastrare.
+ * @param[in] cur_pos La posizione del cursore e quindi la prima colonna di discesa del tetramino.
+ * @param[out] row La posizione nella matrice della prima riga libera.
+ */
+int get_first_free_row_in_field(int *f, int cur_pos)
+{
+    int i, j;
+    for (i = 0; i < FIELD_ROWS; ++i)
+    {
+        for (j = 0; j < FIELD_COLS; ++j)
+        {
+            if (f[i * FIELD_COLS + j] !=0)
+            {
+                return i-1;
+            }
+        }
+    }
+    return FIELD_ROWS-1;
+}
+
+/**
  * @brief Aggiunge un tetramino al campo da gioco (funzione stub creata per compatibilitá).
  *
  * @param[in] g campo di gioco.

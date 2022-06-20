@@ -301,3 +301,14 @@ int compare_fields(int *first, int *second)
     }
     return FIELD_ROWS;
 }
+
+/**
+ * @brief 
+ * @param[in] mat
+ * @param[in] rows
+ * @param[in] cols
+ */
+int blank(int* mat, int rows, int cols)
+{
+
+}

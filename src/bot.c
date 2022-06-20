@@ -236,36 +236,39 @@ int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_u
     /* parto da num_blocchi e tolgo punti se la riga non é piena ma ho aggiunto blocchi */
     int score = FIELD_ROWS * FIELD_COLS;
     int i, j;
+    
     /* se fa finire il gioco semplicemente fa schifo come opzione */
     if (is_field_top_occupied(s->field))
     {
         return 0; /* immagina ricevere zero punti LMAO */
     }
 
-    if (get_tet_type(last_used_tet) == get_tet_type(tet))
+    if (are_tet_equal(tet,last_used_tet))
     {
-        score -= 100;
-        if(get_tet_cols(last_used_tet) == get_tet_cols(tet) && get_tet_rows(last_used_tet) == get_tet_rows(tet))
-        {
-            score -= 50;
-        }
+        score -= 150;
     }
 
-    for (i = 0; i < FIELD_ROWS / 2; i++)
+    for(i=0;i<FIELD_COLS;i++){
+        if(get_first_free_row_in_field(old,i) != s->cursor){
+            score -= 200;
+        }
+    }
+    
+    for (i = 0; i < FIELD_ROWS; i++)
     {
-        for (j = 0; j < FIELD_COLS / 2; j++)
+        if (!is_row_full(s->field, i))
         {
-            if (!is_row_full(s->field, i))
+            for (j = 0; j < FIELD_COLS; j++);
             {
-                if (s->field[i * FIELD_COLS / 2 + j] != 0)
+                if (s->field[i * FIELD_COLS + j] != 0)
                 {
                     score--;
                 }
             }
-            else
-            {
-                score += FIELD_COLS + 10; /* se la riga é piena, aggiungo punti (FIELD_COLS + un bonus) */
-            }
+        }
+        else
+        {
+            score += FIELD_COLS * 10; /* se la riga é piena, aggiungo punti (FIELD_COLS + un bonus) */
         }
     }
     free_tetrimino(last_used_tet);
