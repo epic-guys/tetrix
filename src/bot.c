@@ -186,10 +186,9 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
         int cols = FIELD_COLS - get_tet_cols(t);
         for (j = 0; j < cols; j++)
         {
-
+            safe_rotate_tetrimino(t, j, 1);
             for (k = 0; k < 4; k++)
             {
-
                 strategy_t *str = strategy_create(get_gamefield(g));
 
                 if (!safe_rotate_tetrimino(t, j, 0))
