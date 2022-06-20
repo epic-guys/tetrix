@@ -1,4 +1,4 @@
-#include <curses.h>
+#include "ncurses.h"
 
 #ifndef _TETRIMINO_H_
 #define _TETRIMINO_H_
