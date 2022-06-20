@@ -114,7 +114,7 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos, 
     strategy->rotation = rotation;
 
     /* calcola il punteggio */
-    strategy->score = calculate_score(strategy->field, tmp, get_tet_type(tetrimino), last_used_tetrimino);
+    strategy->score = calculate_score(strategy, tmp,tetrimino, get_tetrimino(last_used_tetrimino));
 
     /* salva il tipo di tetramino */
     strategy->tet = get_tet_type(tetrimino);
@@ -226,52 +226,48 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
 /**
  * @brief Funzione che calcola la strategia migliore del bot.
  * 
- * @param[in] field il puntatore al campo da gioco con la mossa inserita.
- * @param[in] old il puntatore al campo da gioco con l'ultima mossa confermata.
- * @param[in] tet_type il tipo di tetramino usato.
- * @param[in] last_used_tet il tipo di tetramino usato precedentemente.
+ * TODO
  * 
  * @return Il punteggio della strategia.
  */
-int calculate_score(int *field, int *old, int tet_type, int last_used_tet)
+int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_used_tet)
 {
-    /**
-     * TUTORIAL: come si calcola lo score
-     * chi ha meno blocchi occupati,
-     * righe completate,
-     * se fa finire il gioco per riempimento.
-     */
 
     /* parto da num_blocchi e tolgo punti se la riga non é piena ma ho aggiunto blocchi */
     int score = FIELD_ROWS * FIELD_COLS;
     int i, j;
     /* se fa finire il gioco semplicemente fa schifo come opzione */
-    if (is_field_top_occupied(field))
+    if (is_field_top_occupied(s->field))
     {
         return 0; /* immagina ricevere zero punti LMAO */
     }
 
-    if (last_used_tet == tet_type)
+    if (get_tet_type(last_used_tet) == get_tet_type(tet))
     {
-        score -= 30;
+        score -= 100;
+        if(get_tet_cols(last_used_tet) == get_tet_cols(tet) && get_tet_rows(last_used_tet) == get_tet_rows(tet))
+        {
+            score -= 50;
+        }
     }
 
     for (i = 0; i < FIELD_ROWS / 2; i++)
     {
         for (j = 0; j < FIELD_COLS / 2; j++)
         {
-            if (!is_row_full(field, i))
+            if (!is_row_full(s->field, i))
             {
-                if (field[i * FIELD_COLS / 2 + j] != 0)
+                if (s->field[i * FIELD_COLS / 2 + j] != 0)
                 {
                     score--;
                 }
             }
             else
             {
-                score += FIELD_COLS / 2 + 10; /* se la riga é piena, aggiungo punti (FIELD_COLS + un bonus) */
+                score += FIELD_COLS + 10; /* se la riga é piena, aggiungo punti (FIELD_COLS + un bonus) */
             }
         }
     }
-    return score - compare_fields(field, old);
+    free_tetrimino(last_used_tet);
+    return score - compare_fields(s->field, old)*4;
 }
