@@ -78,7 +78,11 @@ void pvp_new_game()
     nickname2 = form(16, " Nome 2: ");
     refresh();
 
+    #ifndef DEBUG
+
     pvp_instructions(nickname1, nickname2);
+
+    #endif
 
     players[0] = initialize_player(nickname1);
     players[1] = initialize_player(nickname2);
@@ -441,7 +445,12 @@ void pve_new_game()
 
     refresh();
 
+    #ifndef DEBUG
+
     pve_instructions(playerName);
+
+    #endif
+
     diff = select_difficulty();
 
     players[0] = initialize_player(playerName);

@@ -67,7 +67,11 @@ void new_game_single()
     nickname = form(16, " Nome: ");
     refresh();
 
+    #ifndef DEBUG
+
     instructions(nickname);
+
+    #endif
 
     player = initialize_player(nickname);
     /*
