@@ -110,4 +110,10 @@ non faccia la mossa migliore.
 
 #pragma endregion
 
+#pragma region NETWORK
+
+#define PORT 6009
+
+#pragma endregion
+
 #endif
