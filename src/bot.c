@@ -105,7 +105,7 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos, 
     int *tmp = clone_field(strategy->field);
 
     /* aggiunge il tetramino alla board */
-    add_tetrimino_to_field(strategy->field, tetrimino, cur_pos);
+    int drops = add_tetrimino_to_field(strategy->field, tetrimino, cur_pos);
 
     /* salva il cursore */
     strategy->cursor = cur_pos;
@@ -114,7 +114,7 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos, 
     strategy->rotation = rotation;
 
     /* calcola il punteggio */
-    strategy->score = calculate_score(strategy, tmp,tetrimino, get_tetrimino(last_used_tetrimino));
+    strategy->score = calculate_score(strategy, tmp,tetrimino, get_tetrimino(last_used_tetrimino), drops);
 
     /* salva il tipo di tetramino */
     strategy->tet = get_tet_type(tetrimino);
@@ -159,6 +159,8 @@ int set_strategy(strategy_t **best, int size, strategy_t *str)
     }
 }
 
+int last_used_tet = -1;
+
 /**
  * @brief Funzione di bruteforce del bot.
  * @param[in] g Il campo su cui preparare una strategia.
@@ -171,52 +173,50 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
 {
     strategy_t **best_strategies = (strategy_t **)calloc(sizeof(strategy_t *), err);
 
-    int i, j, k, l, last_used_tet = -1;
-    srand(time(NULL));
-    int choosen = rand() % 3;
+    int i, j, k, l;
+    
+    int chosen = rand() % err;
 
     for (i = 0; i < N_tetrimini; i++)
     {
-        if (0 == get_remaining_tetriminos(pool, i))
+        if (get_remaining_tetriminos(pool, i) > 0)
         {
-            continue;
-        }
-
-        tetrimino_t *t = get_tetrimino(i);
-        int cols = FIELD_COLS - get_tet_cols(t);
-        for (j = 0; j < cols; j++)
-        {
-            safe_rotate_tetrimino(t, j, 1);
-            for (k = 0; k < 4; k++)
+            tetrimino_t *t = get_tetrimino(i);
+                                                /*    ↓ qualcuno qui ha sbagliato di uno once again */
+            int cols = FIELD_COLS - get_tet_cols(t) + 1;
+            for (j = 0; j < cols; j++)
             {
-                strategy_t *str = strategy_create(get_gamefield(g));
-
-                if (!safe_rotate_tetrimino(t, j, 0))
+                safe_rotate_tetrimino(t, j, 1);
+                for (k = 0; k < 4; k++)
                 {
-                    strategy_destroy(str);
-                    continue;
-                }
+                    strategy_t *str = strategy_create(get_gamefield(g));
 
-                /*faccio finalmente la strategia*/
-                strategy_update(str, t, j, k, last_used_tet);
+                    if (!safe_rotate_tetrimino(t, j, 0))
+                    {
+                        strategy_destroy(str);
+                        continue;
+                    }
 
-                if (!set_strategy(best_strategies, err, str))
-                {
-                    strategy_destroy(str);
+                    /*faccio finalmente la strategia*/
+                    strategy_update(str, t, j, k, last_used_tet);
+
+                    if (!set_strategy(best_strategies, err, str))
+                    {
+                        strategy_destroy(str);
+                    }
                 }
             }
         }
     }
 
     /*ho le migliori X strategie, ne ritorno una random*/
-    strategy_t *tmp = best_strategies[choosen];
+    strategy_t *tmp = best_strategies[chosen];
     last_used_tet = tmp->tet;
 
     for (i = 0; i < err; ++i)
     {
-        if (i != choosen)
+        if (i != chosen)
             strategy_destroy(best_strategies[i]);
-        best_strategies[i] = NULL;
     }
     free(best_strategies);
     return tmp;
@@ -229,7 +229,7 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
  * 
  * @return Il punteggio della strategia.
  */
-int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_used_tet)
+int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_used_tet, int drops)
 {
 
     /* parto da num_blocchi e tolgo punti se la riga non é piena ma ho aggiunto blocchi */
@@ -237,10 +237,11 @@ int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_u
     int i, j;
     
     /* se fa finire il gioco semplicemente fa schifo come opzione */
-    if (is_field_top_occupied(s->field))
+    if (!drops)
     {
-        return 0; /* immagina ricevere zero punti LMAO */
+        return - 1000; /* immagina ricevere -1000 punti LMAO */
     }
+
 
     if (are_tet_equal(tet,last_used_tet))
     {
@@ -252,7 +253,7 @@ int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_u
             score -= 200;
         }
     }
-    
+
     for (i = 0; i < FIELD_ROWS; i++)
     {
         if (!is_row_full(s->field, i))
@@ -271,6 +272,8 @@ int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_u
         }
     }
     
+
+
     free_tetrimino(last_used_tet);
-    return score;/* + blank_cells(s->field, FIELD_ROWS, FIELD_COLS) * 10; */
+    return - blank_cells(s->field, FIELD_ROWS, FIELD_COLS) * 100;
 }

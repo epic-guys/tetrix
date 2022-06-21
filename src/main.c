@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <ncurses.h>
 
 #include "../include/singleplayer.h"
@@ -229,6 +231,8 @@ int main()
         printf("ERRORE! \nIl programma richiede almeno 125 colonne e 30 righe\n");
         return 69;
     }
+    /*Inizializzo il seed per i numeri random */
+    srand(time(NULL));
     print_credits();
     print_logo();
     main_menu();

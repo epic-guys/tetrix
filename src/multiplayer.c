@@ -116,7 +116,6 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
     int turn;
 
     /*Il giocatore che inizia é deciso random*/
-    srand(time(NULL));
     turn = rand() % 2;
 
     while (winner < 0)
@@ -471,17 +470,17 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
     tetrimino_t *selected_t;
     unsigned int start_time = time(NULL), seed = time(0);
     int *moves = (int *)malloc(sizeof(int) * 2);
+    int cpu_first_move=0;
     moves[0] = 0;
     moves[1] = 0;
     int turn;
 
     /*Il giocatore che inizia é deciso random*/
-    srand(time(NULL));
     turn = rand() % 2;
 
     while (winner < 0)
     {
-        int dropping = 1, cursor, deletedRows = 0, added = 1,cpu_first_move=0;
+        int dropping = 1, cursor, deletedRows = 0, added = 1;
         int *currentField;
         mvprintw(5, 0, "                                ");
         mvprintw(5, 0, "Turno di: %s", get_player_nick(players[turn]));
@@ -511,7 +510,8 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
                         free_tetrimino(tet);
                     t = rand()%N_tetrimini;
                     tet = get_tetrimino(t);
-                    c = rand()%FIELD_COLS - get_tet_cols(tet);
+                                                            /*    ↓ altro errore di 1 */
+                    c = rand()% (FIELD_COLS - get_tet_cols(tet) + 1);
                     for(r=0;r<rand()%4;r++){
                         safe_rotate_tetrimino(tet,c,0);
                     }
