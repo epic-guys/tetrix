@@ -103,6 +103,7 @@ int get_strategy_tet_rotation(strategy_t *s)
 void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos, int rotation, int last_used_tetrimino)
 {
     int *tmp = clone_field(strategy->field);
+    tetrimino_t *ttemp = get_tetrimino(last_used_tetrimino);
 
     /* aggiunge il tetramino alla board */
     int drops = add_tetrimino_to_field(strategy->field, tetrimino, cur_pos);
@@ -114,13 +115,14 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos, 
     strategy->rotation = rotation;
 
     /* calcola il punteggio */
-    strategy->score = calculate_score(strategy, tmp,tetrimino, get_tetrimino(last_used_tetrimino), drops);
+    strategy->score = calculate_score(strategy, tmp,tetrimino,ttemp , drops);
 
     /* salva il tipo di tetramino */
     strategy->tet = get_tet_type(tetrimino);
 
-    /* distrugge la board temporanea copiata dalla vecchia */
+    /* distrugge la board temporanea copiata dalla vecchia e il tetramino*/
     free(tmp);
+    free_tetrimino(ttemp);
 }
 
 /**
@@ -177,10 +179,10 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
     
     int chosen = rand() % err;
 
-    #ifdef DEBUG
-    FILE* fptr;
-    fptr = fopen("points.txt", "w");
-    #endif
+#ifdef DEBUG
+FILE* fptr;
+fptr = fopen("points.txt", "w");
+#endif
 
     for (i = 0; i < N_tetrimini; i++)
     {
@@ -205,21 +207,19 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
                     /*faccio finalmente la strategia*/
                     strategy_update(str, t, j, k, last_used_tet);
 
-                    #ifdef DEBUG
-
-                    fprintf(fptr, "Score: %d\n", str->score);
-                    /* Chiedo venia, non è ANSI C */
-                    int a, b;
-                    for (a = 0; a < FIELD_ROWS; ++a)
-                    {
-                        for (b = 0; b < FIELD_COLS; ++b)
-                        {
-                            fprintf(fptr, "%d ", str->field[a * FIELD_COLS + b]);
-                        }
-                        fprintf(fptr, "\n");
-                    }
-
-                    #endif
+#ifdef DEBUG
+fprintf(fptr, "Score: %d\n", str->score);
+/* Chiedo venia, non è ANSI C */
+int a, b;
+for (a = 0; a < FIELD_ROWS; ++a)
+{
+    for (b = 0; b < FIELD_COLS; ++b)
+    {
+        fprintf(fptr, "%d ", str->field[a * FIELD_COLS + b]);
+    }
+    fprintf(fptr, "\n");
+}
+#endif
 
                     if (!set_strategy(best_strategies, err, str))
                     {
@@ -227,6 +227,7 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
                     }
                 }
             }
+            free_tetrimino(t);
         }
     }
 
@@ -241,9 +242,9 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
     }
     free(best_strategies);
 
-    #ifdef DEBUG
-    fclose(fptr);
-    #endif
+#ifdef DEBUG
+fclose(fptr);
+#endif
 
     return tmp;
 }
@@ -298,8 +299,5 @@ int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_u
         }
     }
     
-
-
-    free_tetrimino(last_used_tet);
     return - blank_cells(s->field, FIELD_ROWS, FIELD_COLS) * 100;
 }
