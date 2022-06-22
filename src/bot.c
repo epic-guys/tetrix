@@ -35,7 +35,7 @@ typedef struct Strategy
  * @brief funzione che istanzia la strategia DEEP-copiando giá la board.
  *
  * @param[in] field il puntatore al campo da gioco del bot
- * 
+ *
  * @return puntatore alla strategia
  */
 strategy_t *strategy_create(int *field)
@@ -48,7 +48,7 @@ strategy_t *strategy_create(int *field)
 
 /**
  * @brief distrugge la strategia puntata dal parametro.
- * 
+ *
  * @param[in] strategy il puntatore alla strategia.
  */
 void strategy_destroy(strategy_t *strategy)
@@ -59,7 +59,7 @@ void strategy_destroy(strategy_t *strategy)
 
 /**
  * @brief funzione che ritorna il cursore della strategia passata come parametro.
- * 
+ *
  * @param[in] s il puntatore alla strategia.
  * @return il cursore sul campo.
  */
@@ -70,7 +70,7 @@ int get_strategy_cursor(strategy_t *s)
 
 /**
  * @brief funzione che ritorna il tipo di tetramino usato dalla strategia passata come parametro.
- * 
+ *
  * @param[in] s il puntatore alla strategia.
  * @return il tipo di tetramino usato dalla strategia.
  */
@@ -81,7 +81,7 @@ int get_strategy_tet_type(strategy_t *s)
 
 /**
  * @brief funzione che ritorna la rotazione del tetramino usato della strategia passata come parametro.
- * 
+ *
  * @param[in] s il puntatore alla strategia.
  * @return la rotazione del tetramino.
  */
@@ -91,17 +91,19 @@ int get_strategy_tet_rotation(strategy_t *s)
 }
 
 /**
- * @brief popola tutti i campi della struct strategia con i valori passati come parametri 
+ * @brief popola tutti i campi della struct strategia con i valori passati come parametri
  * e calcola quelli assenti come lo score.
- * 
+ *
  * @param[in] strategy il puntatore alla strategia.
  * @param[in] tetrimino it puntatoro al tetramino usato.
  * @param[in] cur_pos la posizione del cursore.
  * @param[in] rotation la rotazione del tetramino.
  * @param[in] last_used_tetrimino il tetramino usato precedentemente.
+ * @param[in] last_cursor il cursore usato precedentemente.
  */
-void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos, int rotation, int last_used_tetrimino)
+void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos, int rotation, int last_used_tetrimino, int last_cursor)
 {
+
     int *tmp = clone_field(strategy->field);
     tetrimino_t *ttemp = get_tetrimino(last_used_tetrimino);
 
@@ -112,10 +114,11 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos, 
     strategy->cursor = cur_pos;
 
     /* salva la rotazione del tetramino */
-    strategy->rotation = rotation;
+    if (rotation != 4)
+        strategy->rotation = rotation;
 
     /* calcola il punteggio */
-    strategy->score = calculate_score(strategy, tmp,tetrimino,ttemp , drops);
+    strategy->score = calculate_score(strategy, tmp, tetrimino, ttemp, drops, last_cursor);
 
     /* salva il tipo di tetramino */
     strategy->tet = get_tet_type(tetrimino);
@@ -134,7 +137,7 @@ void strategy_update(strategy_t *strategy, tetrimino_t *tetrimino, int cur_pos, 
  * @param[in] best L'array di strategie.
  * @param[in] size La dimensione dell'array.
  * @param[in] str La strategia da inserire.
- * 
+ *
  * @return 1 se ha inserito la strategia nell'array, 0 altrimenti.
  */
 int set_strategy(strategy_t **best, int size, strategy_t *str)
@@ -161,28 +164,25 @@ int set_strategy(strategy_t **best, int size, strategy_t *str)
     }
 }
 
-int last_used_tet = -1;
-
 /**
  * @brief Funzione di bruteforce del bot.
  * @param[in] g Il campo su cui preparare una strategia.
  * @param[in] pool La pool di tetramini, per far sì che possa scegliere un tetramino rimanente.
  * @param[in] err La variabile che indica quante strategie il bot deve prendere in considerazione.
- * 
+ *
  * @return La strategia che il bot considera migliore.
  */
 strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
 {
+
+    int last_used_tet = -1;
+    int last_cur = -1;
+
     strategy_t **best_strategies = (strategy_t **)calloc(sizeof(strategy_t *), err);
 
     int i, j, k, l, m = 0;
-    
-    int chosen = rand() % err;
 
-#ifdef DEBUG
-FILE* fptr;
-fptr = fopen("points.txt", "w");
-#endif
+    int chosen = rand() % err;
 
     for (i = 0; i < N_tetrimini; i++)
     {
@@ -190,9 +190,10 @@ fptr = fopen("points.txt", "w");
         {
             tetrimino_t *t = get_tetrimino(i);
 
+            linear_rotate(t, 1);
             for (j = 0; j < FIELD_COLS; j++)
             {
-                linear_rotate(t, 1);
+
                 for (k = 0; k < 4; k++)
                 {
                     strategy_t *str = strategy_create(get_gamefield(g));
@@ -204,23 +205,9 @@ fptr = fopen("points.txt", "w");
                         continue;
                     }
                     ++m;
+
                     /*faccio finalmente la strategia*/
-                    strategy_update(str, t, j, k, last_used_tet);
-
-#ifdef DEBUG
-fprintf(fptr, "Score: %d\n", str->score);
-/* Chiedo venia, non è ANSI C */
-int a, b;
-for (a = 0; a < FIELD_ROWS; ++a)
-{
-    for (b = 0; b < FIELD_COLS; ++b)
-    {
-        fprintf(fptr, "%d ", str->field[a * FIELD_COLS + b]);
-    }
-    fprintf(fptr, "\n");
-}
-#endif
-
+                    strategy_update(str, t, j, k, last_used_tet, last_cur);
                     if (!set_strategy(best_strategies, err, str))
                     {
                         strategy_destroy(str);
@@ -233,7 +220,9 @@ for (a = 0; a < FIELD_ROWS; ++a)
 
     /*ho le migliori X strategie, ne ritorno una random*/
     strategy_t *tmp = best_strategies[chosen];
+
     last_used_tet = tmp->tet;
+    last_cur = tmp->cursor;
 
     for (i = 0; i < err; ++i)
     {
@@ -242,50 +231,82 @@ for (a = 0; a < FIELD_ROWS; ++a)
     }
     free(best_strategies);
 
-#ifdef DEBUG
-fclose(fptr);
-#endif
-
     return tmp;
 }
 
 /**
  * @brief Funzione che calcola la strategia migliore del bot.
- * 
- * TODO
- * 
+ *
+ * @param[in] s il puntatore alla strategia
+ * @param[in] old il puntatore al campo da gioco precendente alla mossa
+ * @param[in] tet il puntatore al tetramino usato dalla mossa
+ * @param[in] last_used_tet il puntatore al tetramino usato dalla mossa precedente
+ * @param[in] last_cursor il cursore usato dalla mossa precedente
+ * @param[in] drops flag per sapere se é possibile effettuare il drop (se quella mossa fa finire la partita)
+ *
  * @return Il punteggio della strategia.
  */
-int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_used_tet, int drops)
+int calculate_score(strategy_t *s, int *old, tetrimino_t *tet, tetrimino_t *last_used_tet, int last_cursor, int drops)
 {
 
     /* parto da num_blocchi e tolgo punti se la riga non é piena ma ho aggiunto blocchi */
     int score = FIELD_ROWS * FIELD_COLS;
-    int i, j;
-    
+    int i, j, cur_diff, min = 0;
+
     /* se fa finire il gioco semplicemente fa schifo come opzione */
     if (!drops)
     {
-        return - 1000; /* immagina ricevere -1000 punti LMAO */
+        return -100000; /* immagina ricevere -1000 punti LMAO */
     }
 
-
-    if (are_tet_equal(tet,last_used_tet))
+    cur_diff = last_cursor - s->cursor;
+    if (cur_diff < 0)
     {
-        score -= 150;
+        cur_diff = cur_diff * -1;
     }
 
-    for(i=0;i<FIELD_COLS;i++){
-        if(get_first_free_row_in_field(old,i) != s->cursor){
-            score -= 200;
+    if (last_cursor == s->cursor)
+    {
+        score -= 1000;
+    }
+    else if (cur_diff < FIELD_COLS / 4)
+    {
+        score -= 800;
+    }
+
+    if (get_tet_type(tet) == get_tet_type(last_used_tet))
+    {
+        score -= 650;
+    }
+
+    if (are_tet_equal(tet, last_used_tet))
+    {
+        score -= 850;
+    }
+
+    for (i = 0; i < FIELD_COLS; i++)
+    {
+        int fr = get_first_free_row_in_field(old, i);
+        if (fr > min)
+        {
+            min = fr;
         }
+    }
+    if (s->cursor == min)
+    {
+        score += 500;
+    }
+    else
+    {
+        score -= 1000;
     }
 
     for (i = 0; i < FIELD_ROWS; i++)
     {
         if (!is_row_full(s->field, i))
         {
-            for (j = 0; j < FIELD_COLS; j++);
+            for (j = 0; j < FIELD_COLS; j++)
+                ;
             {
                 if (s->field[i * FIELD_COLS + j] != 0)
                 {
@@ -298,6 +319,6 @@ int calculate_score(strategy_t *s, int *old,tetrimino_t* tet,tetrimino_t* last_u
             score += FIELD_COLS * 10; /* se la riga é piena, aggiungo punti (FIELD_COLS + un bonus) */
         }
     }
-    
-    return - blank_cells(s->field, FIELD_ROWS, FIELD_COLS) * 100;
+
+    return score - blank_cells(s->field, FIELD_ROWS, FIELD_COLS) * 100;
 }
