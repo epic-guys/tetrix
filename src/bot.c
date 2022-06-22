@@ -148,7 +148,7 @@ int set_strategy(strategy_t **best, int size, strategy_t *str)
     {
         if (set_strategy(best + 1, size - 1, str))
             return 1;
-        else if (best[0]->score < str->score)
+        else if (best[0]->score <= str->score)
         {
             strategy_destroy(best[0]);
             best[0] = str;
@@ -173,32 +173,54 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
 {
     strategy_t **best_strategies = (strategy_t **)calloc(sizeof(strategy_t *), err);
 
-    int i, j, k, l;
+    int i, j, k, l, m = 0;
     
     int chosen = rand() % err;
+
+    #ifdef DEBUG
+    FILE* fptr;
+    #endif
+
+    fptr = fopen("points.txt", "w");
 
     for (i = 0; i < N_tetrimini; i++)
     {
         if (get_remaining_tetriminos(pool, i) > 0)
         {
             tetrimino_t *t = get_tetrimino(i);
-                                                /*    ↓ qualcuno qui ha sbagliato di uno once again */
-            int cols = FIELD_COLS - get_tet_cols(t) + 1;
-            for (j = 0; j < cols; j++)
+
+            for (j = 0; j < FIELD_COLS; j++)
             {
-                safe_rotate_tetrimino(t, j, 1);
+                linear_rotate(t, 1);
                 for (k = 0; k < 4; k++)
                 {
                     strategy_t *str = strategy_create(get_gamefield(g));
 
                     if (!safe_rotate_tetrimino(t, j, 0))
                     {
+                        linear_rotate(t, 0);
                         strategy_destroy(str);
                         continue;
                     }
-
+                    ++m;
                     /*faccio finalmente la strategia*/
                     strategy_update(str, t, j, k, last_used_tet);
+
+                    #ifdef DEBUG
+
+                    fprintf(fptr, "Score: %d\n", str->score);
+                    /* Chiedo venia, non è ANSI C */
+                    int a, b;
+                    for (a = 0; a < FIELD_ROWS; ++a)
+                    {
+                        for (b = 0; b < FIELD_COLS; ++b)
+                        {
+                            fprintf(fptr, "%d ", str->field[a * FIELD_COLS + b]);
+                        }
+                        fprintf(fptr, "\n");
+                    }
+
+                    #endif
 
                     if (!set_strategy(best_strategies, err, str))
                     {
@@ -219,6 +241,11 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
             strategy_destroy(best_strategies[i]);
     }
     free(best_strategies);
+
+    #ifdef DEBUG
+    fclose(fptr);
+    #endif
+
     return tmp;
 }
 

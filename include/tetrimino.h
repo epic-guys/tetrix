@@ -66,6 +66,8 @@ void print_menu_style(int i, tetrimini_pool_t *pool);
 
 int select_tetrimino(tetrimini_pool_t *pool);
 
+void linear_rotate(tetrimino_t *t, int dir);
+
 int safe_rotate_tetrimino(tetrimino_t *t, int cur_pos, int dir);
 
 void refresh_pool(tetrimini_pool_t *p);
