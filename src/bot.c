@@ -179,9 +179,8 @@ strategy_t *choose_strategy(gamefield_t *g, tetrimini_pool_t *pool, int err)
 
     #ifdef DEBUG
     FILE* fptr;
-    #endif
-
     fptr = fopen("points.txt", "w");
+    #endif
 
     for (i = 0; i < N_tetrimini; i++)
     {
