@@ -106,7 +106,7 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos)
     int *values = get_tet_values(t);
     int rows = get_tet_rows(t);
     int cols = get_tet_cols(t);
-    int color = swap_color(get_tet_color(t));
+    int color = get_tet_color(t);
 
     /*Rimuove l'overlay precente*/
     refresh_gamefield(g);
@@ -125,8 +125,9 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos)
             val = values[(cols * i) + j];
             if (val)
             {
-                wattron(g->win, COLOR_PAIR(val));
+                wattron(g->win, COLOR_PAIR(color));
                 mvwprintw(g->win, TOP_ROWS - rows + i, (cur_pos + j) * 2 + 1, "[]");
+                wattroff(g->win, COLOR_PAIR(color));
             }
         }
     }
