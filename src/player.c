@@ -16,7 +16,8 @@ typedef struct Player
  * passato e con cursore e punti a 0.
  *
  * @param[in] nick Il nome del giocatore.
- * @param[out] p Lo struct giocatore istanziato.
+ * 
+ * @return p Lo struct giocatore istanziato.
  */
 player_t *initialize_player(char *nick)
 {
@@ -59,7 +60,8 @@ void refresh_pointboard(pointboard_t *board);
  * @param[in] x L'asse x in cui posizionare la point board.
  * @param[in] player_1 Il giocatore 1.
  * @param[in] player_2 Il giocatore 2. In caso di giocatore singolo deve essere NULL.
- * @param[out] pointboard_t La point board inizializzata.
+ * 
+ * @return pointboard_t La point board inizializzata.
  */
 pointboard_t *initialize_pointboard(int y, int x, player_t *player_1, player_t *player_2)
 {
@@ -117,7 +119,8 @@ void refresh_pointboard(pointboard_t *board)
  * @brief metodo getter per ricevere la finestra ncurses della finestra di punti.
  *
  * @param[in] p puntatore alla struct della pointboard.
- * @param[out] win la finestra di ncurses del campo da gioco.
+ * 
+ * @return win la finestra di ncurses del campo da gioco.
  */
 WINDOW *get_pointboard_win(pointboard_t *p)
 {
@@ -141,7 +144,8 @@ void player_add_points(player_t *p, pointboard_t *board, int points)
  * @brief ritorna il nickname di un player.
  *
  * @param[in] p Struct del giocatore.
- * @param[out] nickname stringa con il nickname del giocatore.
+ * 
+ * @return nickname stringa con il nickname del giocatore.
  */
 char *get_player_nick(player_t *p)
 {
@@ -152,7 +156,8 @@ char *get_player_nick(player_t *p)
  * @brief ritorna i punti di un player.
  *
  * @param[in] p Struct del giocatore.
- * @param[out] points punti del giocatore.
+ * 
+ * @return points punti del giocatore.
  */
 unsigned int get_player_points(player_t *p)
 {
@@ -163,7 +168,8 @@ unsigned int get_player_points(player_t *p)
  * @brief Restituisce il numero di punti corrispondenti
  * alle righe riempite.
  *
- * @param deletedRows Le righe riempite.
+ * @param[in] deletedRows Le righe riempite.
+ * 
  * @return I punti.
  */
 int get_points(int deletedRows)

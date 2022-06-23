@@ -73,3 +73,5 @@ _deps
 .vs/
 .vscode/
 .idea/
+
+points.txt

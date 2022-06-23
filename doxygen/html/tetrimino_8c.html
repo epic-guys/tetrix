@@ -1,0 +1,942 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tetrix: Riferimenti per il file src/tetrimino.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Tetrix
+   &#160;<span id="projectnumber">1.0.0</span>
+   </div>
+   <div id="projectbrief">Tetrix by Davide Antonio Amodio, Luca Boffo, Alvise Favero</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generato da Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Cerca','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Cerca');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Composti</a> &#124;
+<a href="#typedef-members">Ridefinizioni di tipo (typedef)</a> &#124;
+<a href="#func-members">Funzioni</a>  </div>
+  <div class="headertitle">
+<div class="title">Riferimenti per il file tetrimino.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;ncurses.h&gt;</code><br />
+<code>#include &lt;malloc.h&gt;</code><br />
+<code>#include &quot;../include/tetrimino.h&quot;</code><br />
+<code>#include &quot;../include/gamefield.h&quot;</code><br />
+<code>#include &quot;../include/constants.h&quot;</code><br />
+<code>#include &quot;../include/functions.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Grafo delle dipendenze di inclusione per tetrimino.c:</div>
+<div class="dyncontent">
+<div class="center"><img src="tetrimino_8c__incl.png" border="0" usemap="#asrc_2tetrimino_8c" alt=""/></div>
+<map name="asrc_2tetrimino_8c" id="asrc_2tetrimino_8c">
+<area shape="rect" title=" " alt="" coords="329,5,445,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,89,107"/>
+<area shape="rect" title=" " alt="" coords="113,80,192,107"/>
+<area shape="rect" title=" " alt="" coords="217,80,374,107"/>
+<area shape="rect" title=" " alt="" coords="398,80,561,107"/>
+<area shape="rect" title=" " alt="" coords="585,80,745,107"/>
+<area shape="rect" title=" " alt="" coords="769,80,926,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Composti</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTetrimino.html">Tetrimino</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Non è un typo, in inglese si scrive così.  <a href="structTetrimino.html#details">Continua...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTetriminiPool.html">TetriminiPool</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La struct della finestra con tutti i pezzi dei tetramini rimanenti.  <a href="structTetriminiPool.html#details">Continua...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Ridefinizioni di tipo (typedef)</h2></td></tr>
+<tr class="memitem:ade3bae78a1873d82e116422adcf445f9"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structTetrimino.html">Tetrimino</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a></td></tr>
+<tr class="memdesc:ade3bae78a1873d82e116422adcf445f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Non è un typo, in inglese si scrive così.  <a href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">Continua...</a><br /></td></tr>
+<tr class="separator:ade3bae78a1873d82e116422adcf445f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f26275d80ade431dd5960eeb81dbf34"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structTetriminiPool.html">TetriminiPool</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a></td></tr>
+<tr class="memdesc:a7f26275d80ade431dd5960eeb81dbf34"><td class="mdescLeft">&#160;</td><td class="mdescRight">La struct della finestra con tutti i pezzi dei tetramini rimanenti.  <a href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">Continua...</a><br /></td></tr>
+<tr class="separator:a7f26275d80ade431dd5960eeb81dbf34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Funzioni</h2></td></tr>
+<tr class="memitem:aca18ec1086e88441dc0fe05bf9cc6530"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#aca18ec1086e88441dc0fe05bf9cc6530">get_tetrimino</a> (int type)</td></tr>
+<tr class="memdesc:aca18ec1086e88441dc0fe05bf9cc6530"><td class="mdescLeft">&#160;</td><td class="mdescRight">Genera il tetramino dato il suo enum.  <a href="tetrimino_8c.html#aca18ec1086e88441dc0fe05bf9cc6530">Continua...</a><br /></td></tr>
+<tr class="separator:aca18ec1086e88441dc0fe05bf9cc6530"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3311448078a900a696614a1345455730"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a3311448078a900a696614a1345455730">free_tetrimino</a> (<a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t)</td></tr>
+<tr class="memdesc:a3311448078a900a696614a1345455730"><td class="mdescLeft">&#160;</td><td class="mdescRight">Libera la memoria allocata dal tetrimino.  <a href="tetrimino_8c.html#a3311448078a900a696614a1345455730">Continua...</a><br /></td></tr>
+<tr class="separator:a3311448078a900a696614a1345455730"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67a87e51f6d8f929277a533905c12b3c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a67a87e51f6d8f929277a533905c12b3c">print_tetrimino</a> (WINDOW *w, <a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t, int y, int x)</td></tr>
+<tr class="memdesc:a67a87e51f6d8f929277a533905c12b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">funzione che printa i tetramini, ATTENZIONE: SI PARTE A PRINTARE DA X0 Y0 DEL TETRAMINO.  <a href="tetrimino_8c.html#a67a87e51f6d8f929277a533905c12b3c">Continua...</a><br /></td></tr>
+<tr class="separator:a67a87e51f6d8f929277a533905c12b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9768773d2f4a879dfbfc4b557e42e16"><td class="memItemLeft" align="right" valign="top"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#aa9768773d2f4a879dfbfc4b557e42e16">initialize_pool</a> (int y, int x)</td></tr>
+<tr class="memdesc:aa9768773d2f4a879dfbfc4b557e42e16"><td class="mdescLeft">&#160;</td><td class="mdescRight">funzione per inizializzare la pool dove sono presenti tutti i tetramini rimasti.  <a href="tetrimino_8c.html#aa9768773d2f4a879dfbfc4b557e42e16">Continua...</a><br /></td></tr>
+<tr class="separator:aa9768773d2f4a879dfbfc4b557e42e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18a9358b2ccf347d46e375f3e92147c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a18a9358b2ccf347d46e375f3e92147c5">free_pool</a> (<a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *p)</td></tr>
+<tr class="memdesc:a18a9358b2ccf347d46e375f3e92147c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">free della pool di tetramini.  <a href="tetrimino_8c.html#a18a9358b2ccf347d46e375f3e92147c5">Continua...</a><br /></td></tr>
+<tr class="separator:a18a9358b2ccf347d46e375f3e92147c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65a81faa216d0c7f95e110656649811c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a65a81faa216d0c7f95e110656649811c">print_menu_style</a> (int i, <a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *pool)</td></tr>
+<tr class="memdesc:a65a81faa216d0c7f95e110656649811c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Funzione STUB che stampa i tetramini in modalitá "menu".  <a href="tetrimino_8c.html#a65a81faa216d0c7f95e110656649811c">Continua...</a><br /></td></tr>
+<tr class="separator:a65a81faa216d0c7f95e110656649811c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ad34dc6c6dc1873d3bcd400bfe59329"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a4ad34dc6c6dc1873d3bcd400bfe59329">select_tetrimino</a> (<a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *pool)</td></tr>
+<tr class="memdesc:a4ad34dc6c6dc1873d3bcd400bfe59329"><td class="mdescLeft">&#160;</td><td class="mdescRight">permette di accedere al metodo di selezione dei tetramini.  <a href="tetrimino_8c.html#a4ad34dc6c6dc1873d3bcd400bfe59329">Continua...</a><br /></td></tr>
+<tr class="separator:a4ad34dc6c6dc1873d3bcd400bfe59329"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6768a014d0e3a91bbe43db89acb56b17"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a6768a014d0e3a91bbe43db89acb56b17">linear_rotate</a> (<a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t, int dir)</td></tr>
+<tr class="memdesc:a6768a014d0e3a91bbe43db89acb56b17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Semplice algoritmo per ruotare un tetramino, sviluppato attraverso l'algebra lineare. Le posizioni dei blocchi vengono trattate come dei vettori e l'algoritmo è una applicazione lineare. Lo spazio vettoriale è <img class="formulaInl" alt="$ V= \mathbb{R}^2 $" src="form_0.png"/> con base.  <a href="tetrimino_8c.html#a6768a014d0e3a91bbe43db89acb56b17">Continua...</a><br /></td></tr>
+<tr class="separator:a6768a014d0e3a91bbe43db89acb56b17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d6ea235792204ccc42b18c10ed0328e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a4d6ea235792204ccc42b18c10ed0328e">safe_rotate_tetrimino</a> (<a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t, int cur_pos, int dir)</td></tr>
+<tr class="memdesc:a4d6ea235792204ccc42b18c10ed0328e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stub di rotateLinear che verifica la fattibilitá della rotazione altrimenti non ruota.  <a href="tetrimino_8c.html#a4d6ea235792204ccc42b18c10ed0328e">Continua...</a><br /></td></tr>
+<tr class="separator:a4d6ea235792204ccc42b18c10ed0328e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80b535d33369ab13f4fae4d793df2749"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a80b535d33369ab13f4fae4d793df2749">refresh_pool</a> (<a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *p)</td></tr>
+<tr class="memdesc:a80b535d33369ab13f4fae4d793df2749"><td class="mdescLeft">&#160;</td><td class="mdescRight">refresh della pool.  <a href="tetrimino_8c.html#a80b535d33369ab13f4fae4d793df2749">Continua...</a><br /></td></tr>
+<tr class="separator:a80b535d33369ab13f4fae4d793df2749"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a292112df25f9bb748a1c339713a11d6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a292112df25f9bb748a1c339713a11d6c">remove_tetrimino_from_pool</a> (int i, <a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *p)</td></tr>
+<tr class="memdesc:a292112df25f9bb748a1c339713a11d6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">rimuove un'unitá di un tetramino dalla pool.  <a href="tetrimino_8c.html#a292112df25f9bb748a1c339713a11d6c">Continua...</a><br /></td></tr>
+<tr class="separator:a292112df25f9bb748a1c339713a11d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae62d6f2c6861dc72bf09d0f4b16646b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#ae62d6f2c6861dc72bf09d0f4b16646b0">add_tetrimino_from_pool</a> (int i, <a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *p)</td></tr>
+<tr class="memdesc:ae62d6f2c6861dc72bf09d0f4b16646b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">aggiunge un'unitá di un tetramino dalla pool.  <a href="tetrimino_8c.html#ae62d6f2c6861dc72bf09d0f4b16646b0">Continua...</a><br /></td></tr>
+<tr class="separator:ae62d6f2c6861dc72bf09d0f4b16646b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d600579ba00a08b54ac144f23c3d700"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a2d600579ba00a08b54ac144f23c3d700">no_tetriminos_left</a> (<a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *pool)</td></tr>
+<tr class="memdesc:a2d600579ba00a08b54ac144f23c3d700"><td class="mdescLeft">&#160;</td><td class="mdescRight">controlla se ci sono tetramini rimanenti.  <a href="tetrimino_8c.html#a2d600579ba00a08b54ac144f23c3d700">Continua...</a><br /></td></tr>
+<tr class="separator:a2d600579ba00a08b54ac144f23c3d700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae42d71f193c4a5e08130b2ba1c6601c7"><td class="memItemLeft" align="right" valign="top">WINDOW *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#ae42d71f193c4a5e08130b2ba1c6601c7">get_pool_win</a> (<a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *t)</td></tr>
+<tr class="memdesc:ae42d71f193c4a5e08130b2ba1c6601c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">restituisce la finestra della pool di tetramini.  <a href="tetrimino_8c.html#ae42d71f193c4a5e08130b2ba1c6601c7">Continua...</a><br /></td></tr>
+<tr class="separator:ae42d71f193c4a5e08130b2ba1c6601c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a20ed2c57b693528963d07d2cb20f0b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a9a20ed2c57b693528963d07d2cb20f0b">get_remaining_tetriminos</a> (<a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *pool, tetrimino_type_t type)</td></tr>
+<tr class="memdesc:a9a20ed2c57b693528963d07d2cb20f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restituisce il numero di tetramini rimasti per il tipo passato per parametro.  <a href="tetrimino_8c.html#a9a20ed2c57b693528963d07d2cb20f0b">Continua...</a><br /></td></tr>
+<tr class="separator:a9a20ed2c57b693528963d07d2cb20f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a9cee155fb528f61673a57e3909c3c0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a5a9cee155fb528f61673a57e3909c3c0">get_tet_rows</a> (<a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t)</td></tr>
+<tr class="memdesc:a5a9cee155fb528f61673a57e3909c3c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">restituisce il numero di righe di un tetramino.  <a href="tetrimino_8c.html#a5a9cee155fb528f61673a57e3909c3c0">Continua...</a><br /></td></tr>
+<tr class="separator:a5a9cee155fb528f61673a57e3909c3c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af051201343001a1176e783bcc191dc73"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#af051201343001a1176e783bcc191dc73">get_tet_cols</a> (<a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t)</td></tr>
+<tr class="memdesc:af051201343001a1176e783bcc191dc73"><td class="mdescLeft">&#160;</td><td class="mdescRight">restituisce il numero di colonne di un tetramino.  <a href="tetrimino_8c.html#af051201343001a1176e783bcc191dc73">Continua...</a><br /></td></tr>
+<tr class="separator:af051201343001a1176e783bcc191dc73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa436fdf416f645272a14b86168df57de"><td class="memItemLeft" align="right" valign="top">int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#aa436fdf416f645272a14b86168df57de">get_tet_values</a> (<a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t)</td></tr>
+<tr class="memdesc:aa436fdf416f645272a14b86168df57de"><td class="mdescLeft">&#160;</td><td class="mdescRight">restituisce l'array di valori di un tetramino.  <a href="tetrimino_8c.html#aa436fdf416f645272a14b86168df57de">Continua...</a><br /></td></tr>
+<tr class="separator:aa436fdf416f645272a14b86168df57de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa714506df9c70df9941dc825dcd43292"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#aa714506df9c70df9941dc825dcd43292">get_tet_type</a> (<a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t)</td></tr>
+<tr class="memdesc:aa714506df9c70df9941dc825dcd43292"><td class="mdescLeft">&#160;</td><td class="mdescRight">restituisce il tipo di tetramino.  <a href="tetrimino_8c.html#aa714506df9c70df9941dc825dcd43292">Continua...</a><br /></td></tr>
+<tr class="separator:aa714506df9c70df9941dc825dcd43292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11a3762dd4fda202339da0db5504b6f8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#a11a3762dd4fda202339da0db5504b6f8">get_tet_color</a> (<a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t)</td></tr>
+<tr class="memdesc:a11a3762dd4fda202339da0db5504b6f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">restituisce il colore del tetramino.  <a href="tetrimino_8c.html#a11a3762dd4fda202339da0db5504b6f8">Continua...</a><br /></td></tr>
+<tr class="separator:a11a3762dd4fda202339da0db5504b6f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa97c94bc92173b8007be838c012a98d7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#aa97c94bc92173b8007be838c012a98d7">is_safe_to_place_tet</a> (<a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t)</td></tr>
+<tr class="memdesc:aa97c94bc92173b8007be838c012a98d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">funzione stub che ci permette di capire se il tetramino che vogliamo piazzare ha celle vuote sotto. ES: il tet T_T piazzato a testa in giú blocca automaticamente almeno due celle.  <a href="tetrimino_8c.html#aa97c94bc92173b8007be838c012a98d7">Continua...</a><br /></td></tr>
+<tr class="separator:aa97c94bc92173b8007be838c012a98d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5cf6efd450c7b69fbb06f6a20a6f779"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="tetrimino_8c.html#ac5cf6efd450c7b69fbb06f6a20a6f779">are_tet_equal</a> (<a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *f, <a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *s)</td></tr>
+<tr class="memdesc:ac5cf6efd450c7b69fbb06f6a20a6f779"><td class="mdescLeft">&#160;</td><td class="mdescRight">confronta pezzo per pezzo due tetramini per stabilire se sono uguali.  <a href="tetrimino_8c.html#ac5cf6efd450c7b69fbb06f6a20a6f779">Continua...</a><br /></td></tr>
+<tr class="separator:ac5cf6efd450c7b69fbb06f6a20a6f779"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentazione delle ridefinizioni di tipo (typedef)</h2>
+<a id="a7f26275d80ade431dd5960eeb81dbf34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f26275d80ade431dd5960eeb81dbf34">&#9670;&nbsp;</a></span>tetrimini_pool_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structTetriminiPool.html">TetriminiPool</a> <a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>La struct della finestra con tutti i pezzi dei tetramini rimanenti. </p>
+
+</div>
+</div>
+<a id="ade3bae78a1873d82e116422adcf445f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade3bae78a1873d82e116422adcf445f9">&#9670;&nbsp;</a></span>tetrimino_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structTetrimino.html">Tetrimino</a> <a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Non è un typo, in inglese si scrive così. </p>
+<p>L'idea è di salvare ogni tetramino in una matrice e salvarci affianco la larghezza, l'altezza e il tipo, in questo modo diventa più facile gestire la caduta dall'alto, i bordi del campo e la rotazione.</p>
+<p>Inoltre il valore assegnato ad ogni campo della matrice si riferisce al colore. ATTENZIONE: ricordarsi ogni volta di deallocare il tetramino </p>
+
+</div>
+</div>
+<h2 class="groupheader">Documentazione delle funzioni</h2>
+<a id="ae62d6f2c6861dc72bf09d0f4b16646b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae62d6f2c6861dc72bf09d0f4b16646b0">&#9670;&nbsp;</a></span>add_tetrimino_from_pool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void add_tetrimino_from_pool </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>aggiunge un'unitá di un tetramino dalla pool. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>il tipo di tetramino dalla quale aggiungere un'unitá. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>la pool di tetramini. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ac5cf6efd450c7b69fbb06f6a20a6f779"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5cf6efd450c7b69fbb06f6a20a6f779">&#9670;&nbsp;</a></span>are_tet_equal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int are_tet_equal </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>confronta pezzo per pezzo due tetramini per stabilire se sono uguali. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>il puntatore al primo tetramino. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>il puntatore al secondo tetramino.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>0 se sono diversi, 1 altrimenti. </dd></dl>
+
+</div>
+</div>
+<a id="a18a9358b2ccf347d46e375f3e92147c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18a9358b2ccf347d46e375f3e92147c5">&#9670;&nbsp;</a></span>free_pool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void free_pool </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>free della pool di tetramini. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>La pool. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3311448078a900a696614a1345455730"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3311448078a900a696614a1345455730">&#9670;&nbsp;</a></span>free_tetrimino()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void free_tetrimino </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Libera la memoria allocata dal tetrimino. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>Il tetrimino da deallocare. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ae42d71f193c4a5e08130b2ba1c6601c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae42d71f193c4a5e08130b2ba1c6601c7">&#9670;&nbsp;</a></span>get_pool_win()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">WINDOW* get_pool_win </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>restituisce la finestra della pool di tetramini. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>la pool di tetramini.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>win la finestra ncurses della pool. </dd></dl>
+
+</div>
+</div>
+<a id="a9a20ed2c57b693528963d07d2cb20f0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a20ed2c57b693528963d07d2cb20f0b">&#9670;&nbsp;</a></span>get_remaining_tetriminos()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int get_remaining_tetriminos </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>pool</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">tetrimino_type_t&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Restituisce il numero di tetramini rimasti per il tipo passato per parametro. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>Il tipo di tetrimino.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>Il numero di tetramini rimasti. </dd></dl>
+
+</div>
+</div>
+<a id="a11a3762dd4fda202339da0db5504b6f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11a3762dd4fda202339da0db5504b6f8">&#9670;&nbsp;</a></span>get_tet_color()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int get_tet_color </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>restituisce il colore del tetramino. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>il tetramino.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>color il numero che identifica il colore del tetramino. </dd></dl>
+
+</div>
+</div>
+<a id="af051201343001a1176e783bcc191dc73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af051201343001a1176e783bcc191dc73">&#9670;&nbsp;</a></span>get_tet_cols()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int get_tet_cols </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>restituisce il numero di colonne di un tetramino. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>il tetramino.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>cols il numero di colonne di cui é composto il tetramino. </dd></dl>
+
+</div>
+</div>
+<a id="a5a9cee155fb528f61673a57e3909c3c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a9cee155fb528f61673a57e3909c3c0">&#9670;&nbsp;</a></span>get_tet_rows()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int get_tet_rows </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>restituisce il numero di righe di un tetramino. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>il tetramino.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>rows il numero di righe di cui é composto il tetramino. </dd></dl>
+
+</div>
+</div>
+<a id="aa714506df9c70df9941dc825dcd43292"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa714506df9c70df9941dc825dcd43292">&#9670;&nbsp;</a></span>get_tet_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int get_tet_type </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>restituisce il tipo di tetramino. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>il tetramino.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>type l'intero che identifica il tipo di tetramino. </dd></dl>
+
+</div>
+</div>
+<a id="aa436fdf416f645272a14b86168df57de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa436fdf416f645272a14b86168df57de">&#9670;&nbsp;</a></span>get_tet_values()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int* get_tet_values </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>restituisce l'array di valori di un tetramino. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>il tetramino.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>values il puntatore all'array di valori del tetramino. </dd></dl>
+
+</div>
+</div>
+<a id="aca18ec1086e88441dc0fe05bf9cc6530"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca18ec1086e88441dc0fe05bf9cc6530">&#9670;&nbsp;</a></span>get_tetrimino()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a>* get_tetrimino </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Genera il tetramino dato il suo enum. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">type</td><td>la sua codifica.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>Il tetramino allocato. È vuoto se il valore passato non è valido. </dd></dl>
+
+</div>
+</div>
+<a id="aa9768773d2f4a879dfbfc4b557e42e16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9768773d2f4a879dfbfc4b557e42e16">&#9670;&nbsp;</a></span>initialize_pool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a>* initialize_pool </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>funzione per inizializzare la pool dove sono presenti tutti i tetramini rimasti. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>La riga da dalla quale deve iniziare a posizionare la finestra. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>La colonna da dalla quale deve iniziare a posizionare la finestra.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>Lo struct della pool istanziato. </dd></dl>
+
+</div>
+</div>
+<a id="aa97c94bc92173b8007be838c012a98d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa97c94bc92173b8007be838c012a98d7">&#9670;&nbsp;</a></span>is_safe_to_place_tet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int is_safe_to_place_tet </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>funzione stub che ci permette di capire se il tetramino che vogliamo piazzare ha celle vuote sotto. ES: il tet T_T piazzato a testa in giú blocca automaticamente almeno due celle. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>Il puntatore al tetramino.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>0 se ci sono celle bloccate, 1 altrimenti. </dd></dl>
+
+</div>
+</div>
+<a id="a6768a014d0e3a91bbe43db89acb56b17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6768a014d0e3a91bbe43db89acb56b17">&#9670;&nbsp;</a></span>linear_rotate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void linear_rotate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>dir</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Semplice algoritmo per ruotare un tetramino, sviluppato attraverso l'algebra lineare. Le posizioni dei blocchi vengono trattate come dei vettori e l'algoritmo è una applicazione lineare. Lo spazio vettoriale è <img class="formulaInl" alt="$ V= \mathbb{R}^2 $" src="form_0.png"/> con base. </p>
+<p class="formulaDsp">
+<img class="formulaDsp" alt="\[ \mathcal{B} = \left\{ \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \begin{pmatrix} 0 \\ -1 \end{pmatrix} \right\} \]" src="form_1.png"/>
+</p>
+<p> e l'applicazione lineare <img class="formulaInl" alt="$ T: V \rightarrow V $" src="form_2.png"/>: </p><p class="formulaDsp">
+<img class="formulaDsp" alt="\[ T(v)= \begin{pmatrix} -v_2 \\ v_1 \end{pmatrix} \]" src="form_3.png"/>
+</p>
+<p> con $v = (v_1, v_2)^T \in V$.</p>
+<p>L'applicazione lineare ha come risultato dei vettori ruotati di 90° che corrispondono alle posizioni del tetramino ruotato. Dato che però in realtà si parla di indici di array bisogna sommare all'indice della colonna il numero totale di colonne - 1. Senza questa operazione il tetramino risulterebbe "fuori" dalle celle e avrebbe indici negativi.</p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>Il tetramino da ruotare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dir</td><td>La direzione in cui ruotare il tetramino. 0 sta per destra, qualsiasi altro valore sinistra. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2d600579ba00a08b54ac144f23c3d700"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d600579ba00a08b54ac144f23c3d700">&#9670;&nbsp;</a></span>no_tetriminos_left()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int no_tetriminos_left </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>pool</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>controlla se ci sono tetramini rimanenti. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">pool</td><td>la pool di tetramini selezionabili.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>i ritorna 0 se c'é almeno un tetramino di qualsiasi tipo, 1 altrimenti. </dd></dl>
+
+</div>
+</div>
+<a id="a65a81faa216d0c7f95e110656649811c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65a81faa216d0c7f95e110656649811c">&#9670;&nbsp;</a></span>print_menu_style()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_menu_style </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>pool</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Funzione STUB che stampa i tetramini in modalitá "menu". </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>l'indice del menu. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pool</td><td>la pool nella quale stampare. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a67a87e51f6d8f929277a533905c12b3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67a87e51f6d8f929277a533905c12b3c">&#9670;&nbsp;</a></span>print_tetrimino()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void print_tetrimino </td>
+          <td>(</td>
+          <td class="paramtype">WINDOW *&#160;</td>
+          <td class="paramname"><em>w</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>funzione che printa i tetramini, ATTENZIONE: SI PARTE A PRINTARE DA X0 Y0 DEL TETRAMINO. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">w</td><td>la finestra dove printarlo. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>Il tetramino da printare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>la y relativa della finestra. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>la x relativa della finestra. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a80b535d33369ab13f4fae4d793df2749"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80b535d33369ab13f4fae4d793df2749">&#9670;&nbsp;</a></span>refresh_pool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void refresh_pool </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>refresh della pool. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>la pool. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a292112df25f9bb748a1c339713a11d6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a292112df25f9bb748a1c339713a11d6c">&#9670;&nbsp;</a></span>remove_tetrimino_from_pool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void remove_tetrimino_from_pool </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>p</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>rimuove un'unitá di un tetramino dalla pool. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i</td><td>il tipo di tetramino dalla quale togliere un'unitá. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>la pool di tetramini. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a4d6ea235792204ccc42b18c10ed0328e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d6ea235792204ccc42b18c10ed0328e">&#9670;&nbsp;</a></span>safe_rotate_tetrimino()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int safe_rotate_tetrimino </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>cur_pos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>dir</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Stub di rotateLinear che verifica la fattibilitá della rotazione altrimenti non ruota. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>Tetramino da ruotare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cur_pos</td><td>Posizione del cursore. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">dir</td><td>Direzione di rotazione.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>1 se è riuscito a ruotare, 0 altrimenti. </dd></dl>
+
+</div>
+</div>
+<a id="a4ad34dc6c6dc1873d3bcd400bfe59329"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ad34dc6c6dc1873d3bcd400bfe59329">&#9670;&nbsp;</a></span>select_tetrimino()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int select_tetrimino </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>pool</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>permette di accedere al metodo di selezione dei tetramini. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">w</td><td>Finestra della pool da cui selezionare il pezzo.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>Il numero della codifica del tetramino, -1 se non ci sono più tetramini. </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generato da&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

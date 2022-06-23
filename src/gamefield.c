@@ -8,7 +8,7 @@
 #include "../include/player.h"
 
 /**
- * @brief struct contentente il puntatore alla matrice del campo di gioco 
+ * @brief struct contentente il puntatore alla matrice del campo di gioco
  * e il puntatore alla finestra di ncurses.
  */
 typedef struct GameField
@@ -22,6 +22,7 @@ typedef struct GameField
  *
  * @param[in] y_pos La posizione Y iniziale in cui posizionare la finestra.
  * @param[in] x_pos La posizione X iniziale in cui posizionare la finestra.
+ * 
  * @return Lo struct del gamefield istanziato.
  */
 gamefield_t *initialize_gamefield(int y, int x)
@@ -69,7 +70,13 @@ void clear_top(gamefield_t *g)
     }
     wrefresh(g->win);
 }
-
+/**
+ * @brief stampa l'ombra del tetramino dove questo verrá droppato. 
+ * 
+ * @param[in] g il puntatore al campo da gioco.
+ * @param[in] t il puntatore al tetramino.
+ * @param[in] cur_pos la posizione del cursore.
+ */
 void draw_cursor(gamefield_t *g, tetrimino_t *t, int cur_pos)
 {
     int free = get_first_free_row(g->field, t, cur_pos);
@@ -106,14 +113,14 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos)
     int *values = get_tet_values(t);
     int rows = get_tet_rows(t);
     int cols = get_tet_cols(t);
-    int color = swap_color(get_tet_color(t));
+    int color = get_tet_color(t);
 
     /*Rimuove l'overlay precente*/
     refresh_gamefield(g);
 
     refresh();
     /*Aggiunge l'overlay alla colonna*/
-    
+
     draw_cursor(g, t, cur_pos);
 
     clear_top(g);
@@ -125,8 +132,9 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos)
             val = values[(cols * i) + j];
             if (val)
             {
-                wattron(g->win, COLOR_PAIR(val));
+                wattron(g->win, COLOR_PAIR(color));
                 mvwprintw(g->win, TOP_ROWS - rows + i, (cur_pos + j) * 2 + 1, "[]");
+                wattroff(g->win, COLOR_PAIR(color));
             }
         }
     }
@@ -137,9 +145,10 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos)
 /**
  * @brief Gestisce l'input del drop del tetramino.
  *
- * @param gameField Il campo dove bisogna droppare il tetramino.
- * @param t Il tetramino da droppare.
- * @return
+ * @param[in] gameField Il campo dove bisogna droppare il tetramino.
+ * @param[in] t Il tetramino da droppare.
+ * 
+ * @return il cursore dove droppare il tetramino.
  */
 int manage_drop(gamefield_t *gameField, tetrimino_t *t)
 {
@@ -202,7 +211,7 @@ int manage_drop(gamefield_t *gameField, tetrimino_t *t)
  * @brief Da chiamare per visualizzare
  * le modifiche al campo del giocatore.
  *
- * @param[in, out] g Il campo da gioco di cui bisogna aggiornare lo schermo.
+ * @param[in] g Il campo da gioco di cui bisogna aggiornare lo schermo.
  */
 void refresh_gamefield(gamefield_t *g)
 {
@@ -231,7 +240,8 @@ void refresh_gamefield(gamefield_t *g)
  * @param[in] g Il campo da gioco da controllare.
  * @param[in] t Il tetramino da incastrare.
  * @param[in] cur_pos La posizione del cursore e quindi la prima colonna di discesa del tetramino.
- * @param[out] row La posizione nella matrice della prima riga libera.
+ * 
+ * @return row La posizione nella matrice della prima riga libera.
  */
 int get_first_free_row(int *f, tetrimino_t *t, int cur_pos)
 {
@@ -288,7 +298,8 @@ int get_first_free_row(int *f, tetrimino_t *t, int cur_pos)
  * @param[in] g Il campo da gioco da controllare.
  * @param[in] t Il tetramino da incastrare.
  * @param[in] cur_pos La posizione del cursore e quindi la prima colonna di discesa del tetramino.
- * @param[out] row La posizione nella matrice della prima riga libera.
+ * 
+ * @return row La posizione nella matrice della prima riga libera.
  */
 int get_first_free_row_in_field(int *f, int cur_pos)
 {
@@ -297,13 +308,13 @@ int get_first_free_row_in_field(int *f, int cur_pos)
     {
         for (j = 0; j < FIELD_COLS; ++j)
         {
-            if (f[i * FIELD_COLS + j] !=0)
+            if (f[i * FIELD_COLS + j] != 0)
             {
-                return i-1;
+                return i - 1;
             }
         }
     }
-    return FIELD_ROWS-1;
+    return FIELD_ROWS - 1;
 }
 
 /**
@@ -312,6 +323,7 @@ int get_first_free_row_in_field(int *f, int cur_pos)
  * @param[in] g campo di gioco.
  * @param[in] t tetramino da piazzare.
  * @param[in] cur_pos posizione del cursore.
+ * 
  * @return 1 se il tetramino si è incastrato, 0 se il
  * campo era pieno e non è riuscito.
  */
@@ -329,6 +341,7 @@ int add_tetrimino_to_gamefield(gamefield_t *g, tetrimino_t *t, int cur_pos)
  * @param[in] f matrice di gioco (quella dove sono salvati i tetramini).
  * @param[in] t tetramino da piazzare.
  * @param[in] cur_pos posizione del cursore.
+ * 
  * @return 1 se il tetramino si è incastrato, 0 se il
  * campo era pieno e non è riuscito.
  */
@@ -372,9 +385,11 @@ int add_tetrimino_to_field(int *f, tetrimino_t *t, int cur_pos)
 
 /**
  * @brief controlla se il gamefield é stato
- * saturato in almeno un blocco.
- * @param[in] g gamefield da controllare
- * @return int
+ * saturato in almeno un blocco (funzione stub).
+ * 
+ * @param[in] g gamefield da controllare.
+ * 
+ * @return 1 se é pieno, 0 altrimenti.
  */
 int is_gamefield_top_occupied(gamefield_t *g)
 {
@@ -384,8 +399,10 @@ int is_gamefield_top_occupied(gamefield_t *g)
 /**
  * @brief controlla se il field é stato
  * saturato in almeno un blocco.
+ * 
  * @param[in] f la matrice campo da gioco
- * @return int
+ * 
+ * @return 1 se é pieno, 0 altrimenti.
  */
 int is_field_top_occupied(int *f)
 {
@@ -396,6 +413,7 @@ int is_field_top_occupied(int *f)
  * @brief metodo getter per ricevere la matrice con i tetramini.
  *
  * @param[in] g puntatore alla struct del campo da gioco.
+ * 
  * @return field la matrice di interi che rappresenta la matrice con i tetramini.
  */
 int *get_gamefield(gamefield_t *g)
@@ -403,17 +421,12 @@ int *get_gamefield(gamefield_t *g)
     return g->field;
 }
 
-void set_field(gamefield_t *g, int *field)
-{
-    free(g->field);
-    g->field = field;
-}
-
 /**
  * @brief metodo getter per ricevere la finestra ncurses del campo da gioco.
  *
  * @param[in] g puntatore alla struct del campo da gioco.
- * @param[out] win la finestra di ncurses del campo da gioco.
+ * 
+ * @return win la finestra di ncurses del campo da gioco.
  */
 WINDOW *get_gamefield_win(gamefield_t *g)
 {
@@ -424,10 +437,11 @@ WINDOW *get_gamefield_win(gamefield_t *g)
  * @brief Controlla se la riga del campo, entrambi specificati
  * via parametro, è piena.
  *
- * @param field Il campo su cui controllare la riga
- * @param row La riga da controllare
+ * @param[in] field Il campo su cui controllare la riga.
+ * @param[in] row La riga da controllare.
+ * 
  * @return 1 se la riga è piena, 0 se ha almeno una cella vuota, -1 se la riga
- * è fuori dal campo
+ * è fuori dal campo.
  */
 int is_row_full(int *field, int row)
 {
@@ -446,10 +460,11 @@ int is_row_full(int *field, int row)
  * @brief Controlla se la riga del campo, entrambi specificati
  * via parametro, è vuota.
  *
- * @param field Il campo su cui controllare la riga
- * @param row La riga da controllare
+ * @param[in] field Il campo su cui controllare la riga
+ * @param[in] row La riga da controllare.
+ * 
  * @return 1 se la riga è vuota, 0 se ha almeno una cella piena, -1 se la riga
- * è fuori dal campo
+ * è fuori dal campo.
  */
 int is_row_empty(int *field, int row)
 {
@@ -468,7 +483,8 @@ int is_row_empty(int *field, int row)
  * @brief Controlla il campo se è pieno o se ha
  * righe piene.
  *
- * @param gameField Il campo da controllare.
+ * @param[in] gameField Il campo da controllare.
+ * 
  * @return Il numero di righe che il giocatore ha riempito.
  */
 int check_field(gamefield_t *gameField)
@@ -501,8 +517,8 @@ int check_field(gamefield_t *gameField)
  * @brief Inverte il numero di righe specificate nel
  * campo specificato.
  *
- * @param field Il campo su cui invertire le righe.
- * @param rows Il numero di righe.
+ * @param[in] field Il campo su cui invertire le righe.
+ * @param[in] rows Il numero di righe.
  */
 void flip_values(gamefield_t *field, int rows)
 {
@@ -516,8 +532,8 @@ void flip_values(gamefield_t *field, int rows)
 /**
  * @brief inverte i valori in una riga del campo da gioco.
  *
- * @param[in] field il campo da gioco
- * @param[in] row la riga dove effettuare l'operazione
+ * @param[in] field il campo da gioco.
+ * @param[in] row la riga dove effettuare l'operazione.
  */
 void flip_values_in_row(gamefield_t *field, int row)
 {
@@ -542,7 +558,8 @@ void flip_values_in_row(gamefield_t *field, int row)
 
 /**
  * @brief Clona il field e restituisce il puntatore.
- * @param f Il field da clonare.
+ * 
+ * @param[in] f Il field da clonare.
  * @return La matrice clonata.
  */
 int *clone_field(int *f)

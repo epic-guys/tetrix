@@ -29,8 +29,6 @@ int is_field_top_occupied(int *f);
 
 int* get_gamefield(gamefield_t *g);
 
-void set_field(gamefield_t *g, int *field);
-
 WINDOW* get_gamefield_win(gamefield_t *g);
 
 int is_row_full(int *field, int row);

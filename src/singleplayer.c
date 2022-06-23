@@ -13,9 +13,9 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
 void end_game(gamefield_t *gameField, tetrimini_pool_t *pool, pointboard_t *points, player_t *player, unsigned int start_time, int moves);
 void new_game_single();
 /**
- * @brief stampa le istruzioni per la partita in singleplayer
+ * @brief stampa le istruzioni per la partita in singleplayer.
  *
- * @param[in] nickname puntatore al nome del giocatore
+ * @param[in] nickname puntatore al nome del giocatore.
  */
 void instructions(char *nickname)
 {
@@ -67,11 +67,11 @@ void new_game_single()
     nickname = form(16, " Nome: ");
     refresh();
 
-    #ifndef DEBUG
+#ifndef DEBUG
 
     instructions(nickname);
 
-    #endif
+#endif
 
     player = initialize_player(nickname);
     /*
@@ -79,9 +79,9 @@ void new_game_single()
     a spostarsi troppo sotto quando il terminale è troppo piccolo
     */
     gameField = initialize_gamefield(
-        (LINES + logo_rows - FIELD_W_ROWS - 15) / 2, // prima era: (LINES + logo_rows - FIELD_W_ROWS - 3) / 2
+        (LINES + logo_rows - FIELD_W_ROWS - 15) / 2,
         (COLS + POOL_COLS - POINTBOARD_COLS - FIELD_W_COLS) / 2);
-    pool = initialize_pool((LINES + logo_rows - POOL_ROWS - 3) / 2, 0); // prima era: (LINES + logo_rows - POOL_ROWS) / 2, 0
+    pool = initialize_pool((LINES + logo_rows - POOL_ROWS - 3) / 2, 0);
     points = initialize_pointboard(10, COLS - POINTBOARD_COLS, player, NULL);
     single_continue_game(player, gameField, pool, points);
     return;
@@ -141,7 +141,7 @@ void single_continue_game(player_t *player, gamefield_t *gameField, tetrimini_po
 }
 
 /**
- * @brief gestisce la fine della partita e dealloca tutto ció che é stato usato
+ * @brief gestisce la fine della partita e dealloca tutto ció che é stato usato.
  *
  * @param[in] gameField Il puntatore al campo da gioco del giocatore.
  * @param[in] pool La pool usata in partita con i tetramini rimanenti. (serve per deallocarla)
