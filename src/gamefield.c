@@ -8,7 +8,7 @@
 #include "../include/player.h"
 
 /**
- * @brief struct contentente il puntatore alla matrice del campo di gioco 
+ * @brief struct contentente il puntatore alla matrice del campo di gioco
  * e il puntatore alla finestra di ncurses.
  */
 typedef struct GameField
@@ -113,7 +113,7 @@ void refresh_selector(gamefield_t *g, tetrimino_t *t, int cur_pos)
 
     refresh();
     /*Aggiunge l'overlay alla colonna*/
-    
+
     draw_cursor(g, t, cur_pos);
 
     clear_top(g);
@@ -298,13 +298,13 @@ int get_first_free_row_in_field(int *f, int cur_pos)
     {
         for (j = 0; j < FIELD_COLS; ++j)
         {
-            if (f[i * FIELD_COLS + j] !=0)
+            if (f[i * FIELD_COLS + j] != 0)
             {
-                return i-1;
+                return i - 1;
             }
         }
     }
-    return FIELD_ROWS-1;
+    return FIELD_ROWS - 1;
 }
 
 /**

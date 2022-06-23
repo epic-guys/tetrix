@@ -14,13 +14,13 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 void pvp_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, player_t **players, unsigned int start_time, int *moves);
 
 void pve_new_game();
-void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points,int difficulty);
+void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, int difficulty);
 
 #pragma region PVP
 
 /**
  * @brief stampa le istruzioni per la partita in pvp
- * 
+ *
  * @param[in] nickname1 puntatore al nome del primo giocatore
  * @param[in] nickname2 puntatore al nome del secondo giocatore
  */
@@ -78,11 +78,11 @@ void pvp_new_game()
     nickname2 = form(16, " Nome 2: ");
     refresh();
 
-    #ifndef DEBUG
+#ifndef DEBUG
 
     pvp_instructions(nickname1, nickname2);
 
-    #endif
+#endif
 
     players[0] = initialize_player(nickname1);
     players[1] = initialize_player(nickname2);
@@ -170,7 +170,7 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
 
 /**
  * @brief gestisce la fine della partita e dealloca tutto ció che é stato usato
- * 
+ *
  * @param[in] win_flag valore che segna chi ha vinto la partita
  * @param[in] gameFields Array di puntatori ai campi da gioco dei giocatori.
  * @param[in] pool La pool usata in partita con i tetramini rimanenti. (serve per deallocarla)
@@ -305,14 +305,14 @@ void pvp_end_game(int win_flag, gamefield_t **gameFields, tetrimini_pool_t *pool
  * consiste nella dimensione dell'array delle migliori soluzioni, da cui
  * selezionerà casualmente la mossa. Più è grande l'array, meno è probabile
  * che scelga la soluzione migliore.
- * 
+ *
  * @return L'errore del bot.
  */
 int select_difficulty()
 {
     WINDOW *w;
     /*Quanti elementi ci sono nel menú*/
-    int N_items = 4,diff;
+    int N_items = 4, diff;
     char list[4][22] = {"PONG (easy)", "MINE SWEEPER (medium)", "DARK SOULS (hard)", "2048 (impossible)"};
     char item[22];
     int ch = -1, i = 0, width = 21;
@@ -396,7 +396,7 @@ int select_difficulty()
     return diff;
 }
 
-void pve_instructions(char* nickname)
+void pve_instructions(char *nickname)
 {
     WINDOW *instructions_win;
     char ch;
@@ -436,7 +436,7 @@ void pve_new_game()
     tetrimini_pool_t *pool;
     pointboard_t *points;
     char *playerName;
-    char *botName = (char*) malloc(sizeof(char) * NICKNAME_LEN);
+    char *botName = (char *)malloc(sizeof(char) * NICKNAME_LEN);
     int diff;
     strcpy(botName, "CPU");
 
@@ -444,11 +444,11 @@ void pve_new_game()
 
     refresh();
 
-    #ifndef DEBUG
+#ifndef DEBUG
 
     pve_instructions(playerName);
 
-    #endif
+#endif
 
     diff = select_difficulty();
 
@@ -459,18 +459,18 @@ void pve_new_game()
     gameFields[1] = initialize_gamefield(6, (COLS / 2) + (POOL_COLS / 2) + 5);
     pool = initialize_pool(6, (COLS / 2) - (POOL_COLS / 2) - 3);
     points = initialize_pointboard(0, COLS - 30, players[0], players[1]);
-    
-    pve_continue_game(players, gameFields, pool, points,diff);
+
+    pve_continue_game(players, gameFields, pool, points, diff);
 }
 
-void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points,int difficulty)
+void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, int difficulty)
 {
     tetrimino_type_t selected_i;
     int winner = -1;
     tetrimino_t *selected_t;
     unsigned int start_time = time(NULL), seed = time(0);
     int *moves = (int *)malloc(sizeof(int) * 2);
-    int cpu_first_move=0;
+    int cpu_first_move = 0;
     moves[0] = 0;
     moves[1] = 0;
     int turn;
@@ -496,40 +496,41 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
             currentField = get_gamefield(gameFields[turn]);
             refresh_selector(gameFields[turn], selected_t, cursor);
             cursor = manage_drop(gameFields[turn], selected_t);
-            
         }
         else
         {
             int i;
-            if(cpu_first_move==0){
-                int t,r,c;
-                tetrimino_t* tet = NULL;
+            if (cpu_first_move == 0)
+            {
+                int t, r, c;
+                tetrimino_t *tet = NULL;
                 do
                 {
                     if (tet)
                         free_tetrimino(tet);
-                    t = rand()%N_tetrimini;
+                    t = rand() % N_tetrimini;
                     tet = get_tetrimino(t);
-                                                            /*    ↓ altro errore di 1 */
-                    c = rand()% (FIELD_COLS - get_tet_cols(tet) + 1);
-                    for(r=0;r<rand()%4;r++){
-                        safe_rotate_tetrimino(tet,c,0);
+                                                             /*    ↓ altro errore di 1 */
+                    c = rand() % (FIELD_COLS - get_tet_cols(tet) + 1);
+                    for (r = 0; r < rand() % 4; r++)
+                    {
+                        safe_rotate_tetrimino(tet, c, 0);
                     }
-                }
-                while(get_remaining_tetriminos(pool,t) <= 0 || !is_safe_to_place_tet(tet));
+                } while (get_remaining_tetriminos(pool, t) <= 0 || !is_safe_to_place_tet(tet));
                 cpu_first_move++;
                 cursor = c;
                 selected_t = tet;
             }
-            else{
-            strategy_t* s = choose_strategy(gameFields[1], pool,difficulty);
+            else
+            {
+                strategy_t *s = choose_strategy(gameFields[1], pool, difficulty);
 
-            cursor = get_strategy_cursor(s);
-            selected_t = get_tetrimino(get_strategy_tet_type(s));
-            for(i=0;i<get_strategy_tet_rotation(s);i++)
-                linear_rotate(selected_t,0);
-            
-            strategy_destroy(s);
+                cursor = get_strategy_cursor(s);
+                selected_t = get_tetrimino(get_strategy_tet_type(s));
+                for (i = 0; i < get_strategy_tet_rotation(s); i++)
+                    linear_rotate(selected_t, 0);
+
+                strategy_destroy(s);
             }
         }
 
