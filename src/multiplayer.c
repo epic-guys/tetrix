@@ -87,8 +87,8 @@ void pvp_new_game()
     players[0] = initialize_player(nickname1);
     players[1] = initialize_player(nickname2);
 
-    gameFields[0] = initialize_gamefield(6, 5);
-    gameFields[1] = initialize_gamefield(6, (COLS / 2) + (POOL_COLS / 2) + 5);
+    gameFields[0] = initialize_gamefield(7, 5);
+    gameFields[1] = initialize_gamefield(7, (COLS / 2) + (POOL_COLS / 2) + 5);
     pool = initialize_pool(6, (COLS / 2) - (POOL_COLS / 2) - 3);
     points = initialize_pointboard(0, COLS - 30, players[0], players[1]);
 
@@ -151,7 +151,7 @@ void pvp_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
                         flip_values(gameFields[1 - turn], deletedRows);
                     }
                 }
-                if (no_tetriminos_left(pool) && !added)
+                if (no_tetriminos_left(pool))
                 {
                     winner = get_player_points(players[0]) < get_player_points(players[1]);
                 }
@@ -569,7 +569,7 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
                         flip_values(gameFields[1 - turn], deletedRows);
                     }
                 }
-                if (no_tetriminos_left(pool) && !added)
+                if (no_tetriminos_left(pool))
                 {
                     winner = get_player_points(players[0]) < get_player_points(players[1]);
                 }
