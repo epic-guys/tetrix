@@ -60,7 +60,7 @@ void pvp_instructions(char *nickname1, char *nickname2)
 }
 
 /**
- * @brief Inizia la partita in multiplayer
+ * @brief Inizia la partita in PvP
  */
 void pvp_new_game()
 {
@@ -396,6 +396,11 @@ int select_difficulty()
     return diff;
 }
 
+/**
+ * @brief stampa le istruzioni per la partita in pvp
+ *
+ * @param[in] nickname puntatore al nome del giocatore
+ */
 void pve_instructions(char *nickname)
 {
     WINDOW *instructions_win;
@@ -429,6 +434,9 @@ void pve_instructions(char *nickname)
     return;
 }
 
+/**
+ * @brief Inizia la partita in PvCPU
+ */
 void pve_new_game()
 {
     player_t **players = (player_t **)malloc(sizeof(player_t *) * 2);
@@ -463,6 +471,16 @@ void pve_new_game()
     pve_continue_game(players, gameFields, pool, points, diff);
 }
 
+/**
+ * @brief corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso fra il giocatore e la CPU
+ *        controllando eventuali perdite, righe riempite ecc...
+ *
+ * @param[in] players Array di puntatori ai giocatori.
+ * @param[in] gameFields Array di puntatoro ai campi da gioco dei giocatori.
+ * @param[in] pool La pool usata in partita con i tetramini rimanenti.
+ * @param[in] points Il puntatore ai punteggii dei giocatori.
+ * @param[in] difficulty La difficoltá del BOT.
+ */
 void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_pool_t *pool, pointboard_t *points, int difficulty)
 {
     tetrimino_type_t selected_i;
@@ -510,7 +528,7 @@ void pve_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
                         free_tetrimino(tet);
                     t = rand() % N_tetrimini;
                     tet = get_tetrimino(t);
-                                                             /*    ↓ altro errore di 1 */
+                    /*    ↓ altro errore di 1 */
                     c = rand() % (FIELD_COLS - get_tet_cols(tet) + 1);
                     for (r = 0; r < rand() % 4; r++)
                     {

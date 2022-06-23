@@ -34,6 +34,7 @@ typedef struct Tetrimino
  * @brief Genera il tetramino dato il suo enum.
  *
  * @param[in] type la sua codifica.
+ *
  * @return Il tetramino allocato. È vuoto se il valore passato non è valido.
  */
 tetrimino_t *get_tetrimino(int type)
@@ -140,7 +141,7 @@ tetrimino_t *get_tetrimino(int type)
 /**
  * @brief Libera la memoria allocata dal tetrimino.
  *
- * @param[in, out] t Il tetrimino da deallocare.
+ * @param[in] t Il tetrimino da deallocare.
  */
 void free_tetrimino(tetrimino_t *t)
 {
@@ -149,11 +150,12 @@ void free_tetrimino(tetrimino_t *t)
 }
 
 /**
- * @brief funzione che printa i tetramini, ATTENZIONE: SI PARTE A PRINTARE DA X0 Y0 DEL TETRAMINO
- * @param[in] w  la finestra dove printarlo
- * @param[in] t  Il tetramino da printare
- * @param[in] y  la y relativa della finestra
- * @param[in] x  la x relativa della finestra
+ * @brief funzione che printa i tetramini, ATTENZIONE: SI PARTE A PRINTARE DA X0 Y0 DEL TETRAMINO.
+ *
+ * @param[in] w  la finestra dove printarlo.
+ * @param[in] t  Il tetramino da printare.
+ * @param[in] y  la y relativa della finestra.
+ * @param[in] x  la x relativa della finestra.
  */
 void print_tetrimino(WINDOW *w, tetrimino_t *t, int y, int x)
 {
@@ -195,6 +197,7 @@ typedef struct TetriminiPool
  *
  * @param[in] y La riga da dalla quale deve iniziare a posizionare la finestra.
  * @param[in] x La colonna da dalla quale deve iniziare a posizionare la finestra.
+ *
  * @return Lo struct della pool istanziato.
  */
 tetrimini_pool_t *initialize_pool(int y, int x)
@@ -250,7 +253,8 @@ void print_menu_style(int i, tetrimini_pool_t *pool)
 /**
  * @brief permette di accedere al metodo di selezione dei tetramini.
  *
- * @param [in] w Finestra della pool da cui selezionare il pezzo.
+ * @param[in] w Finestra della pool da cui selezionare il pezzo.
+ *
  * @return Il numero della codifica del tetramino, -1 se non ci sono
  * più tetramini.
  */
@@ -390,6 +394,7 @@ void linear_rotate(tetrimino_t *t, int dir)
  * @param[in] t Tetramino da ruotare.
  * @param[in] cur_pos Posizione del cursore.
  * @param[in] dir Direzione di rotazione.
+ *
  * @return 1 se è riuscito a ruotare, 0 altrimenti.
  */
 int safe_rotate_tetrimino(tetrimino_t *t, int cur_pos, int dir)
@@ -449,7 +454,7 @@ void add_tetrimino_from_pool(int i, tetrimini_pool_t *p)
  *
  * @param[in] pool la pool di tetramini selezionabili.
  *
- * @param[out] i ritorna 0 se c'é almeno un tetramino di qualsiasi tipo, 1 altrimenti
+ * @return i ritorna 0 se c'é almeno un tetramino di qualsiasi tipo, 1 altrimenti.
  */
 int no_tetriminos_left(tetrimini_pool_t *pool)
 {
@@ -466,7 +471,8 @@ int no_tetriminos_left(tetrimini_pool_t *pool)
  * @brief restituisce la finestra della pool di tetramini.
  *
  * @param[in] t la pool di tetramini.
- * @param[out] win la finestra ncurses della pool.
+ *
+ * @return win la finestra ncurses della pool.
  */
 WINDOW *get_pool_win(tetrimini_pool_t *t)
 {
@@ -477,7 +483,8 @@ WINDOW *get_pool_win(tetrimini_pool_t *t)
  * @brief Restituisce il numero di tetramini rimasti
  * per il tipo passato per parametro.
  *
- * @param type Il tipo di tetrimino.
+ * @param[in] type Il tipo di tetrimino.
+ *
  * @return Il numero di tetramini rimasti.
  */
 int get_remaining_tetriminos(tetrimini_pool_t *pool, tetrimino_type_t type)
@@ -489,7 +496,8 @@ int get_remaining_tetriminos(tetrimini_pool_t *pool, tetrimino_type_t type)
  * @brief restituisce il numero di righe di un tetramino.
  *
  * @param[in] t il tetramino.
- * @param[out] rows il numero di righe di cui é composto il tetramino.
+ *
+ * @return rows il numero di righe di cui é composto il tetramino.
  */
 int get_tet_rows(tetrimino_t *t)
 {
@@ -500,7 +508,8 @@ int get_tet_rows(tetrimino_t *t)
  * @brief restituisce il numero di colonne di un tetramino.
  *
  * @param[in] t il tetramino.
- * @param[out] cols il numero di colonne di cui é composto il tetramino.
+ *
+ * @return cols il numero di colonne di cui é composto il tetramino.
  */
 int get_tet_cols(tetrimino_t *t)
 {
@@ -511,7 +520,8 @@ int get_tet_cols(tetrimino_t *t)
  * @brief restituisce l'array di valori di un tetramino.
  *
  * @param[in] t il tetramino.
- * @param[out] values il puntatore all'array di valori del tetramino.
+ *
+ * @return values il puntatore all'array di valori del tetramino.
  */
 int *get_tet_values(tetrimino_t *t)
 {
@@ -522,7 +532,8 @@ int *get_tet_values(tetrimino_t *t)
  * @brief restituisce il tipo di tetramino.
  *
  * @param[in] t il tetramino.
- * @param[out] type l'intero che identifica il tipo di tetramino.
+ *
+ * @return type l'intero che identifica il tipo di tetramino.
  *
  */
 int get_tet_type(tetrimino_t *t)
@@ -533,7 +544,8 @@ int get_tet_type(tetrimino_t *t)
  * @brief restituisce il colore del tetramino.
  *
  * @param[in] t il tetramino.
- * @param[out] color il numero che identifica il colore del tetramino.
+ *
+ * @return color il numero che identifica il colore del tetramino.
  */
 int get_tet_color(tetrimino_t *t)
 {
@@ -546,58 +558,37 @@ int get_tet_color(tetrimino_t *t)
     }
 }
 
+/**
+ * @brief funzione stub che ci permette di capire se il tetramino che vogliamo piazzare ha celle vuote sotto.
+ *        ES: il tet T_T piazzato a testa in giú blocca automaticamente almeno due celle.
+ *
+ * @param[in] t Il puntatore al tetramino.
+ *
+ * @return 0 se ci sono celle bloccate, 1 altrimenti.
+ */
 int is_safe_to_place_tet(tetrimino_t *t)
 {
     return !blank_cells(t->values, t->rows, t->cols);
 }
 
-/*
-int is_safe_to_place_tet(tetrimino_t *t)
+/**
+ * @brief confronta pezzo per pezzo due tetramini per stabilire se sono uguali.
+ *
+ * @param[in] f il puntatore al primo tetramino.
+ * @param[in] s il puntatore al secondo tetramino.
+ *
+ * @return 0 se sono diversi, 1 altrimenti.
+ */
+int are_tet_equal(tetrimino_t *f, tetrimino_t *s)
 {
-    int i, j, k;
-    int cols, rows;
-    int *values;
-
-    cols = get_tet_cols(t);
-    rows = get_tet_rows(t);
-    values = get_tet_values(t);
-
-    /*
-        PROMEMORIA:
-        accedere a matrice[i][j] significa accedere alla locazione di memoria in posizione COLS ∗ 𝑖 + 𝑗
-        int a[10][20]; => a[3][8] == a[3 * 20 + 8];
-    
-    for (j = cols - 1; j >= 0; --j)
+    int i, j;
+    if (f->cols == s->cols && f->rows == s->rows)
     {
-        int found_free = 0;
-        for (i = rows - 1; i >= 0; --i)
+        for (i = 0; i < f->rows; ++i)
         {
-
-            if (values[cols * i + j] == 0)
+            for (j = 0; j < f->cols; ++j)
             {
-                if (!found_free)
-                    found_free = 1;
-            }
-            else
-            {
-                if (found_free)
-                    return 0;
-            }
-        }
-    }
-    return 1;
-}
-*/
-
-int are_tet_equal(tetrimino_t* f,tetrimino_t* s)
-{
-    int i,j;
-    if(f->cols == s->cols && f->rows == s->rows){
-        for(i=0;i<f->rows;++i)
-        {
-            for(j=0;j<f->cols;++j)
-            {
-                if(f->values[f->cols*i+j] != s->values[s->cols*i+j])
+                if (f->values[f->cols * i + j] != s->values[s->cols * i + j])
                 {
                     return 0;
                 }

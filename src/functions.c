@@ -10,10 +10,12 @@ void kill_win(WINDOW *w);
 
 /**
  * @brief Funzione per creare un form al centro dello schermo
- * la risposta viene caricata in un array di char (allocata dal caller)
+ * la risposta viene caricata in un array di char
+ * ATTENZIONE: la memoria viene allocata all'interno della funzione!
  *
  * @param[in] m_size dimensione massima della risposta che si vuole ricevere.
  * @param[in] title titolo della finestra.
+ * 
  * @return L'array contenente la stringa, di dimensione m_size + 1.
  */
 char *form(int m_size, char title[])
@@ -107,9 +109,10 @@ char *form(int m_size, char title[])
 
 /**
  * @brief Conta il numero di righe di una
- * ASCII art rettangolare importata in C attraverso xxd.
+ * ASCII art rettangolare importata in C generando i bytes con xxd.
  *
  * @param[in] ascii La stringa contenente la ASCII art.
+ * 
  * @return Il numero di righe.
  */
 int get_ASCII_art_rows(const unsigned char ascii[])
@@ -128,8 +131,10 @@ int get_ASCII_art_rows(const unsigned char ascii[])
 
 /**
  * @brief Conta il numero di colonne di una
- * ASCII art rettangolare importata in C attraverso xxd.
+ * ASCII art rettangolare importata in C generando i bytes con xxd.
+ * 
  * @param[in] ascii La stringa contenente la ASCII art.
+ * 
  * @return Il numero di colonne
  */
 int get_ASCII_art_cols(const unsigned char ascii[])
@@ -192,6 +197,7 @@ void wprint_with_delay(WINDOW *w, int d, const char *c)
 
 /**
  * @brief stampa una riga di testo carattere per carattere peró supporta anche il \n come a capo.
+ * 
  * @param[in] w la finestra dove stampare.
  * @param[in] y la riga dove stampare.
  * @param[in] x la colonna dove stampare.
@@ -226,6 +232,7 @@ void mvwprintwrows(WINDOW *w, int y, int x, const char *c)
  * trasformeremo un colore di sfondo in un colore del testo.
  *
  * @param[in] c colore sotto forma numerica.
+ * 
  * @return c colore sotto forma numerica.
  */
 int swap_color(int c)
@@ -252,6 +259,7 @@ int random_color()
  *
  * @param[in] i L'indice attuale.
  * @param[in] max La dimensione della struttura dati.
+ * 
  * @return L'indice dell'elemento successivo.
  */
 int next_circular(int i, int size)
@@ -269,6 +277,7 @@ int next_circular(int i, int size)
  *
  * @param[in] i L'indice attuale.
  * @param[in] max La dimensione della struttura dati.
+ * 
  * @return L'indice dell'elemento successivo.
  */
 int prev_circular(int i, int size)
@@ -284,6 +293,7 @@ int prev_circular(int i, int size)
  * 
  * @param[in] first il puntatore al primo campo da gioco.
  * @param[in] second il puntatore al secondo campo da gioco.
+ * 
  * @return la prima riga diversa.
  */
 int compare_fields(int *first, int *second)
@@ -308,6 +318,7 @@ int compare_fields(int *first, int *second)
  * @param[in] mat La matrice da controllare.
  * @param[in] rows Il numero di righe della matrice.
  * @param[in] cols Il numero di colonne della matrice.
+ * 
  * @return 0 se la matrice non ha celle bloccate, altrimenti restituisce
  * $ r \times c $, con $r$ il numero di righe bloccate, $c$ le colonne bloccate.
  */

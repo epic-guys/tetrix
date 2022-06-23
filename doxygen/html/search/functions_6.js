@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['get_5fascii_5fart_5fcols_178',['get_ASCII_art_cols',['../functions_8c.html#a0a32b7ef19af15d7a94704b5d6ffc6dd',1,'functions.c']]],
+  ['get_5fascii_5fart_5frows_179',['get_ASCII_art_rows',['../functions_8c.html#a3c756f08e3d50e98c77157872d0b67c6',1,'functions.c']]],
+  ['get_5ffirst_5ffree_5frow_180',['get_first_free_row',['../gamefield_8c.html#a1c3e2c3a634c4ff2d185960ba9ab1941',1,'gamefield.c']]],
+  ['get_5ffirst_5ffree_5frow_5fin_5ffield_181',['get_first_free_row_in_field',['../gamefield_8c.html#adf50972d64a4f1bcd7aaaa5410ebeb24',1,'gamefield.c']]],
+  ['get_5fgamefield_182',['get_gamefield',['../gamefield_8c.html#a76852cf02d820b1a4405821eb504b660',1,'gamefield.c']]],
+  ['get_5fgamefield_5fwin_183',['get_gamefield_win',['../gamefield_8c.html#a9f2757da752cfa98de0c477d035d222d',1,'gamefield.c']]],
+  ['get_5fplayer_5fnick_184',['get_player_nick',['../player_8c.html#af2dd530b0d8702fbd846e2754522ff22',1,'player.c']]],
+  ['get_5fplayer_5fpoints_185',['get_player_points',['../player_8c.html#a700c5470b96d6cd83f82745ca74981b2',1,'player.c']]],
+  ['get_5fpointboard_5fwin_186',['get_pointboard_win',['../player_8c.html#a6e8f7ab5154c9d335ee740f7e2d23d28',1,'player.c']]],
+  ['get_5fpoints_187',['get_points',['../player_8c.html#aaefe972e916ce0cb7a95bcbe7cd855ae',1,'player.c']]],
+  ['get_5fpool_5fwin_188',['get_pool_win',['../tetrimino_8c.html#ae42d71f193c4a5e08130b2ba1c6601c7',1,'tetrimino.c']]],
+  ['get_5fremaining_5ftetriminos_189',['get_remaining_tetriminos',['../tetrimino_8c.html#a9a20ed2c57b693528963d07d2cb20f0b',1,'tetrimino.c']]],
+  ['get_5fstrategy_5fcursor_190',['get_strategy_cursor',['../bot_8c.html#a1a5dc71a9e367f2316d7f3360fbbe332',1,'bot.c']]],
+  ['get_5fstrategy_5ftet_5frotation_191',['get_strategy_tet_rotation',['../bot_8c.html#a918677fc8aae2873a3be3b4dfa0a52cb',1,'bot.c']]],
+  ['get_5fstrategy_5ftet_5ftype_192',['get_strategy_tet_type',['../bot_8c.html#a3e76728fa125c9b5028448bb0aff6209',1,'bot.c']]],
+  ['get_5ftet_5fcolor_193',['get_tet_color',['../tetrimino_8c.html#a11a3762dd4fda202339da0db5504b6f8',1,'tetrimino.c']]],
+  ['get_5ftet_5fcols_194',['get_tet_cols',['../tetrimino_8c.html#af051201343001a1176e783bcc191dc73',1,'tetrimino.c']]],
+  ['get_5ftet_5frows_195',['get_tet_rows',['../tetrimino_8c.html#a5a9cee155fb528f61673a57e3909c3c0',1,'tetrimino.c']]],
+  ['get_5ftet_5ftype_196',['get_tet_type',['../tetrimino_8c.html#aa714506df9c70df9941dc825dcd43292',1,'tetrimino.c']]],
+  ['get_5ftet_5fvalues_197',['get_tet_values',['../tetrimino_8c.html#aa436fdf416f645272a14b86168df57de',1,'tetrimino.c']]],
+  ['get_5ftetrimino_198',['get_tetrimino',['../tetrimino_8c.html#aca18ec1086e88441dc0fe05bf9cc6530',1,'tetrimino.c']]]
+];

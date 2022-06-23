@@ -1,0 +1,932 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tetrix: Riferimenti per il file src/gamefield.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Tetrix
+   &#160;<span id="projectnumber">1.0.0</span>
+   </div>
+   <div id="projectbrief">Tetrix by Davide Antonio Amodio, Luca Boffo, Alvise Favero</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generato da Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Cerca','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Cerca');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Composti</a> &#124;
+<a href="#typedef-members">Ridefinizioni di tipo (typedef)</a> &#124;
+<a href="#func-members">Funzioni</a>  </div>
+  <div class="headertitle">
+<div class="title">Riferimenti per il file gamefield.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;ncurses.h&gt;</code><br />
+<code>#include &quot;../include/tetrimino.h&quot;</code><br />
+<code>#include &quot;../include/gamefield.h&quot;</code><br />
+<code>#include &quot;../include/constants.h&quot;</code><br />
+<code>#include &quot;../include/functions.h&quot;</code><br />
+<code>#include &quot;../include/player.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Grafo delle dipendenze di inclusione per gamefield.c:</div>
+<div class="dyncontent">
+<div class="center"><img src="gamefield_8c__incl.png" border="0" usemap="#asrc_2gamefield_8c" alt=""/></div>
+<map name="asrc_2gamefield_8c" id="asrc_2gamefield_8c">
+<area shape="rect" title=" " alt="" coords="411,5,532,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,76,107"/>
+<area shape="rect" title=" " alt="" coords="100,80,184,107"/>
+<area shape="rect" title=" " alt="" coords="209,80,366,107"/>
+<area shape="rect" title=" " alt="" coords="390,80,553,107"/>
+<area shape="rect" title=" " alt="" coords="577,80,737,107"/>
+<area shape="rect" title=" " alt="" coords="761,80,918,107"/>
+<area shape="rect" title=" " alt="" coords="943,80,1080,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Composti</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGameField.html">GameField</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">struct contentente il puntatore alla matrice del campo di gioco e il puntatore alla finestra di ncurses.  <a href="structGameField.html#details">Continua...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Ridefinizioni di tipo (typedef)</h2></td></tr>
+<tr class="memitem:a6048f95a643402d01e0ede801448198a"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structGameField.html">GameField</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a></td></tr>
+<tr class="memdesc:a6048f95a643402d01e0ede801448198a"><td class="mdescLeft">&#160;</td><td class="mdescRight">struct contentente il puntatore alla matrice del campo di gioco e il puntatore alla finestra di ncurses.  <a href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">Continua...</a><br /></td></tr>
+<tr class="separator:a6048f95a643402d01e0ede801448198a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Funzioni</h2></td></tr>
+<tr class="memitem:ae52961e906027f24e3770ee8fbed0275"><td class="memItemLeft" align="right" valign="top"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#ae52961e906027f24e3770ee8fbed0275">initialize_gamefield</a> (int y, int x)</td></tr>
+<tr class="memdesc:ae52961e906027f24e3770ee8fbed0275"><td class="mdescLeft">&#160;</td><td class="mdescRight">crea il campo da gioco  <a href="gamefield_8c.html#ae52961e906027f24e3770ee8fbed0275">Continua...</a><br /></td></tr>
+<tr class="separator:ae52961e906027f24e3770ee8fbed0275"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfb0772a6365658ab0b88acb32b97f80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#abfb0772a6365658ab0b88acb32b97f80">free_gamefield</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *g)</td></tr>
+<tr class="memdesc:abfb0772a6365658ab0b88acb32b97f80"><td class="mdescLeft">&#160;</td><td class="mdescRight">free del campo da gioco.  <a href="gamefield_8c.html#abfb0772a6365658ab0b88acb32b97f80">Continua...</a><br /></td></tr>
+<tr class="separator:abfb0772a6365658ab0b88acb32b97f80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d7e07c024f849ed99c32a404e208205"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a1d7e07c024f849ed99c32a404e208205">clear_top</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *g)</td></tr>
+<tr class="memdesc:a1d7e07c024f849ed99c32a404e208205"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pulizia della parte superiore dello schermo.  <a href="gamefield_8c.html#a1d7e07c024f849ed99c32a404e208205">Continua...</a><br /></td></tr>
+<tr class="separator:a1d7e07c024f849ed99c32a404e208205"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a016c346c90ad609858e9c4fe71ba1a30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a016c346c90ad609858e9c4fe71ba1a30">draw_cursor</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *g, <a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t, int cur_pos)</td></tr>
+<tr class="memdesc:a016c346c90ad609858e9c4fe71ba1a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">stampa l'ombra del tetramino dove questo verrá droppato.  <a href="gamefield_8c.html#a016c346c90ad609858e9c4fe71ba1a30">Continua...</a><br /></td></tr>
+<tr class="separator:a016c346c90ad609858e9c4fe71ba1a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5697bc18535696c06ec1148688e5ddc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#aa5697bc18535696c06ec1148688e5ddc">refresh_selector</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *g, <a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t, int cur_pos)</td></tr>
+<tr class="memdesc:aa5697bc18535696c06ec1148688e5ddc"><td class="mdescLeft">&#160;</td><td class="mdescRight">visualizza il tetramino selezionato nella parte superiore di un campo da gioco partendo dalla posizione del cursore.  <a href="gamefield_8c.html#aa5697bc18535696c06ec1148688e5ddc">Continua...</a><br /></td></tr>
+<tr class="separator:aa5697bc18535696c06ec1148688e5ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9777a39f3b668311caa35e070a31a03"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#aa9777a39f3b668311caa35e070a31a03">manage_drop</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *gameField, <a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t)</td></tr>
+<tr class="memdesc:aa9777a39f3b668311caa35e070a31a03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gestisce l'input del drop del tetramino.  <a href="gamefield_8c.html#aa9777a39f3b668311caa35e070a31a03">Continua...</a><br /></td></tr>
+<tr class="separator:aa9777a39f3b668311caa35e070a31a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac52aeab109c7e818b6e0332afbf9c903"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#ac52aeab109c7e818b6e0332afbf9c903">refresh_gamefield</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *g)</td></tr>
+<tr class="memdesc:ac52aeab109c7e818b6e0332afbf9c903"><td class="mdescLeft">&#160;</td><td class="mdescRight">Da chiamare per visualizzare le modifiche al campo del giocatore.  <a href="gamefield_8c.html#ac52aeab109c7e818b6e0332afbf9c903">Continua...</a><br /></td></tr>
+<tr class="separator:ac52aeab109c7e818b6e0332afbf9c903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c3e2c3a634c4ff2d185960ba9ab1941"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a1c3e2c3a634c4ff2d185960ba9ab1941">get_first_free_row</a> (int *f, <a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t, int cur_pos)</td></tr>
+<tr class="memdesc:a1c3e2c3a634c4ff2d185960ba9ab1941"><td class="mdescLeft">&#160;</td><td class="mdescRight">restituisce la prima riga libera nel campo da gioco.  <a href="gamefield_8c.html#a1c3e2c3a634c4ff2d185960ba9ab1941">Continua...</a><br /></td></tr>
+<tr class="separator:a1c3e2c3a634c4ff2d185960ba9ab1941"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf50972d64a4f1bcd7aaaa5410ebeb24"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#adf50972d64a4f1bcd7aaaa5410ebeb24">get_first_free_row_in_field</a> (int *f, int cur_pos)</td></tr>
+<tr class="memdesc:adf50972d64a4f1bcd7aaaa5410ebeb24"><td class="mdescLeft">&#160;</td><td class="mdescRight">restituisce la prima riga libera nel campo da gioco.  <a href="gamefield_8c.html#adf50972d64a4f1bcd7aaaa5410ebeb24">Continua...</a><br /></td></tr>
+<tr class="separator:adf50972d64a4f1bcd7aaaa5410ebeb24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83c9ef65386319cf06e30033a5fc6c83"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a83c9ef65386319cf06e30033a5fc6c83">add_tetrimino_to_gamefield</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *g, <a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t, int cur_pos)</td></tr>
+<tr class="memdesc:a83c9ef65386319cf06e30033a5fc6c83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aggiunge un tetramino al campo da gioco (funzione stub creata per compatibilitá).  <a href="gamefield_8c.html#a83c9ef65386319cf06e30033a5fc6c83">Continua...</a><br /></td></tr>
+<tr class="separator:a83c9ef65386319cf06e30033a5fc6c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67a11e444f724efccb602b10db356866"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a67a11e444f724efccb602b10db356866">add_tetrimino_to_field</a> (int *f, <a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *t, int cur_pos)</td></tr>
+<tr class="memdesc:a67a11e444f724efccb602b10db356866"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aggiunge un tetramino al campo da gioco.  <a href="gamefield_8c.html#a67a11e444f724efccb602b10db356866">Continua...</a><br /></td></tr>
+<tr class="separator:a67a11e444f724efccb602b10db356866"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f900206350a55e6bfe45852379d557d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a6f900206350a55e6bfe45852379d557d">is_gamefield_top_occupied</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *g)</td></tr>
+<tr class="memdesc:a6f900206350a55e6bfe45852379d557d"><td class="mdescLeft">&#160;</td><td class="mdescRight">controlla se il gamefield é stato saturato in almeno un blocco (funzione stub).  <a href="gamefield_8c.html#a6f900206350a55e6bfe45852379d557d">Continua...</a><br /></td></tr>
+<tr class="separator:a6f900206350a55e6bfe45852379d557d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa96825c95023bf04f6e30ee1f22f2a4a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#aa96825c95023bf04f6e30ee1f22f2a4a">is_field_top_occupied</a> (int *f)</td></tr>
+<tr class="memdesc:aa96825c95023bf04f6e30ee1f22f2a4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">controlla se il field é stato saturato in almeno un blocco.  <a href="gamefield_8c.html#aa96825c95023bf04f6e30ee1f22f2a4a">Continua...</a><br /></td></tr>
+<tr class="separator:aa96825c95023bf04f6e30ee1f22f2a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76852cf02d820b1a4405821eb504b660"><td class="memItemLeft" align="right" valign="top">int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a76852cf02d820b1a4405821eb504b660">get_gamefield</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *g)</td></tr>
+<tr class="memdesc:a76852cf02d820b1a4405821eb504b660"><td class="mdescLeft">&#160;</td><td class="mdescRight">metodo getter per ricevere la matrice con i tetramini.  <a href="gamefield_8c.html#a76852cf02d820b1a4405821eb504b660">Continua...</a><br /></td></tr>
+<tr class="separator:a76852cf02d820b1a4405821eb504b660"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f2757da752cfa98de0c477d035d222d"><td class="memItemLeft" align="right" valign="top">WINDOW *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a9f2757da752cfa98de0c477d035d222d">get_gamefield_win</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *g)</td></tr>
+<tr class="memdesc:a9f2757da752cfa98de0c477d035d222d"><td class="mdescLeft">&#160;</td><td class="mdescRight">metodo getter per ricevere la finestra ncurses del campo da gioco.  <a href="gamefield_8c.html#a9f2757da752cfa98de0c477d035d222d">Continua...</a><br /></td></tr>
+<tr class="separator:a9f2757da752cfa98de0c477d035d222d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a930ad3ba14a5ee15ef2470e556bf7834"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a930ad3ba14a5ee15ef2470e556bf7834">is_row_full</a> (int *field, int row)</td></tr>
+<tr class="memdesc:a930ad3ba14a5ee15ef2470e556bf7834"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controlla se la riga del campo, entrambi specificati via parametro, è piena.  <a href="gamefield_8c.html#a930ad3ba14a5ee15ef2470e556bf7834">Continua...</a><br /></td></tr>
+<tr class="separator:a930ad3ba14a5ee15ef2470e556bf7834"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a841bbdf803eeda4958b8f0796641b7c8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a841bbdf803eeda4958b8f0796641b7c8">is_row_empty</a> (int *field, int row)</td></tr>
+<tr class="memdesc:a841bbdf803eeda4958b8f0796641b7c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controlla se la riga del campo, entrambi specificati via parametro, è vuota.  <a href="gamefield_8c.html#a841bbdf803eeda4958b8f0796641b7c8">Continua...</a><br /></td></tr>
+<tr class="separator:a841bbdf803eeda4958b8f0796641b7c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77bf733aed6daadcad423c53267a185c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a77bf733aed6daadcad423c53267a185c">check_field</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *gameField)</td></tr>
+<tr class="memdesc:a77bf733aed6daadcad423c53267a185c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Controlla il campo se è pieno o se ha righe piene.  <a href="gamefield_8c.html#a77bf733aed6daadcad423c53267a185c">Continua...</a><br /></td></tr>
+<tr class="separator:a77bf733aed6daadcad423c53267a185c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e7375a66c65e77646b63db474635eeb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a2e7375a66c65e77646b63db474635eeb">flip_values</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *field, int rows)</td></tr>
+<tr class="memdesc:a2e7375a66c65e77646b63db474635eeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inverte il numero di righe specificate nel campo specificato.  <a href="gamefield_8c.html#a2e7375a66c65e77646b63db474635eeb">Continua...</a><br /></td></tr>
+<tr class="separator:a2e7375a66c65e77646b63db474635eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf10c073b190134923207a5871a9809c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#adf10c073b190134923207a5871a9809c">flip_values_in_row</a> (<a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *field, int row)</td></tr>
+<tr class="memdesc:adf10c073b190134923207a5871a9809c"><td class="mdescLeft">&#160;</td><td class="mdescRight">inverte i valori in una riga del campo da gioco.  <a href="gamefield_8c.html#adf10c073b190134923207a5871a9809c">Continua...</a><br /></td></tr>
+<tr class="separator:adf10c073b190134923207a5871a9809c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8816471ebde80e7ae7648f24d14628f5"><td class="memItemLeft" align="right" valign="top">int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gamefield_8c.html#a8816471ebde80e7ae7648f24d14628f5">clone_field</a> (int *f)</td></tr>
+<tr class="memdesc:a8816471ebde80e7ae7648f24d14628f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clona il field e restituisce il puntatore.  <a href="gamefield_8c.html#a8816471ebde80e7ae7648f24d14628f5">Continua...</a><br /></td></tr>
+<tr class="separator:a8816471ebde80e7ae7648f24d14628f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentazione delle ridefinizioni di tipo (typedef)</h2>
+<a id="a6048f95a643402d01e0ede801448198a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6048f95a643402d01e0ede801448198a">&#9670;&nbsp;</a></span>gamefield_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structGameField.html">GameField</a> <a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>struct contentente il puntatore alla matrice del campo di gioco e il puntatore alla finestra di ncurses. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Documentazione delle funzioni</h2>
+<a id="a67a11e444f724efccb602b10db356866"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67a11e444f724efccb602b10db356866">&#9670;&nbsp;</a></span>add_tetrimino_to_field()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int add_tetrimino_to_field </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>cur_pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Aggiunge un tetramino al campo da gioco. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>matrice di gioco (quella dove sono salvati i tetramini). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>tetramino da piazzare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cur_pos</td><td>posizione del cursore.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>1 se il tetramino si è incastrato, 0 se il campo era pieno e non è riuscito. </dd></dl>
+
+</div>
+</div>
+<a id="a83c9ef65386319cf06e30033a5fc6c83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83c9ef65386319cf06e30033a5fc6c83">&#9670;&nbsp;</a></span>add_tetrimino_to_gamefield()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int add_tetrimino_to_gamefield </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>cur_pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Aggiunge un tetramino al campo da gioco (funzione stub creata per compatibilitá). </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>campo di gioco. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>tetramino da piazzare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cur_pos</td><td>posizione del cursore.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>1 se il tetramino si è incastrato, 0 se il campo era pieno e non è riuscito. </dd></dl>
+
+</div>
+</div>
+<a id="a77bf733aed6daadcad423c53267a185c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77bf733aed6daadcad423c53267a185c">&#9670;&nbsp;</a></span>check_field()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int check_field </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>gameField</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Controlla il campo se è pieno o se ha righe piene. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">gameField</td><td>Il campo da controllare.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>Il numero di righe che il giocatore ha riempito. </dd></dl>
+
+</div>
+</div>
+<a id="a1d7e07c024f849ed99c32a404e208205"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d7e07c024f849ed99c32a404e208205">&#9670;&nbsp;</a></span>clear_top()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void clear_top </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pulizia della parte superiore dello schermo. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>Il campo di gioco. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8816471ebde80e7ae7648f24d14628f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8816471ebde80e7ae7648f24d14628f5">&#9670;&nbsp;</a></span>clone_field()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int* clone_field </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clona il field e restituisce il puntatore. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>Il field da clonare. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>La matrice clonata. </dd></dl>
+
+</div>
+</div>
+<a id="a016c346c90ad609858e9c4fe71ba1a30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a016c346c90ad609858e9c4fe71ba1a30">&#9670;&nbsp;</a></span>draw_cursor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void draw_cursor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>cur_pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>stampa l'ombra del tetramino dove questo verrá droppato. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>il puntatore al campo da gioco. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>il puntatore al tetramino. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cur_pos</td><td>la posizione del cursore. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2e7375a66c65e77646b63db474635eeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e7375a66c65e77646b63db474635eeb">&#9670;&nbsp;</a></span>flip_values()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void flip_values </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>field</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rows</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inverte il numero di righe specificate nel campo specificato. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">field</td><td>Il campo su cui invertire le righe. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rows</td><td>Il numero di righe. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adf10c073b190134923207a5871a9809c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf10c073b190134923207a5871a9809c">&#9670;&nbsp;</a></span>flip_values_in_row()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void flip_values_in_row </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>field</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>inverte i valori in una riga del campo da gioco. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">field</td><td>il campo da gioco. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">row</td><td>la riga dove effettuare l'operazione. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abfb0772a6365658ab0b88acb32b97f80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfb0772a6365658ab0b88acb32b97f80">&#9670;&nbsp;</a></span>free_gamefield()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void free_gamefield </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>free del campo da gioco. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>il campo da gioco. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a1c3e2c3a634c4ff2d185960ba9ab1941"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c3e2c3a634c4ff2d185960ba9ab1941">&#9670;&nbsp;</a></span>get_first_free_row()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int get_first_free_row </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>cur_pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>restituisce la prima riga libera nel campo da gioco. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>Il campo da gioco da controllare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>Il tetramino da incastrare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cur_pos</td><td>La posizione del cursore e quindi la prima colonna di discesa del tetramino.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>row La posizione nella matrice della prima riga libera. </dd></dl>
+
+</div>
+</div>
+<a id="adf50972d64a4f1bcd7aaaa5410ebeb24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf50972d64a4f1bcd7aaaa5410ebeb24">&#9670;&nbsp;</a></span>get_first_free_row_in_field()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int get_first_free_row_in_field </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>cur_pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>restituisce la prima riga libera nel campo da gioco. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>Il campo da gioco da controllare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>Il tetramino da incastrare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cur_pos</td><td>La posizione del cursore e quindi la prima colonna di discesa del tetramino.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>row La posizione nella matrice della prima riga libera. </dd></dl>
+
+</div>
+</div>
+<a id="a76852cf02d820b1a4405821eb504b660"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76852cf02d820b1a4405821eb504b660">&#9670;&nbsp;</a></span>get_gamefield()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int* get_gamefield </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>metodo getter per ricevere la matrice con i tetramini. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>puntatore alla struct del campo da gioco.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>field la matrice di interi che rappresenta la matrice con i tetramini. </dd></dl>
+
+</div>
+</div>
+<a id="a9f2757da752cfa98de0c477d035d222d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f2757da752cfa98de0c477d035d222d">&#9670;&nbsp;</a></span>get_gamefield_win()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">WINDOW* get_gamefield_win </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>metodo getter per ricevere la finestra ncurses del campo da gioco. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>puntatore alla struct del campo da gioco.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>win la finestra di ncurses del campo da gioco. </dd></dl>
+
+</div>
+</div>
+<a id="ae52961e906027f24e3770ee8fbed0275"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae52961e906027f24e3770ee8fbed0275">&#9670;&nbsp;</a></span>initialize_gamefield()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a>* initialize_gamefield </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>x</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>crea il campo da gioco </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">y_pos</td><td>La posizione Y iniziale in cui posizionare la finestra. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x_pos</td><td>La posizione X iniziale in cui posizionare la finestra.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>Lo struct del gamefield istanziato. </dd></dl>
+
+</div>
+</div>
+<a id="aa96825c95023bf04f6e30ee1f22f2a4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa96825c95023bf04f6e30ee1f22f2a4a">&#9670;&nbsp;</a></span>is_field_top_occupied()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int is_field_top_occupied </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>controlla se il field é stato saturato in almeno un blocco. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td>la matrice campo da gioco</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>1 se é pieno, 0 altrimenti. </dd></dl>
+
+</div>
+</div>
+<a id="a6f900206350a55e6bfe45852379d557d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f900206350a55e6bfe45852379d557d">&#9670;&nbsp;</a></span>is_gamefield_top_occupied()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int is_gamefield_top_occupied </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>controlla se il gamefield é stato saturato in almeno un blocco (funzione stub). </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>gamefield da controllare.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>1 se é pieno, 0 altrimenti. </dd></dl>
+
+</div>
+</div>
+<a id="a841bbdf803eeda4958b8f0796641b7c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a841bbdf803eeda4958b8f0796641b7c8">&#9670;&nbsp;</a></span>is_row_empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int is_row_empty </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>field</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Controlla se la riga del campo, entrambi specificati via parametro, è vuota. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">field</td><td>Il campo su cui controllare la riga </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">row</td><td>La riga da controllare.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>1 se la riga è vuota, 0 se ha almeno una cella piena, -1 se la riga è fuori dal campo. </dd></dl>
+
+</div>
+</div>
+<a id="a930ad3ba14a5ee15ef2470e556bf7834"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a930ad3ba14a5ee15ef2470e556bf7834">&#9670;&nbsp;</a></span>is_row_full()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int is_row_full </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>field</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>row</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Controlla se la riga del campo, entrambi specificati via parametro, è piena. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">field</td><td>Il campo su cui controllare la riga. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">row</td><td>La riga da controllare.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>1 se la riga è piena, 0 se ha almeno una cella vuota, -1 se la riga è fuori dal campo. </dd></dl>
+
+</div>
+</div>
+<a id="aa9777a39f3b668311caa35e070a31a03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9777a39f3b668311caa35e070a31a03">&#9670;&nbsp;</a></span>manage_drop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int manage_drop </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>gameField</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gestisce l'input del drop del tetramino. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">gameField</td><td>Il campo dove bisogna droppare il tetramino. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>Il tetramino da droppare.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Restituisce</dt><dd>il cursore dove droppare il tetramino. </dd></dl>
+
+</div>
+</div>
+<a id="ac52aeab109c7e818b6e0332afbf9c903"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac52aeab109c7e818b6e0332afbf9c903">&#9670;&nbsp;</a></span>refresh_gamefield()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void refresh_gamefield </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>g</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Da chiamare per visualizzare le modifiche al campo del giocatore. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>Il campo da gioco di cui bisogna aggiornare lo schermo. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa5697bc18535696c06ec1148688e5ddc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5697bc18535696c06ec1148688e5ddc">&#9670;&nbsp;</a></span>refresh_selector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void refresh_selector </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> *&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#ade3bae78a1873d82e116422adcf445f9">tetrimino_t</a> *&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>cur_pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>visualizza il tetramino selezionato nella parte superiore di un campo da gioco partendo dalla posizione del cursore. </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">g</td><td>il campo da gioco dove stampare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">t</td><td>tetramino da stampare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cur_pos</td><td>posizione del cursore. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generato da&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>

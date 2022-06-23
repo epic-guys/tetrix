@@ -61,6 +61,7 @@ void strategy_destroy(strategy_t *strategy)
  * @brief funzione che ritorna il cursore della strategia passata come parametro.
  *
  * @param[in] s il puntatore alla strategia.
+ * 
  * @return il cursore sul campo.
  */
 int get_strategy_cursor(strategy_t *s)
@@ -72,6 +73,7 @@ int get_strategy_cursor(strategy_t *s)
  * @brief funzione che ritorna il tipo di tetramino usato dalla strategia passata come parametro.
  *
  * @param[in] s il puntatore alla strategia.
+ * 
  * @return il tipo di tetramino usato dalla strategia.
  */
 int get_strategy_tet_type(strategy_t *s)
@@ -83,6 +85,7 @@ int get_strategy_tet_type(strategy_t *s)
  * @brief funzione che ritorna la rotazione del tetramino usato della strategia passata come parametro.
  *
  * @param[in] s il puntatore alla strategia.
+ * 
  * @return la rotazione del tetramino.
  */
 int get_strategy_tet_rotation(strategy_t *s)
@@ -256,7 +259,7 @@ int calculate_score(strategy_t *s, int *old, tetrimino_t *tet, tetrimino_t *last
     /* se fa finire il gioco semplicemente fa schifo come opzione */
     if (!drops)
     {
-        return -100000; /* immagina ricevere -1000 punti LMAO */
+        return -FIELD_COLS*FIELD_ROWS*1000; /* immagina ricevere -1000 punti LMAO */
     }
 
     cur_diff = last_cursor - s->cursor;
@@ -306,7 +309,6 @@ int calculate_score(strategy_t *s, int *old, tetrimino_t *tet, tetrimino_t *last
         if (!is_row_full(s->field, i))
         {
             for (j = 0; j < FIELD_COLS; j++)
-                ;
             {
                 if (s->field[i * FIELD_COLS + j] != 0)
                 {

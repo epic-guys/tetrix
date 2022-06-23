@@ -1,0 +1,440 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tetrix: Riferimenti per il file src/multiplayer.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Tetrix
+   &#160;<span id="projectnumber">1.0.0</span>
+   </div>
+   <div id="projectbrief">Tetrix by Davide Antonio Amodio, Luca Boffo, Alvise Favero</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generato da Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Cerca','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Cerca');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Funzioni</a>  </div>
+  <div class="headertitle">
+<div class="title">Riferimenti per il file multiplayer.c</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;ncurses.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &quot;../include/player.h&quot;</code><br />
+<code>#include &quot;../include/gamefield.h&quot;</code><br />
+<code>#include &quot;../include/tetrimino.h&quot;</code><br />
+<code>#include &quot;../include/functions.h&quot;</code><br />
+<code>#include &quot;../include/constants.h&quot;</code><br />
+<code>#include &quot;../include/bot.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Grafo delle dipendenze di inclusione per multiplayer.c:</div>
+<div class="dyncontent">
+<div class="center"><img src="multiplayer_8c__incl.png" border="0" usemap="#asrc_2multiplayer_8c" alt=""/></div>
+<map name="asrc_2multiplayer_8c" id="asrc_2multiplayer_8c">
+<area shape="rect" title=" " alt="" coords="481,5,611,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,89,107"/>
+<area shape="rect" title=" " alt="" coords="113,80,184,107"/>
+<area shape="rect" title=" " alt="" coords="208,80,279,107"/>
+<area shape="rect" title=" " alt="" coords="303,80,440,107"/>
+<area shape="rect" title=" " alt="" coords="465,80,627,107"/>
+<area shape="rect" title=" " alt="" coords="651,80,809,107"/>
+<area shape="rect" title=" " alt="" coords="833,80,990,107"/>
+<area shape="rect" title=" " alt="" coords="1014,80,1174,107"/>
+<area shape="rect" title=" " alt="" coords="1199,80,1317,107"/>
+</map>
+</div>
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Funzioni</h2></td></tr>
+<tr class="memitem:a93c73fb49705c0600cfd9448971d0806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="multiplayer_8c.html#a93c73fb49705c0600cfd9448971d0806">pvp_new_game</a> ()</td></tr>
+<tr class="memdesc:a93c73fb49705c0600cfd9448971d0806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizia la partita in PvP.  <a href="multiplayer_8c.html#a93c73fb49705c0600cfd9448971d0806">Continua...</a><br /></td></tr>
+<tr class="separator:a93c73fb49705c0600cfd9448971d0806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a848a70037718eb818b5fc64aae00e8fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="multiplayer_8c.html#a848a70037718eb818b5fc64aae00e8fd">pvp_continue_game</a> (<a class="el" href="player_8c.html#a41ac1fc93ec4c54167ff5d56474950d9">player_t</a> **players, <a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> **gameFields, <a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *pool, <a class="el" href="player_8c.html#af6e7f5332e7bf0fe769ba30f9a699deb">pointboard_t</a> *points)</td></tr>
+<tr class="memdesc:a848a70037718eb818b5fc64aae00e8fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso fra i giocatori controllando eventuali perdite, righe riempite ecc...  <a href="multiplayer_8c.html#a848a70037718eb818b5fc64aae00e8fd">Continua...</a><br /></td></tr>
+<tr class="separator:a848a70037718eb818b5fc64aae00e8fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99e773c3947a93434dcd1a169487d76f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="multiplayer_8c.html#a99e773c3947a93434dcd1a169487d76f">pvp_end_game</a> (int win_flag, <a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> **gameFields, <a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *pool, <a class="el" href="player_8c.html#af6e7f5332e7bf0fe769ba30f9a699deb">pointboard_t</a> *points, <a class="el" href="player_8c.html#a41ac1fc93ec4c54167ff5d56474950d9">player_t</a> **players, unsigned int start_time, int *moves)</td></tr>
+<tr class="memdesc:a99e773c3947a93434dcd1a169487d76f"><td class="mdescLeft">&#160;</td><td class="mdescRight">gestisce la fine della partita e dealloca tutto ció che é stato usato  <a href="multiplayer_8c.html#a99e773c3947a93434dcd1a169487d76f">Continua...</a><br /></td></tr>
+<tr class="separator:a99e773c3947a93434dcd1a169487d76f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bb59a22f947e17a7766abca47c94ee8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="multiplayer_8c.html#a8bb59a22f947e17a7766abca47c94ee8">pve_new_game</a> ()</td></tr>
+<tr class="memdesc:a8bb59a22f947e17a7766abca47c94ee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inizia la partita in PvCPU.  <a href="multiplayer_8c.html#a8bb59a22f947e17a7766abca47c94ee8">Continua...</a><br /></td></tr>
+<tr class="separator:a8bb59a22f947e17a7766abca47c94ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9848fceb73c869fdb668d967f1122fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="multiplayer_8c.html#ae9848fceb73c869fdb668d967f1122fd">pve_continue_game</a> (<a class="el" href="player_8c.html#a41ac1fc93ec4c54167ff5d56474950d9">player_t</a> **players, <a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> **gameFields, <a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *pool, <a class="el" href="player_8c.html#af6e7f5332e7bf0fe769ba30f9a699deb">pointboard_t</a> *points, int difficulty)</td></tr>
+<tr class="memdesc:ae9848fceb73c869fdb668d967f1122fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso fra il giocatore e la CPU controllando eventuali perdite, righe riempite ecc...  <a href="multiplayer_8c.html#ae9848fceb73c869fdb668d967f1122fd">Continua...</a><br /></td></tr>
+<tr class="separator:ae9848fceb73c869fdb668d967f1122fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16528058f7d23b7dfae0e5a1894509e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="multiplayer_8c.html#a16528058f7d23b7dfae0e5a1894509e1">pvp_instructions</a> (char *nickname1, char *nickname2)</td></tr>
+<tr class="memdesc:a16528058f7d23b7dfae0e5a1894509e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">stampa le istruzioni per la partita in pvp  <a href="multiplayer_8c.html#a16528058f7d23b7dfae0e5a1894509e1">Continua...</a><br /></td></tr>
+<tr class="separator:a16528058f7d23b7dfae0e5a1894509e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c1e77194ced6e25ccd1eabad98b11c8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="multiplayer_8c.html#a4c1e77194ced6e25ccd1eabad98b11c8">select_difficulty</a> ()</td></tr>
+<tr class="memdesc:a4c1e77194ced6e25ccd1eabad98b11c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crea un menu per selezionare la difficoltà e restituisce il valore di errore del bot. Il suo errore consiste nella dimensione dell'array delle migliori soluzioni, da cui selezionerà casualmente la mossa. Più è grande l'array, meno è probabile che scelga la soluzione migliore.  <a href="multiplayer_8c.html#a4c1e77194ced6e25ccd1eabad98b11c8">Continua...</a><br /></td></tr>
+<tr class="separator:a4c1e77194ced6e25ccd1eabad98b11c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f42a9a692f45fd669f9867d145beb5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="multiplayer_8c.html#a7f42a9a692f45fd669f9867d145beb5b">pve_instructions</a> (char *nickname)</td></tr>
+<tr class="memdesc:a7f42a9a692f45fd669f9867d145beb5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">stampa le istruzioni per la partita in pvp  <a href="multiplayer_8c.html#a7f42a9a692f45fd669f9867d145beb5b">Continua...</a><br /></td></tr>
+<tr class="separator:a7f42a9a692f45fd669f9867d145beb5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Documentazione delle funzioni</h2>
+<a id="ae9848fceb73c869fdb668d967f1122fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9848fceb73c869fdb668d967f1122fd">&#9670;&nbsp;</a></span>pve_continue_game()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pve_continue_game </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="player_8c.html#a41ac1fc93ec4c54167ff5d56474950d9">player_t</a> **&#160;</td>
+          <td class="paramname"><em>players</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> **&#160;</td>
+          <td class="paramname"><em>gameFields</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>pool</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="player_8c.html#af6e7f5332e7bf0fe769ba30f9a699deb">pointboard_t</a> *&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>difficulty</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso fra il giocatore e la CPU controllando eventuali perdite, righe riempite ecc... </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">players</td><td>Array di puntatori ai giocatori. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gameFields</td><td>Array di puntatoro ai campi da gioco dei giocatori. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pool</td><td>La pool usata in partita con i tetramini rimanenti. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>Il puntatore ai punteggii dei giocatori. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">difficulty</td><td>La difficoltá del BOT. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7f42a9a692f45fd669f9867d145beb5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f42a9a692f45fd669f9867d145beb5b">&#9670;&nbsp;</a></span>pve_instructions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pve_instructions </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>nickname</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>stampa le istruzioni per la partita in pvp </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">nickname</td><td>puntatore al nome del giocatore </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8bb59a22f947e17a7766abca47c94ee8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bb59a22f947e17a7766abca47c94ee8">&#9670;&nbsp;</a></span>pve_new_game()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pve_new_game </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inizia la partita in PvCPU. </p>
+
+</div>
+</div>
+<a id="a848a70037718eb818b5fc64aae00e8fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a848a70037718eb818b5fc64aae00e8fd">&#9670;&nbsp;</a></span>pvp_continue_game()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pvp_continue_game </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="player_8c.html#a41ac1fc93ec4c54167ff5d56474950d9">player_t</a> **&#160;</td>
+          <td class="paramname"><em>players</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> **&#160;</td>
+          <td class="paramname"><em>gameFields</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>pool</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="player_8c.html#af6e7f5332e7bf0fe769ba30f9a699deb">pointboard_t</a> *&#160;</td>
+          <td class="paramname"><em>points</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>corpo principale del gioco che si alterna fra scelta blocco e drop dello stesso fra i giocatori controllando eventuali perdite, righe riempite ecc... </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">players</td><td>Array di puntatori ai giocatori. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gameFields</td><td>Array di puntatoro ai campi da gioco dei giocatori. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pool</td><td>La pool usata in partita con i tetramini rimanenti. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>Il puntatore ai punteggii dei giocatori. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a99e773c3947a93434dcd1a169487d76f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99e773c3947a93434dcd1a169487d76f">&#9670;&nbsp;</a></span>pvp_end_game()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pvp_end_game </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>win_flag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="gamefield_8c.html#a6048f95a643402d01e0ede801448198a">gamefield_t</a> **&#160;</td>
+          <td class="paramname"><em>gameFields</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="tetrimino_8c.html#a7f26275d80ade431dd5960eeb81dbf34">tetrimini_pool_t</a> *&#160;</td>
+          <td class="paramname"><em>pool</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="player_8c.html#af6e7f5332e7bf0fe769ba30f9a699deb">pointboard_t</a> *&#160;</td>
+          <td class="paramname"><em>points</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="player_8c.html#a41ac1fc93ec4c54167ff5d56474950d9">player_t</a> **&#160;</td>
+          <td class="paramname"><em>players</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>start_time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>moves</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>gestisce la fine della partita e dealloca tutto ció che é stato usato </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">win_flag</td><td>valore che segna chi ha vinto la partita </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gameFields</td><td>Array di puntatori ai campi da gioco dei giocatori. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pool</td><td>La pool usata in partita con i tetramini rimanenti. (serve per deallocarla) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">points</td><td>Il puntatore ai punteggi dei giocatori. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">players</td><td>Array di puntatori ai giocatori. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">start_time</td><td>timestamp di inizio della partita. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">moves</td><td>puntatore ad array di int contenente per ciascun giocatore il numero di mosse effettuate. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a16528058f7d23b7dfae0e5a1894509e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16528058f7d23b7dfae0e5a1894509e1">&#9670;&nbsp;</a></span>pvp_instructions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pvp_instructions </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>nickname1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>nickname2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>stampa le istruzioni per la partita in pvp </p>
+<dl class="params"><dt>Parametri</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">nickname1</td><td>puntatore al nome del primo giocatore </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">nickname2</td><td>puntatore al nome del secondo giocatore </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a93c73fb49705c0600cfd9448971d0806"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93c73fb49705c0600cfd9448971d0806">&#9670;&nbsp;</a></span>pvp_new_game()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pvp_new_game </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Inizia la partita in PvP. </p>
+
+</div>
+</div>
+<a id="a4c1e77194ced6e25ccd1eabad98b11c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c1e77194ced6e25ccd1eabad98b11c8">&#9670;&nbsp;</a></span>select_difficulty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int select_difficulty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Crea un menu per selezionare la difficoltà e restituisce il valore di errore del bot. Il suo errore consiste nella dimensione dell'array delle migliori soluzioni, da cui selezionerà casualmente la mossa. Più è grande l'array, meno è probabile che scelga la soluzione migliore. </p>
+<dl class="section return"><dt>Restituisce</dt><dd>L'errore del bot. </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generato da&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+</small></address>
+</body>
+</html>
