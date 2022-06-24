@@ -11,6 +11,9 @@
 #include "../include/net_game.h"
 #include "../include/networking.h"
 
+void new_game_host(char* nickname);
+void new_game_client(char* nickname, char* ip);
+
 /**
  * @brief stampa le istruzioni per la partita in LAN.
  *
@@ -51,7 +54,7 @@ void LAN_instructions(char *nickname)
     return;
 }
 
-char* connection_menu()
+void connection_menu(char* nickname)
 {
     char* ip;
     WINDOW *w;
@@ -112,15 +115,20 @@ char* connection_menu()
     case 0:
         /*Creo il server, mostro l'ip (?)*/
         kill_win(w);
-        
+        new_game_host(nickname);
         break;
     case 1:
         /*chiedo un IP*/
         kill_win(w);
+        /*
         do
         {
+            */
             ip = form(20, " IPv4:PORT ");
+            /*
         } while (!is_an_ip(ip));
+        */
+        new_game_client(nickname, ip);
         break;
     default:
         delwin(w);
@@ -139,14 +147,57 @@ void net_new_game()
 
     char *nickname;
     nickname = form(16, " Nome: ");
-    connection_menu();
-    refresh();
 
-#ifndef DEBUG
-
+    #ifndef DEBUG
     LAN_instructions(nickname);
+    #endif
 
-#endif
+    connection_menu(nickname);
 
     return;
 }
+
+#pragma region SERVER
+
+void new_game_host(char* nickname)
+{
+    WINDOW* win = newwin(10, COLS - 2, LINES / 2, 1);
+    char* clt_nick;
+    box(win, 0, 0);
+    wmove(win, getmaxy(win) / 2, getmaxx(win) / 2 - 27);
+    wprintw(win, "In attesa di connessione...");
+    wrefresh(win);
+
+    /* ATTENZIONE, BLOCCANTE */
+    srvconf_t server = host_game();
+
+    /* SCAMBIO DI NICKNAME */
+    clt_nick = recv_nickname(server.conn_socket);
+    send_nickname(server.conn_socket, nickname);
+
+    kill_win(win);
+    win = newwin(20, 20, (LINES / 2) - 10, 1);
+    box(win, 0, 0);
+    mvwprintw(win, 2, 2, nickname);
+    mvwprintw(win, 4, 2, clt_nick);
+    attron(A_STANDOUT);
+    mvwprintw(win, getmaxy(win) - 2, getmaxx(win) / 2 - 9, "> GIOCA <");
+    attroff(A_STANDOUT);
+    wrefresh(win);
+    while (1);
+}
+
+#pragma endregion
+
+
+#pragma region CLIENT
+
+void new_game_client(char* nickname, char* ip)
+{
+    int socket = connect_to_game(ip);
+    char* srv_nick;
+    send_nickname(socket, nickname);
+    srv_nick = recv_nickname(socket);
+}
+
+#pragma endregion

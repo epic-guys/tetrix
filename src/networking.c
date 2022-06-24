@@ -11,16 +11,11 @@
 #include <errno.h>
 /*Gestione dei caratteri*/
 #include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include "../include/constants.h"
 #include "../include/networking.h"
-
-typedef struct SrvConf
-{
-    int socket;
-    int conn_socket;
-    struct sockaddr_in client_addr;
-} srvconf_t;
 
 /**
  * @brief Apre la connessione in entrata per 
@@ -30,6 +25,7 @@ typedef struct SrvConf
 srvconf_t host_game()
 {
     struct sockaddr_in addr;
+    socklen_t addr_len;
     int err;
     srvconf_t conf;
 
@@ -43,8 +39,8 @@ srvconf_t host_game()
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(PORT);
 
-    bind(conf.socket, (struct sockaddr*) &addr, sizeof(struct sockaddr_in));
-    if (bind == -1)
+    err = bind(conf.socket, (struct sockaddr*) &addr, sizeof(struct sockaddr_in));
+    if (err == -1)
     {
         /* Errore */
     }
@@ -55,7 +51,7 @@ srvconf_t host_game()
         /* Errore */
     }
 
-    conf.conn_socket = accept(conf.socket, (struct sockaddr*) &conf.conn_socket, sizeof(struct sockaddr_in));
+    conf.conn_socket = accept(conf.socket, (struct sockaddr*) &conf.client_addr, &addr_len);
 
     if (conf.conn_socket == -1)
     {
@@ -71,9 +67,36 @@ void close_server(srvconf_t server)
     close(server.socket);
 }
 
-int connect_to_game(char* addr)
+void close_client(int socket)
 {
-    
+    close(socket);
+}
+
+/**
+ * @brief Si connette alla partita all'IP specificato.
+ * 
+ * @param ip L'indirizzo IP a cui connettersi.
+ * @return Il numero del socket.
+ */
+int connect_to_game(char* ip)
+{
+    struct sockaddr_in addr;
+    socklen_t addr_len;
+    int sock, err;
+
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = inet_addr(ip);
+    addr.sin_port = htons(PORT);
+
+    err = connect(sock, (struct sockaddr*) &addr, sizeof(addr));
+    if (err == -1)
+    {
+        /* ERRORE */
+    }
+
+    return sock;
 }
 
 int is_an_ip(char* c){
@@ -124,4 +147,24 @@ int is_an_ip(char* c){
         else{ return 0; }
     }
     return 0;
+}
+
+char* recv_nickname(int socket)
+{
+    int err;
+    char *nick = (char*) malloc(sizeof(char) * (NICKNAME_LEN + 1));
+    
+    err = recv(socket, nick, NICKNAME_LEN + 1, 0);
+    if (err == -1)
+        return NULL;
+    else
+        return nick;
+}
+
+int send_nickname(int socket, char* nickname)
+{
+    int err;
+    
+    err = send(socket, nickname, NICKNAME_LEN + 1, 0);
+    return err != -1;
 }

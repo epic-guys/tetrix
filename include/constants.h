@@ -57,6 +57,9 @@
 #define POINTBOARD_ROWS_2P 7
 #define POINTBOARD_COLS 28
 
+/**
+ * @brief Lunghezza di un nome utente SENZA NULL TERMINATOR.
+ */
 #define NICKNAME_LEN 16
 
 #pragma endregion
@@ -113,6 +116,7 @@ non faccia la mossa migliore.
 #pragma region NETWORK
 
 #define PORT 6009
+#define BUFFSIZE 1024
 
 #pragma endregion
 
