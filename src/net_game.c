@@ -1,0 +1,152 @@
+#include <ncurses.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
+#include "../include/player.h"
+#include "../include/gamefield.h"
+#include "../include/tetrimino.h"
+#include "../include/functions.h"
+#include "../include/constants.h"
+#include "../include/net_game.h"
+#include "../include/networking.h"
+
+/**
+ * @brief stampa le istruzioni per la partita in LAN.
+ *
+ * @param[in] nickname puntatore al nome del giocatore.
+ */
+void LAN_instructions(char *nickname)
+{
+    WINDOW *instructions_win;
+    char ch;
+    int art_cols = get_ASCII_art_rows(ART_LOGO);
+    /* 3 è l'altezza della finestra dei credits */
+    instructions_win = newwin(LINES - art_cols - 3, COLS, 6, 0);
+    box(instructions_win, 0, 0);
+    mvwprintw(instructions_win, 0, 1, " BENVENUTO ");
+
+    wmove(instructions_win, 2, 2);
+    wprint_with_delay(instructions_win, TXT_DELAY, SINGLE_WELCOME_TXT[0]);
+    wprint_with_delay(instructions_win, TXT_DELAY, nickname);
+    wmove(instructions_win, 3, 2);
+    wprint_with_delay(instructions_win, TXT_DELAY, SINGLE_WELCOME_TXT[1]);
+
+    delay(1000);
+
+    wmove(instructions_win, 18, (COLS / 2) - 4);
+    wattron(instructions_win, A_STANDOUT);
+    wprintw(instructions_win, "> Gioca! <");
+    wattroff(instructions_win, A_STANDOUT);
+    wrefresh(instructions_win);
+
+    ch = -1;
+
+    do
+    {
+        ch = wgetch(instructions_win);
+    } while (ch != 10);
+
+    kill_win(instructions_win);
+    return;
+}
+
+char* connection_menu()
+{
+    char* ip;
+    WINDOW *w;
+    int N_items = 2;
+    char list[2][15] = {"Crea Partita", "Connettiti"};
+    char item[15];
+    int ch = -1, i = 0, width = 7;
+    w = newwin(10, COLS - 2, LINES / 2, 1);
+    box(w, 0, 0);
+
+    for (i = 0; i < N_items; ++i)
+    {
+        if (i == 0)
+            wattron(w, A_STANDOUT);
+        else
+            wattroff(w, A_STANDOUT);
+        sprintf(item, "%-7s", list[i]);
+        mvwprintw(w, i + 1, 2, "%s", item);
+    }
+
+    /*carica lo schermo*/
+    wrefresh(w);
+    i = 0;
+    /*sposta il focus della tastiera sulla finestra*/
+    keypad(w, TRUE);
+    /* Nasconde il cursore di sistema*/
+    curs_set(0);
+
+    do
+    {
+        ch = wgetch(w);
+
+        sprintf(item, "%-7s", list[i]);
+        mvwprintw(w, i + 1, 2, "%s", item);
+
+        switch (ch)
+        {
+        case KEY_UP:
+            i--;
+            i = (i < 0) ? N_items - 1 : i;
+            break;
+        case KEY_DOWN:
+            i++;
+            i = (i > N_items - 1) ? 0 : i;
+            break;
+        }
+
+        /*Sottolinea la scelta*/
+        wattron(w, A_STANDOUT);
+        sprintf(item, "%-7s", list[i]);
+        mvwprintw(w, i + 1, 2, "%s", item);
+        wattroff(w, A_STANDOUT);
+
+    } while (ch != 10);
+
+    switch (i)
+    {
+    case 0:
+        /*Creo il server, mostro l'ip (?)*/
+        kill_win(w);
+        
+        break;
+    case 1:
+        /*chiedo un IP*/
+        kill_win(w);
+        do
+        {
+            ip = form(20, " IPv4:PORT ");
+        } while (!is_an_ip(ip));
+        break;
+    default:
+        delwin(w);
+        endwin();
+        printf("Tetrix ha Flatlineato"); /* Grande citazione */
+        break;
+    }
+}
+
+/**
+ * @brief inizia una partita in single player
+ */
+void net_new_game()
+{
+
+
+    char *nickname;
+    nickname = form(16, " Nome: ");
+    connection_menu();
+    refresh();
+
+#ifndef DEBUG
+
+    LAN_instructions(nickname);
+
+#endif
+
+    return;
+}

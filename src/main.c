@@ -7,6 +7,7 @@
 #include "../include/multiplayer.h"
 #include "../include/functions.h"
 #include "../include/constants.h"
+#include "../include/net_game.h"
 
 void init_colors();
 void init_main_screen();
@@ -119,8 +120,8 @@ void main_menu()
 {
     WINDOW *w;
     /*Quanti elementi ci sono nel menú*/
-    int N_items = 4;
-    char list[4][15] = {"Single Player", "PvP", "PvCPU", "Quit"};
+    int N_items = 5;
+    char list[5][15] = {"Single Player", "PvP", "PvCPU","LAN (beta)","Quit"};
     char item[15];
     int ch = -1, i = 0, width = 7;
     /* Crea una nuova finestra */
@@ -196,6 +197,12 @@ void main_menu()
         main_menu();
         break;
     case 3:
+        /* PvP LAN */
+        kill_win(w);
+        net_new_game();
+        main_menu();
+        break;
+    case 4:
         /* Quit */
         endwin();
         break;

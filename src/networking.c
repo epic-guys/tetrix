@@ -9,9 +9,11 @@
 /* Chiusura del file descriptor dello stream */
 #include <unistd.h>
 #include <errno.h>
+/*Gestione dei caratteri*/
+#include <ctype.h>
 
-#include "constants.h"
-#include "networking.h"
+#include "../include/constants.h"
+#include "../include/networking.h"
 
 typedef struct SrvConf
 {
@@ -74,7 +76,52 @@ int connect_to_game(char* addr)
     
 }
 
-int* discover_games()
-{
-    
+int is_an_ip(char* c){
+    int dots=0,colon=0;/*Non é quello che pensi*/
+    int l_char_type = 0;
+    /*
+     * l_char_type se vale 0 significa punto, 
+     * se vale 1 significa carattere, 
+     * se vale 2 significa due punti
+     */
+    int d_counter=0;
+    char* tmp = c;
+    while (*tmp != '\0')
+    {
+        if(!isdigit(c)){ d_counter=0; }
+        if(*tmp == '.')
+        {
+            if(l_char_type != 0 && colon < 1 && dots < 3)
+            {
+                dots++;
+                l_char_type = 0;
+            }
+            else{ return 0; }
+        }
+        else if(*tmp == ':')
+        {
+            if(l_char_type != 0 && colon < 1 && dots == 3)
+            {
+                colon++;
+                l_char_type = 2;
+            }
+            else{ return 0; }
+        }
+        else if(isdigit(*tmp))
+        {
+            if(colon < 1){
+                if(d_counter < 3){
+                    d_counter++;
+                }
+                else{ return 0; }
+            }else{
+                if(d_counter < 4){
+                    d_counter++;
+                }
+                else{ return 0; }
+            }
+        }
+        else{ return 0; }
+    }
+    return 0;
 }

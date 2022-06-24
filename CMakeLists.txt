@@ -18,6 +18,7 @@ add_library(libtetrix
     src/constants.c
     src/bot.c
     src/networking.c
+    src/net_game.c
 )
 
 # Collega il modulo libetetrix a tetrix
@@ -46,4 +47,4 @@ set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 
 include(CPack)
 
-#add_compile_definitions(DEBUG)
+add_compile_definitions(DEBUG)
