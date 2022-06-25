@@ -99,7 +99,8 @@ int connect_to_game(char* ip)
     return sock;
 }
 
-int is_an_ip(char* c){
+int is_an_ip(char* c)
+{
     int dots=0,colon=0;/*Non é quello che pensi*/
     int l_char_type = 0;
     /*
@@ -109,9 +110,10 @@ int is_an_ip(char* c){
      */
     int d_counter=0;
     char* tmp = c;
+    if(*tmp == '\0') { return 0; }
     while (*tmp != '\0')
     {
-        if(!isdigit(c)){ d_counter=0; }
+        if(!isdigit(*tmp)){ d_counter=0; }
         if(*tmp == '.')
         {
             if(l_char_type != 0 && colon < 1 && dots < 3)
@@ -132,8 +134,12 @@ int is_an_ip(char* c){
         }
         else if(isdigit(*tmp))
         {
+            l_char_type = 1;
             if(colon < 1){
                 if(d_counter < 3){
+                    if(d_counter == 0 && *tmp > 2){ return 0; }
+                    if(d_counter == 1 && *tmp > 5){ return 0; }
+                    if(d_counter == 2 && *tmp > 4){ return 0; }
                     d_counter++;
                 }
                 else{ return 0; }
@@ -145,8 +151,10 @@ int is_an_ip(char* c){
             }
         }
         else{ return 0; }
+
+        tmp++;
     }
-    return 0;
+    return 1;
 }
 
 char* recv_nickname(int socket)

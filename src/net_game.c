@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/types.h>
+#include <ifaddrs.h>
 
 #include "../include/player.h"
 #include "../include/gamefield.h"
@@ -120,14 +122,14 @@ void connection_menu(char* nickname)
     case 1:
         /*chiedo un IP*/
         kill_win(w);
-        /*
+        
         do
         {
-            */
-            ip = form(20, " IPv4:PORT ");
-            /*
+            
+            ip = form(21, " IPv4:PORT ");
+            
         } while (!is_an_ip(ip));
-        */
+        
         new_game_client(nickname, ip);
         break;
     default:
@@ -165,6 +167,7 @@ void new_game_host(char* nickname)
     char* clt_nick;
     box(win, 0, 0);
     wmove(win, getmaxy(win) / 2, getmaxx(win) / 2 - 27);
+    wprintw(win,"Il tuo ip: <Non Implementato>");
     wprintw(win, "In attesa di connessione...");
     wrefresh(win);
 
