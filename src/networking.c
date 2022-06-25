@@ -17,7 +17,10 @@
 #include "../include/constants.h"
 #include "../include/networking.h"
 
+#define pkg_data_size(buffer) (buffer - sizeof(short))
+
 /**
+ * 
  * @brief Apre la connessione in entrata per 
  * 
  * @return Il socket della connessione con il client.
@@ -99,8 +102,17 @@ int connect_to_game(char* ip)
     return sock;
 }
 
+gamepkg_t get_pkg(void* buff, size_t size)
+{
+    gamepkg_t pkg;
+    memmove(&pkg, buff, size);    
+    return pkg;
+}
+
 int is_an_ip(char* c)
 {
+    /* FIXME TEMPORANEO */
+    return 1;
     int dots=0,colon=0;/*Non é quello che pensi*/
     int l_char_type = 0;
     /*
@@ -159,20 +171,35 @@ int is_an_ip(char* c)
 
 char* recv_nickname(int socket)
 {
-    int err;
-    char *nick = (char*) malloc(sizeof(char) * (NICKNAME_LEN + 1));
-    
-    err = recv(socket, nick, NICKNAME_LEN + 1, 0);
-    if (err == -1)
+    int len;
+    void* buff = malloc(BUFFSIZE);
+    gamepkg_t pkg;
+    len = recv(socket, buff, BUFFSIZE, 0);
+    if (len == -1)
+    {
+        free(buff);
         return NULL;
+    }
     else
-        return nick;
+    {
+        pkg = get_pkg(buff, len);
+        free(buff);
+        if (pkg.type == PKG_NICKNAME)
+            return (char*) pkg.data;
+        else
+        {
+            free(pkg.data);
+            return NULL;
+        }
+    }
 }
 
 int send_nickname(int socket, char* nickname)
 {
     int err;
-    
-    err = send(socket, nickname, NICKNAME_LEN + 1, 0);
+    gamepkg_t pkg;
+    pkg.type = PKG_NICKNAME;
+    pkg.data = (void*) nickname;
+    err = send(socket, &pkg, sizeof(pkg.type) + NICKNAME_LEN + 1, 0);
     return err != -1;
 }

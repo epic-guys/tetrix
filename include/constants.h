@@ -118,6 +118,12 @@ non faccia la mossa migliore.
 #define PORT 6009
 #define BUFFSIZE 1024
 
+#define PKG_NICKNAME 0
+#define PKG_GAME_START 1
+#define PKG_POINTS 2
+#define PKG_GAMEFIELD 3
+#define PKG_ENDGAME 4
+
 #pragma endregion
 
 #endif

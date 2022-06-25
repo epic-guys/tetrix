@@ -159,12 +159,27 @@ void net_new_game()
     return;
 }
 
+/**
+ * @brief Crea il menu della lobby.
+ * 
+ * @param[in] nick1 Il nickname del primo giocatore.
+ * @param[in] nick2 Il nickname del secondo giocatore.
+ * @param[in] is_server 1 se è per il server, in tal caso visualizzerà anche
+ * il pulsante "Gioca". 0 se è un client, non mostrerà il pulsante.
+ * @return WINDOW* 
+ */
+WINDOW* init_lobby_menu(char* nick1, char* nick2, int is_server)
+{
+
+}
+
 #pragma region SERVER
 
 void new_game_host(char* nickname)
 {
     WINDOW* win = newwin(10, COLS - 2, LINES / 2, 1);
     char* clt_nick;
+    char input = 0;
     box(win, 0, 0);
     wmove(win, getmaxy(win) / 2, getmaxx(win) / 2 - 27);
     wprintw(win,"Il tuo ip: <Non Implementato>");
@@ -183,11 +198,19 @@ void new_game_host(char* nickname)
     box(win, 0, 0);
     mvwprintw(win, 2, 2, nickname);
     mvwprintw(win, 4, 2, clt_nick);
-    attron(A_STANDOUT);
+    wattron(win, A_STANDOUT);
     mvwprintw(win, getmaxy(win) - 2, getmaxx(win) / 2 - 9, "> GIOCA <");
-    attroff(A_STANDOUT);
+    wattroff(win, A_STANDOUT);
     wrefresh(win);
-    while (1);
+    while (input != '\n')
+    {
+
+    }
+}
+
+void new_net_game()
+{
+
 }
 
 #pragma endregion
