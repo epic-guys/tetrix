@@ -102,11 +102,19 @@ int connect_to_game(char* ip)
     return sock;
 }
 
-gamepkg_t get_pkg(void* buff, size_t size)
+gamepkg_t unpack_pkg(void* buff, size_t size)
 {
     gamepkg_t pkg;
     memmove(&pkg, buff, size);    
     return pkg;
+}
+
+void* pack_pkg(gamepkg_t pkg, size_t size)
+{
+    void* mem = malloc(size);
+    memmove(mem, &pkg.type, sizeof(ushort));
+    memmove(mem + sizeof(ushort), pkg.data, size - sizeof(ushort));
+    return mem;
 }
 
 int is_an_ip(char* c)
@@ -161,6 +169,27 @@ int is_an_ip(char* c)
 
 char* recv_nickname(int socket)
 {
+    int err;
+    char *nick = (char*) malloc(sizeof(char) * (NICKNAME_LEN + 1));
+
+    err = recv(socket, nick, NICKNAME_LEN + 1, 0);
+    if (err == -1)
+        return NULL;
+    else
+        return nick;
+}
+
+int send_nickname(int socket, char* nickname)
+{
+    int err;
+
+    err = send(socket, nickname, NICKNAME_LEN + 1, 0);
+    return err != -1;
+} 
+
+/*
+char* recv_nickname(int socket)
+{
     int len;
     void* buff = malloc(BUFFSIZE);
     gamepkg_t pkg;
@@ -172,7 +201,7 @@ char* recv_nickname(int socket)
     }
     else
     {
-        pkg = get_pkg(buff, len);
+        pkg = unpack_pkg(buff, len);
         free(buff);
         if (pkg.type == PKG_NICKNAME)
             return (char*) pkg.data;
@@ -188,8 +217,13 @@ int send_nickname(int socket, char* nickname)
 {
     int err;
     gamepkg_t pkg;
+    void* buff;
+    size_t size = sizeof(ushort) + NICKNAME_LEN + 1;
     pkg.type = PKG_NICKNAME;
     pkg.data = (void*) nickname;
-    err = send(socket, &pkg, sizeof(pkg.type) + NICKNAME_LEN + 1, 0);
+    buff = pack_pkg(pkg, size);
+    err = send(socket, buff, size, 0);
+    free(buff);
     return err != -1;
 }
+*/

@@ -170,7 +170,17 @@ void net_new_game()
  */
 WINDOW* init_lobby_menu(char* nick1, char* nick2, int is_server)
 {
-
+    WINDOW* win = newwin(20, 20, (LINES / 2) - 10, 1);
+    box(win, 0, 0);
+    mvwprintw(win, 2, 2, nick1);
+    mvwprintw(win, 4, 2, nick2);
+    if (is_server)
+    {
+        wattron(win, A_STANDOUT);
+        mvwprintw(win, getmaxy(win) - 2, getmaxx(win) / 2 - 4, "> GIOCA <");
+        wattroff(win, A_STANDOUT);
+    }
+    wrefresh(win);
 }
 
 #pragma region SERVER
@@ -179,7 +189,7 @@ void new_game_host(char* nickname)
 {
     WINDOW* win = newwin(10, COLS - 2, LINES / 2, 1);
     char* clt_nick;
-    char input = 0;
+    char ch = -1;
     box(win, 0, 0);
     wmove(win, getmaxy(win) / 2, getmaxx(win) / 2 - 27);
     wprintw(win,"Il tuo ip: <Non Implementato> ");
@@ -194,18 +204,14 @@ void new_game_host(char* nickname)
     send_nickname(server.conn_socket, nickname);
 
     kill_win(win);
-    win = newwin(20, 20, (LINES / 2) - 10, 1);
-    box(win, 0, 0);
-    mvwprintw(win, 2, 2, nickname);
-    mvwprintw(win, 4, 2, clt_nick);
-    wattron(win, A_STANDOUT);
-    mvwprintw(win, getmaxy(win) - 2, getmaxx(win) / 2 - 9, "> GIOCA <");
-    wattroff(win, A_STANDOUT);
-    wrefresh(win);
-    while (input != '\n')
+    win = init_lobby_menu(nickname, clt_nick, 1);
+    while (ch != '\n')
     {
-
+        ch = getch();
     }
+    /*
+    new_net_game();
+    */
 }
 
 void new_net_game()
@@ -220,10 +226,14 @@ void new_net_game()
 
 void new_game_client(char* nickname, char* ip)
 {
+    WINDOW* win;
     int socket = connect_to_game(ip);
     char* srv_nick;
     send_nickname(socket, nickname);
     srv_nick = recv_nickname(socket);
+
+    win = init_lobby_menu(srv_nick, nickname, 0);
+    while (1);
 }
 
 #pragma endregion

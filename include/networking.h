@@ -27,7 +27,7 @@ int connect_to_game(char* ip);
 void close_server(srvconf_t server);
 void close_client(int socket);
 int is_an_ip(char* c);
-gamepkg_t get_pkg(void* buff, size_t size);
+gamepkg_t unpack_pkg(void* buff, size_t size);
 
 char* recv_nickname(int socket);
 int send_nickname(int socket, char* nickname);
