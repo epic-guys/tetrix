@@ -23,14 +23,21 @@ typedef struct GamePkg
     void* data;
 } gamepkg_t;
 
-srvconf_t host_game();
+int host_game();
 int connect_to_game(char* ip);
 void close_server(srvconf_t server);
 void close_client(int socket);
 int is_an_ip(char* c);
-gamepkg_t unpack_pkg(void* buff, size_t size);
+gamepkg_t unpack_pkg(void* buff);
 
 char* recv_nickname(int socket);
 int send_nickname(int socket, char* nickname);
-
+int* recv_field(int socket);
+int send_field(int socket, int* field);
+int send_tet_type(int socket, int type);
+int recv_tet_type(int socket);
+int send_start_game(int socket, int starting);
+int recv_start_game(int socket);
+int send_added_tet(int socket, int added);
+int recv_added_tet(int socket);
 #endif

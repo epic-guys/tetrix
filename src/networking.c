@@ -23,15 +23,15 @@
  * 
  * @return Il socket della connessione con il client.
  */
-srvconf_t host_game()
+int host_game()
 {
-    struct sockaddr_in addr;
-    socklen_t addr_len;
+    struct sockaddr_in addr, clt_addr;
+    socklen_t addr_len = sizeof(struct sockaddr_in);
     int err;
-    srvconf_t conf;
+    int sock, conn_sock;
 
-    conf.socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (conf.socket == -1)
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock == -1)
     {
         /* Errore */
     }
@@ -40,26 +40,27 @@ srvconf_t host_game()
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_port = htons(PORT);
 
-    err = bind(conf.socket, (struct sockaddr*) &addr, sizeof(struct sockaddr_in));
+    err = bind(sock, (struct sockaddr*) &addr, sizeof(struct sockaddr_in));
     if (err == -1)
     {
         /* Errore */
     }
     
-    err = listen(conf.socket, 1);
+    err = listen(sock, 1);
     if (err == -1)
     {
         /* Errore */
     }
 
-    conf.conn_socket = accept(conf.socket, (struct sockaddr*) &conf.client_addr, &addr_len);
+    conn_sock = accept(sock, (struct sockaddr*) &clt_addr, &addr_len);
 
-    if (conf.conn_socket == -1)
+    if (conn_sock == -1)
     {
         /* Errore */
     }
 
-    return conf;
+    close(sock);
+    return conn_sock;
 }
 
 void close_server(srvconf_t server)
@@ -100,7 +101,40 @@ int connect_to_game(char* ip)
     return sock;
 }
 
-char* recv_nickname(int socket)
+void* pack_pkg(gamepkg_t pkg)
+{
+    void* mem = malloc(sizeof(ushort) * 2 + pkg.size);
+    memmove(mem, &pkg.type, sizeof(ushort));
+    memmove(mem + sizeof(ushort), &pkg.size, sizeof(ushort));
+    memmove(mem + (sizeof(ushort) * 2), pkg.data, pkg.size);
+    return mem;
+}
+
+gamepkg_t unpack_pkg(void* buff)
+{
+    gamepkg_t pkg;
+    memmove(&pkg.type, buff, sizeof(ushort));
+    memmove(&pkg.size, buff + sizeof(ushort), sizeof(ushort));
+    pkg.data = malloc(pkg.size);
+    memmove(pkg.data, buff + (sizeof(ushort) * 2), pkg.size);
+    return pkg;
+}
+
+int send_pkg(int socket, ushort type, ushort data_size, void* data)
+{
+    int err;
+    gamepkg_t pkg;
+    void* buff;
+    pkg.type = type;
+    pkg.size = data_size;
+    pkg.data = data;
+    buff = pack_pkg(pkg);
+    err = send(socket, buff, data_size + (sizeof(ushort) * 2), 0);
+    free(buff);
+    return err != -1;
+}
+
+gamepkg_t recv_pkg(int socket)
 {
     int len;
     void* buff = malloc(BUFFSIZE);
@@ -109,36 +143,121 @@ char* recv_nickname(int socket)
     if (len == -1)
     {
         free(buff);
-        return NULL;
+        pkg.type = 0;
+        pkg.size = 0;
+        pkg.data = NULL;
     }
     else
     {
         pkg = unpack_pkg(buff);
         free(buff);
-        if (pkg.type == PKG_NICKNAME)
-            return (char*) pkg.data;
-        else
-        {
-            free(pkg.data);
-            return NULL;
-        }
+        return pkg;
+    }
+    return pkg;
+}
+
+char* recv_nickname(int socket)
+{
+    gamepkg_t pkg = recv_pkg(socket);
+    if (pkg.type != PKG_NICKNAME)
+    {
+        free(pkg.data);
+        return NULL;
+    }
+    else
+    {
+        return (char*) pkg.data;
+    }
+}
+
+int* recv_field(int socket)
+{
+    gamepkg_t pkg = recv_pkg(socket);
+    if (pkg.type != PKG_GAMEFIELD)
+    {
+        free(pkg.data);
+        return NULL;
+    }
+    else
+    {
+        return (int*) pkg.data;
+    }
+}
+
+int recv_tet_type(int socket)
+{
+    gamepkg_t pkg = recv_pkg(socket);
+    if (pkg.type != PKG_TET_TYPE)
+    {
+        free(pkg.data);
+        return -1;
+    }
+    else
+    {
+        int type = *(int*) pkg.data;
+        free(pkg.data);
+        return type;
     }
 }
 
 int send_nickname(int socket, char* nickname)
 {
-    int err;
-    gamepkg_t pkg;
-    void* buff;
-    size_t size = sizeof(ushort) + NICKNAME_LEN + 1;
-    pkg.type = PKG_NICKNAME;
-    pkg.data = (void*) nickname;
-    buff = pack_pkg(pkg);
-    err = send(socket, buff, size, 0);
-    free(buff);
-    return err != -1;
+    ushort size = NICKNAME_LEN + 1;
+    return send_pkg(socket, PKG_NICKNAME, size, (void*) nickname);
 }
 
+int send_field(int socket, int* field)
+{
+    ushort size = sizeof(int) * FIELD_ROWS * FIELD_COLS;
+    return send_pkg(socket, PKG_GAMEFIELD, size, field);
+}
+
+int send_tet_type(int socket, int type)
+{
+    return send_pkg(socket, PKG_TET_TYPE, sizeof(int), &type);
+}
+
+int send_start_game(int socket, int starting)
+{
+    return send_pkg(socket, PKG_GAME_START, sizeof(int), &starting);
+}
+
+int recv_start_game(int socket)
+{
+    gamepkg_t pkg = recv_pkg(socket);
+    if (pkg.type != PKG_GAME_START)
+    {
+        free(pkg.data);
+        return -1;
+    }
+    else
+    {
+        int val = *(int*) pkg.data;
+        free(pkg.data);
+        return val;
+    }
+}
+
+int send_added_tet(int socket, int added)
+{
+    return send_pkg(socket, PKG_ADDED, sizeof(int), &added);
+}
+
+int recv_added_tet(int socket)
+{
+    gamepkg_t pkg = recv_pkg(socket);
+    if (pkg.type != PKG_ADDED)
+    {
+        free(pkg.data);
+        return -1;
+    }
+    else
+    {
+        int val = *(int*) pkg.data;
+        free(pkg.data);
+        return val;
+    }
+}
 
 int is_an_ip(char* c)
 {
@@ -189,64 +308,3 @@ int is_an_ip(char* c)
     }
     return 1;
 }
-
-char* recv_nickname(int socket)
-{
-    int err;
-    char *nick = (char*) malloc(sizeof(char) * (NICKNAME_LEN + 1));
-
-    err = recv(socket, nick, NICKNAME_LEN + 1, 0);
-    if (err == -1)
-        return NULL;
-    else
-        return nick;
-}
-
-int send_nickname(int socket, char* nickname)
-{
-    int err;
-
-    err = send(socket, nickname, NICKNAME_LEN + 1, 0);
-    return err != -1;
-} 
-
-/*
-char* recv_nickname(int socket)
-{
-    int len;
-    void* buff = malloc(BUFFSIZE);
-    gamepkg_t pkg;
-    len = recv(socket, buff, BUFFSIZE, 0);
-    if (len == -1)
-    {
-        free(buff);
-        return NULL;
-    }
-    else
-    {
-        pkg = unpack_pkg(buff, len);
-        free(buff);
-        if (pkg.type == PKG_NICKNAME)
-            return (char*) pkg.data;
-        else
-        {
-            free(pkg.data);
-            return NULL;
-        }
-    }
-}
-
-int send_nickname(int socket, char* nickname)
-{
-    int err;
-    gamepkg_t pkg;
-    void* buff;
-    size_t size = sizeof(ushort) + NICKNAME_LEN + 1;
-    pkg.type = PKG_NICKNAME;
-    pkg.data = (void*) nickname;
-    buff = pack_pkg(pkg, size);
-    err = send(socket, buff, size, 0);
-    free(buff);
-    return err != -1;
-}
-*/

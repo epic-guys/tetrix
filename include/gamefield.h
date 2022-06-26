@@ -43,4 +43,6 @@ int check_field(gamefield_t* gameField);
 
 int *clone_field(int *f);
 
+void change_field(int** old_field,int* new_field);
+
 #endif
