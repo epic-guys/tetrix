@@ -137,9 +137,16 @@ int is_an_ip(char* c)
             l_char_type = 1;
             
             if(d_counter < 3){
-                /*if(d_counter == 0 && *tmp > 2){ return 0; }*/
-                /*if(d_counter == 1 && *tmp > 5){ return 0; }*/
-                /*if(d_counter == 2 && *tmp > 4){ return 0; }*/
+                /*if(d_counter == 2){
+                    char* t = tmp;
+                    int n;
+                    n = *(t-2)*100;
+                    n += *(++t)*10;
+                    n += *(++t);
+                    if(n > 254){
+                        return 0;
+                    }
+                } NON WORKA E NON HO VOGLIA DI CAPIRE PERCHÉ */
                 d_counter++;
             }
             else{ return 0; }
