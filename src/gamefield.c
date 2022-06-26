@@ -575,3 +575,10 @@ int *clone_field(int *f)
     }
     return field;
 }
+
+void change_field(int** old_field,int* new_field)
+{
+    int* tmp = *old_field;
+    *old_field = new_field;
+    free(tmp);
+}

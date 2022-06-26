@@ -13,12 +13,13 @@ typedef struct SrvConf
 /**
  * Un pacchetto da inviare in rete.
  * @property type Che cosa contiene il pacchetto.
- * @property data Il contenuto. La sua dimensione equivale alla
- * dimensione del pacchetto - sizeof(ushort).
+ * @property size La dimensione del contenuto.
+ * @property data Il contenuto.
  */
 typedef struct GamePkg
 {
     ushort type;
+    ushort size;
     void* data;
 } gamepkg_t;
 

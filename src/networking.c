@@ -17,8 +17,6 @@
 #include "../include/constants.h"
 #include "../include/networking.h"
 
-#define pkg_data_size(buffer) (buffer - sizeof(short))
-
 /**
  * 
  * @brief Apre la connessione in entrata per 
@@ -102,20 +100,45 @@ int connect_to_game(char* ip)
     return sock;
 }
 
-gamepkg_t unpack_pkg(void* buff, size_t size)
+char* recv_nickname(int socket)
 {
+    int len;
+    void* buff = malloc(BUFFSIZE);
     gamepkg_t pkg;
-    memmove(&pkg, buff, size);    
-    return pkg;
+    len = recv(socket, buff, BUFFSIZE, 0);
+    if (len == -1)
+    {
+        free(buff);
+        return NULL;
+    }
+    else
+    {
+        pkg = unpack_pkg(buff);
+        free(buff);
+        if (pkg.type == PKG_NICKNAME)
+            return (char*) pkg.data;
+        else
+        {
+            free(pkg.data);
+            return NULL;
+        }
+    }
 }
 
-void* pack_pkg(gamepkg_t pkg, size_t size)
+int send_nickname(int socket, char* nickname)
 {
-    void* mem = malloc(size);
-    memmove(mem, &pkg.type, sizeof(ushort));
-    memmove(mem + sizeof(ushort), pkg.data, size - sizeof(ushort));
-    return mem;
+    int err;
+    gamepkg_t pkg;
+    void* buff;
+    size_t size = sizeof(ushort) + NICKNAME_LEN + 1;
+    pkg.type = PKG_NICKNAME;
+    pkg.data = (void*) nickname;
+    buff = pack_pkg(pkg);
+    err = send(socket, buff, size, 0);
+    free(buff);
+    return err != -1;
 }
+
 
 int is_an_ip(char* c)
 {
@@ -154,7 +177,7 @@ int is_an_ip(char* c)
                     if(n > 254){
                         return 0;
                     }
-                } NON WORKA E NON HO VOGLIA DI CAPIRE PERCHÉ */
+                } NON WORKA E NON HO VOGLIA/TEMPO DI CAPIRE PERCHÉ */
                 d_counter++;
             }
             else{ return 0; }
