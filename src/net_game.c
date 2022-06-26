@@ -126,7 +126,7 @@ void connection_menu(char* nickname)
         do
         {
             
-            ip = form(21, " IPv4:PORT ");
+            ip = form(16, " IPv4");
             
         } while (!is_an_ip(ip));
         
@@ -182,7 +182,7 @@ void new_game_host(char* nickname)
     char input = 0;
     box(win, 0, 0);
     wmove(win, getmaxy(win) / 2, getmaxx(win) / 2 - 27);
-    wprintw(win,"Il tuo ip: <Non Implementato>");
+    wprintw(win,"Il tuo ip: <Non Implementato> ");
     wprintw(win, "In attesa di connessione...");
     wrefresh(win);
 

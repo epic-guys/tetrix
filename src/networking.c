@@ -111,14 +111,11 @@ gamepkg_t get_pkg(void* buff, size_t size)
 
 int is_an_ip(char* c)
 {
-    /* FIXME TEMPORANEO */
-    return 1;
-    int dots=0,colon=0;/*Non é quello che pensi*/
+    int dots=0;
     int l_char_type = 0;
     /*
      * l_char_type se vale 0 significa punto, 
-     * se vale 1 significa carattere, 
-     * se vale 2 significa due punti
+     * se vale 1 significa carattere.
      */
     int d_counter=0;
     char* tmp = c;
@@ -128,39 +125,25 @@ int is_an_ip(char* c)
         if(!isdigit(*tmp)){ d_counter=0; }
         if(*tmp == '.')
         {
-            if(l_char_type != 0 && colon < 1 && dots < 3)
+            if(l_char_type != 0 && dots < 3)
             {
                 dots++;
                 l_char_type = 0;
             }
             else{ return 0; }
         }
-        else if(*tmp == ':')
-        {
-            if(l_char_type != 0 && colon < 1 && dots == 3)
-            {
-                colon++;
-                l_char_type = 2;
-            }
-            else{ return 0; }
-        }
         else if(isdigit(*tmp))
         {
             l_char_type = 1;
-            if(colon < 1){
-                if(d_counter < 3){
-                    if(d_counter == 0 && *tmp > 2){ return 0; }
-                    if(d_counter == 1 && *tmp > 5){ return 0; }
-                    if(d_counter == 2 && *tmp > 4){ return 0; }
-                    d_counter++;
-                }
-                else{ return 0; }
-            }else{
-                if(d_counter < 4){
-                    d_counter++;
-                }
-                else{ return 0; }
+            
+            if(d_counter < 3){
+                /*if(d_counter == 0 && *tmp > 2){ return 0; }*/
+                /*if(d_counter == 1 && *tmp > 5){ return 0; }*/
+                /*if(d_counter == 2 && *tmp > 4){ return 0; }*/
+                d_counter++;
             }
+            else{ return 0; }
+            
         }
         else{ return 0; }
 
