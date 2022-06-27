@@ -222,6 +222,47 @@ void mvwprintwrows(WINDOW *w, int y, int x, const char *c)
 }
 
 /**
+ * @brief stampa una riga di testo carattere per carattere peró supporta anche il \n come a capo.
+ * 
+ * @param[in] w la finestra dove stampare.
+ * @param[in] y la riga dove stampare.
+ * @param[in] x la colonna dove stampare.
+ * @param[in] c il puntatore alla stringa di caratteri da stampare.
+ * @param[in] start da dove colorare.
+ * @param[in] stop da dove smettere di colorare.
+ * @param[in] cols da quante colonne é composta la stringa.
+ */
+void mvwprintwrows_with_rainbow(WINDOW *w, int y, int x, const char *c,int start,int stop,int cols)
+{
+    int i = 0, j = 0,k=0;
+    wmove(w, y, x);
+    while (c[j] != '\0')
+    {
+        if (c[j] == '\n')
+        {
+            wmove(w, y + ++i, x);
+            k=0;
+        }
+        else
+        {
+            k++;
+            int colored,color = random_color();
+            if(k>=start && k<=stop)
+            {
+                colored = 1;
+                wattron(w, COLOR_PAIR(color));
+            }
+            waddch(w, c[j]);
+            if(colored)
+            {
+                wattroff(w, COLOR_PAIR(color));
+            }
+        }
+        ++j;
+    }
+}
+
+/**
  * @brief scambia il foreground color con il background color e viceversa.
  *
  * [Schema di funzionamento]
@@ -249,7 +290,7 @@ int swap_color(int c)
  */
 int random_color()
 {
-    return rand() % (7 /*numero colori*/) + 1;
+    return rand() % (N_tetrimini /*numero colori*/) + 1;
 }
 
 /**

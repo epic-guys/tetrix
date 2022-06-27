@@ -11,6 +11,8 @@ void wprint_with_delay(WINDOW* w,int d, const char* c);
 
 void mvwprintwrows(WINDOW* w, int y, int x, const char* c);
 
+void mvwprintwrows_with_rainbow(WINDOW *w, int y, int x, const char *c,int start,int stop,int cols);
+
 int swap_color(int c);
 
 int next_circular(int i, int size);

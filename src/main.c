@@ -84,16 +84,26 @@ void init_colors()
 
 /**
  * @brief stampa il logo del gioco in ASCII art.
+ * 
+ * @param[in] start_raibow da dove iniziare a colorare i caratteri.
+ * @param[in] stop_raibow da dove smettere di colorare i caratteri.
  */
-void print_logo()
+void print_logo(int start_rainbow,int stop_rainbow)
 {
+    if(start_rainbow >= stop_rainbow)
+    {
+        int tmp = start_rainbow;
+        start_rainbow = stop_rainbow;
+        stop_rainbow = tmp;
+    }
     WINDOW *logo;
     int i, j, space;
 
     logo = newwin(10, COLS - 2, 0, 0);
 
     space = (COLS - get_ASCII_art_cols(ART_LOGO)) / 2 - 5;
-    mvwprintwrows(logo, 0, space, ART_LOGO);
+    mvwprintwrows_with_rainbow(logo, 0, space, ART_LOGO, start_rainbow, stop_rainbow, get_ASCII_art_cols(ART_LOGO));
+    
     wrefresh(logo);
     /* Nasconde il cursore di sistema*/
     curs_set(0);
@@ -241,7 +251,7 @@ int main()
     /*Inizializzo il seed per i numeri random */
     srand(time(NULL));
     print_credits();
-    print_logo();
+    print_logo(get_ASCII_art_cols(ART_LOGO)-16,get_ASCII_art_cols(ART_LOGO)-7);
     main_menu();
     return 0;
 }
