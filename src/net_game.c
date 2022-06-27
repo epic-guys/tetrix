@@ -25,36 +25,6 @@ void net_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
  */
 void LAN_instructions(char *nickname)
 {
-    WINDOW *instructions_win;
-    char ch;
-    int art_cols = get_ASCII_art_rows(ART_LOGO);
-    /* 3 è l'altezza della finestra dei credits */
-    instructions_win = newwin(LINES - art_cols - 3, COLS, 6, 0);
-    box(instructions_win, 0, 0);
-    mvwprintw(instructions_win, 0, 1, " BENVENUTO ");
-
-    wmove(instructions_win, 2, 2);
-    wprint_with_delay(instructions_win, TXT_DELAY, SINGLE_WELCOME_TXT[0]);
-    wprint_with_delay(instructions_win, TXT_DELAY, nickname);
-    wmove(instructions_win, 3, 2);
-    wprint_with_delay(instructions_win, TXT_DELAY, SINGLE_WELCOME_TXT[1]);
-
-    delay(1000);
-
-    wmove(instructions_win, 18, (COLS / 2) - 4);
-    wattron(instructions_win, A_STANDOUT);
-    wprintw(instructions_win, "> Gioca! <");
-    wattroff(instructions_win, A_STANDOUT);
-    wrefresh(instructions_win);
-
-    ch = -1;
-
-    do
-    {
-        ch = wgetch(instructions_win);
-    } while (ch != 10);
-
-    kill_win(instructions_win);
     return;
 }
 
