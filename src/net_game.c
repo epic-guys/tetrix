@@ -280,6 +280,7 @@ void net_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
         int cursor = -1, added, deletedRows;
         if (turn == !is_server)
         {
+            /* gioca server */
             selected_i = select_tetrimino(pool);
             selected_t = get_tetrimino(selected_i);
             cursor = (FIELD_COLS - get_tet_cols(selected_t)) / 2;
@@ -303,9 +304,10 @@ void net_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
             int *tmp = get_gamefield(gameFields[turn]);
             change_field(&tmp, recv_field(socket));
             selected_i = recv_tet_type(socket);
-            remove_tetrimino_from_pool(selected_i, pool);
-            added = recv_added_tet(socket);
+            added = 1; recv_added_tet(socket);
         }
+
+        remove_tetrimino_from_pool(selected_i, pool);
 
         if (added)
         {
@@ -327,11 +329,7 @@ void net_continue_game(player_t **players, gamefield_t **gameFields, tetrimini_p
         {
             winner = 1 - turn;
         }
-
-        if (winner == -1)
-        {
             turn = 1 - turn;
-        }
     }
     /*
     Qualcuno ha vinto
