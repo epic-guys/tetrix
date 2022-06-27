@@ -182,6 +182,7 @@ WINDOW* init_lobby_menu(char* srv_nickick,char* clt_nick, int is_server)
         wattroff(win, A_STANDOUT);
     }
     wrefresh(win);
+    return win;
 }
 
 #pragma region SERVER
